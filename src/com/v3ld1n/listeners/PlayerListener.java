@@ -148,5 +148,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
         event.setMotd(StringUtil.formatText(ConfigSetting.SERVER_LIST_MOTD.getString()));
+        if (ConfigSetting.MAX_PLAYERS.getValue() != null) {
+            event.setMaxPlayers(ConfigSetting.MAX_PLAYERS.getInt());
+        }
     }
 }
