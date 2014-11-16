@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -168,24 +166,5 @@ public class ConfigUtil {
             }
         }
         return item;
-    }
-
-    /**
-     * Spawns a falling block from a config string
-     * @param configSetting the string
-     * @param location the location to spawn the block
-     * @param dropItem whether the falling block should drop an item
-     * @return the falling block object
-     */
-    @SuppressWarnings("deprecation")
-    public static FallingBlock spawnFallingBlock(String configSetting, Location location, boolean dropItem) {
-        String[] split = configSetting.split("\\|");
-        byte data = 0;
-        if (split.length >= 2) {
-            data = Byte.parseByte(split[1]);
-        }
-        FallingBlock block = location.getWorld().spawnFallingBlock(location, Material.valueOf(split[0]), data);
-        block.setDropItem(dropItem);
-        return block;
     }
 }
