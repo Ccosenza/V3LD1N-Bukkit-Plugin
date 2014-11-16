@@ -50,7 +50,6 @@ public class V3LD1N extends JavaPlugin {
         //getCommand("nextsound").setExecutor(new NextSoundCommand());
         getCommand("editsign").setExecutor(new EditSignCommand());
         getCommand("setfulltime").setExecutor(new SetFullTimeCommand());
-        //getCommand("setgamestate").setExecutor(new SetGameStateCommand());
         getCommand("playanimation").setExecutor(new PlayAnimationCommand());
         getCommand("sidebarmessage").setExecutor(new SidebarMessageCommand());
         //getCommand("uuid").setExecutor(new UUIDCommand());
