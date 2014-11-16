@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -166,5 +167,21 @@ public class ConfigUtil {
             }
         }
         return item;
+    }
+
+    public static Location locationFromString(String configSetting) {
+        String[] split = configSetting.split("\\|");
+        String world = split[0];
+        double x = Double.parseDouble(split[1]);
+        double y = Double.parseDouble(split[2]);
+        double z = Double.parseDouble(split[3]);
+        Location location = new Location(Bukkit.getServer().getWorld(world), x, y, z);
+        if (split.length >= 5) {
+            location.setYaw(Float.parseFloat(split[4]));
+            if (split.length >= 6) {
+                location.setPitch(Float.parseFloat(split[5]));
+            }
+        }
+        return location;
     }
 }
