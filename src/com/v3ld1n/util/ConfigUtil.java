@@ -156,7 +156,7 @@ public class ConfigUtil {
      * @param configSetting the string
      * @return an item stack
      */
-    public static ItemStack parseItem(String configSetting) {
+    public static ItemStack itemFromString(String configSetting) {
         String[] split = configSetting.split("\\|");
         ItemStack item = new ItemStack(Material.valueOf(split[0].toUpperCase()), 1);
         if (split.length >= 2) {
