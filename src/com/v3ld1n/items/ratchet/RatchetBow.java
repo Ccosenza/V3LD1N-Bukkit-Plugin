@@ -168,16 +168,9 @@ public class RatchetBow extends V3LD1NItem {
             if (this.equalsItem(shooter.getItemInHand())) {
                 final Location location = pr.getLocation();
                 Particle.fromString(this.getStringSetting("particle")).display(pr.getLocation());
-                String hitLocWorld = this.getStringSetting("teleport-hit-location.world");
-                double hitLocMinX = this.getDoubleSetting("teleport-hit-location.x-min");
-                double hitLocMinY = this.getDoubleSetting("teleport-hit-location.y-min");
-                double hitLocMinZ = this.getDoubleSetting("teleport-hit-location.z-min");
-                double hitLocMaxX = this.getDoubleSetting("teleport-hit-location.x-max");
-                double hitLocMaxY = this.getDoubleSetting("teleport-hit-location.y-max");
-                double hitLocMaxZ = this.getDoubleSetting("teleport-hit-location.z-max");
-                Location hitLocMin = new Location(Bukkit.getWorld(hitLocWorld), hitLocMinX, hitLocMinY, hitLocMinZ);
-                Location hitLocMax = new Location(Bukkit.getWorld(hitLocWorld), hitLocMaxX, hitLocMaxY, hitLocMaxZ);
-                if (location.getWorld().getName().equals(hitLocWorld)
+                Location hitLocMin = this.getLocationSetting("teleport-hit-location-min");
+                Location hitLocMax = this.getLocationSetting("teleport-hit-location-max");
+                if (location.getWorld().getName().equals(hitLocMin.getWorld().getName())
                         && location.getX() >= hitLocMin.getX()
                         && location.getY() >= hitLocMin.getY()
                         && location.getZ() >= hitLocMin.getZ()
@@ -199,13 +192,7 @@ public class RatchetBow extends V3LD1NItem {
                             location.getWorld().strikeLightning(location);
                         }
                     }, 24);
-                    String teleWorld = this.getStringSetting("teleport-location.world");
-                    double teleX = this.getDoubleSetting("teleport-location.x");
-                    double teleY = this.getDoubleSetting("teleport-location.y");
-                    double teleZ = this.getDoubleSetting("teleport-location.z");
-                    float teleYaw = (float) this.getDoubleSetting("teleport-location.yaw");
-                    float telePitch = (float) this.getDoubleSetting("teleport-location.pitch");
-                    final Location teleLoc = new Location(Bukkit.getWorld(teleWorld), teleX, teleY, teleZ, teleYaw, telePitch);
+                    final Location teleLoc = this.getLocationSetting("teleport-location");
                     Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                         @Override
                         public void run() {
