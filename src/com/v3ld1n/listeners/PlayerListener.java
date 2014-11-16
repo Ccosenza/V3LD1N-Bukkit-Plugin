@@ -151,6 +151,7 @@ public class PlayerListener implements Listener {
         if (ConfigSetting.SERVER_LIST_MOTD.getString() != null) {
             String ic = "(?i)";
             String motd = StringUtil.formatText(ConfigSetting.SERVER_LIST_MOTD.getString())
+                    .replaceFirst(ic + "%newline%", "\n")
                     .replaceAll(ic + "%players%", Integer.toString(event.getNumPlayers()))
                     .replaceAll(ic + "%maxplayers%", Integer.toString(event.getMaxPlayers()))
                     .replaceAll(ic + "%ip%", event.getAddress().toString());
