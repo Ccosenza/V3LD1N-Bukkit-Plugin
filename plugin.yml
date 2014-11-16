@@ -30,7 +30,7 @@ commands:
     aliases: [maxhealth]
     usage: /<command> <health>
   ratchetsbow:
-    description: Sets the projectile of Ratchet's Bow.
+    description: Sets your projectile for Ratchet's Bow.
     aliases: [rbow, rb]
     usage: /<command> <arrow|triplearrows|fireworkarrow|fireball|snowball|enderpearl|egg|witherskull|bluewitherskull>
   fireworkarrows:
