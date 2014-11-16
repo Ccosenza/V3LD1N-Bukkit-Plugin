@@ -34,7 +34,7 @@ commands:
     aliases: [rbow, rb]
     usage: /<command> <arrow|triplearrows|fireworkarrow|fireball|snowball|enderpearl|egg|witherskull|bluewitherskull>
   fireworkarrows:
-    description: Sets the firework shape for firework arrows.
+    description: Sets your firework shape for firework arrows.
     aliases: [fireworkarrow, rbfw, fwa, fwas]
     usage: /<command> <ball|ball_large|star|creeper|burst>
   resourcepack:
