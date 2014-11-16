@@ -61,10 +61,6 @@ commands:
     description: Sets the full time of the world you are in.
     aliases: [setftime, sfulltime]
     usage: /<command> <time>
-  setgamestate:
-    description: Sets the game state of a player.
-    aliases: [gamestate, setstate, state, changestate]
-    usage: /<command> <state> <data> [player]
   playanimation:
     description: Plays an animation on a player.
     aliases: [animation, playanim, anim]
