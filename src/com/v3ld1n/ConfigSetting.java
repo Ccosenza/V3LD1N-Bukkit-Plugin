@@ -10,14 +10,14 @@ public enum ConfigSetting {
     BLOG_POST("blog-post", "config.yml"),
     ENDER_CRYSTAL_EGG_DATA("ender-crystal-spawn-egg-data", "config.yml", 200),
     SIDEBAR_PREFIX("sidebar-prefix", "config.yml", "v3ld1n_"),
+    SERVER_LIST_MOTD("server-list.motd", "config.yml"),
+    MAX_PLAYERS("server-list.max-players", "config.yml"),
     PLAYER_LIST_HEADER("player-list.header", "config.yml"),
     PLAYER_LIST_FOOTER("player-list.footer", "config.yml"),
 
     FAQ_BACK_COLOR("back-color", "faq.yml", "BLUE"),
 
     INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
-    
-    SERVER_LIST_MOTD("server-list-motd", "motd.yml"),
     MOTD_LOG_ERROR("log-error-message", "motd.yml", false),
     
     PARTICLE_SPAWN_ENDER_CRYSTAL("spawn-ender-crystal", "particles.yml"),
