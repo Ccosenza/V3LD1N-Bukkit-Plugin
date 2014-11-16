@@ -11,7 +11,7 @@ public enum ConfigSetting {
     ENDER_CRYSTAL_EGG_DATA("ender-crystal-spawn-egg-data", "config.yml", 200),
     SIDEBAR_PREFIX("sidebar-prefix", "config.yml", "v3ld1n_"),
     SERVER_LIST_MOTD("server-list.motd", "config.yml"),
-    MAX_PLAYERS("server-list.max-players", "config.yml"),
+    SERVER_LIST_MAX_PLAYERS("server-list.max-players", "config.yml"),
     PLAYER_LIST_HEADER("player-list.header", "config.yml"),
     PLAYER_LIST_FOOTER("player-list.footer", "config.yml"),
 

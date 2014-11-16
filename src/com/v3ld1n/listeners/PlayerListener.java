@@ -150,8 +150,8 @@ public class PlayerListener implements Listener {
         if (ConfigSetting.SERVER_LIST_MOTD.getValue() != null) {
             event.setMotd(StringUtil.formatText(ConfigSetting.SERVER_LIST_MOTD.getString()));
         }
-        if (ConfigSetting.MAX_PLAYERS.getValue() != null) {
-            event.setMaxPlayers(ConfigSetting.MAX_PLAYERS.getInt());
+        if (ConfigSetting.SERVER_LIST_MAX_PLAYERS.getValue() != null) {
+            event.setMaxPlayers(ConfigSetting.SERVER_LIST_MAX_PLAYERS.getInt());
         }
     }
 }
