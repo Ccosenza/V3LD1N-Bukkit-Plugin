@@ -1,0 +1,129 @@
+name: V3LD1N
+description: A custom plugin for the V3LD1N server.
+author: Ccosenza
+main: com.v3ld1n.V3LD1N
+softdepend: [WorldGuard]
+version: "3.0"
+
+commands:
+  v3ld1nplugin:
+    description: The main plugin command.
+    aliases: [v3ld1np, vplugin, vp]
+    usage: /<command> <arguments>
+  faq:
+    description: Answers frequently asked questions.
+    aliases: [questions]
+    usage: /<command> [number]
+  particle:
+    description: Spawns a particle effect at a specific location.
+    usage: /<command> <particle> <x> <y> <z> <xd> <yd> <zd> <speed> <count> [world]
+  trail:
+    description: Sets a particle trail for a player.
+    aliases: [trails, particletrail, particletrails]
+    usage: /<command> <particle|remove> [player]
+  sethealth:
+    description: Sets your health.
+    aliases: [health]
+    usage: /<command> <health>
+  setmaxhealth:
+    description: Sets your maximum health.
+    aliases: [maxhealth]
+    usage: /<command> <health>
+  ratchetsbow:
+    description: Sets the projectile of Ratchet's Bow.
+    aliases: [rbow, rb]
+    usage: /<command> <arrow|triplearrows|fireworkarrow|fireball|snowball|enderpearl|egg|witherskull|bluewitherskull>
+  fireworkarrows:
+    description: Sets the firework shape for firework arrows.
+    aliases: [fireworkarrow, rbfw, fwa, fwas]
+    usage: /<command> <ball|ball_large|star|creeper|burst>
+  resourcepack:
+    description: Downloads our resource pack.
+    aliases: [pack, rp]
+    usage: /<command>
+  autoresourcepack:
+    description: Toggles whether to automatically download the resource pack on login.
+    aliases: [autopack, autorp]
+    usage: /<command>
+  motd:
+    description: Displays the login message.
+    aliases: [vmotd]
+    usage: /<command> [player]
+  nextsound:
+    description: Plays the next sound for a sound player.
+    aliases: [playnextsound, soundnext, snext]
+    usage: /<command> [sound player]
+  editsign:
+    description: Changes text on a sign.
+    aliases: [signedit, changesign]
+    usage: /<command> <line> <set|add|remove> <text ...>
+  setfulltime:
+    description: Sets the full time of the world you are in.
+    aliases: [setftime, sfulltime]
+    usage: /<command> <time>
+  setgamestate:
+    description: Sets the game state of a player.
+    aliases: [gamestate, setstate, state, changestate]
+    usage: /<command> <state> <data> [player]
+  playanimation:
+    description: Plays an animation on a player.
+    aliases: [animation, playanim, anim]
+    usage: /<command> <animation> [player]
+  sidebarmessage:
+    description: Broadcasts a message to the sidebar.
+    aliases: [sbmessage, sbm, sbbroadcast]
+    usage: /<command> <time> <title> <line1> [line2] [line3] ...
+  uuid:
+    description: Sends you a player's UUID.
+    aliases: [uniqueid]
+    usage: /<command> [player]
+  push:
+    description: Pushes a player.
+    aliases: [setvelocity]
+    usage: /<command> <player> <speedX> <speedY> <speedZ> OR /<command> <player> <player> [speed]
+  sethotbarslot:
+    description: Sets a player's selected hotbar slot.
+    aliases: [hotbarslot, setselectedslot]
+    usage: /<command> <slot> [player]
+  setmotd:
+    description: Sets the server list MOTD
+    usage: /<command> <motd ...>
+  actionbarmessage:
+    description: Displays a message above the action bar
+    aliases: [abmessage, abm, abbroadcast]
+    usage: /<command> <message> [player]
+  timeplayed:
+    description: Displays the amount of time a player has played.
+    aliases: [playtime]
+    usage: /<command> [player]
+  playerlist:
+    description: Sets the player list header and footer
+    aliases: [pl]
+    usage: /<command> <header|footer|reset> <text ...>
+  creative:
+    description: Teleport to the Creative world.
+    usage: /<command>
+  factions:
+    description: Teleport to the Factions world.
+    usage: /<command>
+  kitpvp:
+    description: Teleport to the Kit PvP world.
+    usage: /<command>
+  store:
+    description: Teleport to the store.
+    usage: /<command>
+  storetop:
+    description: Teleport to the top of the store (where you can sell items).
+    usage: /<command>
+  timetravel:
+    description: Teleport to the Bloodmoon world.
+    usage: /<command>
+  v3ld1n:
+    description: Teleport to V3LD1N.
+    usage: /<command>
+  veldin:
+    description: Teleport to V3LD1N.
+    usage: /<command>
+  warproom:
+    description: Teleport to the warp room.
+    usage: /<command>

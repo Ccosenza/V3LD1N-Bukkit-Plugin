@@ -1,0 +1,68 @@
+package com.v3ld1n.commands;
+
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import com.v3ld1n.Message;
+import com.v3ld1n.util.BlockUtil;
+import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.StringUtil;
+
+public class EditSignCommand implements CommandExecutor {
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            if (sender.hasPermission("v3ld1n.editsign")) {
+                Player p = (Player) sender;
+                if (args.length >= 3) {
+                    int line;
+                    try {
+                        line = Integer.parseInt(args[0]);
+                    } catch (Exception e) {
+                        p.sendMessage(Message.EDITSIGN_INVALID_LINE.toString());
+                        return true;
+                    }
+                    if (line > 4 || line < 1) {
+                        p.sendMessage(Message.EDITSIGN_INVALID_LINE.toString());
+                        return true;
+                    }
+                    Block target = p.getTargetBlock(null, 100);
+                    if (target.getState() instanceof Sign) {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 2; i < args.length; i++) {
+                            sb.append(args[i]).append(" ");
+                        }
+                        String text = sb.toString();
+                        switch (args[1].toLowerCase()) {
+                            case "set":
+                                BlockUtil.editSign(target, line, StringUtil.formatText(text));
+                                ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_SET.toString(), line, text), 2);
+                                return true;
+                            case "add":
+                                BlockUtil.addToSign(target, line, StringUtil.formatText(text));
+                                p.sendMessage(Message.EDITSIGN_ADD.toString());
+                                return true;
+                            case "remove":
+                                BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
+                                p.sendMessage(Message.EDITSIGN_REMOVE.toString());
+                                return true;
+                            default:
+                            }
+                    }
+                    p.sendMessage(Message.EDITSIGN_INVALID_BLOCK.toString());
+                    return true;
+                }
+                return false;
+            }
+            sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+            return true;
+        }
+        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        return true;
+    }
+}
