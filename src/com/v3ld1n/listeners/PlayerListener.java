@@ -2,6 +2,7 @@ package com.v3ld1n.listeners;
 
 import com.v3ld1n.*;
 import com.v3ld1n.util.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -147,8 +148,13 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
-        if (ConfigSetting.SERVER_LIST_MOTD.getValue() != null) {
-            event.setMotd(StringUtil.formatText(ConfigSetting.SERVER_LIST_MOTD.getString()));
+        if (ConfigSetting.SERVER_LIST_MOTD.getString() != null) {
+            String ic = "(?i)";
+            String motd = StringUtil.formatText(ConfigSetting.SERVER_LIST_MOTD.getString())
+                    .replaceAll(ic + "%players%", Integer.toString(event.getNumPlayers()))
+                    .replaceAll(ic + "%maxplayers%", Integer.toString(event.getMaxPlayers()))
+                    .replaceAll(ic + "%ip%", event.getAddress().toString());
+            event.setMotd(motd);
         }
         if (ConfigSetting.SERVER_LIST_MAX_PLAYERS.getValue() != null) {
             event.setMaxPlayers(ConfigSetting.SERVER_LIST_MAX_PLAYERS.getInt());
