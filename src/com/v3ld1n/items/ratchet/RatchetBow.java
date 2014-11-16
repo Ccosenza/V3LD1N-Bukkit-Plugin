@@ -185,20 +185,20 @@ public class RatchetBow extends V3LD1NItem {
                         && location.getY() <= hitLocMax.getY()
                         && location.getZ() <= hitLocMax.getZ()) {
                     displayTeleportParticles(shooter.getLocation());
-                    RepeatableRunnable teleportTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 2, 4, 3) {
+                    RepeatableRunnable teleportTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 6, 4, 2) {
                         @Override
                         public void onRun() {
                             Particle.fromString(getStringSetting("teleport-hit-particle")).display(location);
                             location.getWorld().strikeLightning(location);
-                            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
-                                @Override
-                                public void run() {
-                                    location.getWorld().strikeLightning(location);
-                                }
-                            }, 15);
                         }
                     };
                     teleportTask.run();
+                    Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
+                        @Override
+                        public void run() {
+                            location.getWorld().strikeLightning(location);
+                        }
+                    }, 24);
                     String teleWorld = this.getStringSetting("teleport-location.world");
                     double teleX = this.getDoubleSetting("teleport-location.x");
                     double teleY = this.getDoubleSetting("teleport-location.y");
