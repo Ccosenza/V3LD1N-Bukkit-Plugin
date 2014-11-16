@@ -2,7 +2,10 @@ package com.v3ld1n;
 
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.util.Vector;
+
+import com.v3ld1n.util.ConfigUtil;
 
 public enum ConfigSetting {
     DEBUG("debug", "config.yml", false),
@@ -101,6 +104,14 @@ public enum ConfigSetting {
             return V3LD1N.getConfig(fileName).getConfig().getList(name);
         }
         return (List<?>) defaultValue;
+    }
+
+    public Location getLocation() {
+        if (V3LD1N.getConfig(fileName).getConfig().get(name) != null) {
+            String setting = V3LD1N.getConfig(fileName).getConfig().getString(name);
+            return ConfigUtil.locationFromString(setting);
+        }
+        return (Location) defaultValue;
     }
 
     public Vector getVector() {

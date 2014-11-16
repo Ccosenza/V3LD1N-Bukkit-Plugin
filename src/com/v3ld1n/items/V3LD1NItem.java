@@ -2,12 +2,14 @@ package com.v3ld1n.items;
 
 import java.util.Random;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.v3ld1n.Config;
+import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NItem implements Listener {
@@ -61,6 +63,11 @@ public class V3LD1NItem implements Listener {
 
     public boolean getBooleanSetting(String name) {
         return Config.ITEMS.getConfig().getBoolean(id + "." + name);
+    }
+
+    public Location getLocationSetting(String name) {
+        String setting = Config.ITEMS.getConfig().getString(id + "." + name);
+        return ConfigUtil.locationFromString(setting);
     }
 
     public Vector getVectorSetting(String name) {
