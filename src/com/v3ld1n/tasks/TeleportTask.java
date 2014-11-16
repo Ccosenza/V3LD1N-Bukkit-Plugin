@@ -45,7 +45,23 @@ public class TeleportTask extends Task {
         }
     }
 
+    public double getRadius() {
+        return radius;
+    }
+
+    public Location getTeleportLocation() {
+        return teleportTo;
+    }
+
     public List<Particle> getParticles() {
         return particles;
+    }
+
+    public Location getParticleLocation() {
+        return particleLocation;
+    }
+
+    public List<String> getSounds() {
+        return sounds;
     }
 }
