@@ -15,20 +15,28 @@ public class TeleportTask extends Task {
     private final Location teleportTo;
     private final List<Particle> particles;
     private final Location particleLocation;
+    private final List<Particle> idleParticles;
+    private final Location idleParticleLocation;
     private final List<String> sounds;
 
-    public TeleportTask(String name, long ticks, String runMode, Location location, double radius, Location teleportTo, List<Particle> particles, double particleY, List<String> sounds) {
+    public TeleportTask(String name, long ticks, String runMode, Location location, double radius, Location teleportTo, List<Particle> particles, double particleY, List<Particle> idleParticles, double idleParticleY, List<String> sounds) {
         super(name, ticks, runMode, location);
         this.radius = radius;
         this.teleportTo = teleportTo;
         this.particles = particles;
         this.particleLocation = location;
         this.particleLocation.add(new Vector(0, particleY, 0));
+        this.idleParticles = idleParticles;
+        this.idleParticleLocation = location;
+        this.idleParticleLocation.add(new Vector(0, idleParticleY, 0));
         this.sounds = sounds;
     }
 
     @Override
     public void run() {
+        for (Particle particle : idleParticles) {
+            particle.display(idleParticleLocation);
+        }
         List<Player> players = WorldUtil.getNearbyPlayers(location, radius);
         for (Player player : players) {
             teleport(player);
@@ -59,6 +67,14 @@ public class TeleportTask extends Task {
 
     public Location getParticleLocation() {
         return particleLocation;
+    }
+
+    public List<Particle> getIdleParticles() {
+        return idleParticles;
+    }
+
+    public Location getIdleParticleLocation() {
+        return idleParticleLocation;
     }
 
     public List<String> getSounds() {
