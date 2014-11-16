@@ -75,6 +75,8 @@ public enum Message {
     PARTICLE_SPAWN("commands.particle.spawn"),
 
     PLAYANIMATION_PLAY("commands.playanimation.play"),
+    PLAYANIMATION_LIST("commands.playanimation.list"),
+    PLAYANIMATION_LIST_ITEM("commands.playanimation.list-item"),
     PLAYANIMATION_NO_PERMISSION_OTHERS("commands.playanimation.others-permission"),
     PLAYANIMATION_ERROR("commands.playanimation.error"),
 

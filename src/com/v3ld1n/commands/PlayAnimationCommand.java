@@ -46,6 +46,12 @@ public class PlayAnimationCommand implements CommandExecutor {
                 sender.sendMessage(Message.PLAYANIMATION_NO_PERMISSION_OTHERS.toString());
                 return true;
             }
+            StringBuilder sb = new StringBuilder();
+            for (PlayerAnimation animation : PlayerAnimation.values()) {
+                sb.append(String.format(Message.PLAYANIMATION_LIST_ITEM.toString(), animation.toString()));
+            }
+            String message = Message.PLAYANIMATION_LIST.toString() + sb.toString().substring(0, sb.toString().length() - 2);
+            sender.sendMessage(message);
             return false;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
