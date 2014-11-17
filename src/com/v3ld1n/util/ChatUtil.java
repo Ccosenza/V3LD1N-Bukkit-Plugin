@@ -23,7 +23,28 @@ public class ChatUtil {
     public static void sendMessage(CommandSender to, String message, int type) {
         if (to instanceof Player) {
             if (((CraftPlayer) to).getHandle().playerConnection.networkManager.getVersion() >= 47) {
-                IChatBaseComponent chat = ChatSerializer.a("{\"text\":\"" + message + "\"}");
+                String jsonMessage = "{\"text\":\"" + message.replaceAll("\"", "\\\\\"") + "\"}";
+                IChatBaseComponent chat = ChatSerializer.a(jsonMessage);
+                PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
+                ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
+            } else {
+                to.sendMessage(Message.CHAT_OUTDATED.toString());
+            }
+        } else {
+            to.sendMessage(message);
+        }
+    }
+
+    /**
+     * Sends a JSON message
+     * @param to CommandSender to send the message to
+     * @param message the message
+     * @param type the message type
+     */
+    public static void sendJsonMessage(CommandSender to, String message, int type) {
+        if (to instanceof Player) {
+            if (((CraftPlayer) to).getHandle().playerConnection.networkManager.getVersion() >= 47) {
+                IChatBaseComponent chat = ChatSerializer.a(message);
                 PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
                 ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
             } else {

@@ -40,7 +40,7 @@ public class V3LD1NCommand implements CommandExecutor {
                     }
                 } else {
                     for (String commandString : commands) {
-                        ChatUtil.sendMessage(sender,
+                        ChatUtil.sendJsonMessage(sender,
                         "{text:\"" + Message.V3LD1NPLUGIN_DASH + "\","
                         + "extra:[{"
                         + "text:\"/" + label + " " + commandString + "\","
