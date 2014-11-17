@@ -36,6 +36,8 @@ public enum Message {
     LOADING_ITEM("debug.loading.items"),
     LOADING_TASK("debug.loading.task"),
 
+    RATCHETS_SHOVEL_DAMAGE("items.ratchets-shovel.damage"),
+
     COMMAND_NOT_PLAYER("commands.player"),
     COMMAND_NOT_PLAYER_ENTITY("commands.player-entity"),
     COMMAND_NO_PERMISSION("commands.permission"),

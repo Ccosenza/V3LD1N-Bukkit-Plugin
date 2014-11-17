@@ -8,7 +8,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.v3ld1n.Message;
 import com.v3ld1n.items.V3LD1NItem;
+import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
@@ -43,9 +45,7 @@ public class RatchetShovel extends V3LD1NItem {
                     if (event.getEntityType() != EntityType.PLAYER) {
                         double damage = snowball.getTicksLived() * this.getIntSetting("damage-multiplier");
                         event.setDamage(damage);
-                        /*
-                            TODO add action bar message saying "&6Ratchet's Shovel&e: &b%damage% &edamage"
-                         */
+                        ChatUtil.sendMessage(p, String.format(Message.RATCHETS_SHOVEL_DAMAGE.toString(), (int) damage), 2);
                     }
                     Particle.fromString(this.getStringSetting("hit-particle")).display(snowball.getLocation());
                 }
