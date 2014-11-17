@@ -24,9 +24,9 @@ public class V3LD1N extends JavaPlugin {
     private static WorldGuardPlugin worldGuard;
     private static List<V3LD1NItem> items;
     private static List<ItemTask> itemTasks;
-    //private static List<ParticleTask> particleTasks;
-    //private static List<SoundTask> soundTasks;
-    //private static List<TeleportTask> teleportTasks;
+    private static List<ParticleTask> particleTasks;
+    private static List<SoundTask> soundTasks;
+    private static List<TeleportTask> teleportTasks;
     static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
     @Override
@@ -39,9 +39,9 @@ public class V3LD1N extends JavaPlugin {
         configs = new ArrayList<>();
         items = new ArrayList<>();
         itemTasks = new ArrayList<>();
-        //particleTasks = new ArrayList<>();
-        //soundTasks = new ArrayList<>();
-        //teleportTasks = new ArrayList<>();
+        particleTasks = new ArrayList<>();
+        soundTasks = new ArrayList<>();
+        teleportTasks = new ArrayList<>();
         loadConfig();
         setupWorldGuard();
         loadItems();
@@ -88,9 +88,9 @@ public class V3LD1N extends JavaPlugin {
         configs = null;
         items = null;
         itemTasks = null;
-        //particleTasks = null;
-        //soundTasks = null;
-        //teleportTasks = null;
+        particleTasks = null;
+        soundTasks = null;
+        teleportTasks = null;
         plugin = null;
     }
 
@@ -148,9 +148,6 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    /**
-     * Sets up item tasks from the config file
-     */
     public void loadItemTasks() {
         try {
             if (Config.TASKS_ITEM.getConfig() != null) {
@@ -169,6 +166,72 @@ public class V3LD1N extends JavaPlugin {
             }
         } catch (Exception e) {
             plugin.getLogger().warning(Message.TASK_ITEM_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public void loadParticleTasks() {
+        try {
+            if (Config.TASKS_PARTICLE.getConfig() != null) {
+                FileConfiguration config = Config.TASKS_PARTICLE.getConfig();
+                for (String key : config.getKeys(false)) {
+                    long ticks = config.getLong(key + ".ticks");
+                    final ParticleTask newTask = new ParticleTask(key);
+                    particleTasks.add(newTask);
+                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            newTask.run();
+                        }
+                    }, ticks, ticks);
+                }
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.TASK_PARTICLE_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public void loadSoundTasks() {
+        try {
+            if (Config.TASKS_SOUND.getConfig() != null) {
+                FileConfiguration config = Config.TASKS_SOUND.getConfig();
+                for (String key : config.getKeys(false)) {
+                    long ticks = config.getLong(key + ".ticks");
+                    final SoundTask newTask = new SoundTask(key);
+                    soundTasks.add(newTask);
+                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            newTask.run();
+                        }
+                    }, ticks, ticks);
+                }
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.TASK_SOUND_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public void loadTeleportTasks() {
+        try {
+            if (Config.TASKS_TELEPORT.getConfig() != null) {
+                FileConfiguration config = Config.TASKS_TELEPORT.getConfig();
+                for (String key : config.getKeys(false)) {
+                    long ticks = config.getLong(key + ".ticks");
+                    final TeleportTask newTask = new TeleportTask(key);
+                    teleportTasks.add(newTask);
+                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            newTask.run();
+                        }
+                    }, ticks, ticks);
+                }
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.TASK_TELEPORT_ERROR.toString());
             e.printStackTrace();
         }
     }
