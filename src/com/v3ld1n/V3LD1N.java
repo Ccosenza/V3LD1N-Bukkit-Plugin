@@ -20,6 +20,7 @@ import com.v3ld1n.items.ratchet.*;
 import com.v3ld1n.tasks.*;
 import com.v3ld1n.util.ConfigAccessor;
 import com.v3ld1n.util.ConfigUtil;
+import com.v3ld1n.util.Particle;
 
 public class V3LD1N extends JavaPlugin {
     private static V3LD1N plugin;
@@ -167,7 +168,11 @@ public class V3LD1N extends JavaPlugin {
                         items.add(ConfigUtil.itemFromString(itemString));
                     }
                     double radius = config.getDouble(key + ".radius");
-                    itemTasks.add(new ItemTask(key, ticks, runMode, location, items, radius));
+                    List<Particle> particles = new ArrayList<>();
+                    for (String particleString : config.getStringList(key + ".particles")) {
+                        particles.add(Particle.fromString(particleString));
+                    }
+                    itemTasks.add(new ItemTask(key, ticks, runMode, location, items, radius, particles));
                 }
                 for (final ItemTask itemTask : itemTasks) {
                     Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
