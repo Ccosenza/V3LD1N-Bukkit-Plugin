@@ -20,15 +20,16 @@ public class ItemTask extends Task {
     }
 
     @Override
-    void run() {
+    public void run() {
         List<ItemStack> giveItems = new ArrayList<>();
         if (runMode.equalsIgnoreCase("random")) {
             giveItems.add(items.get(random.nextInt(items.size())));
         } else if (runMode.equalsIgnoreCase("all")) {
             giveItems = items;
         }
+        ItemStack[] giveItemsArray = giveItems.toArray(new ItemStack[giveItems.size()]);
         for (Player p : WorldUtil.getNearbyPlayers(location, radius)) {
-            p.getInventory().addItem((ItemStack[]) giveItems.toArray());
+            p.getInventory().addItem(giveItemsArray);
         }
     }
 
