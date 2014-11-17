@@ -35,13 +35,20 @@ public class RatchetAxe extends V3LD1NItem {
                         Particle.fromString(this.getStringSetting("particle1")).display(e.getEyeLocation());
                         final Particle particle = Particle.fromString(this.getStringSetting("particle2"));
                         final int effectDuration = this.getIntSetting("effect-duration");
+                        final int amplifierLimit = this.getIntSetting("effect-level-limit") - 1;
                         for (final PotionEffect pe : p.getActivePotionEffects()) {
-                            if (pe.getType().equals(effect)) {
+                            if (pe.getType().equals(effect) && pe.getAmplifier() < amplifierLimit) {
                                 p.removePotionEffect(effect);
                                 Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                                     @Override
                                     public void run() {
-                                        p.addPotionEffect(effect.createEffect(effectDuration, pe.getAmplifier() + 1));
+                                        int newAmplifier;
+                                        if (pe.getAmplifier() < amplifierLimit) {
+                                            newAmplifier = pe.getAmplifier() + 1;
+                                        } else {
+                                            newAmplifier = amplifierLimit - 1;
+                                        }
+                                        p.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
                                         particle.setCount(25 * (pe.getAmplifier() + 1));
                                         particle.display(e.getEyeLocation());
                                     }
