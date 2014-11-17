@@ -11,7 +11,7 @@ public class SetFullTimeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof LivingEntity) {
-            if (sender.hasPermission("v3ld1n.setfulltime")) {
+            if (sender.isOp()) {
                 if (args.length == 1) {
                     LivingEntity p = (LivingEntity) sender;
                     long time = p.getWorld().getFullTime();
@@ -21,10 +21,10 @@ public class SetFullTimeCommand implements CommandExecutor {
                 }
                 return false;
             }
-        } else {
-            sender.sendMessage(Message.COMMAND_NOT_PLAYER_ENTITY.toString());
+            sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
             return true;
         }
-        return false;
+        sender.sendMessage(Message.COMMAND_NOT_PLAYER_ENTITY.toString());
+        return true;
     }
 }
