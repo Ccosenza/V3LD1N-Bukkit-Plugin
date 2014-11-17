@@ -5,7 +5,11 @@ import java.util.List;
 
 import com.v3ld1n.listeners.EntityListener;
 import com.v3ld1n.listeners.PlayerListener;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,13 +17,19 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.v3ld1n.commands.*;
 import com.v3ld1n.items.*;
 import com.v3ld1n.items.ratchet.*;
+import com.v3ld1n.tasks.*;
 import com.v3ld1n.util.ConfigAccessor;
+import com.v3ld1n.util.ConfigUtil;
 
 public class V3LD1N extends JavaPlugin {
     private static V3LD1N plugin;
     private static List<ConfigAccessor> configs;
     private static WorldGuardPlugin worldGuard;
     private static List<V3LD1NItem> items;
+    private static List<ItemTask> itemTasks;
+    //private static List<ParticleTask> particleTasks;
+    //private static List<SoundTask> soundTasks;
+    //private static List<TeleportTask> teleportTasks;
     static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
     @Override
@@ -31,9 +41,14 @@ public class V3LD1N extends JavaPlugin {
         }
         configs = new ArrayList<>();
         items = new ArrayList<>();
+        itemTasks = new ArrayList<>();
+        //particleTasks = new ArrayList<>();
+        //soundTasks = new ArrayList<>();
+        //teleportTasks = new ArrayList<>();
         loadConfig();
         setupWorldGuard();
-        loadCustomItems();
+        loadItems();
+        loadItemTasks();
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
         getCommand("v3ld1nplugin").setExecutor(new V3LD1NCommand());
@@ -75,6 +90,10 @@ public class V3LD1N extends JavaPlugin {
     public void onDisable() {
         configs = null;
         items = null;
+        itemTasks = null;
+        //particleTasks = null;
+        //soundTasks = null;
+        //teleportTasks = null;
         plugin = null;
     }
 
@@ -105,7 +124,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void loadCustomItems() {
+    public static void loadItems() {
         items.add(new FireworkBow());
         items.add(new FlightFeather());
         items.add(new LightningBow());
@@ -129,6 +148,39 @@ public class V3LD1N extends JavaPlugin {
             if (ConfigSetting.DEBUG.getBoolean()) {
                 plugin.getLogger().info(String.format(Message.LOADING_ITEM.toString(), item.getId()));
             }
+        }
+    }
+
+    /**
+     * Sets up item tasks from the config file
+     */
+    public void loadItemTasks() {
+        try {
+            if (Config.TASKS_ITEM.getConfig() != null) {
+                FileConfiguration config = Config.TASKS_ITEM.getConfig();
+                for (String key : config.getKeys(false)) {
+                    long ticks = config.getLong(key + ".ticks");
+                    String runMode = config.getString(key + ".run-mode");
+                    Location location = ConfigUtil.locationFromString(config.getString(key + ".location"));
+                    List<ItemStack> items = new ArrayList<>();
+                    for (String itemString : config.getStringList(key + ".items")) {
+                        items.add(ConfigUtil.itemFromString(itemString));
+                    }
+                    double radius = config.getDouble(key + ".radius");
+                    itemTasks.add(new ItemTask(key, ticks, runMode, location, items, radius));
+                }
+                for (final ItemTask itemTask : itemTasks) {
+                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            itemTask.run();
+                        }
+                    }, itemTask.getTicks(), itemTask.getTicks());
+                }
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.TASK_ITEM_ERROR.toString());
+            e.printStackTrace();
         }
     }
 
