@@ -7,9 +7,7 @@ import com.v3ld1n.listeners.EntityListener;
 import com.v3ld1n.listeners.PlayerListener;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,8 +17,6 @@ import com.v3ld1n.items.*;
 import com.v3ld1n.items.ratchet.*;
 import com.v3ld1n.tasks.*;
 import com.v3ld1n.util.ConfigAccessor;
-import com.v3ld1n.util.ConfigUtil;
-import com.v3ld1n.util.Particle;
 
 public class V3LD1N extends JavaPlugin {
     private static V3LD1N plugin;
@@ -161,26 +157,14 @@ public class V3LD1N extends JavaPlugin {
                 FileConfiguration config = Config.TASKS_ITEM.getConfig();
                 for (String key : config.getKeys(false)) {
                     long ticks = config.getLong(key + ".ticks");
-                    String runMode = config.getString(key + ".run-mode");
-                    Location location = ConfigUtil.locationFromString(config.getString(key + ".location"));
-                    List<ItemStack> items = new ArrayList<>();
-                    for (String itemString : config.getStringList(key + ".items")) {
-                        items.add(ConfigUtil.itemFromString(itemString));
-                    }
-                    double radius = config.getDouble(key + ".radius");
-                    List<Particle> particles = new ArrayList<>();
-                    for (String particleString : config.getStringList(key + ".particles")) {
-                        particles.add(Particle.fromString(particleString));
-                    }
-                    itemTasks.add(new ItemTask(key, ticks, runMode, location, items, radius, particles));
-                }
-                for (final ItemTask itemTask : itemTasks) {
+                    final ItemTask newTask = new ItemTask(key);
+                    itemTasks.add(newTask);
                     Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
                         @Override
                         public void run() {
-                            itemTask.run();
+                            newTask.run();
                         }
-                    }, itemTask.getTicks(), itemTask.getTicks());
+                    }, ticks, ticks);
                 }
             }
         } catch (Exception e) {

@@ -49,29 +49,29 @@ public class V3LD1NItem implements Listener {
         return false;
     }
 
-    public String getStringSetting(String name) {
-        return Config.ITEMS.getConfig().getString(id + "." + name);
+    public String getStringSetting(String settingName) {
+        return Config.ITEMS.getConfig().getString(id + "." + settingName);
     }
 
-    public int getIntSetting(String name) {
-        return Config.ITEMS.getConfig().getInt(id + "." + name);
+    public int getIntSetting(String settingName) {
+        return Config.ITEMS.getConfig().getInt(id + "." + settingName);
     }
 
-    public double getDoubleSetting(String name) {
-        return Config.ITEMS.getConfig().getDouble(id + "." + name);
+    public double getDoubleSetting(String settingName) {
+        return Config.ITEMS.getConfig().getDouble(id + "." + settingName);
     }
 
-    public boolean getBooleanSetting(String name) {
-        return Config.ITEMS.getConfig().getBoolean(id + "." + name);
+    public boolean getBooleanSetting(String settingName) {
+        return Config.ITEMS.getConfig().getBoolean(id + "." + settingName);
     }
 
-    public Location getLocationSetting(String name) {
-        String setting = Config.ITEMS.getConfig().getString(id + "." + name);
+    public Location getLocationSetting(String settingName) {
+        String setting = Config.ITEMS.getConfig().getString(id + "." + settingName);
         return ConfigUtil.locationFromString(setting);
     }
 
-    public Vector getVectorSetting(String name) {
-        return Config.ITEMS.getConfig().getVector(id + "." + name);
+    public Vector getVectorSetting(String settingName) {
+        return Config.ITEMS.getConfig().getVector(id + "." + settingName);
     }
 
     @Override

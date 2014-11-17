@@ -7,24 +7,33 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.v3ld1n.Config;
+import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.WorldUtil;
 
 public class ItemTask extends Task {
-    final List<ItemStack> items;
-    final double radius;
-    final List<Particle> particles;
-
-    public ItemTask(String name, long ticks, String runMode, Location location, List<ItemStack> items, double radius, List<Particle> particles) {
-        super(name, ticks, runMode, location);
-        this.items = items;
-        this.radius = radius;
-        this.particles = particles;
+    public ItemTask(String name) {
+        super(name, Config.TASKS_ITEM);
     }
 
     @Override
     public void run() {
+        Location location = this.getLocationSetting("location");
+        String runMode = this.getStringSetting("runmode");
+        double radius = this.getDoubleSetting("radius");
         List<ItemStack> giveItems = new ArrayList<>();
+
+        List<ItemStack> items = new ArrayList<>();
+        for (String itemString : this.getStringListSetting("items")) {
+            items.add(ConfigUtil.itemFromString(itemString));
+        }
+
+        List<Particle> particles = new ArrayList<>();
+        for (String particleString : this.getStringListSetting("particles")) {
+            particles.add(Particle.fromString(particleString));
+        }
+
         if (runMode.equalsIgnoreCase("random")) {
             giveItems.add(items.get(random.nextInt(items.size())));
         } else if (runMode.equalsIgnoreCase("all")) {
@@ -37,13 +46,5 @@ public class ItemTask extends Task {
                 particle.display(location);
             }
         }
-    }
-
-    public List<ItemStack> getItems() {
-        return items;
-    }
-
-    public double getRadius() {
-        return radius;
     }
 }

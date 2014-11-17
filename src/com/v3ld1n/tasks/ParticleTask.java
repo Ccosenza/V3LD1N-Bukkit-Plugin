@@ -1,26 +1,23 @@
 package com.v3ld1n.tasks;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Location;
-
+import com.v3ld1n.Config;
 import com.v3ld1n.util.Particle;
 
 public class ParticleTask extends Task {
-    private final List<Particle> particles;
-
-    public ParticleTask(String name, long ticks, String runMode, Location location, List<Particle> particles) {
-        super(name, ticks, runMode, location);
-        this.particles = particles;
+    public ParticleTask(String name) {
+        super(name, Config.TASKS_PARTICLE);
     }
 
     @Override
     public void run() {
+        List<Particle> particles = new ArrayList<>();
+        for (String particleString : this.getStringListSetting("particles")) {
+            particles.add(Particle.fromString(particleString));
+        }
         Particle particle = particles.get(random.nextInt(particles.size()));
-        particle.display(location);
-    }
-
-    public List<Particle> getParticles() {
-        return particles;
+        particle.display(this.getLocationSetting("location"));
     }
 }
