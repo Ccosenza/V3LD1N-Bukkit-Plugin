@@ -13,7 +13,7 @@ commands:
   faq:
     description: Answers frequently asked questions.
     aliases: [questions]
-    usage: /<command> [number]
+    usage: /<command> [question number]
   particle:
     description: Spawns a particle effect at a specific location.
     usage: /<command> <particle> <x> <y> <z> <xd> <yd> <zd> <speed> <count> [world]
