@@ -130,6 +130,8 @@ public enum Message {
     V3LD1NPLUGIN_SETBLOGPOST("commands.v3ld1nplugin.setblogpost"),
     V3LD1NPLUGIN_SETRESOURCEPACK("commands.v3ld1nplugin.setresourcepack"),
     V3LD1NPLUGIN_VERSION("commands.v3ld1nplugin.version"),
+    V3LD1NPLUGIN_WARPS("commands.v3ld1nplugin.warps"),
+    V3LD1NPLUGIN_WARPS_ITEM("commands.v3ld1nplugin.warps-item"),
 
     WARP_DISABLED("commands.warps.disabled");
 

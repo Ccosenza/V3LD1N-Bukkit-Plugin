@@ -32,6 +32,7 @@ public class V3LD1NCommand implements CommandExecutor {
                 commands.add("setresourcepack");
                 commands.add("togglewarp");
                 commands.add("version");
+                commands.add("warps");
                 sender.sendMessage(Message.V3LD1NPLUGIN_AVAILABLE.toString());
                 if (!(sender instanceof Player)) {
                     for (String commandString : commands) {
@@ -114,15 +115,18 @@ public class V3LD1NCommand implements CommandExecutor {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("warps") && args.length == 1) {
+                StringBuilder sb = new StringBuilder();
                 for (String warp : ConfigUtil.getWarps()) {
-                    String text = warp;
+                    ChatColor color;
                     if (ConfigUtil.isWarpEnabled(warp)) {
-                        text = ChatColor.GREEN + text;
+                        color = ChatColor.GREEN;
                     } else {
-                        text = ChatColor.RED + text;
+                        color = ChatColor.RED;
                     }
-                    sender.sendMessage(text);
+                    sb.append(String.format(Message.V3LD1NPLUGIN_WARPS_ITEM.toString(), color + warp));
                 }
+                String message = Message.V3LD1NPLUGIN_WARPS.toString() + sb.toString().substring(0, sb.toString().length() - 2);
+                sender.sendMessage(message);
                 return true;
             }
         } else {
