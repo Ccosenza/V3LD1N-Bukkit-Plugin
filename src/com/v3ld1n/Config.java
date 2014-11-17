@@ -14,7 +14,6 @@ public enum Config {
     PARTICLES("particles.yml"),
     PLAYER_DATA("player-data.yml"),
     SIGNS("signs.yml"),
-    TASKS_BLOCK("tasks-block.yml"),
     TASKS_ITEM("tasks-item.yml"),
     TASKS_PARTICLE("tasks-particle.yml"),
     TASKS_SOUND("tasks-sound.yml"),
