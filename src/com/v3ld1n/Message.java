@@ -25,10 +25,10 @@ public enum Message {
 
     CHAT_STRINGS_NO_PLAYER("chat-strings.no-player"),
 
-    TASK_PARTICLE_ERROR("errors.loading.tasks.particle"),
     TASK_ITEM_ERROR("errors.loading.tasks.item"),
+    TASK_PARTICLE_ERROR("errors.loading.tasks.particle"),
     TASK_SOUND_ERROR("errors.loading.tasks.sound"),
-    TASK_BLOCK_ERROR("errors.loading.tasks.block"),
+    TASK_TELEPORT_ERROR("errors.loading.tasks.teleport"),
 
     CHAT_ERROR("errors.chat.failed"),
     CHAT_OUTDATED("errors.chat.outdated"),
