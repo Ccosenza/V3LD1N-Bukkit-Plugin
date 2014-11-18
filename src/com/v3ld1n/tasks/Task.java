@@ -12,7 +12,7 @@ import com.v3ld1n.util.ConfigUtil;
 public abstract class Task {
     protected final String name;
     private final Config config;
-    protected Random random;
+    protected Random random = new Random();
 
     public Task(String name, Config config) {
         this.name = name;
