@@ -46,6 +46,9 @@ public class V3LD1N extends JavaPlugin {
         setupWorldGuard();
         loadItems();
         loadItemTasks();
+        loadParticleTasks();
+        loadSoundTasks();
+        loadTeleportTasks();
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
         getCommand("v3ld1nplugin").setExecutor(new V3LD1NCommand());
