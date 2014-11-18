@@ -20,7 +20,7 @@ public class ItemTask extends Task {
     @Override
     public void run() {
         Location location = this.getLocationSetting("location");
-        String runMode = this.getStringSetting("runmode");
+        String runMode = this.getStringSetting("run-mode");
         double radius = this.getDoubleSetting("radius");
         List<ItemStack> giveItems = new ArrayList<>();
 
