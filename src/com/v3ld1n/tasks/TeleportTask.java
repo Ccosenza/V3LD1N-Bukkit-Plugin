@@ -21,7 +21,12 @@ public class TeleportTask extends Task {
         Location location = this.getLocationSetting("location");
         double radius = this.getDoubleSetting("radius");
         Location teleportTo = this.getLocationSetting("teleport-location");
-        Location particleLocation = this.getLocationSetting("particle-location");
+        Location particleLocation = null;
+        if (this.getLocationSetting("particle-location") != null) {
+            particleLocation = this.getLocationSetting("particle-location");
+        } else {
+            particleLocation = location;
+        }
 
         List<Particle> particles = new ArrayList<>();
         for (String particleString : this.getStringListSetting("particles")) {
