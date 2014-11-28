@@ -34,6 +34,11 @@ public class Particle {
             return this;
         }
 
+        public Builder setForced(boolean force) {
+            this.force = force;
+            return this;
+        }
+
         public Builder setOffsetX(float offset) {
             this.offsetX = offset;
             return this;
@@ -137,22 +142,20 @@ public class Particle {
     public void display(Location location) {
         EnumParticle particle = EnumParticle.BARRIER;
         for (EnumParticle enumparticle : EnumParticle.values()) {
-            if (this.name == enumparticle.name()) {
+            if (this.name.equals(enumparticle.b())) {
                 particle = enumparticle;
             }
         }
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, force, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
-        for (Player p : WorldUtil.getNearbyPlayers(location, 20)) {
-            if (p.getLocation().distance(location) <= 20) {
-                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-            }
+        for (Player p : location.getWorld().getPlayers()) {
+            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
         }
     }
 
     public void display(Location location, Player player) {
         EnumParticle particle = EnumParticle.BARRIER;
         for (EnumParticle enumparticle : EnumParticle.values()) {
-            if (this.name == enumparticle.name()) {
+            if (this.name.equals(enumparticle.b())) {
                 particle = enumparticle;
             }
         }
@@ -162,25 +165,31 @@ public class Particle {
 
     public static Particle fromString(String particle) {
         String[] split = particle.split("\\|");
-        return builder()
+        Builder builder = builder()
                 .setName(split[0])
                 .setOffsetX(Float.parseFloat(split[1]))
                 .setOffsetY(Float.parseFloat(split[2]))
                 .setOffsetZ(Float.parseFloat(split[3]))
                 .setSpeed(Float.parseFloat(split[4]))
-                .setCount(Integer.parseInt(split[5]))
-                .build();
+                .setCount(Integer.parseInt(split[5]));
+        if (split.length > 6) {
+            builder.setForced(Boolean.parseBoolean(split[6]));
+        }
+        return builder.build();
     }
 
     public static Particle fromString(String particleName, String particle) {
         String[] split = particle.split("\\|");
-        return builder()
+        Builder builder = builder()
                 .setName(particleName)
                 .setOffsetX(Float.parseFloat(split[0]))
                 .setOffsetY(Float.parseFloat(split[1]))
                 .setOffsetZ(Float.parseFloat(split[2]))
                 .setSpeed(Float.parseFloat(split[3]))
-                .setCount(Integer.parseInt(split[4]))
-                .build();
+                .setCount(Integer.parseInt(split[4]));
+        if (split.length > 5) {
+            builder.setForced(Boolean.parseBoolean(split[5]));
+        }
+        return builder.build();
     }
 }
