@@ -14,9 +14,6 @@ commands:
     description: Answers frequently asked questions.
     aliases: [questions]
     usage: /<command> [question number]
-  particle:
-    description: Spawns a particle effect at a specific location.
-    usage: /<command> <particle> <x> <y> <z> <xd> <yd> <zd> <speed> <count> [world]
   trail:
     description: Sets a particle trail for a player.
     aliases: [trails, particletrail, particletrails]
