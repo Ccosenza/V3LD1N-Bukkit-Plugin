@@ -32,7 +32,7 @@ public class V3LD1N extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        String bukkitVersion = "1.7.10-R0.1-SNAPSHOT";
+        String bukkitVersion = "1.8-R0.1-SNAPSHOT";
         if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
             plugin.getLogger().warning(String.format(Message.INVALID_BUKKIT_VERSION.toString(), plugin.getDescription().getVersion(), bukkitVersion, Bukkit.getBukkitVersion()));
         }
@@ -53,7 +53,6 @@ public class V3LD1N extends JavaPlugin {
         pluginManager.registerEvents(new EntityListener(), plugin);
         getCommand("v3ld1nplugin").setExecutor(new V3LD1NCommand());
         //getCommand("faq").setExecutor(new FAQCommand());
-        getCommand("particle").setExecutor(new ParticleCommand());
         getCommand("trail").setExecutor(new TrailCommand());
         getCommand("sethealth").setExecutor(new SetHealthCommand());
         getCommand("setmaxhealth").setExecutor(new SetMaxHealthCommand());

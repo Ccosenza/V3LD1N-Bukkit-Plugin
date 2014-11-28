@@ -1,14 +1,12 @@
 package com.v3ld1n.util;
 
-import net.minecraft.server.v1_7_R4.ChatSerializer;
-import net.minecraft.server.v1_7_R4.IChatBaseComponent;
-import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R1.ChatSerializer;
+import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import com.v3ld1n.Message;
 
 public class ChatUtil {
     private ChatUtil() {
@@ -22,14 +20,10 @@ public class ChatUtil {
      */
     public static void sendMessage(CommandSender to, String message, int type) {
         if (to instanceof Player) {
-            if (((CraftPlayer) to).getHandle().playerConnection.networkManager.getVersion() >= 47) {
-                String jsonMessage = "{\"text\":\"" + message.replaceAll("\"", "\\\\\"") + "\"}";
-                IChatBaseComponent chat = ChatSerializer.a(jsonMessage);
-                PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
-                ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
-            } else {
-                to.sendMessage(Message.CHAT_OUTDATED.toString());
-            }
+            String jsonMessage = "{\"text\":\"" + message.replaceAll("\"", "\\\\\"") + "\"}";
+            IChatBaseComponent chat = ChatSerializer.a(jsonMessage);
+            PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
+            ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
         } else {
             to.sendMessage(message);
         }
@@ -43,13 +37,9 @@ public class ChatUtil {
      */
     public static void sendJsonMessage(CommandSender to, String message, int type) {
         if (to instanceof Player) {
-            if (((CraftPlayer) to).getHandle().playerConnection.networkManager.getVersion() >= 47) {
-                IChatBaseComponent chat = ChatSerializer.a(message);
-                PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
-                ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
-            } else {
-                to.sendMessage(Message.CHAT_OUTDATED.toString());
-            }
+            IChatBaseComponent chat = ChatSerializer.a(message);
+            PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
+            ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
         } else {
             to.sendMessage(message);
         }

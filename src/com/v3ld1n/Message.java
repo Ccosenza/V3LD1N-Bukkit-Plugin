@@ -31,7 +31,6 @@ public enum Message {
     TASK_TELEPORT_ERROR("errors.loading.tasks.teleport"),
 
     CHAT_ERROR("errors.chat.failed"),
-    CHAT_OUTDATED("errors.chat.outdated"),
 
     LOADING_ITEM("debug.loading.items"),
     LOADING_TASK("debug.loading.task"),

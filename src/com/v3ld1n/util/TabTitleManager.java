@@ -1,20 +1,18 @@
 package com.v3ld1n.util;
 
-import net.minecraft.server.v1_7_R4.ChatSerializer;
-import net.minecraft.server.v1_7_R4.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.ChatSerializer;
+import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.spigotmc.ProtocolInjector;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class TabTitleManager
-{
-    private static final int PROTOCOL_VERSION = 47;
+public class TabTitleManager {
     /**
      * @param header The header of the tab list.
      */
@@ -61,7 +59,6 @@ public class TabTitleManager
     public static void setHeaderAndFooter(Player p, String rawHeader, String rawFooter)
     {
         CraftPlayer player = (CraftPlayer) p;
-        if (player.getHandle().playerConnection.networkManager.getVersion() != PROTOCOL_VERSION) return;
         IChatBaseComponent header = ChatSerializer.a(TextConverter.convert(rawHeader));
         IChatBaseComponent footer = ChatSerializer.a(TextConverter.convert(rawFooter));
         String rawHeaderString = rawHeader;
@@ -91,14 +88,14 @@ public class TabTitleManager
             }
         }
         TabTitleCache.addTabTitle(p.getUniqueId(), new TabTitleCache(rawHeaderString, rawFooter));
-        ProtocolInjector.PacketTabHeader packet = new ProtocolInjector.PacketTabHeader(header, footer);
+        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(header);
         player.getHandle().playerConnection.sendPacket(packet);
     }
     private static class TextConverter
     {
         public static String convert(String text)
         {
-            if (text == null || text.isEmpty())
+            if (text == null || text.length() == 0)
             {
                 return "\"\"";
             }
@@ -152,12 +149,17 @@ public class TabTitleManager
             sb.append('"');
             return sb.toString();
         }
+        @SuppressWarnings("unused")
+        public static String setPlayerName(Player player, String text)
+        {
+            return text.replaceAll("(?i)\\{PLAYER\\}", player.getName());
+        }
     }
     private static class TabTitleCache
     {
         final private static Map<UUID, TabTitleCache> playerTabTitles = new HashMap<>();
-        private final String header;
-        private final String footer;
+        private String header;
+        private String footer;
         public TabTitleCache(String header, String footer)
         {
             this.header = header;
@@ -170,6 +172,11 @@ public class TabTitleManager
         public static void addTabTitle(UUID uuid, TabTitleCache titleCache)
         {
             playerTabTitles.put(uuid, titleCache);
+        }
+        @SuppressWarnings("unused")
+        public static void removeTabTitle(UUID uuid)
+        {
+            playerTabTitles.remove(uuid);
         }
         public String getHeader()
         {

@@ -1,13 +1,15 @@
 package com.v3ld1n.util;
 
-import net.minecraft.server.v1_7_R4.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_8_R1.EnumParticle;
+import net.minecraft.server.v1_8_R1.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class Particle {
     private String name;
+    private boolean force;
     private float offsetX = 0;
     private float offsetY = 0;
     private float offsetZ = 0;
@@ -20,6 +22,7 @@ public class Particle {
 
     public static class Builder {
         private String name;
+        private boolean force;
         private float offsetX = 0;
         private float offsetY = 0;
         private float offsetZ = 0;
@@ -63,6 +66,7 @@ public class Particle {
 
     private Particle(Builder builder) {
         this.name = builder.name;
+        this.force = builder.force;
         this.offsetX = builder.offsetX;
         this.offsetY = builder.offsetY;
         this.offsetZ = builder.offsetZ;
@@ -80,6 +84,14 @@ public class Particle {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isForced() {
+        return this.force;
+    }
+
+    public void setForced(boolean force) {
+        this.force = force;
     }
 
     public float getOffsetX() {
@@ -123,7 +135,13 @@ public class Particle {
     }
 
     public void display(Location location) {
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(this.name, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
+        EnumParticle particle = EnumParticle.BARRIER;
+        for (EnumParticle enumparticle : EnumParticle.values()) {
+            if (this.name == enumparticle.name()) {
+                particle = enumparticle;
+            }
+        }
+        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, force, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
         for (Player p : WorldUtil.getNearbyPlayers(location, 20)) {
             if (p.getLocation().distance(location) <= 20) {
                 ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
@@ -132,7 +150,13 @@ public class Particle {
     }
 
     public void display(Location location, Player player) {
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(this.name, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
+        EnumParticle particle = EnumParticle.BARRIER;
+        for (EnumParticle enumparticle : EnumParticle.values()) {
+            if (this.name == enumparticle.name()) {
+                particle = enumparticle;
+            }
+        }
+        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, force, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 

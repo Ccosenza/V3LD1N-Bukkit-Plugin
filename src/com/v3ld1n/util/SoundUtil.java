@@ -1,9 +1,9 @@
 package com.v3ld1n.util;
 
-import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_8_R1.PacketPlayOutNamedSoundEffect;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class SoundUtil {
