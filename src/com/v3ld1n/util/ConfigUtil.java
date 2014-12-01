@@ -26,7 +26,7 @@ public class ConfigUtil {
     public static void setPlayerListFooter(String footer) {
         ConfigSetting.PLAYER_LIST_FOOTER.setValue(footer);
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            PlayerUtil.sendPlayerListHeader(p, footer);
+            PlayerUtil.sendPlayerListFooter(p, footer);
         }
     }
 
