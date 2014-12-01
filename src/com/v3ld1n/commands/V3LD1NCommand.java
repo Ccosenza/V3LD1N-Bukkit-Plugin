@@ -111,7 +111,7 @@ public class V3LD1NCommand implements CommandExecutor {
                 ConfigUtil.toggleWarp(args[1]);
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
-                ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
+                ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("warps") && args.length == 1) {
                 StringBuilder sb = new StringBuilder();
