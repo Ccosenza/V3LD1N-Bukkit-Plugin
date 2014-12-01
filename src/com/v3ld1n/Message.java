@@ -106,8 +106,6 @@ public enum Message {
     SETMAXHEALTH_SET("commands.setmaxhealth.set"),
     SETMAXHEALTH_LIMIT("commands.setmaxhealth.limit"),
 
-    SETMOTD_SET("commands.setmotd.set"),
-
     SIDEBARMESSAGE_DISPLAY("commands.sidebarmessage.display"),
     SIDEBARMESSAGE_INVALID_TIME("commands.sidebarmessage.invalid-time"),
 
@@ -119,6 +117,11 @@ public enum Message {
     TRAIL_INVALID("commands.trail.invalid"),
 
     UUID_HOVER("commands.uuid.hover"),
+
+    V3LD1NMOTD_ADD("commands.v3ld1nmotd.add"),
+    V3LD1NMOTD_REMOVE("commands.v3ld1nmotd.remove"),
+    V3LD1NMOTD_LIST("commands.v3ld1nmotd.list"),
+    V3LD1NMOTD_LIST_ITEM("commands.v3ld1nmotd.list-item"),
 
     V3LD1NPLUGIN_AVAILABLE("commands.v3ld1nplugin.available"),
     V3LD1NPLUGIN_DASH("commands.v3ld1nplugin.dash"),

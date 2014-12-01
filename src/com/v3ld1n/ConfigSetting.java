@@ -1,5 +1,6 @@
 package com.v3ld1n;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -104,6 +105,15 @@ public enum ConfigSetting {
             return V3LD1N.getConfig(fileName).getConfig().getList(name);
         }
         return (List<?>) defaultValue;
+    }
+
+    public List<String> getStringList() {
+        if (V3LD1N.getConfig(fileName).getConfig().get(name) != null) {
+            return V3LD1N.getConfig(fileName).getConfig().getStringList(name);
+        }
+        List<String> defaultList = new ArrayList<>();
+        defaultList.add(defaultValue.toString());
+        return defaultList;
     }
 
     public Location getLocation() {

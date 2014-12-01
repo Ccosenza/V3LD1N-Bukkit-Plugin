@@ -44,7 +44,7 @@ commands:
     usage: /<command>
   motd:
     description: Displays the login message.
-    aliases: [vmotd]
+    aliases: [vpmotd]
     usage: /<command> [player]
   nextsound:
     description: Plays the next sound for a sound task.
@@ -78,11 +78,12 @@ commands:
     description: Sets a player's selected hotbar slot.
     aliases: [hotbarslot, setselectedslot]
     usage: /<command> <slot> [player]
-  setmotd:
-    description: Sets the server list MOTD
-    usage: /<command> <motd ...>
+  v3ld1nmotd:
+    description: Adds, removes, and lists MOTDs.
+    aliases: [vmotd]
+    usage: /<command> <add|remove|list> <motd ...>
   actionbarmessage:
-    description: Displays a message above the action bar
+    description: Displays a message above the action bar.
     aliases: [abmessage, abm, abbroadcast]
     usage: /<command> <message> [player]
   timeplayed:
@@ -90,7 +91,7 @@ commands:
     aliases: [playtime]
     usage: /<command> [player]
   playerlist:
-    description: Sets the player list header and footer
+    description: Sets the player list header and footer.
     usage: /<command> <header|footer|reset> <text ...>
   creative:
     description: Teleport to the Creative world.

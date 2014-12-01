@@ -1,5 +1,7 @@
 package com.v3ld1n.listeners;
 
+import java.util.Random;
+
 import com.v3ld1n.*;
 import com.v3ld1n.util.*;
 
@@ -25,6 +27,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 public class PlayerListener implements Listener {
+    private Random random = new Random();
+
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -89,13 +93,13 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player p = event.getPlayer();
-        ChatUtil.displayMotd(p);
-        ChatUtil.displayInfo(p);
+        //ChatUtil.displayMotd(p);
+        //ChatUtil.displayInfo(p);
         if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
-            TabTitleManager.setHeader(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_HEADER.getString()));
+        //    TabTitleManager.setHeader(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_HEADER.getString()));
         }
         if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-            TabTitleManager.setFooter(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
+        //    TabTitleManager.setFooter(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
         }
         if (PlayerData.AUTO_RESOURCE_PACK.getBoolean(p.getUniqueId())) {
             PlayerAnimation.BED_LEAVE.playToPlayer(p);
@@ -148,9 +152,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
-        if (ConfigSetting.SERVER_LIST_MOTD.getString() != null) {
+        if (ConfigSetting.SERVER_LIST_MOTD.getValue() != null) {
+            int randomInt = random.nextInt(ConfigSetting.SERVER_LIST_MOTD.getStringList().size());
+            String randomMotd = ConfigSetting.SERVER_LIST_MOTD.getStringList().get(randomInt);
             String ic = "(?i)";
-            String motd = StringUtil.formatText(ConfigSetting.SERVER_LIST_MOTD.getString())
+            String motd = StringUtil.formatText(randomMotd)
                     .replaceFirst(ic + "%newline%", "\n")
                     .replaceAll(ic + "%players%", Integer.toString(event.getNumPlayers()))
                     .replaceAll(ic + "%maxplayers%", Integer.toString(event.getMaxPlayers()))

@@ -69,7 +69,7 @@ public class V3LD1N extends JavaPlugin {
         //getCommand("uuid").setExecutor(new UUIDCommand());
         getCommand("push").setExecutor(new PushCommand());
         getCommand("sethotbarslot").setExecutor(new SetHotbarSlotCommand());
-        getCommand("setmotd").setExecutor(new SetMotdCommand());
+        getCommand("v3ld1nmotd").setExecutor(new V3LD1NMotdCommand());
         getCommand("actionbarmessage").setExecutor(new ActionBarMessageCommand());
         getCommand("timeplayed").setExecutor(new TimePlayedCommand());
         getCommand("playerlist").setExecutor(new PlayerListCommand());
