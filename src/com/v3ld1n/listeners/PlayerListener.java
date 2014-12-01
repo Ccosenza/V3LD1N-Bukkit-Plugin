@@ -96,10 +96,10 @@ public class PlayerListener implements Listener {
         //ChatUtil.displayMotd(p);
         //ChatUtil.displayInfo(p);
         if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
-        //    TabTitleManager.setHeader(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_HEADER.getString()));
+            PlayerUtil.sendPlayerListHeader(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_HEADER.getString()));
         }
         if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-        //    TabTitleManager.setFooter(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
+            PlayerUtil.sendPlayerListFooter(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
         }
         if (PlayerData.AUTO_RESOURCE_PACK.getBoolean(p.getUniqueId())) {
             PlayerAnimation.BED_LEAVE.playToPlayer(p);

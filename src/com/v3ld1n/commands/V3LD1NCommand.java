@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,8 +16,8 @@ import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigUtil;
+import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
-import com.v3ld1n.util.TabTitleManager;
 
 public class V3LD1NCommand implements CommandExecutor {
     @Override
@@ -60,10 +59,10 @@ public class V3LD1NCommand implements CommandExecutor {
                 V3LD1N.getPlugin().reloadConfig();
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
-                        TabTitleManager.setHeader(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
+                        PlayerUtil.sendPlayerListHeader(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_HEADER.getString()));
                     }
                     if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-                        TabTitleManager.setFooter(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
+                        PlayerUtil.sendPlayerListFooter(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
                     }
                 }
                 ChatUtil.sendMessage(sender, Message.V3LD1NPLUGIN_RELOAD.toString(), 2);

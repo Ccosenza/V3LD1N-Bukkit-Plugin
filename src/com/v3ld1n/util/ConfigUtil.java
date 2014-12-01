@@ -19,14 +19,14 @@ public class ConfigUtil {
     public static void setPlayerListHeader(String header) {
         ConfigSetting.PLAYER_LIST_HEADER.setValue(header);
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            TabTitleManager.setHeader(p, header);
+            PlayerUtil.sendPlayerListHeader(p, header);
         }
     }
 
     public static void setPlayerListFooter(String footer) {
         ConfigSetting.PLAYER_LIST_FOOTER.setValue(footer);
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            TabTitleManager.setFooter(p, footer);
+            PlayerUtil.sendPlayerListHeader(p, footer);
         }
     }
 
