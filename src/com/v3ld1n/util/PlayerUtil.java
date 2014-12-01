@@ -1,8 +1,11 @@
 package com.v3ld1n.util;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.EnumTitleAction;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
+import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
 
 import org.bukkit.Bukkit;
@@ -67,6 +70,45 @@ public class PlayerUtil {
             displayTitle(player, "{text:\"\"}", fadeIn, stay, fadeOut);
         }
         PacketPlayOutTitle packet = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, json, fadeIn, stay, fadeOut);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    /**
+     * Sets the player list header for a player
+     * @param player the player
+     * @param jsonHeader the json header text
+     */
+    public static void sendPlayerListHeader(Player player, String jsonHeader) {
+        IChatBaseComponent header = ChatSerializer.a(StringUtil.formatText(jsonHeader));
+        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+        try {
+            Field headerField = packet.getClass().getDeclaredField("a");
+            headerField.setAccessible(true);
+            headerField.set(packet, header);
+            headerField.setAccessible(!headerField.isAccessible());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    /**
+     * Sets the player list footer for a player
+     * @param player the player
+     * @param jsonFooter the json footer text
+     */
+
+    public static void sendPlayerListFooter(Player player, String jsonFooter) {
+        IChatBaseComponent footer = ChatSerializer.a(StringUtil.formatText(jsonFooter));
+        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+        try {
+            Field headerField = packet.getClass().getDeclaredField("b");
+            headerField.setAccessible(true);
+            headerField.set(packet, footer);
+            headerField.setAccessible(!headerField.isAccessible());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 }
