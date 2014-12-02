@@ -18,7 +18,7 @@ public class WarpCommand implements CommandExecutor {
             Player p = (Player) sender;
             if (ConfigUtil.isWarpEnabled(command.getName())) {
                 Bukkit.getServer().dispatchCommand(sender, "warp " + command.getLabel());
-                for (Particle particle : ConfigUtil.getWarpParticles(command.getName().toLowerCase())) {
+                for (Particle particle : ConfigUtil.getWarpParticles(command.getName())) {
                     particle.display(p.getLocation(), p);
                 }
                 return true;

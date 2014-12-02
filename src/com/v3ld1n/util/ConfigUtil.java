@@ -58,8 +58,8 @@ public class ConfigUtil {
 
     public static List<Particle> getWarpParticles(String warp) {
         List<Particle> particles = new ArrayList<>();
-        if (Config.WARPS.getConfig().get(warp + ".particles") != null) {
-            for (String particleString : Config.WARPS.getConfig().getStringList(warp + ".particles")) {
+        if (Config.WARPS.getConfig().get(warp.toLowerCase() + ".particles") != null) {
+            for (String particleString : Config.WARPS.getConfig().getStringList(warp.toLowerCase() + ".particles")) {
                 particles.add(Particle.fromString((particleString)));
             }
         }
