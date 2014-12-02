@@ -16,14 +16,14 @@ public class WarpCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            if (ConfigUtil.isWarpEnabled(command.getName())) {
-                Bukkit.getServer().dispatchCommand(sender, "warp " + command.getLabel());
-                for (Particle particle : ConfigUtil.getWarpParticles(command.getName())) {
+            if (ConfigUtil.isWarpEnabled(label)) {
+                Bukkit.getServer().dispatchCommand(sender, "warp " + label);
+                for (Particle particle : ConfigUtil.getWarpParticles(label)) {
                     particle.display(p.getLocation(), p);
                 }
                 return true;
             }
-            ChatUtil.sendMessage(p, String.format(Message.WARP_DISABLED.toString(), command.getLabel()), 2);
+            ChatUtil.sendMessage(p, String.format(Message.WARP_DISABLED.toString(), label), 2);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());

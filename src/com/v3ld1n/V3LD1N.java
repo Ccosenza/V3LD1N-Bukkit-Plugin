@@ -74,15 +74,7 @@ public class V3LD1N extends JavaPlugin {
         getCommand("timeplayed").setExecutor(new TimePlayedCommand());
         getCommand("playerlist").setExecutor(new PlayerListCommand());
         WarpCommand warpcommand = new WarpCommand();
-        getCommand("creative").setExecutor(warpcommand);
-        getCommand("factions").setExecutor(warpcommand);
-        getCommand("kitpvp").setExecutor(warpcommand);
-        getCommand("store").setExecutor(warpcommand);
-        getCommand("storetop").setExecutor(warpcommand);
-        getCommand("timetravel").setExecutor(warpcommand);
-        getCommand("v3ld1n").setExecutor(warpcommand);
-        getCommand("veldin").setExecutor(warpcommand);
-        getCommand("warproom").setExecutor(warpcommand);
+        getCommand("v3ld1nwarp").setExecutor(warpcommand);
     }
 
     @Override

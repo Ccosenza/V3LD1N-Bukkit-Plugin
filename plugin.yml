@@ -93,30 +93,7 @@ commands:
   playerlist:
     description: Sets the player list header and footer.
     usage: /<command> <header|footer|reset> <text ...>
-  creative:
-    description: Teleport to the Creative world.
-    usage: /<command>
-  factions:
-    description: Teleport to the Factions world.
-    usage: /<command>
-  kitpvp:
-    description: Teleport to the Kit PvP world.
-    usage: /<command>
-  store:
-    description: Teleport to the store.
-    usage: /<command>
-  storetop:
-    description: Teleport to the top of the store (where you can sell items).
-    usage: /<command>
-  timetravel:
-    description: Teleport to the Bloodmoon world.
-    usage: /<command>
-  v3ld1n:
-    description: Teleport to V3LD1N.
-    usage: /<command>
-  veldin:
-    description: Teleport to V3LD1N.
-    usage: /<command>
-  warproom:
-    description: Teleport to the warp room.
+  v3ld1nwarp:
+    description: Warp command.
+    aliases: [creative, factions, kitpvp, store, storetop, timetravel, v3ld1n, veldin, warproom]
     usage: /<command>
