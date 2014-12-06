@@ -17,12 +17,14 @@ import com.v3ld1n.items.*;
 import com.v3ld1n.items.ratchet.*;
 import com.v3ld1n.tasks.*;
 import com.v3ld1n.util.ConfigAccessor;
+import com.v3ld1n.util.StringUtil;
 
 public class V3LD1N extends JavaPlugin {
     private static V3LD1N plugin;
     private static List<ConfigAccessor> configs;
     private static WorldGuardPlugin worldGuard;
     private static List<V3LD1NItem> items;
+    private static List<FAQ> questions;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
@@ -38,6 +40,7 @@ public class V3LD1N extends JavaPlugin {
         }
         configs = new ArrayList<>();
         items = new ArrayList<>();
+        questions = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
@@ -45,6 +48,7 @@ public class V3LD1N extends JavaPlugin {
         loadConfig();
         setupWorldGuard();
         loadItems();
+        loadQuestions();
         loadItemTasks();
         loadParticleTasks();
         loadSoundTasks();
@@ -52,7 +56,7 @@ public class V3LD1N extends JavaPlugin {
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
         getCommand("v3ld1nplugin").setExecutor(new V3LD1NCommand());
-        //getCommand("faq").setExecutor(new FAQCommand());
+        getCommand("faq").setExecutor(new FAQCommand());
         getCommand("trail").setExecutor(new TrailCommand());
         getCommand("sethealth").setExecutor(new SetHealthCommand());
         getCommand("setmaxhealth").setExecutor(new SetMaxHealthCommand());
@@ -61,12 +65,12 @@ public class V3LD1N extends JavaPlugin {
         getCommand("resourcepack").setExecutor(new ResourcePackCommand());
         getCommand("autoresourcepack").setExecutor(new AutoResourcePackCommand());
         getCommand("motd").setExecutor(new MotdCommand());
-        //getCommand("nextsound").setExecutor(new NextSoundCommand());
+        getCommand("nextsound").setExecutor(new NextSoundCommand());
         getCommand("editsign").setExecutor(new EditSignCommand());
         getCommand("setfulltime").setExecutor(new SetFullTimeCommand());
         getCommand("playanimation").setExecutor(new PlayAnimationCommand());
         getCommand("sidebarmessage").setExecutor(new SidebarMessageCommand());
-        //getCommand("uuid").setExecutor(new UUIDCommand());
+        getCommand("uuid").setExecutor(new UUIDCommand());
         getCommand("push").setExecutor(new PushCommand());
         getCommand("sethotbarslot").setExecutor(new SetHotbarSlotCommand());
         getCommand("v3ld1nmotd").setExecutor(new V3LD1NMotdCommand());
@@ -81,6 +85,7 @@ public class V3LD1N extends JavaPlugin {
     public void onDisable() {
         configs = null;
         items = null;
+        questions = null;
         itemTasks = null;
         particleTasks = null;
         soundTasks = null;
@@ -136,9 +141,21 @@ public class V3LD1N extends JavaPlugin {
         items.add(new RatchetSword());
         for (V3LD1NItem item : items) {
             pluginManager.registerEvents(item, plugin);
-            if (ConfigSetting.DEBUG.getBoolean()) {
-                plugin.getLogger().info(String.format(Message.LOADING_ITEM.toString(), item.getId()));
+            StringUtil.logDebugMessage(String.format(Message.LOADING_ITEM.toString(), item.getId()));
+        }
+    }
+
+    public static void loadQuestions() {
+        try {
+            if (Config.FAQ.getConfig().getConfigurationSection("questions") != null) {
+                for (String key : Config.FAQ.getConfig().getConfigurationSection("questions").getKeys(false)) {
+                    FAQ question = new FAQ(Integer.parseInt(key), Config.FAQ.getConfig().getString("questions." + key + ".name"), Config.FAQ.getConfig().getString("questions." + key + ".question"), Config.FAQ.getConfig().getString("questions." + key + ".answer"), Config.FAQ.getConfig().getString("questions." + key + ".name-color"), Config.FAQ.getConfig().getString("questions." + key + ".question-color"), Config.FAQ.getConfig().getString("questions." + key + ".answer-color"));
+                    questions.add(question);
+                }
             }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.FAQ_LOAD_ERROR.toString());
+            e.printStackTrace();
         }
     }
 
@@ -249,6 +266,26 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<ConfigAccessor> getConfigs() {
         return configs;
+    }
+
+    public static List<FAQ> getQuestions() {
+        return questions;
+    }
+
+    public static List<ItemTask> getItemTasks() {
+        return itemTasks;
+    }
+
+    public static List<ParticleTask> getParticleTasks() {
+        return particleTasks;
+    }
+
+    public static List<SoundTask> getSoundTasks() {
+        return soundTasks;
+    }
+
+    public static List<TeleportTask> getTeleportTasks() {
+        return teleportTasks;
     }
 
     public static WorldGuardPlugin getWorldGuard() {
