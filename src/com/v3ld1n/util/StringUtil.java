@@ -16,6 +16,10 @@ public class StringUtil {
     private StringUtil() {
     }
 
+    /**
+     * Sends a message to the console if debug is set to true
+     * @param message the message to send to the console
+     */
     public static void logDebugMessage(String message) {
         if (ConfigSetting.DEBUG.getBoolean()) {
             V3LD1N.getPlugin().getLogger().info(message);
