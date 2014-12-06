@@ -8,10 +8,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
+import com.v3ld1n.V3LD1N;
 
 public class StringUtil {
     private StringUtil() {
+    }
+
+    public static void logDebugMessage(String message) {
+        if (ConfigSetting.DEBUG.getBoolean()) {
+            V3LD1N.getPlugin().getLogger().info(message);
+        }
     }
 
     /**
