@@ -31,12 +31,10 @@ public class SoundTask extends Task {
         }
 
         currentSound = soundList.get(random.nextInt(soundList.size()));
-        String[] split = currentSound.split("\\|");
-        String[] idSplit = split[0].split("\\.");
-        String soundName = idSplit[idSplit.length - 1];
+        String soundName = nameOf(currentSound);
         BlockUtil.editSign(signLoc.getBlock(), signLine, signColor + soundName);
         for (Player p : location.getWorld().getPlayers()) {
-            if (distance > 0) {
+            if (distance < 0) {
                 SoundUtil.playSoundString(currentSound, location);
             } else {
                 if (p.getLocation().distance(location) <= distance) {
@@ -44,5 +42,16 @@ public class SoundTask extends Task {
                 }
             }
         }
+    }
+
+    public String getCurrentSoundName() {
+        return nameOf(currentSound);
+    }
+
+    private String nameOf(String sound) {
+        String[] split = sound.split("\\|");
+        String[] idSplit = split[0].split("\\.");
+        String soundName = idSplit[idSplit.length - 1];
+        return soundName;
     }
 }
