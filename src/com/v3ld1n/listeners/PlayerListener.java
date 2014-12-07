@@ -93,7 +93,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player p = event.getPlayer();
-        //ChatUtil.displayMotd(p);
+        ChatUtil.displayMotd(p);
         //if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
         //    PlayerUtil.sendPlayerListHeader(p, ConfigSetting.PLAYER_LIST_HEADER.getString());
         //}

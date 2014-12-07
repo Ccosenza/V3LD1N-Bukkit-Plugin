@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import com.v3ld1n.Config;
+
 public class ChatUtil {
     private ChatUtil() {
     }
@@ -50,5 +52,8 @@ public class ChatUtil {
      * @param p the player to send the message to
      */
     public static void displayMotd(Player p) {
+        for (String jsonText : Config.MOTD.getConfig().getStringList("lines")) {
+            ChatUtil.sendJsonMessage(p, jsonText, 0);
+        }
     }
 }
