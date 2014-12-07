@@ -25,6 +25,7 @@ public class V3LD1NCommand implements CommandExecutor {
         if (sender.isOp()) {
             if (args.length == 0) {
                 List<String> commands = new ArrayList<>();
+                commands.add("debug");
                 commands.add("reload");
                 commands.add("resourcepackurl");
                 commands.add("setblogpost");
@@ -55,14 +56,24 @@ public class V3LD1NCommand implements CommandExecutor {
                 }
                 return true;
             }
-            if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
+            if (args[0].equalsIgnoreCase("debug") && args.length == 1) {
+                Message message = null;
+                if (ConfigSetting.DEBUG.getBoolean()) {
+                    message = Message.V3LD1NPLUGIN_DISABLE_DEBUG;
+                } else {
+                    message = Message.V3LD1NPLUGIN_ENABLE_DEBUG;
+                }
+                ConfigUtil.toggleDebug();
+                sender.sendMessage(message.toString());
+                return true;
+            } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
                 V3LD1N.getPlugin().reloadConfig();
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
-                        PlayerUtil.sendPlayerListHeader(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_HEADER.getString()));
+                        PlayerUtil.sendPlayerListHeader(p, ConfigSetting.PLAYER_LIST_HEADER.getString());
                     }
                     if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-                        PlayerUtil.sendPlayerListFooter(p, StringUtil.formatText(ConfigSetting.PLAYER_LIST_FOOTER.getString()));
+                        PlayerUtil.sendPlayerListFooter(p, ConfigSetting.PLAYER_LIST_FOOTER.getString());
                     }
                 }
                 ChatUtil.sendMessage(sender, Message.V3LD1NPLUGIN_RELOAD.toString(), 2);

@@ -35,10 +35,10 @@ public class ConfigUtil {
     }
 
     public static void toggleDebug() {
-        if (ConfigSetting.DEBUG.getValue() != null) {
-            ConfigSetting.DEBUG.setValue(null);
-        } else {
+        if (!ConfigSetting.DEBUG.getBoolean()) {
             ConfigSetting.DEBUG.setValue(true);
+        } else {
+            ConfigSetting.DEBUG.setValue(null);
         }
     }
 
@@ -69,11 +69,10 @@ public class ConfigUtil {
     public static void toggleWarp(String warp) {
         if (Config.WARPS.getConfig().get(warp + ".enabled") != null) {
             Config.WARPS.getConfig().set(warp + ".enabled", null);
-            Config.WARPS.saveConfig();
         } else {
             Config.WARPS.getConfig().set(warp + ".enabled", true);
-            Config.WARPS.saveConfig();
         }
+        Config.WARPS.saveConfig();
     }
 
     public static void setWarpEnabled(String warp, boolean enabled) {

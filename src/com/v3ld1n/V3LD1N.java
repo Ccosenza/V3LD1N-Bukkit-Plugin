@@ -152,6 +152,7 @@ public class V3LD1N extends JavaPlugin {
                     FAQ question = new FAQ(Integer.parseInt(key), Config.FAQ.getConfig().getString("questions." + key + ".name"), Config.FAQ.getConfig().getString("questions." + key + ".question"), Config.FAQ.getConfig().getString("questions." + key + ".answer"), Config.FAQ.getConfig().getString("questions." + key + ".name-color"), Config.FAQ.getConfig().getString("questions." + key + ".question-color"), Config.FAQ.getConfig().getString("questions." + key + ".answer-color"));
                     questions.add(question);
                 }
+                StringUtil.logDebugMessage(String.format(Message.LOADING_QUESTIONS.toString(), questions.size()));
             }
         } catch (Exception e) {
             plugin.getLogger().warning(Message.FAQ_LOAD_ERROR.toString());

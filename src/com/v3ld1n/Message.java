@@ -21,7 +21,6 @@ public enum Message {
 
     ITEM_RELOAD_ERROR("errors.loading.items"),
     FAQ_LOAD_ERROR("errors.loading.faq"),
-    WARP_LOAD_ERROR("errors.loading.warps"),
 
     CHAT_STRINGS_NO_PLAYER("chat-strings.no-player"),
 
@@ -32,8 +31,9 @@ public enum Message {
 
     CHAT_ERROR("errors.chat.failed"),
 
-    LOADING_ITEM("debug.loading.items"),
+    LOADING_ITEM("debug.loading.item"),
     LOADING_TASK("debug.loading.task"),
+    LOADING_QUESTIONS("debug.loading.questions"),
 
     RATCHETS_SHOVEL_DAMAGE("items.ratchets-shovel.damage"),
 
@@ -126,6 +126,8 @@ public enum Message {
     V3LD1NPLUGIN_AVAILABLE("commands.v3ld1nplugin.available"),
     V3LD1NPLUGIN_DASH("commands.v3ld1nplugin.dash"),
     V3LD1NPLUGIN_COMMAND_NOT_PLAYER("commands.v3ld1nplugin.command-not-player"),
+    V3LD1NPLUGIN_DISABLE_DEBUG("commands.v3ld1nplugin.disable-debug"),
+    V3LD1NPLUGIN_ENABLE_DEBUG("commands.v3ld1nplugin.enable-debug"),
     V3LD1NPLUGIN_DISABLE_WARP("commands.v3ld1nplugin.disable-warp"),
     V3LD1NPLUGIN_ENABLE_WARP("commands.v3ld1nplugin.enable-warp"),
     V3LD1NPLUGIN_TOGGLE_ALL_WARPS("commands.v3ld1nplugin.toggle-all-warps"),
