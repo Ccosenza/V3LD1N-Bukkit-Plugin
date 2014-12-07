@@ -17,8 +17,6 @@ public enum Message {
     MOTD_NO_PERMISSION_OTHERS("commands.motd.others-permission"),
     MOTD_ERROR("motd.error"),
 
-    INFO_MESSAGE_ERROR("info-messages.error"),
-
     ITEM_RELOAD_ERROR("errors.loading.items"),
     FAQ_LOAD_ERROR("errors.loading.faq"),
 

@@ -50,14 +50,5 @@ public class ChatUtil {
      * @param p the player to send the message to
      */
     public static void displayMotd(Player p) {
-        p.sendMessage("MOTD");
-    }
-    
-    /**
-     * Sends an information message to a player
-     * @param p the player to send the message to
-     */
-    public static void displayInfo(Player p) {
-        p.sendMessage("Info Message");
     }
 }
