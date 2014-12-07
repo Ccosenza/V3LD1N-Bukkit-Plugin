@@ -93,6 +93,9 @@ commands:
   playerlist:
     description: Sets the player list header and footer.
     usage: /<command> <header|footer|reset> <text ...>
+  giveall:
+    description: Gives the item you are holding to all players.
+    usage: /<command>
   v3ld1nwarp:
     description: Warp command.
     aliases: [creative, factions, kitpvp, store, storetop, timetravel, v3ld1n, veldin, warproom]

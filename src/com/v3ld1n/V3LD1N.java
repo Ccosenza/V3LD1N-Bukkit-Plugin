@@ -77,6 +77,7 @@ public class V3LD1N extends JavaPlugin {
         getCommand("actionbarmessage").setExecutor(new ActionBarMessageCommand());
         getCommand("timeplayed").setExecutor(new TimePlayedCommand());
         getCommand("playerlist").setExecutor(new PlayerListCommand());
+        getCommand("giveall").setExecutor(new GiveAllCommand());
         WarpCommand warpcommand = new WarpCommand();
         getCommand("v3ld1nwarp").setExecutor(warpcommand);
     }
