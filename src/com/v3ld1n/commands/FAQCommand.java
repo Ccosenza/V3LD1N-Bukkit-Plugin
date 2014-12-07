@@ -44,8 +44,7 @@ public class FAQCommand implements CommandExecutor {
                 try {
                     arg = Integer.parseInt(args[0]);
                 } catch (IllegalArgumentException e) {
-                    p.sendMessage(Message.COMMAND_INVALID_ARGUMENT.toString());
-                    return true;
+                    return false;
                 }
                 if (arg <= V3LD1N.getQuestions().size() && arg > 0) {
                     FAQ faq = V3LD1N.getQuestions().get(arg - 1);
