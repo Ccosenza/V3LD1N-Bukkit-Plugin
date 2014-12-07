@@ -53,7 +53,7 @@ public class ChatUtil {
      */
     public static void displayMotd(Player p) {
         for (String jsonText : Config.MOTD.getConfig().getStringList("lines")) {
-            ChatUtil.sendJsonMessage(p, jsonText, 0);
+            ChatUtil.sendJsonMessage(p, StringUtil.formatText(jsonText), 0);
         }
     }
 }
