@@ -22,7 +22,6 @@ public enum ConfigSetting {
     FAQ_BACK_COLOR("back-color", "faq.yml", "BLUE"),
 
     INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
-    MOTD_LOG_ERROR("log-error-message", "motd.yml", false),
     
     PARTICLE_SPAWN_ENDER_CRYSTAL("spawn-ender-crystal", "particles.yml"),
     PARTICLE_TRAILS("trails", "particles.yml"),
