@@ -50,14 +50,14 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onSpawn(CreatureSpawnEvent event) {
-        if (ConfigSetting.CANCEL_SPAWN_WORLDS.getList().contains(event.getEntity().getWorld())) {
+        if (ConfigSetting.CANCEL_SPAWN_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        if (ConfigSetting.REMOVE_ARROW_WORLDS.getList().contains(event.getEntity().getWorld())) {
+        if (ConfigSetting.REMOVE_ARROW_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
             if (event.getEntity() != null) {
                 event.getEntity().remove();
             }
@@ -66,7 +66,7 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        if (ConfigSetting.CANCEL_DROP_WORLDS.getList().contains(event.getEntity().getWorld())) {
+        if (ConfigSetting.CANCEL_DROP_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
             event.getDrops().clear();
             event.setDroppedExp(0);
         }
