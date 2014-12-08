@@ -14,6 +14,7 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ConfigAccessor;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
@@ -65,7 +66,9 @@ public class V3LD1NCommand implements CommandExecutor {
                 sender.sendMessage(message.toString());
                 return true;
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
-                V3LD1N.getPlugin().reloadConfig();
+                for (ConfigAccessor accessor : V3LD1N.getConfigs()) {
+                    accessor.reloadConfig();
+                }
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
                         PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());

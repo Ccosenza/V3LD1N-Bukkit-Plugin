@@ -50,7 +50,7 @@ public class ConfigAccessor {
         this.configFile = new File(plugin.getDataFolder(), fileName);
     }
  
-    void reloadConfig() {
+    public void reloadConfig() {
         fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
  
         // Look for defaults in the jar
