@@ -206,17 +206,19 @@ public class RatchetBow extends V3LD1NItem {
         } else if (pr.getType() == EntityType.ARROW && pr.getShooter() instanceof Player) {
             Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
-                switch (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId())) {
-                case "fireworkarrow":
-                    Type fwType = Type.BALL;
-                    if (PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()) != null) {
-                        fwType = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()));
+                if (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()) != null) {
+                    switch (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId())) {
+                    case "fireworkarrow":
+                        Type fwType = Type.BALL;
+                        if (PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()) != null) {
+                            fwType = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()));
+                        }
+                        Color fadeColor = Color.fromRGB(216, 205, 17);
+                        EntityUtil.detonateFireworkProjectile(pr, pr.getLocation(), fwType, fwColor, fadeColor);
+                        break;
+                    default:
+                        break;
                     }
-                    Color fadeColor = Color.fromRGB(216, 205, 17);
-                    EntityUtil.detonateFireworkProjectile(pr, pr.getLocation(), fwType, fwColor, fadeColor);
-                    break;
-                default:
-                    break;
                 }
             }
         }
