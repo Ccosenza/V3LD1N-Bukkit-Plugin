@@ -3,6 +3,7 @@ package com.v3ld1n.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,6 +15,7 @@ import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigUtil;
+import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NCommand implements CommandExecutor {
@@ -64,14 +66,11 @@ public class V3LD1NCommand implements CommandExecutor {
                 return true;
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
                 V3LD1N.getPlugin().reloadConfig();
-                //for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                //    if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
-                //        PlayerUtil.sendPlayerListHeader(p, ConfigSetting.PLAYER_LIST_HEADER.getString());
-                //    }
-                //    if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-                //        PlayerUtil.sendPlayerListFooter(p, ConfigSetting.PLAYER_LIST_FOOTER.getString());
-                //    }
-                //}
+                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                    if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
+                        PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());
+                    }
+                }
                 ChatUtil.sendMessage(sender, Message.V3LD1NPLUGIN_RELOAD.toString(), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("resourcepackurl") && args.length == 1) {

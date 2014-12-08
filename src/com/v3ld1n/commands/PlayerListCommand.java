@@ -7,32 +7,24 @@ import org.bukkit.command.CommandSender;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigUtil;
-import com.v3ld1n.util.StringUtil;
 
 public class PlayerListCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.playerlist")) {
-            if (args.length >= 2) {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 1; i < args.length; i++) {
-                    sb.append(args[i]).append(" ");
-                }
-                String text = sb.toString();
-                text = StringUtil.formatText(text.substring(0, text.length() - 1));
-                if (args[0].equalsIgnoreCase("header")) {
-                    ConfigUtil.setPlayerListHeader(text);
-                } else if (args[0].equalsIgnoreCase("footer")) {
-                    ConfigUtil.setPlayerListFooter(text);
+            if (args.length == 3) {
+                String header = args[1].replaceAll("__", " ");
+                String footer = args[2].replaceAll("__", " ");
+                if (args[0].equalsIgnoreCase("set")) {
+                    ConfigUtil.setPlayerListHeaderFooter(header, footer);
                 } else {
                     return false;
                 }
-                ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET.toString(), text), 2);
+                ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET.toString(), header, footer), 2);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reset")) {
-                    ConfigUtil.setPlayerListHeader(null);
-                    ConfigUtil.setPlayerListFooter(null);
+                    ConfigUtil.setPlayerListHeaderFooter("{text:\"\"}", "{text:\"\"}");
                     ChatUtil.sendMessage(sender, Message.PLAYERLIST_RESET.toString(), 2);
                     return true;
                 }

@@ -94,12 +94,9 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player p = event.getPlayer();
         ChatUtil.displayMotd(p);
-        //if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
-        //    PlayerUtil.sendPlayerListHeader(p, ConfigSetting.PLAYER_LIST_HEADER.getString());
-        //}
-        //if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-        //    PlayerUtil.sendPlayerListFooter(p, ConfigSetting.PLAYER_LIST_FOOTER.getString());
-        //}
+        if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
+            PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());
+        }
         if (PlayerData.AUTO_RESOURCE_PACK.getBoolean(p.getUniqueId())) {
             PlayerAnimation.BED_LEAVE.playToPlayer(p);
             Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {

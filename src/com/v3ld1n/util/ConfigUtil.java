@@ -16,17 +16,11 @@ public class ConfigUtil {
     private ConfigUtil() {
     }
 
-    public static void setPlayerListHeader(String header) {
+    public static void setPlayerListHeaderFooter(String header, String footer) {
         ConfigSetting.PLAYER_LIST_HEADER.setValue(header);
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            PlayerUtil.sendPlayerListHeader(p, header);
-        }
-    }
-
-    public static void setPlayerListFooter(String footer) {
         ConfigSetting.PLAYER_LIST_FOOTER.setValue(footer);
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            PlayerUtil.sendPlayerListFooter(p, footer);
+            PlayerUtil.sendPlayerListHeaderFooter(p, header, footer);
         }
     }
 

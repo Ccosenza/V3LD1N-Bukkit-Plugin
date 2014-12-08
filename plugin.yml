@@ -92,7 +92,7 @@ commands:
     usage: /<command> [player]
   playerlist:
     description: Sets the player list header and footer.
-    usage: /<command> <header|footer|reset> <text ...>
+    usage: /<command> set <header> <footer> OR /<command> reset
   giveall:
     description: Gives the item you are holding to all players.
     usage: /<command>

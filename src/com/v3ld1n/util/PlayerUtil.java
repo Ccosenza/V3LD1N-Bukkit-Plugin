@@ -74,40 +74,25 @@ public class PlayerUtil {
     }
 
     /**
-     * Sets the player list header for a player
+     * Sets the player list header and footer for a player
      * @param player the player
      * @param jsonHeader the json header text
+     * @param jsonFooter the json footer text
      */
-    public static void sendPlayerListHeader(Player player, String jsonHeader) {
-        IChatBaseComponent header = ChatSerializer.a(StringUtil.formatText(jsonHeader));
+    public static void sendPlayerListHeaderFooter(Player player, String jsonHeader, String jsonFooter) {
+        IChatBaseComponent header = ChatSerializer.a(jsonHeader);
+        IChatBaseComponent footer = ChatSerializer.a(jsonFooter);
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         try {
             Field headerField = packet.getClass().getDeclaredField("a");
             headerField.setAccessible(true);
             headerField.set(packet, header);
             headerField.setAccessible(!headerField.isAccessible());
+            Field footerField = packet.getClass().getDeclaredField("b");
+            footerField.setAccessible(true);
+            footerField.set(packet, footer);
+            footerField.setAccessible(!footerField.isAccessible());
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-    }
-
-    /**
-     * Sets the player list footer for a player
-     * @param player the player
-     * @param jsonFooter the json footer text
-     */
-
-    public static void sendPlayerListFooter(Player player, String jsonFooter) {
-        IChatBaseComponent footer = ChatSerializer.a(StringUtil.formatText(jsonFooter));
-        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-        try {
-            Field headerField = packet.getClass().getDeclaredField("b");
-            headerField.setAccessible(true);
-            headerField.set(packet, footer);
-            headerField.setAccessible(!headerField.isAccessible());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
