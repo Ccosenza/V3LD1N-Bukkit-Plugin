@@ -77,7 +77,7 @@ public class V3LD1NCommand implements CommandExecutor {
             } else if (args[0].equalsIgnoreCase("resourcepackurl") && args.length == 1) {
                 String pack = ConfigSetting.RESOURCE_PACK.getString();
                 if (sender instanceof Player) {
-                   ChatUtil.sendMessage(sender,
+                   ChatUtil.sendJsonMessage(sender,
                    "{text:\"" + pack + "\","
                    + "underlined:true,"
                    + "hoverEvent:{action:'show_text',value:'" + Message.LINK_HOVER + "'},"
