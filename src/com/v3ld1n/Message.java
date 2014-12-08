@@ -64,6 +64,7 @@ public enum Message {
     FIREWORKARROWS_INVALID_SHAPE("commands.fireworkarrows.invalid-shape"),
 
     GIVEALL_GIVE("commands.giveall.give"),
+    GIVEALL_NO_ITEM("commands.giveall.no-item"),
 
     NEXTSOUND_NOW_PLAYING("commands.nextsound.now-playing"),
     NEXTSOUND_NO_SOUND_PLAYERS("commands.nextsound.no-sound-players"),
