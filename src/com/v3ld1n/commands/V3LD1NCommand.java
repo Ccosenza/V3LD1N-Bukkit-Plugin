@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.v3ld1n.Config;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
@@ -26,7 +25,6 @@ public class V3LD1NCommand implements CommandExecutor {
                 commands.add("debug");
                 commands.add("reload");
                 commands.add("resourcepackurl");
-                commands.add("setblogpost");
                 commands.add("setresourcepack");
                 commands.add("togglewarp");
                 commands.add("version");
@@ -67,12 +65,12 @@ public class V3LD1NCommand implements CommandExecutor {
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
                 V3LD1N.getPlugin().reloadConfig();
                 //for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                    //if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
-                    //    PlayerUtil.sendPlayerListHeader(p, ConfigSetting.PLAYER_LIST_HEADER.getString());
-                    //}
-                    //if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-                    //    PlayerUtil.sendPlayerListFooter(p, ConfigSetting.PLAYER_LIST_FOOTER.getString());
-                    //}
+                //    if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null) {
+                //        PlayerUtil.sendPlayerListHeader(p, ConfigSetting.PLAYER_LIST_HEADER.getString());
+                //    }
+                //    if (ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
+                //        PlayerUtil.sendPlayerListFooter(p, ConfigSetting.PLAYER_LIST_FOOTER.getString());
+                //    }
                 //}
                 ChatUtil.sendMessage(sender, Message.V3LD1NPLUGIN_RELOAD.toString(), 2);
                 return true;
@@ -88,13 +86,6 @@ public class V3LD1NCommand implements CommandExecutor {
                    return true;
                 }
                 sender.sendMessage(ConfigSetting.RESOURCE_PACK.getString());
-                return true;
-            } else if (args[0].equalsIgnoreCase("setblogpost") && args.length == 2) {
-                ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_SETBLOGPOST.toString(), args[1]), 2);
-                V3LD1N.getPlugin().getConfig().set("blog-post", args[1]);
-                V3LD1N.getPlugin().saveConfig();
-                Config.MOTD.getConfig().set("links.blog.clickdata", args[1]);
-                Config.MOTD.saveConfig();
                 return true;
             } else if (args[0].equalsIgnoreCase("setresourcepack") && args.length == 2) {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_SETRESOURCEPACK.toString(), args[1]), 2);
