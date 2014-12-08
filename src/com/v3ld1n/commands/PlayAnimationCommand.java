@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.PlayerUtil;
 
@@ -18,7 +19,7 @@ public class PlayAnimationCommand implements CommandExecutor {
                     Player p = (Player) sender;
                     try {
                         PlayerAnimation.valueOf(args[0].toUpperCase()).play(p, 50);
-                        p.sendMessage(String.format(Message.PLAYANIMATION_PLAY.toString(), args[0]));
+                        ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), args[0]), 2);
                         return true;
                     } catch (Exception e) {
                         p.sendMessage(Message.PLAYANIMATION_ERROR.toString());
@@ -33,7 +34,7 @@ public class PlayAnimationCommand implements CommandExecutor {
                         Player p = PlayerUtil.getOnlinePlayer(args[1]);
                         try {
                             PlayerAnimation.valueOf(args[0].toUpperCase()).play(p, 50);
-                            sender.sendMessage(String.format(Message.PLAYANIMATION_PLAY.toString(), args[0]));
+                            ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), args[0]), 2);
                             return true;
                         } catch (Exception e) {
                             sender.sendMessage(Message.PLAYANIMATION_ERROR.toString());

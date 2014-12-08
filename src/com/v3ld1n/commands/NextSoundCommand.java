@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.tasks.SoundTask;
+import com.v3ld1n.util.ChatUtil;
 
 public class NextSoundCommand implements CommandExecutor {
     @Override
@@ -19,7 +20,7 @@ public class NextSoundCommand implements CommandExecutor {
                     Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                         @Override
                         public void run() {
-                            sender.sendMessage(String.format(Message.NEXTSOUND_NOW_PLAYING.toString(), task.getName().toUpperCase(), task.getCurrentSoundName()));
+                            ChatUtil.sendMessage(sender, String.format(Message.NEXTSOUND_NOW_PLAYING.toString(), task.getName().toUpperCase(), task.getCurrentSoundName()), 2);
                         }
                     }, 1L);
                     return true;
@@ -31,7 +32,7 @@ public class NextSoundCommand implements CommandExecutor {
                         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                             @Override
                             public void run() {
-                                sender.sendMessage(String.format(Message.NEXTSOUND_NOW_PLAYING.toString(), task.getName().toUpperCase(), task.getCurrentSoundName()));
+                                ChatUtil.sendMessage(sender, String.format(Message.NEXTSOUND_NOW_PLAYING.toString(), task.getName().toUpperCase(), task.getCurrentSoundName()), 2);
                             }
                         }, 1L);
                     } else {
