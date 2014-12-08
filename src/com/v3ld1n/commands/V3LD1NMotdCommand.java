@@ -1,5 +1,6 @@
 package com.v3ld1n.commands;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.command.Command;
@@ -16,12 +17,17 @@ public class V3LD1NMotdCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.v3ld1nmotd")) {
             if (args.length > 1) {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 2; i < args.length; i++) {
-                    sb.append(args[i]).append(" ");
+                String motd;
+                if (args.length > 2) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 2; i < args.length; i++) {
+                        sb.append(args[i]).append(" ");
+                    }
+                    motd = sb.toString();
+                    motd = StringUtil.formatText(motd.substring(0, motd.length() - 1));
+                } else {
+                    motd = args[1];
                 }
-                String motd = sb.toString();
-                motd = StringUtil.formatText(motd.substring(0, motd.length() - 1));
                 List<String> motds = ConfigSetting.SERVER_LIST_MOTD.getStringList();
                 if (args[0].equalsIgnoreCase("add")) {
                     motds.add(motd);
@@ -29,11 +35,15 @@ public class V3LD1NMotdCommand implements CommandExecutor {
                     ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_ADD.toString(), motd), 2);
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove")) {
-                    if (motds.contains(motd)) {
-                        motds.remove(motd);
-                        ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_REMOVE.toString(), motd), 2);
-                        return true;
+                    Iterator<String> iterator = motds.iterator();
+                    while (iterator.hasNext()) {
+                        if (iterator.next().equals(motd)) {
+                            iterator.remove();
+                        }
                     }
+                    ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
+                    ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_REMOVE.toString(), motd), 2);
+                    return true;
                 }
                 return false;
             } else if (args.length == 1) {
