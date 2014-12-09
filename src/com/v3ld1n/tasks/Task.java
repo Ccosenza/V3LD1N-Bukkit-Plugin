@@ -29,6 +29,10 @@ public abstract class Task {
         return config;
     }
 
+    public Object getSetting(String settingName) {
+        return config.getConfig().get(name + "." + settingName);
+    }
+
     public String getStringSetting(String settingName) {
         return config.getConfig().getString(name + "." + settingName);
     }
