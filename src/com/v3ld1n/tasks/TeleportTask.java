@@ -50,7 +50,7 @@ public class TeleportTask extends Task {
                 Particle.fromString(particle).display(particleLocation);
             }
             for (String sound : this.getStringListSetting("sounds")) {
-                SoundUtil.playSoundString(sound, location);
+                SoundUtil.playSoundString(sound, teleportTo);
             }
         }
     }
