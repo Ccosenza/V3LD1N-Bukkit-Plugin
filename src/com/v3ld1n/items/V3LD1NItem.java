@@ -76,7 +76,7 @@ public class V3LD1NItem implements Listener {
     }
 
     public Particle getParticleSetting(String settingName) {
-        return Particle.fromString(settingName);
+        return Particle.fromString(Config.ITEMS.getConfig().getString(id + "." + settingName));
     }
 
     @Override
