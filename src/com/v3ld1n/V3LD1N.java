@@ -137,6 +137,7 @@ public class V3LD1N extends JavaPlugin {
         items.add(new RatchetHelmet());
         items.add(new RatchetHoe());
         items.add(new RatchetLeggings());
+        items.add(new RatchetPickaxe());
         items.add(new RatchetShears());
         items.add(new RatchetShovel());
         items.add(new RatchetSword());
