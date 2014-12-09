@@ -49,7 +49,7 @@ public class StringUtil {
                 .replaceAll(ignoreCase + "%uuid%", player.getUniqueId().toString())
                 .replaceAll(ignoreCase + "%displayname%", player.getDisplayName())
                 .replaceAll(ignoreCase + "%world%", player.getWorld().getName())
-                .replaceAll(ignoreCase + "%ip%", player.getAddress().getHostName())
+                .replaceAll(ignoreCase + "%biome%", upperCaseFirst(player.getLocation().getBlock().getBiome().name().toLowerCase().replaceAll("_", " ")))
                 .replaceAll(ignoreCase + "%health%", Double.toString(player.getHealth()))
                 .replaceAll(ignoreCase + "%maxhealth%", Double.toString(player.getMaxHealth()))
                 .replaceAll(ignoreCase + "%hunger%", Integer.toString(player.getFoodLevel()))
@@ -91,5 +91,18 @@ public class StringUtil {
      */
     public static String formatText(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    public static String upperCaseFirst(String string) {
+        String[] words = string.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < words.length; i++) {
+            sb.append(Character.toUpperCase(words[i].charAt(0)));
+            sb.append(words[i].substring(1));
+            if(i < words.length - 1) {
+                sb.append(' ');
+            }
+        }
+        return sb.toString();
     }
 }
