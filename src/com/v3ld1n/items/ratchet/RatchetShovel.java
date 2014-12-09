@@ -11,7 +11,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import com.v3ld1n.Message;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
 
@@ -47,7 +46,7 @@ public class RatchetShovel extends V3LD1NItem {
                         event.setDamage(damage);
                         ChatUtil.sendMessage(p, String.format(Message.RATCHETS_SHOVEL_DAMAGE.toString(), (int) damage), 2);
                     }
-                    Particle.fromString(this.getStringSetting("hit-particle")).display(snowball.getLocation());
+                    this.getParticleSetting("hit-particle").display(snowball.getLocation());
                 }
             }
         }

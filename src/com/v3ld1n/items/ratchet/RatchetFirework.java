@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
-import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.RepeatableRunnable;
 import com.v3ld1n.util.SoundUtil;
@@ -44,12 +43,12 @@ public class RatchetFirework extends V3LD1NItem {
                         public void onRun() {
                             if (!p.isDead()) {
                                 if (p.getLocation().getBlock().getType() == Material.WATER || p.getLocation().getBlock().getType() == Material.STATIONARY_WATER) {
-                                    Particle.fromString(getStringSetting("water-particle")).display(p.getLocation());
+                                    getParticleSetting("water-particle").display(p.getLocation());
                                 } else if (p.getLocation().getBlock().getType() == Material.LAVA || p.getLocation().getBlock().getType() == Material.STATIONARY_LAVA) {
-                                    Particle.fromString(getStringSetting("lava-particle")).display(p.getLocation());
+                                    getParticleSetting("lava-particle").display(p.getLocation());
                                 }
                                 else {
-                                    Particle.fromString(getStringSetting("particle")).display(p.getLocation());
+                                    getParticleSetting("particle").display(p.getLocation());
                                 }
                             }
                         }

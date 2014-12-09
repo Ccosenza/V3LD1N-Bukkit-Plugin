@@ -17,7 +17,6 @@ import org.bukkit.util.Vector;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
-import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.RepeatableRunnable;
 import com.v3ld1n.util.WorldUtil;
 
@@ -59,7 +58,7 @@ public class RatchetFishingRod extends V3LD1NItem {
                                         }
                                         EntityUtil.pushToward(p, eLoc, speedX, speedY, speedZ);
                                         p.setFallDistance(0);
-                                        Particle.fromString(getStringSetting("particle")).display(p.getLocation());
+                                        getParticleSetting("particle").display(p.getLocation());
                                     }
                                 };
                                 grappleTask.run();

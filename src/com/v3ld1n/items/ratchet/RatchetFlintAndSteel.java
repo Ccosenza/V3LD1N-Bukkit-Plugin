@@ -32,13 +32,13 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
                 final Projectile pr = new ProjectileBuilder()
                     .withType(Fireball.class)
                     .withLaunchSound(this.getStringSetting("sound"))
-                    .withLaunchParticle(this.getStringSetting("launch-particle"))
+                    .withLaunchParticle(this.getParticleSetting("launch-particle"))
                     .launch(p, 0.8);
                 RepeatableRunnable trailTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, this.getIntSetting("trail-ticks"), this.getIntSetting("trail-times")) {
                     @Override
                     public void onRun() {
                         if (pr != null && !pr.isDead()) {
-                            Particle trail = Particle.fromString(getStringSetting("trail-particle"));
+                            Particle trail = getParticleSetting("trail-particle");
                             trail.setSpeed(trail.getSpeed() - (random.nextFloat() / 10));
                             trail.display(pr.getLocation());
                         }

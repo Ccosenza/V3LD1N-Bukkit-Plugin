@@ -10,6 +10,7 @@ import org.bukkit.util.Vector;
 
 import com.v3ld1n.Config;
 import com.v3ld1n.util.ConfigUtil;
+import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NItem implements Listener {
@@ -72,6 +73,10 @@ public class V3LD1NItem implements Listener {
 
     public Vector getVectorSetting(String settingName) {
         return Config.ITEMS.getConfig().getVector(id + "." + settingName);
+    }
+
+    public Particle getParticleSetting(String settingName) {
+        return Particle.fromString(settingName);
     }
 
     @Override

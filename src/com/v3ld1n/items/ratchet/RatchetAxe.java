@@ -32,8 +32,8 @@ public class RatchetAxe extends V3LD1NItem {
                     final Player p = e.getKiller();
                     if (this.equalsItem(p.getItemInHand())) {
                         EntityUtil.healEntity(p, p.getMaxHealth());
-                        Particle.fromString(this.getStringSetting("particle1")).display(e.getEyeLocation());
-                        final Particle particle = Particle.fromString(this.getStringSetting("particle2"));
+                        this.getParticleSetting("particle1").display(e.getEyeLocation());
+                        final Particle particle = this.getParticleSetting("particle2");
                         final int effectDuration = this.getIntSetting("effect-duration");
                         final int amplifierLimit = this.getIntSetting("effect-level-limit") - 1;
                         for (final PotionEffect pe : p.getActivePotionEffects()) {

@@ -21,7 +21,7 @@ public class RatchetChestplate extends V3LD1NItem {
             loc.setY(loc.getY() - 0.3);
             if (this.equalsItem(p.getInventory().getChestplate())) {
                 event.setCancelled(true);
-                Particle particle = Particle.fromString(this.getStringSetting("particle"));
+                Particle particle = this.getParticleSetting("particle");
                 particle.setSpeed(particle.getSpeed() + random.nextFloat());
                 particle.display(loc);
             }

@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.v3ld1n.items.V3LD1NItem;
-import com.v3ld1n.util.Particle;
 
 public class RatchetBoots extends V3LD1NItem {
     public RatchetBoots() {
@@ -24,12 +23,12 @@ public class RatchetBoots extends V3LD1NItem {
                 if (event.getCause() == DamageCause.FALL) {
                     double fallDamage = event.getDamage();
                     event.setCancelled(true);
-                    Particle.fromString(this.getStringSetting("particle")).display(p.getLocation());
+                    this.getParticleSetting("particle").display(p.getLocation());
                     for (Entity entity : p.getNearbyEntities(1.5, 1.5, 1.5)) {
                         if (entity instanceof Monster) {
                             Monster monster = (Monster) entity;
                             monster.damage(fallDamage * this.getDoubleSetting("damage-multiplier"));
-                            Particle.fromString(this.getStringSetting("damage-particle")).display(monster.getEyeLocation());
+                            this.getParticleSetting("damage-particle").display(monster.getEyeLocation());
                         }
                     }
                 }

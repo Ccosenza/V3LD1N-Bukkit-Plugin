@@ -27,7 +27,6 @@ import com.v3ld1n.PlayerData;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
-import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.RepeatableRunnable;
@@ -89,7 +88,7 @@ public class RatchetBow extends V3LD1NItem {
                 new ProjectileBuilder()
                     .withType(Fireball.class)
                     .withLaunchSound(this.getStringSetting("fireball-sound"))
-                    .withLaunchParticle(this.getStringSetting("launch-particle"))
+                    .withLaunchParticle(this.getParticleSetting("launch-particle"))
                     .launch(p, 1.5);
             }
         }
@@ -153,7 +152,7 @@ public class RatchetBow extends V3LD1NItem {
                                 Player p = (Player) e;
                                 EntityUtil.projectileJump(p, fireball, playerSpeed, playerSpeed, playerSpeed);
                                 if (p.getName().equals(shooter.getName())) {
-                                    Particle.fromString(this.getStringSetting("jump-particle")).display(p.getLocation());
+                                    this.getParticleSetting("jump-particle").display(p.getLocation());
                                 }
                             } else {
                                 EntityUtil.projectileJump((LivingEntity) e, fireball, mobSpeed, mobSpeed, mobSpeed);
@@ -167,7 +166,7 @@ public class RatchetBow extends V3LD1NItem {
             final Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
                 final Location location = pr.getLocation();
-                Particle.fromString(this.getStringSetting("particle")).display(pr.getLocation());
+                this.getParticleSetting("particle").display(pr.getLocation());
                 Location hitLocMin = this.getLocationSetting("teleport-hit-location-min");
                 Location hitLocMax = this.getLocationSetting("teleport-hit-location-max");
                 if (location.getWorld().getName().equals(hitLocMin.getWorld().getName())
@@ -181,7 +180,7 @@ public class RatchetBow extends V3LD1NItem {
                     RepeatableRunnable teleportTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 6, 4, 2) {
                         @Override
                         public void onRun() {
-                            Particle.fromString(getStringSetting("teleport-hit-particle")).display(location);
+                            getParticleSetting("teleport-hit-particle").display(location);
                             location.getWorld().strikeLightning(location);
                         }
                     };

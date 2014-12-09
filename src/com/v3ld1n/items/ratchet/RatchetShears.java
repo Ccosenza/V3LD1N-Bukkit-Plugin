@@ -12,7 +12,6 @@ import org.bukkit.material.Wool;
 
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
-import com.v3ld1n.util.Particle;
 
 public class RatchetShears extends V3LD1NItem {
     public RatchetShears() {
@@ -29,7 +28,7 @@ public class RatchetShears extends V3LD1NItem {
                 Wool wool = new Wool(sheepcolor);
                 ItemStack drops = wool.toItemStack(this.getIntSetting("drop-count"));
                 event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), drops);
-                Particle.fromString(this.getStringSetting("particle")).display(sheep.getEyeLocation());
+                this.getParticleSetting("particle").display(sheep.getEyeLocation());
                 Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
                     @Override
                     public void run() {
