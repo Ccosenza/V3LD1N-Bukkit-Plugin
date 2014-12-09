@@ -24,7 +24,7 @@ public class RatchetHoe extends V3LD1NItem {
     public void use(Player p, Block block) {
         PlayerAnimation.SWING_ARM.play(p, 50);
         block.setType(Material.SOIL);
-        Location loc = new Location(p.getWorld(), block.getLocation().getX() + 0.5, block.getLocation().getY() + 1, block.getLocation().getZ() + 0.5);
+        Location loc = new Location(block.getWorld(), block.getLocation().getX() + 0.5, block.getLocation().getY() + 1, block.getLocation().getZ() + 0.5);
         this.getParticleSetting("particle").display(loc);
         SoundUtil.playSoundString(this.getStringSetting("sound"), loc);
     }
