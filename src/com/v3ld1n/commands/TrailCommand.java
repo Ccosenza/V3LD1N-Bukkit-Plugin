@@ -2,7 +2,6 @@ package com.v3ld1n.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,7 +10,14 @@ import com.v3ld1n.PlayerData;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerUtil;
 
-public class TrailCommand implements CommandExecutor {
+public class TrailCommand extends V3LD1NCommand {
+    public TrailCommand() {
+        this.addUsage("<particle>", "Set your trail");
+        this.addUsage("<particle> <player>", "Set a player's trail");
+        this.addUsage("remove", "Remove your trail");
+        this.addUsage("remove <player>", "Remove a player's trail");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.trail")) {
@@ -38,7 +44,8 @@ public class TrailCommand implements CommandExecutor {
                         sender.sendMessage(Message.TRAIL_NO_PERMISSION_OTHERS.toString());
                         return true;
                     }
-                    return false;
+                    this.sendUsage(sender, label, command.getDescription());
+                    return true;
                 }
             }
             if (args.length == 1) {
@@ -63,9 +70,10 @@ public class TrailCommand implements CommandExecutor {
                 sender.sendMessage(Message.TRAIL_NO_PERMISSION_OTHERS.toString());
                 return true;
             }
-            return false;
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
-        return false;
+        return true;
     }
 }

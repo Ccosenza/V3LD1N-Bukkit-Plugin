@@ -1,7 +1,6 @@
 package com.v3ld1n.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -10,9 +9,14 @@ import com.v3ld1n.Message;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.PlayerUtil;
 
-public class PushCommand implements CommandExecutor {
+public class PushCommand extends V3LD1NCommand {
     final double SPEED_DEFAULT = 1.0;
     final double SPEED_LIMIT = 8.0;
+
+    public PushCommand() {
+        this.addUsage("<player> <speedX> <speedY> <speedZ>", "Push a player in a direction");
+        this.addUsage("<player> <toPlayer> [speed]", "Push a player toward another player");
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -42,6 +46,7 @@ public class PushCommand implements CommandExecutor {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
                     p.setVelocity(velocity);
                     sender.sendMessage(String.format(Message.PUSH_PUSH.toString(), p.getName(), speedX, speedY, speedZ));
+                    return true;
                 }
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                 return true;
@@ -55,14 +60,15 @@ public class PushCommand implements CommandExecutor {
                     } catch (Exception e) {
                         sender.sendMessage(String.format(Message.PUSH_INVALID_SPEED.toString(), SPEED_DEFAULT));
                     }
-                    EntityUtil.pushToward(player, toPlayer.getLocation(), speed, speed, speed);
+                    EntityUtil.pushToward(player, player.getLocation(), toPlayer.getLocation(), speed, speed, speed);
                     sender.sendMessage(String.format(Message.PUSH_PUSH_TO_PLAYER.toString(), player.getName(), speed));
                     return true;
                 }
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                 return true;
             }
-            return false;
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
         return true;

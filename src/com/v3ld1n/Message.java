@@ -39,6 +39,8 @@ public enum Message {
     COMMAND_NOT_PLAYER_ENTITY("commands.player-entity"),
     COMMAND_NO_PERMISSION("commands.permission"),
     COMMAND_INVALID_PLAYER("commands.invalid-player"),
+    COMMAND_USAGE_TITLE("commands.usage-title"),
+    COMMAND_USAGE_DESCRIPTION("commands.usage-description"),
 
     AUTORESOURCEPACK_ENABLE("commands.autoresourcepack.enable"),
     AUTORESOURCEPACK_DISABLE("commands.autoresourcepack.disable"),

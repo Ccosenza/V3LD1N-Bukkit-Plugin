@@ -1,13 +1,16 @@
 package com.v3ld1n.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
 
 import com.v3ld1n.Message;
 
-public class SetHealthCommand implements CommandExecutor {
+public class SetHealthCommand extends V3LD1NCommand {
+    public SetHealthCommand() {
+        this.addUsage("<health>", "Set your health");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof LivingEntity) {
@@ -17,7 +20,8 @@ public class SetHealthCommand implements CommandExecutor {
                     try {
                         arg = Double.parseDouble(args[0]);
                     } catch (IllegalArgumentException e) {
-                        return false;
+                        this.sendUsage(sender, label, command.getDescription());
+                        return true;
                     }
                     if (arg >= 0 && arg <= ((LivingEntity) sender).getMaxHealth()) {
                         ((LivingEntity) sender).setHealth(arg);
@@ -27,7 +31,8 @@ public class SetHealthCommand implements CommandExecutor {
                     sender.sendMessage(Message.SETHEALTH_LIMIT.toString());
                     return true;
                 }
-                return false;
+                this.sendUsage(sender, label, command.getDescription());
+                return true;
             }
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
             return true;

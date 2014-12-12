@@ -3,7 +3,6 @@ package com.v3ld1n.commands;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,7 +11,13 @@ import com.v3ld1n.util.BlockUtil;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.StringUtil;
 
-public class EditSignCommand implements CommandExecutor {
+public class EditSignCommand extends V3LD1NCommand {
+    public EditSignCommand() {
+        this.addUsage("set <line> <text ...>", "Set the text");
+        this.addUsage("add <line> <text ...>", "Add text");
+        this.addUsage("remove <line> <text ...>", "Remove text");
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -22,7 +27,7 @@ public class EditSignCommand implements CommandExecutor {
                 if (args.length >= 3) {
                     int line;
                     try {
-                        line = Integer.parseInt(args[0]);
+                        line = Integer.parseInt(args[1]);
                     } catch (Exception e) {
                         p.sendMessage(Message.EDITSIGN_INVALID_LINE.toString());
                         return true;
@@ -38,26 +43,29 @@ public class EditSignCommand implements CommandExecutor {
                             sb.append(args[i]).append(" ");
                         }
                         String text = sb.toString();
-                        switch (args[1].toLowerCase()) {
-                            case "set":
-                                BlockUtil.editSign(target, line, StringUtil.formatText(text));
-                                ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_SET.toString(), line, text), 2);
-                                return true;
-                            case "add":
-                                BlockUtil.addToSign(target, line, StringUtil.formatText(text));
-                                p.sendMessage(Message.EDITSIGN_ADD.toString());
-                                return true;
-                            case "remove":
-                                BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
-                                p.sendMessage(Message.EDITSIGN_REMOVE.toString());
-                                return true;
-                            default:
-                            }
+                        switch (args[0].toLowerCase()) {
+                        case "set":
+                            BlockUtil.editSign(target, line, StringUtil.formatText(text));
+                            ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_SET.toString(), line, text), 2);
+                            return true;
+                        case "add":
+                            BlockUtil.addToSign(target, line, StringUtil.formatText(text));
+                            p.sendMessage(Message.EDITSIGN_ADD.toString());
+                            return true;
+                        case "remove":
+                            BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
+                            p.sendMessage(Message.EDITSIGN_REMOVE.toString());
+                            return true;
+                        default:
+                            this.sendUsage(sender, label, command.getDescription());
+                            return true;
+                        }
                     }
                     p.sendMessage(Message.EDITSIGN_INVALID_BLOCK.toString());
                     return true;
                 }
-                return false;
+                this.sendUsage(sender, label, command.getDescription());
+                return true;
             }
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
             return true;

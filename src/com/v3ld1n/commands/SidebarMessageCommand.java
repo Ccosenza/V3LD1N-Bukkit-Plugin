@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,8 +12,12 @@ import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.SidebarMessage;
 import com.v3ld1n.util.StringUtil;
 
-public class SidebarMessageCommand implements CommandExecutor {
+public class SidebarMessageCommand extends V3LD1NCommand {
     final int DEFAULT_TIME = 100;
+
+    public SidebarMessageCommand() {
+        this.addUsage("<time> <title> <line1> [more lines] ...", "Broadcast a message to all players");
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -45,7 +48,8 @@ public class SidebarMessageCommand implements CommandExecutor {
                 ChatUtil.sendMessage(sender, message, 2);
                 return true;
             }
-            return false;
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
         return true;

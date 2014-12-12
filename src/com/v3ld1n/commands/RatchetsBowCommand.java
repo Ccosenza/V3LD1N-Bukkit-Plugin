@@ -2,7 +2,6 @@ package com.v3ld1n.commands;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,7 +10,11 @@ import com.v3ld1n.Message;
 import com.v3ld1n.PlayerData;
 import com.v3ld1n.util.Particle;
 
-public class RatchetsBowCommand implements CommandExecutor {
+public class RatchetsBowCommand extends V3LD1NCommand {
+    public RatchetsBowCommand() {
+        this.addUsage("<projectile>", "Set your Ratchet's Bow projectile");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -70,7 +73,8 @@ public class RatchetsBowCommand implements CommandExecutor {
                         return true;
                 }
             }
-            return false;
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
         return true;

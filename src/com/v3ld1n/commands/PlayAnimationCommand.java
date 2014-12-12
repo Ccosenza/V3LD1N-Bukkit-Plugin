@@ -1,7 +1,6 @@
 package com.v3ld1n.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,7 +9,12 @@ import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.PlayerUtil;
 
-public class PlayAnimationCommand implements CommandExecutor {
+public class PlayAnimationCommand extends V3LD1NCommand {
+    public PlayAnimationCommand() {
+        this.addUsage("<animation>", "Play an animation on yourself");
+        this.addUsage("<animation> <player>", "Play an animation on a player");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.playanimation")) {
@@ -47,13 +51,14 @@ public class PlayAnimationCommand implements CommandExecutor {
                 sender.sendMessage(Message.PLAYANIMATION_NO_PERMISSION_OTHERS.toString());
                 return true;
             }
+            this.sendUsage(sender, label, command.getDescription());
             StringBuilder sb = new StringBuilder();
             for (PlayerAnimation animation : PlayerAnimation.values()) {
                 sb.append(String.format(Message.PLAYANIMATION_LIST_ITEM.toString(), animation.toString()));
             }
             String message = Message.PLAYANIMATION_LIST.toString() + sb.toString().substring(0, sb.toString().length() - 2);
             sender.sendMessage(message);
-            return false;
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
         return true;

@@ -2,7 +2,6 @@ package com.v3ld1n.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,7 +10,7 @@ import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.Particle;
 
-public class WarpCommand implements CommandExecutor {
+public class WarpCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {

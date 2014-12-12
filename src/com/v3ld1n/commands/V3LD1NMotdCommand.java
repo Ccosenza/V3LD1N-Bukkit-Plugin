@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.v3ld1n.ConfigSetting;
@@ -12,7 +11,13 @@ import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.StringUtil;
 
-public class V3LD1NMotdCommand implements CommandExecutor {
+public class V3LD1NMotdCommand extends V3LD1NCommand {
+    public V3LD1NMotdCommand() {
+        this.addUsage("add <text ...>", "Add an MOTD to the list");
+        this.addUsage("remove <text ...>", "Remove an MOTD from the list");
+        this.addUsage("list", "Send the MOTD list");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.v3ld1nmotd")) {
@@ -45,7 +50,8 @@ public class V3LD1NMotdCommand implements CommandExecutor {
                     ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_REMOVE.toString(), motd), 2);
                     return true;
                 }
-                return false;
+                this.sendUsage(sender, label, command.getDescription());
+                return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
                     sender.sendMessage(Message.V3LD1NMOTD_LIST.toString());
@@ -55,7 +61,8 @@ public class V3LD1NMotdCommand implements CommandExecutor {
                     return true;
                 }
             }
-            return false;
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
         return true;

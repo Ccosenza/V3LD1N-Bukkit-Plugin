@@ -1,14 +1,18 @@
 package com.v3ld1n.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.PlayerUtil;
 
-public class SetHotbarSlotCommand implements CommandExecutor {
+public class SetHotbarSlotCommand extends V3LD1NCommand {
+    public SetHotbarSlotCommand() {
+        this.addUsage("<slot>", "Set your selected hotbar slot");
+        this.addUsage("<slot> <player>", "Set a player's selected hotbar slot");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.sethotbarslot")) {
@@ -29,7 +33,8 @@ public class SetHotbarSlotCommand implements CommandExecutor {
                         return true;
                     }
                 } else {
-                    return false;
+                    this.sendUsage(sender, label, command.getDescription());
+                    return true;
                 }
                 try {
                     p.getInventory().setHeldItemSlot(Integer.parseInt(args[0]) - 1);
@@ -43,7 +48,8 @@ public class SetHotbarSlotCommand implements CommandExecutor {
                 }
                 return true;
             }
-            return false;
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
         return true;

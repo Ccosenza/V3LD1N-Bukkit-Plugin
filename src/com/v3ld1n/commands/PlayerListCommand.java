@@ -1,26 +1,30 @@
 package com.v3ld1n.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigUtil;
 
-public class PlayerListCommand implements CommandExecutor {
+public class PlayerListCommand extends V3LD1NCommand {
+    public PlayerListCommand() {
+        this.addUsage("set <header> <footer>", "Set the header and footer");
+        this.addUsage("reset", "Reset the header and footer");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.playerlist")) {
+        if (sender.isOp()) {
             if (args.length == 3) {
-                String header = args[1].replaceAll("__", " ");
-                String footer = args[2].replaceAll("__", " ");
                 if (args[0].equalsIgnoreCase("set")) {
+                    String header = args[1].replaceAll("__", " ");
+                    String footer = args[2].replaceAll("__", " ");
                     ConfigUtil.setPlayerListHeaderFooter(header, footer);
+                    ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET.toString(), header, footer), 2);
                 } else {
-                    return false;
+                    this.sendUsage(sender, label, command.getDescription());
                 }
-                ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET.toString(), header, footer), 2);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reset")) {
@@ -29,7 +33,8 @@ public class PlayerListCommand implements CommandExecutor {
                     return true;
                 }
             }
-            return false;
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
         return true;

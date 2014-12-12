@@ -53,7 +53,7 @@ commands:
   editsign:
     description: Changes the text on a sign.
     aliases: [signedit, changesign]
-    usage: /<command> <line> <set|add|remove> <text ...>
+    usage: /<command> <set|add|remove> <line> <text ...>
   setfulltime:
     description: Sets the full time of the world you are in.
     aliases: [setftime, sfulltime]

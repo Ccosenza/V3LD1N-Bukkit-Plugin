@@ -1,12 +1,8 @@
 package com.v3ld1n.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,42 +13,26 @@ import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigAccessor;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.PlayerUtil;
-import com.v3ld1n.util.StringUtil;
 
-public class V3LD1NPluginCommand implements CommandExecutor {
+public class V3LD1NPluginCommand extends V3LD1NCommand {
+    String usageSetResourcePack = "setresourcepack <url>";
+    String usageToggleWarp = "togglewarp <warp|all>";
+
+    public V3LD1NPluginCommand() {
+        this.addUsage("debug", "Toggle debug mode");
+        this.addUsage("reload", "Reload the plugin config");
+        this.addUsage("resourcepackurl", "Send the URL to the resource pack");
+        this.addUsage(usageSetResourcePack, "Set the URL to the resource pack");
+        this.addUsage(usageToggleWarp, "Toggle a warp");
+        this.addUsage("version", "Send the plugin version");
+        this.addUsage("warps", "Send a list of warps");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.isOp()) {
             if (args.length == 0) {
-                List<String> commands = new ArrayList<>();
-                commands.add("debug");
-                commands.add("reload");
-                commands.add("resourcepackurl");
-                commands.add("setresourcepack");
-                commands.add("togglewarp");
-                commands.add("version");
-                commands.add("warps");
-                sender.sendMessage(Message.V3LD1NPLUGIN_AVAILABLE.toString());
-                if (!(sender instanceof Player)) {
-                    for (String commandString : commands) {
-                        sender.sendMessage(StringUtil.formatText(String.format(Message.V3LD1NPLUGIN_COMMAND_NOT_PLAYER.toString(), "/" + label + " " + commandString)));
-                    }
-                } else {
-                    for (String commandString : commands) {
-                        ChatUtil.sendJsonMessage(sender,
-                        "{text:\"" + Message.V3LD1NPLUGIN_DASH + "\","
-                        + "extra:[{"
-                        + "text:\"/" + label + " " + commandString + "\","
-                        + "color:gold,"
-                        + "hoverEvent:{"
-                        + "action:\"show_text\","
-                        + "value:\"" + Message.COMMAND_HOVER + "\"},"
-                        + "clickEvent:{"
-                        + "action:\"suggest_command\","
-                        + "value:\"/" + label + " " + commandString + "\"}}]}"
-                        , 0);
-                    }
-                }
+                this.sendUsage(sender, label, command.getDescription());
                 return true;
             }
             if (args[0].equalsIgnoreCase("debug") && args.length == 1) {
@@ -89,28 +69,36 @@ public class V3LD1NPluginCommand implements CommandExecutor {
                 }
                 sender.sendMessage(ConfigSetting.RESOURCE_PACK.getString());
                 return true;
-            } else if (args[0].equalsIgnoreCase("setresourcepack") && args.length == 2) {
-                ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_SETRESOURCEPACK.toString(), args[1]), 2);
-                ConfigSetting.RESOURCE_PACK.setValue(args[1]);
+            } else if (args[0].equalsIgnoreCase("setresourcepack")) {
+                if (args.length == 2) {
+                    ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_SETRESOURCEPACK.toString(), args[1]), 2);
+                    ConfigSetting.RESOURCE_PACK.setValue(args[1]);
+                } else {
+                    this.sendArgumentUsage(sender, label, usageSetResourcePack);
+                }
                 return true;
-            } else if (args[0].equalsIgnoreCase("togglewarp") && args.length == 2) {
-                if (args[1].equalsIgnoreCase("all")) {
-                    for (String warp : ConfigUtil.getWarps()) {
-                        ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_TOGGLE_ALL_WARPS.toString(), warp), 2);
-                        ConfigUtil.toggleWarp(warp);
+            } else if (args[0].equalsIgnoreCase("togglewarp")) {
+                if (args.length == 2) {
+                    if (args[1].equalsIgnoreCase("all")) {
+                        for (String warp : ConfigUtil.getWarps()) {
+                            ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_TOGGLE_ALL_WARPS.toString(), warp), 2);
+                            ConfigUtil.toggleWarp(warp);
+                        }
+                        return true;
                     }
+                    if (ConfigUtil.isWarpEnabled(args[1])) {
+                        ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_DISABLE_WARP.toString(), args[1]), 2);
+                    } else {
+                        if (ConfigUtil.getWarps().contains(args[1])) {
+                            ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_ENABLE_WARP.toString(), args[1]), 2);
+                        } else {
+                            ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_INVALID_WARP.toString(), args[1]), 2);
+                        }
+                    }
+                    ConfigUtil.toggleWarp(args[1]);
                     return true;
                 }
-                if (ConfigUtil.isWarpEnabled(args[1])) {
-                    ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_DISABLE_WARP.toString(), args[1]), 2);
-                } else {
-                    if (ConfigUtil.getWarps().contains(args[1])) {
-                        ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_ENABLE_WARP.toString(), args[1]), 2);
-                    } else {
-                        ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_INVALID_WARP.toString(), args[1]), 2);
-                    }
-                }
-                ConfigUtil.toggleWarp(args[1]);
+                this.sendArgumentUsage(sender, label, usageToggleWarp);
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);

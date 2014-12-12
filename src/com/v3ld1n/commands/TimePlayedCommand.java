@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -17,8 +16,13 @@ import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.RepeatableRunnable;
 
-public class TimePlayedCommand implements CommandExecutor {
+public class TimePlayedCommand extends V3LD1NCommand {
     final String PREFIX = V3LD1N.getPlugin().getConfig().getString("sidebar-prefix");
+
+    public TimePlayedCommand() {
+        this.addUsage("", "View your time played");
+        this.addUsage("<player>", "View a player's time played");
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -35,7 +39,8 @@ public class TimePlayedCommand implements CommandExecutor {
                     return true;
                 }
             } else {
-                return false;
+                this.sendUsage(sender, label, command.getDescription());
+                return true;
             }
             ScoreboardManager manager = Bukkit.getScoreboardManager();
             final Scoreboard board = manager.getNewScoreboard();

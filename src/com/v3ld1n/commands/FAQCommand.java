@@ -1,7 +1,6 @@
 package com.v3ld1n.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,7 +9,12 @@ import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 
-public class FAQCommand implements CommandExecutor {
+public class FAQCommand extends V3LD1NCommand {
+    public FAQCommand() {
+        this.addUsage("", "Send a list of questions");
+        this.addUsage("<question number>", "Send the answer to the question");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -74,6 +78,8 @@ public class FAQCommand implements CommandExecutor {
                 p.sendMessage(Message.FAQ_INVALID_QUESTION.toString());
                 return true;
             }
+            this.sendUsage(sender, label, command.getDescription());
+            return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
         return true;
