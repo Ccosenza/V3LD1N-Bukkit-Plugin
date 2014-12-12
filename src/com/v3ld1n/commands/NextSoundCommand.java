@@ -36,7 +36,7 @@ public class NextSoundCommand implements CommandExecutor {
                             }
                         }, 1L);
                     } else {
-                        sender.sendMessage(String.format(Message.NEXTSOUND_NO_SOUND_PLAYERS.toString(), args[0]));
+                        sender.sendMessage(String.format(Message.NEXTSOUND_NO_SOUND_TASKS.toString(), args[0]));
                         return true;
                     }
                 }
