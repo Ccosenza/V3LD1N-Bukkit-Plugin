@@ -38,8 +38,6 @@ public enum Message {
     COMMAND_NOT_PLAYER("commands.player"),
     COMMAND_NOT_PLAYER_ENTITY("commands.player-entity"),
     COMMAND_NO_PERMISSION("commands.permission"),
-    COMMAND_INVALID_ARGUMENT("commands.invalid-argument"),
-    COMMAND_INVALID_ARGUMENTS("commands.invalid-arguments"),
     COMMAND_INVALID_PLAYER("commands.invalid-player"),
 
     AUTORESOURCEPACK_ENABLE("commands.autoresourcepack.enable"),
@@ -68,13 +66,6 @@ public enum Message {
 
     NEXTSOUND_NOW_PLAYING("commands.nextsound.now-playing"),
     NEXTSOUND_NO_SOUND_PLAYERS("commands.nextsound.no-sound-players"),
-
-    PARTICLE_RELATIVE("commands.particle.relative"),
-    PARTICLE_TARGET("commands.particle.target"),
-    PARTICLE_NO_WORLD("commands.particle.no-world"),
-    PARTICLE_INVALID_WORLD("commands.particle.invalid-world"),
-    PARTICLE_INVALID("commands.particle.invalid-particle"),
-    PARTICLE_SPAWN("commands.particle.spawn"),
 
     PLAYANIMATION_PLAY("commands.playanimation.play"),
     PLAYANIMATION_LIST("commands.playanimation.list"),

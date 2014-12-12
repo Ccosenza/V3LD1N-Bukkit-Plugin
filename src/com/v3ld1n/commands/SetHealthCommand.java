@@ -17,8 +17,7 @@ public class SetHealthCommand implements CommandExecutor {
                     try {
                         arg = Double.parseDouble(args[0]);
                     } catch (IllegalArgumentException e) {
-                        sender.sendMessage(Message.COMMAND_INVALID_ARGUMENT.toString());
-                        return true;
+                        return false;
                     }
                     if (arg >= 0 && arg <= ((LivingEntity) sender).getMaxHealth()) {
                         ((LivingEntity) sender).setHealth(arg);
