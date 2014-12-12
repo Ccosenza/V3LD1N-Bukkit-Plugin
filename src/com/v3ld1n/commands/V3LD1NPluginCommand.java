@@ -19,7 +19,7 @@ import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
-public class V3LD1NCommand implements CommandExecutor {
+public class V3LD1NPluginCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.isOp()) {

@@ -55,7 +55,7 @@ public class V3LD1N extends JavaPlugin {
         loadTeleportTasks();
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
-        getCommand("v3ld1nplugin").setExecutor(new V3LD1NCommand());
+        getCommand("v3ld1nplugin").setExecutor(new V3LD1NPluginCommand());
         getCommand("faq").setExecutor(new FAQCommand());
         getCommand("trail").setExecutor(new TrailCommand());
         getCommand("sethealth").setExecutor(new SetHealthCommand());
