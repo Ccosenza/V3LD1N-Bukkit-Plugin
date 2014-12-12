@@ -125,7 +125,6 @@ public enum Message {
     V3LD1NPLUGIN_TOGGLE_ALL_WARPS("commands.v3ld1nplugin.toggle-all-warps"),
     V3LD1NPLUGIN_INVALID_WARP("commands.v3ld1nplugin.invalid-warp"),
     V3LD1NPLUGIN_RELOAD("commands.v3ld1nplugin.reload"),
-    V3LD1NPLUGIN_SETBLOGPOST("commands.v3ld1nplugin.setblogpost"),
     V3LD1NPLUGIN_SETRESOURCEPACK("commands.v3ld1nplugin.setresourcepack"),
     V3LD1NPLUGIN_VERSION("commands.v3ld1nplugin.version"),
     V3LD1NPLUGIN_WARPS("commands.v3ld1nplugin.warps"),
