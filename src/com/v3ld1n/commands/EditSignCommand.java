@@ -43,6 +43,7 @@ public class EditSignCommand extends V3LD1NCommand {
                             sb.append(args[i]).append(" ");
                         }
                         String text = sb.toString();
+                        text = text.substring(0, text.length() - 1);
                         switch (args[0].toLowerCase()) {
                         case "set":
                             BlockUtil.editSign(target, line, StringUtil.formatText(text));
@@ -50,11 +51,11 @@ public class EditSignCommand extends V3LD1NCommand {
                             return true;
                         case "add":
                             BlockUtil.addToSign(target, line, StringUtil.formatText(text));
-                            p.sendMessage(Message.EDITSIGN_ADD.toString());
+                            ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_ADD.toString(), text, line), 2);
                             return true;
                         case "remove":
                             BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
-                            p.sendMessage(Message.EDITSIGN_REMOVE.toString());
+                            ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_REMOVE.toString(), text, line), 2);
                             return true;
                         default:
                             this.sendUsage(sender, label, command);
