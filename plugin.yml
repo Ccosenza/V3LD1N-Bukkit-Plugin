@@ -52,7 +52,7 @@ commands:
     usage: /<command> [sound task]
   editsign:
     description: Changes the text on a sign.
-    aliases: [signedit, changesign]
+    aliases: [signedit, changesign, es, se]
     usage: /<command> <set|add|remove> <line> <text ...>
   setfulltime:
     description: Sets the full time of the world you are in.
