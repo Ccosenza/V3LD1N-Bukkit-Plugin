@@ -22,7 +22,7 @@ public class SetMaxHealthCommand extends V3LD1NCommand {
                     try {
                         arg = Double.parseDouble(args[0]);
                     } catch (IllegalArgumentException e) {
-                        this.sendUsage(sender, label, command.getDescription());
+                        this.sendUsage(sender, label, command);
                         return true;
                     }
                     if (arg > 0 && arg <= LIMIT) {
@@ -33,7 +33,7 @@ public class SetMaxHealthCommand extends V3LD1NCommand {
                     sender.sendMessage(String.format(Message.SETMAXHEALTH_LIMIT.toString(), LIMIT));
                     return true;
                 }
-                this.sendUsage(sender, label, command.getDescription());
+                this.sendUsage(sender, label, command);
                 return true;
             }
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

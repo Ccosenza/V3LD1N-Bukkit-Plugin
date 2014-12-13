@@ -38,7 +38,7 @@ public class MotdCommand extends V3LD1NCommand {
             sender.sendMessage(Message.MOTD_NO_PERMISSION_OTHERS.toString());
             return true;
         }
-        this.sendUsage(sender, label, command.getDescription());
+        this.sendUsage(sender, label, command);
         return true;
     }
 }

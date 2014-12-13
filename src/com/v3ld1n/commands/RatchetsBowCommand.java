@@ -73,7 +73,7 @@ public class RatchetsBowCommand extends V3LD1NCommand {
                         return true;
                 }
             }
-            this.sendUsage(sender, label, command.getDescription());
+            this.sendUsage(sender, label, command);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());

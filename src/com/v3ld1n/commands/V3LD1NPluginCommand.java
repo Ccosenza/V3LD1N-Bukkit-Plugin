@@ -32,7 +32,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.isOp()) {
             if (args.length == 0) {
-                this.sendUsage(sender, label, command.getDescription());
+                this.sendUsage(sender, label, command);
                 return true;
             }
             if (args[0].equalsIgnoreCase("debug") && args.length == 1) {
@@ -74,7 +74,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                     ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_SETRESOURCEPACK.toString(), args[1]), 2);
                     ConfigSetting.RESOURCE_PACK.setValue(args[1]);
                 } else {
-                    this.sendArgumentUsage(sender, label, usageSetResourcePack);
+                    this.sendArgumentUsage(sender, label, command, usageSetResourcePack);
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("togglewarp")) {
@@ -98,7 +98,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                     ConfigUtil.toggleWarp(args[1]);
                     return true;
                 }
-                this.sendArgumentUsage(sender, label, usageToggleWarp);
+                this.sendArgumentUsage(sender, label, command, usageToggleWarp);
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);

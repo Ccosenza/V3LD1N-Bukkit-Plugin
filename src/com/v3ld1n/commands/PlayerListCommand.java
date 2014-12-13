@@ -23,7 +23,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                     ConfigUtil.setPlayerListHeaderFooter(header, footer);
                     ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET.toString(), header, footer), 2);
                 } else {
-                    this.sendUsage(sender, label, command.getDescription());
+                    this.sendUsage(sender, label, command);
                 }
                 return true;
             } else if (args.length == 1) {
@@ -33,7 +33,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                     return true;
                 }
             }
-            this.sendUsage(sender, label, command.getDescription());
+            this.sendUsage(sender, label, command);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

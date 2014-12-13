@@ -48,7 +48,7 @@ public class SidebarMessageCommand extends V3LD1NCommand {
                 ChatUtil.sendMessage(sender, message, 2);
                 return true;
             }
-            this.sendUsage(sender, label, command.getDescription());
+            this.sendUsage(sender, label, command);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

@@ -22,7 +22,7 @@ public class SetFullTimeCommand extends V3LD1NCommand {
                     sender.sendMessage(String.format(Message.SETFULLTIME_SET.toString(), time, Long.parseLong(args[0])));
                     return true;
                 }
-                this.sendUsage(sender, label, command.getDescription());
+                this.sendUsage(sender, label, command);
                 return true;
             }
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

@@ -67,7 +67,7 @@ public class PushCommand extends V3LD1NCommand {
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                 return true;
             }
-            this.sendUsage(sender, label, command.getDescription());
+            this.sendUsage(sender, label, command);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

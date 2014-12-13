@@ -57,14 +57,14 @@ public class EditSignCommand extends V3LD1NCommand {
                             p.sendMessage(Message.EDITSIGN_REMOVE.toString());
                             return true;
                         default:
-                            this.sendUsage(sender, label, command.getDescription());
+                            this.sendUsage(sender, label, command);
                             return true;
                         }
                     }
                     p.sendMessage(Message.EDITSIGN_INVALID_BLOCK.toString());
                     return true;
                 }
-                this.sendUsage(sender, label, command.getDescription());
+                this.sendUsage(sender, label, command);
                 return true;
             }
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

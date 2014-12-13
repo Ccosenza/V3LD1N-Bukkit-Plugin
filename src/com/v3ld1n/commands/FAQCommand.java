@@ -78,7 +78,7 @@ public class FAQCommand extends V3LD1NCommand {
                 p.sendMessage(Message.FAQ_INVALID_QUESTION.toString());
                 return true;
             }
-            this.sendUsage(sender, label, command.getDescription());
+            this.sendUsage(sender, label, command);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());

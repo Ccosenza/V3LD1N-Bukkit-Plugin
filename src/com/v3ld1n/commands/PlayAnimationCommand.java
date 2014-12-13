@@ -51,7 +51,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                 sender.sendMessage(Message.PLAYANIMATION_NO_PERMISSION_OTHERS.toString());
                 return true;
             }
-            this.sendUsage(sender, label, command.getDescription());
+            this.sendUsage(sender, label, command);
             StringBuilder sb = new StringBuilder();
             for (PlayerAnimation animation : PlayerAnimation.values()) {
                 sb.append(String.format(Message.PLAYANIMATION_LIST_ITEM.toString(), animation.toString()));

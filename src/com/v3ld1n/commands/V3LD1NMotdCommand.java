@@ -50,7 +50,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                     ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_REMOVE.toString(), motd), 2);
                     return true;
                 }
-                this.sendUsage(sender, label, command.getDescription());
+                this.sendUsage(sender, label, command);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
@@ -61,7 +61,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                     return true;
                 }
             }
-            this.sendUsage(sender, label, command.getDescription());
+            this.sendUsage(sender, label, command);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
