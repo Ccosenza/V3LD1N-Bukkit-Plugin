@@ -28,7 +28,7 @@ public class TeleportTask extends Task {
         if (this.getSetting("particle-location") != null) {
             particleLocation = this.getLocationSetting("particle-location");
         } else {
-            particleLocation = location;
+            particleLocation = teleportTo;
         }
 
         if (this.getBooleanSetting("animation")) {
