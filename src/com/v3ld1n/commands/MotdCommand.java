@@ -19,7 +19,7 @@ public class MotdCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
             if (sender instanceof Player) {
-                ChatUtil.displayMotd((Player) sender);
+                ChatUtil.sendMotd((Player) sender);
                 return true;
             }
             sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
@@ -28,7 +28,7 @@ public class MotdCommand extends V3LD1NCommand {
             if (sender.hasPermission("v3ld1n.motd.others")) {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
-                    ChatUtil.displayMotd(p);
+                    ChatUtil.sendMotd(p);
                     sender.sendMessage(String.format(StringUtil.formatText(Message.MOTD_SHOWING.toString()), p.getName()));
                     return true;
                 }

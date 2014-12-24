@@ -51,7 +51,7 @@ public class ChatUtil {
      * Sends the MOTD to a player
      * @param p the player to send the message to
      */
-    public static void displayMotd(Player p) {
+    public static void sendMotd(Player p) {
         for (String jsonText : Config.MOTD.getConfig().getStringList("lines")) {
             ChatUtil.sendJsonMessage(p, StringUtil.formatText(jsonText), 0);
         }
