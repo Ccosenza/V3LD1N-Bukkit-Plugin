@@ -13,6 +13,7 @@ public enum Config {
     MOTD("motd.yml"),
     PARTICLES("particles.yml"),
     PLAYER_DATA("player-data.yml"),
+    REPORTS("reports.yml"),
     SIGNS("signs.yml"),
     TASKS_ITEM("tasks-item.yml"),
     TASKS_PARTICLE("tasks-particle.yml"),
