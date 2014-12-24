@@ -96,7 +96,10 @@ commands:
   giveall:
     description: Gives the item you are holding to all players.
     usage: /<command>
+  totalplayers:
+    description: Displays the total amount of players that joined the server.
+    usage: /<command>
   v3ld1nwarp:
     description: Warp command.
-    aliases: [creative, factions, kitpvp, store, storetop, timetravel, v3ld1n, veldin, warproom]
+    aliases: [creative, factions, kitpvp, store, storetop, survival, survival2, timetravel, v3ld1n, veldin, warproom]
     usage: /<command>
