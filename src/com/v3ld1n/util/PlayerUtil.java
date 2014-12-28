@@ -96,4 +96,8 @@ public class PlayerUtil {
         }
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
+
+    public static int getPing(Player p) {
+        return ((CraftPlayer) p).getHandle().ping;
+    }
 }
