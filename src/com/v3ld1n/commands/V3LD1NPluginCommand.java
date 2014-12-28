@@ -1,5 +1,8 @@
 package com.v3ld1n.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -104,24 +107,24 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("warps") && args.length == 1) {
-                StringBuilder sb = new StringBuilder();
+                List<String> warpStrings = new ArrayList<>();
                 for (String warp : ConfigUtil.getWarps()) {
-                    ChatColor color;
+                    String color;
                     if (ConfigUtil.isWarpEnabled(warp)) {
-                        color = ChatColor.GREEN;
+                        color = ChatColor.GREEN + warp;
                     } else {
-                        color = ChatColor.RED;
+                        color = ChatColor.RED + warp;
                     }
-                    sb.append(String.format(Message.V3LD1NPLUGIN_WARPS_ITEM.toString(), color + warp));
+                    warpStrings.add(color);
                 }
-                String message = Message.V3LD1NPLUGIN_WARPS.toString() + sb.toString().substring(0, sb.toString().length() - 2);
-                sender.sendMessage(message);
+                ChatUtil.sendList(sender, Message.V3LD1NPLUGIN_WARP_LIST_TITLE.toString(), warpStrings);
                 return true;
             }
         } else {
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
             return true;
         }
-        return false;
+        this.sendUsage(sender, label, command);
+        return true;
     }
 }

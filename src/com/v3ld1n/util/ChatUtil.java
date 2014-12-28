@@ -1,5 +1,7 @@
 package com.v3ld1n.util;
 
+import java.util.List;
+
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
 import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
@@ -9,6 +11,7 @@ import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Config;
+import com.v3ld1n.Message;
 
 public class ChatUtil {
     private ChatUtil() {
@@ -55,5 +58,14 @@ public class ChatUtil {
         for (String jsonText : Config.MOTD.getConfig().getStringList("lines")) {
             ChatUtil.sendJsonMessage(p, StringUtil.formatText(jsonText), 0);
         }
+    }
+
+    public static void sendList(CommandSender sender, String title, List<?> items) {
+        StringBuilder sb = new StringBuilder();
+        for (Object object : items) {
+            sb.append(String.format(Message.LIST_ITEM.toString(), object.toString()));
+        }
+        String message = String.format(Message.LIST_TITLE.toString(), title) + sb.toString().substring(0, sb.toString().length() - 2);
+        sender.sendMessage(message);
     }
 }

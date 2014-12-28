@@ -1,5 +1,7 @@
 package com.v3ld1n.commands;
 
+import java.util.Arrays;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -52,12 +54,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                 return true;
             }
             this.sendUsage(sender, label, command);
-            StringBuilder sb = new StringBuilder();
-            for (PlayerAnimation animation : PlayerAnimation.values()) {
-                sb.append(String.format(Message.PLAYANIMATION_LIST_ITEM.toString(), animation.toString()));
-            }
-            String message = Message.PLAYANIMATION_LIST.toString() + sb.toString().substring(0, sb.toString().length() - 2);
-            sender.sendMessage(message);
+            ChatUtil.sendList(sender, Message.PLAYANIMATION_LIST_TITLE.toString(), Arrays.asList(PlayerAnimation.values()));
             return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
