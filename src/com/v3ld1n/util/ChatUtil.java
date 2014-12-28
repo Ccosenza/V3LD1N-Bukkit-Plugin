@@ -6,6 +6,7 @@ import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
 import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -60,12 +61,24 @@ public class ChatUtil {
         }
     }
 
+    public static void sendUnreadReports() {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (p.hasPermission("v3ld1n.report.read")) {
+                sendUnreadReports(p);
+            }
+        }
+    }
+
+    public static void sendUnreadReports(Player p) {
+        p.sendMessage(String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports()));
+    }
+
     public static void sendList(CommandSender sender, String title, List<?> items) {
         StringBuilder sb = new StringBuilder();
         for (Object object : items) {
             sb.append(String.format(Message.LIST_ITEM.toString(), object.toString()));
         }
-        String message = String.format(Message.LIST_TITLE.toString(), title) + sb.toString().substring(0, sb.toString().length() - 2);
+        String message = title + sb.toString().substring(0, sb.toString().length() - 2);
         sender.sendMessage(message);
     }
 }

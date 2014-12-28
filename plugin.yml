@@ -86,6 +86,10 @@ commands:
     description: Displays a message above the action bar.
     aliases: [abmessage, abm, abbroadcast]
     usage: /<command> <message> [player]
+  report:
+    description: Sends a player report to the admins.
+    aliases: [reports]
+    usage: /<command> <player> <reason ...>
   timeplayed:
     description: Displays the amount of time a player has played.
     aliases: [playtime]

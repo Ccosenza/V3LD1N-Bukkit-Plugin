@@ -7,6 +7,8 @@ public enum Message {
     LINK_HOVER("link-hover"),
     COMMAND_HOVER("command-hover"),
 
+    LIST_ITEM("lists.item"),
+
     SIGN_INVALID_PARTICLE("signs.invalid-particle"),
     CANNOT_USE_ITEM("cancel-interact.interact-item"),
     CANNOT_USE_CONTAINER("cancel-interact.interact-container"),
@@ -20,6 +22,9 @@ public enum Message {
     ITEM_RELOAD_ERROR("errors.loading.items"),
     FAQ_LOAD_ERROR("errors.loading.faq"),
 
+    REPORT_LOAD_ERROR("errors.loading.reports"),
+    REPORT_SAVE_ERROR("errors.saving.reports"),
+
     CHAT_STRINGS_NO_PLAYER("chat-strings.no-player"),
 
     TASK_ITEM_ERROR("errors.loading.tasks.item"),
@@ -32,6 +37,9 @@ public enum Message {
     LOADING_ITEM("debug.loading.item"),
     LOADING_TASK("debug.loading.task"),
     LOADING_QUESTIONS("debug.loading.questions"),
+    LOADING_REPORTS("debug.loading.reports"),
+
+    SAVING_REPORTS("debug.saving.reports"),
 
     RATCHETS_SHOVEL_DAMAGE("items.ratchets-shovel.damage"),
 
@@ -70,8 +78,7 @@ public enum Message {
     NEXTSOUND_NO_SOUND_TASKS("commands.nextsound.no-sound-tasks"),
 
     PLAYANIMATION_PLAY("commands.playanimation.play"),
-    PLAYANIMATION_LIST("commands.playanimation.list"),
-    PLAYANIMATION_LIST_ITEM("commands.playanimation.list-item"),
+    PLAYANIMATION_LIST_TITLE("commands.playanimation.list-title"),
     PLAYANIMATION_NO_PERMISSION_OTHERS("commands.playanimation.others-permission"),
     PLAYANIMATION_ERROR("commands.playanimation.error"),
 
@@ -85,6 +92,9 @@ public enum Message {
 
     RATCHETSBOW_SET("commands.ratchetsbow.set"),
     RATCHETSBOW_INVALID_PROJECTILE("commands.ratchetsbow.invalid-projectile"),
+
+    REPORT_SEND("commands.report.send"),
+    REPORT_UNREAD("commands.report.unread"),
 
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 
@@ -102,6 +112,8 @@ public enum Message {
 
     SIDEBARMESSAGE_DISPLAY("commands.sidebarmessage.display"),
     SIDEBARMESSAGE_INVALID_TIME("commands.sidebarmessage.invalid-time"),
+
+    TOTALPLAYERS_PLAYERS("commands.totalplayers.players"),
 
     TRAIL_SET_OWN("commands.trail.set-own"),
     TRAIL_SET_OTHER("commands.trail.set-other"),
@@ -129,8 +141,7 @@ public enum Message {
     V3LD1NPLUGIN_RELOAD("commands.v3ld1nplugin.reload"),
     V3LD1NPLUGIN_SETRESOURCEPACK("commands.v3ld1nplugin.setresourcepack"),
     V3LD1NPLUGIN_VERSION("commands.v3ld1nplugin.version"),
-    V3LD1NPLUGIN_WARPS("commands.v3ld1nplugin.warps"),
-    V3LD1NPLUGIN_WARPS_ITEM("commands.v3ld1nplugin.warps-item"),
+    V3LD1NPLUGIN_WARP_LIST_TITLE("commands.v3ld1nplugin.warp-list-title"),
 
     WARP_DISABLED("commands.warps.disabled");
 

@@ -18,6 +18,9 @@ public enum ConfigSetting {
     SERVER_LIST_MAX_PLAYERS("server-list.max-players", "config.yml"),
     PLAYER_LIST_HEADER("player-list.header", "config.yml"),
     PLAYER_LIST_FOOTER("player-list.footer", "config.yml"),
+    PLAYER_LIST_PING_ENABLED("player-list.ping.enabled", "config.yml", true),
+    PLAYER_LIST_PING_TICKS("player-list.ping.ticks", "config.yml", 20),
+    REPORTS_JOIN_MESSAGE("reports.join-message", "config.yml", true),
 
     FAQ_BACK_COLOR("back-color", "faq.yml", "BLUE"),
 

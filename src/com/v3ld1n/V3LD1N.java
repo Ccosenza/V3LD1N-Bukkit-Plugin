@@ -2,14 +2,20 @@ package com.v3ld1n;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.v3ld1n.listeners.EntityListener;
 import com.v3ld1n.listeners.PlayerListener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.v3ld1n.commands.*;
@@ -17,6 +23,7 @@ import com.v3ld1n.items.*;
 import com.v3ld1n.items.ratchet.*;
 import com.v3ld1n.tasks.*;
 import com.v3ld1n.util.ConfigAccessor;
+import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1N extends JavaPlugin {
@@ -25,11 +32,12 @@ public class V3LD1N extends JavaPlugin {
     private static WorldGuardPlugin worldGuard;
     private static List<V3LD1NItem> items;
     private static List<FAQ> questions;
+    private static List<Report> reports;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
     private static List<TeleportTask> teleportTasks;
-    static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
+    private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
     @Override
     public void onEnable() {
@@ -41,6 +49,7 @@ public class V3LD1N extends JavaPlugin {
         configs = new ArrayList<>();
         items = new ArrayList<>();
         questions = new ArrayList<>();
+        reports = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
@@ -49,6 +58,7 @@ public class V3LD1N extends JavaPlugin {
         setupWorldGuard();
         loadItems();
         loadQuestions();
+        loadReports();
         loadItemTasks();
         loadParticleTasks();
         loadSoundTasks();
@@ -78,15 +88,39 @@ public class V3LD1N extends JavaPlugin {
         getCommand("timeplayed").setExecutor(new TimePlayedCommand());
         getCommand("playerlist").setExecutor(new PlayerListCommand());
         getCommand("giveall").setExecutor(new GiveAllCommand());
+        getCommand("report").setExecutor(new ReportCommand());
+        getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
         WarpCommand warpcommand = new WarpCommand();
         getCommand("v3ld1nwarp").setExecutor(warpcommand);
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        final Scoreboard board = manager.getNewScoreboard();
+        String name = ConfigSetting.SIDEBAR_PREFIX + "timeplayed";
+        if (name.length() > 16) {
+            name = name.substring(0, 16);
+        }
+        final Objective objective = board.registerNewObjective(name, "dummy");
+        objective.setDisplayName("Ping");
+        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
+                    for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                        objective.getScore(player.getName()).setScore(PlayerUtil.getPing(player));
+                        player.setScoreboard(board);
+                    }
+                }
+            }
+        }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
     }
 
     @Override
     public void onDisable() {
+        saveReports();
         configs = null;
         items = null;
         questions = null;
+        reports = null;
         itemTasks = null;
         particleTasks = null;
         soundTasks = null;
@@ -103,6 +137,7 @@ public class V3LD1N extends JavaPlugin {
         configs.add(new ConfigAccessor(plugin, "motd.yml"));
         configs.add(new ConfigAccessor(plugin, "particles.yml"));
         configs.add(new ConfigAccessor(plugin, "player-data.yml"));
+        configs.add(new ConfigAccessor(plugin, "reports.yml"));
         configs.add(new ConfigAccessor(plugin, "signs.yml"));
         configs.add(new ConfigAccessor(plugin, "tasks-block.yml"));
         configs.add(new ConfigAccessor(plugin, "tasks-item.yml"));
@@ -149,10 +184,19 @@ public class V3LD1N extends JavaPlugin {
 
     public static void loadQuestions() {
         try {
-            if (Config.FAQ.getConfig().getConfigurationSection("questions") != null) {
-                for (String key : Config.FAQ.getConfig().getConfigurationSection("questions").getKeys(false)) {
-                    FAQ question = new FAQ(Integer.parseInt(key), Config.FAQ.getConfig().getString("questions." + key + ".name"), Config.FAQ.getConfig().getString("questions." + key + ".question"), Config.FAQ.getConfig().getString("questions." + key + ".answer"), Config.FAQ.getConfig().getString("questions." + key + ".name-color"), Config.FAQ.getConfig().getString("questions." + key + ".question-color"), Config.FAQ.getConfig().getString("questions." + key + ".answer-color"));
-                    questions.add(question);
+            String sectionName = "questions";
+            if (Config.FAQ.getConfig().getConfigurationSection(sectionName) != null) {
+                FileConfiguration config = Config.FAQ.getConfig();
+                String section = sectionName + ".";
+                for (String key : config.getConfigurationSection(sectionName).getKeys(false)) {
+                    String name = config.getString(section + key + ".name");
+                    String question = config.getString(section + key + ".question");
+                    String answer = config.getString(section + key + ".answer");
+                    String nameColor = config.getString(section + key + ".name-color");
+                    String questionColor = config.getString(section + key + ".question-color");
+                    String answerColor = config.getString(section + key + ".answer-color");
+                    FAQ faq = new FAQ(Integer.parseInt(key), name, question, answer, nameColor, questionColor, answerColor);
+                    questions.add(faq);
                 }
                 StringUtil.logDebugMessage(String.format(Message.LOADING_QUESTIONS.toString(), questions.size()));
             }
@@ -160,6 +204,54 @@ public class V3LD1N extends JavaPlugin {
             plugin.getLogger().warning(Message.FAQ_LOAD_ERROR.toString());
             e.printStackTrace();
         }
+    }
+
+    public static void loadReports() {
+        try {
+            String sectionName = "reports";
+            String section = sectionName + ".";
+            if (Config.FAQ.getConfig().getConfigurationSection("reports") != null) {
+                FileConfiguration config = Config.REPORTS.getConfig();
+                for (String key : config.getConfigurationSection("reports").getKeys(false)) {
+                    String title = key;
+                    String senderName = config.getString(section + key + ".sender-name");
+                    UUID senderUuid = UUID.fromString(config.getString(section + key + ".sender-uuid"));
+                    String reason = config.getString(section + key + ".reason");
+                    boolean read = false;
+                    if (config.get(section + key + ".read") != null) {
+                        read = config.getBoolean(section + key + ".read");
+                    }
+                    Report report = new Report(title, senderName, senderUuid, reason, read);
+                    reports.add(report);
+                }
+                StringUtil.logDebugMessage(String.format(Message.LOADING_REPORTS.toString(), reports.size()));
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.REPORT_LOAD_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveReports() {
+        try {
+            String sectionName = "reports";
+            String section = sectionName + ".";
+            FileConfiguration config = Config.REPORTS.getConfig();
+            for (Report report : reports) {
+                config.set(section + report.getTitle() + ".sender-name", report.getSenderName());
+                config.set(section + report.getTitle() + ".sender-uuid", report.getSenderUuid().toString());
+                config.set(section + report.getTitle() + ".reason", report.getReason());
+            }
+            Config.REPORTS.saveConfig();
+            StringUtil.logDebugMessage(String.format(Message.SAVING_REPORTS.toString(), reports.size()));
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.REPORT_SAVE_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public static void addReport(Report report) {
+        reports.add(report);
     }
 
     public void loadItemTasks() {
@@ -273,6 +365,10 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<FAQ> getQuestions() {
         return questions;
+    }
+
+    public static List<Report> getReports() {
+        return reports;
     }
 
     public static List<ItemTask> getItemTasks() {

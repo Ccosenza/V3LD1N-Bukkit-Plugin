@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.Config;
 import com.v3ld1n.ConfigSetting;
+import com.v3ld1n.V3LD1N;
+import com.v3ld1n.commands.Report;
 
 public class ConfigUtil {
     private ConfigUtil() {
@@ -34,6 +36,16 @@ public class ConfigUtil {
         } else {
             ConfigSetting.DEBUG.setValue(null);
         }
+    }
+
+    public static int getUnreadReports() {
+        int unreadReports = 0;
+        for (Report report : V3LD1N.getReports()) {
+            if (report.isRead()) {
+                unreadReports++;
+            }
+        }
+        return unreadReports;
     }
 
     public static boolean isWarpEnabled(String warp) {
