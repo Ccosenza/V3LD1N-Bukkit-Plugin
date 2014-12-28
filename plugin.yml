@@ -101,5 +101,5 @@ commands:
     usage: /<command>
   v3ld1nwarp:
     description: Warp command.
-    aliases: [creative, factions, kitpvp, store, storetop, survival, survival2, timetravel, v3ld1n, veldin, warproom]
+    aliases: [creative, factions, kitpvp, store, storetop, survival, survival1, survival2, timetravel, v3ld1n, veldin, warproom]
     usage: /<command>
