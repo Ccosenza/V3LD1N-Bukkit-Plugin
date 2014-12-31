@@ -149,15 +149,17 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
         if (ConfigSetting.SERVER_LIST_MOTD.getValue() != null) {
-            int randomInt = random.nextInt(ConfigSetting.SERVER_LIST_MOTD.getStringList().size());
-            String randomMotd = ConfigSetting.SERVER_LIST_MOTD.getStringList().get(randomInt);
-            String ic = "(?i)";
-            String motd = StringUtil.formatText(randomMotd)
-                    .replaceFirst(ic + "%newline%", "\n")
-                    .replaceAll(ic + "%players%", Integer.toString(event.getNumPlayers()))
-                    .replaceAll(ic + "%maxplayers%", Integer.toString(event.getMaxPlayers()))
-                    .replaceAll(ic + "%ip%", event.getAddress().toString());
-            event.setMotd(motd);
+            if (!ConfigSetting.SERVER_LIST_MOTD.getStringList().isEmpty()) {
+                int randomInt = random.nextInt(ConfigSetting.SERVER_LIST_MOTD.getStringList().size());
+                String randomMotd = ConfigSetting.SERVER_LIST_MOTD.getStringList().get(randomInt);
+                String ic = "(?i)";
+                String motd = StringUtil.formatText(randomMotd)
+                        .replaceFirst(ic + "%newline%", "\n")
+                        .replaceAll(ic + "%players%", Integer.toString(event.getNumPlayers()))
+                        .replaceAll(ic + "%maxplayers%", Integer.toString(event.getMaxPlayers()))
+                        .replaceAll(ic + "%ip%", event.getAddress().toString());
+                event.setMotd(motd);
+            }
         }
         if (ConfigSetting.SERVER_LIST_MAX_PLAYERS.getValue() != null) {
             event.setMaxPlayers(ConfigSetting.SERVER_LIST_MAX_PLAYERS.getInt());

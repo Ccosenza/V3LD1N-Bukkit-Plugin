@@ -25,7 +25,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                 String motd;
                 if (args.length > 2) {
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 2; i < args.length; i++) {
+                    for (int i = 1; i < args.length; i++) {
                         sb.append(args[i]).append(" ");
                     }
                     motd = sb.toString();
@@ -40,10 +40,14 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                     ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_ADD.toString(), motd), 2);
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove")) {
-                    Iterator<String> iterator = motds.iterator();
-                    while (iterator.hasNext()) {
-                        if (iterator.next().equals(motd)) {
-                            iterator.remove();
+                    if (args[1].equalsIgnoreCase("all")) {
+                        motds.clear();
+                    } else {
+                        Iterator<String> iterator = motds.iterator();
+                        while (iterator.hasNext()) {
+                            if (iterator.next().equals(motd)) {
+                                iterator.remove();
+                            }
                         }
                     }
                     ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
