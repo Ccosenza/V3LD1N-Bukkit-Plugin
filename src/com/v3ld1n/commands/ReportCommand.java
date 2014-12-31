@@ -38,7 +38,7 @@ public class ReportCommand extends V3LD1NCommand {
                 Report report = new Report(title, playerName, playerUuid, reason);
                 V3LD1N.addReport(report);
                 ChatUtil.sendUnreadReports();
-                sender.sendMessage("sent " + title + " " + reason);
+                ChatUtil.sendMessage(sender, Message.REPORT_SEND.toString(), 2);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
