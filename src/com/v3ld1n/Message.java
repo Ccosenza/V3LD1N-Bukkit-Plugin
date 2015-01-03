@@ -38,6 +38,7 @@ public enum Message {
     LOADING_TASK("debug.loading.task"),
     LOADING_QUESTIONS("debug.loading.questions"),
     LOADING_REPORTS("debug.loading.reports"),
+    LOADING_COMMANDS("debug.loading.commands"),
 
     SAVING_REPORTS("debug.saving.reports"),
 
