@@ -95,6 +95,9 @@ public enum Message {
 
     REPORT_SEND("commands.report.send"),
     REPORT_UNREAD("commands.report.unread"),
+    REPORT_LIST_TOP("commands.report.list.top"),
+    REPORT_LIST_BORDER("commands.report.list.border"),
+    REPORT_LIST_HELP("commands.report.list.help"),
 
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 
