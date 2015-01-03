@@ -30,6 +30,7 @@ public enum ConfigSetting {
     
     PARTICLE_SPAWN_ENDER_CRYSTAL("spawn-ender-crystal", "particles.yml"),
     PARTICLE_TRAILS("trails", "particles.yml"),
+    PARTICLE_TRAILS_RATCHET("trails-ratchet", "particles.yml"),
     PARTICLE_RATCHETSBOW_FIREBALL("ratchetsbow-fireball", "particles.yml"),
     PARTICLE_RATCHETSBOW_ARROW("ratchetsbow-arrow", "particles.yml"),
     PARTICLE_RATCHETSBOW_TRIPLE_ARROWS("ratchetsbow-triple-arrows", "particles.yml"),
