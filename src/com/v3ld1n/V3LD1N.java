@@ -241,6 +241,7 @@ public class V3LD1N extends JavaPlugin {
                 config.set(section + report.getTitle() + ".sender-name", report.getSenderName());
                 config.set(section + report.getTitle() + ".sender-uuid", report.getSenderUuid().toString());
                 config.set(section + report.getTitle() + ".reason", report.getReason());
+                config.set(section + report.getTitle() + ".read", report.isRead());
             }
             Config.REPORTS.saveConfig();
             StringUtil.logDebugMessage(String.format(Message.SAVING_REPORTS.toString(), reports.size()));
