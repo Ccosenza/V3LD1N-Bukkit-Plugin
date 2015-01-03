@@ -15,7 +15,7 @@ import com.v3ld1n.V3LD1N;
 
 public class SidebarMessage {
     final int TITLE_CHARACTER_LIMIT = 32;
-    final int LINE_CHARACTER_LIMIT = 16;
+    final int LINE_CHARACTER_LIMIT = 40;
 
     String title;
     List<String> lines = new ArrayList<>();
