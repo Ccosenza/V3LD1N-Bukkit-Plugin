@@ -92,13 +92,13 @@ public class V3LD1N extends JavaPlugin {
         getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
         WarpCommand warpcommand = new WarpCommand();
         getCommand("v3ld1nwarp").setExecutor(warpcommand);
-        ScoreboardManager manager = Bukkit.getScoreboardManager();
-        final Scoreboard board = manager.getNewScoreboard();
-        String name = ConfigSetting.SIDEBAR_PREFIX + "timeplayed";
-        if (name.length() > 16) {
-            name = name.substring(0, 16);
-        }
         if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
+            ScoreboardManager manager = Bukkit.getScoreboardManager();
+            final Scoreboard board = manager.getNewScoreboard();
+            String name = ConfigSetting.SIDEBAR_PREFIX + "ping";
+            if (name.length() > 16) {
+                name = name.substring(0, 16);
+            }
             final Objective objective = board.registerNewObjective(name, "dummy");
             objective.setDisplayName("Ping");
             objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
@@ -219,9 +219,9 @@ public class V3LD1N extends JavaPlugin {
     public static void loadReports() {
         try {
             String sectionName = "reports";
-            String section = sectionName + ".";
-            if (Config.FAQ.getConfig().getConfigurationSection("reports") != null) {
+            if (Config.FAQ.getConfig().getConfigurationSection(sectionName) != null) {
                 FileConfiguration config = Config.REPORTS.getConfig();
+                String section = sectionName + ".";
                 for (String key : config.getConfigurationSection("reports").getKeys(false)) {
                     String title = key;
                     String senderName = config.getString(section + key + ".sender-name");
