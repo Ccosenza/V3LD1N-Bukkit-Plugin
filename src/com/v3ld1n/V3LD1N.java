@@ -220,7 +220,7 @@ public class V3LD1N extends JavaPlugin {
     public static void loadReports() {
         try {
             String sectionName = "reports";
-            if (Config.FAQ.getConfig().getConfigurationSection(sectionName) != null) {
+            if (Config.REPORTS.getConfig().getConfigurationSection(sectionName) != null) {
                 FileConfiguration config = Config.REPORTS.getConfig();
                 String section = sectionName + ".";
                 for (String key : config.getConfigurationSection("reports").getKeys(false)) {
