@@ -21,6 +21,8 @@ public enum ConfigSetting {
     PLAYER_LIST_PING_ENABLED("player-list.ping.enabled", "config.yml", true),
     PLAYER_LIST_PING_TICKS("player-list.ping.ticks", "config.yml", 20),
     REPORTS_JOIN_MESSAGE("reports.join-message", "config.yml", true),
+    REPORTS_AUTO_SAVE_ENABLED("reports.auto-save.enabled", "config.yml", true),
+    REPORTS_AUTO_SAVE_TICKS("reports.auto-save.ticks", "config.yml", 12000),
 
     FAQ_BACK_COLOR("back-color", "faq.yml", "BLUE"),
 

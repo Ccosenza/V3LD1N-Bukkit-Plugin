@@ -98,20 +98,30 @@ public class V3LD1N extends JavaPlugin {
         if (name.length() > 16) {
             name = name.substring(0, 16);
         }
-        final Objective objective = board.registerNewObjective(name, "dummy");
-        objective.setDisplayName("Ping");
-        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
+            final Objective objective = board.registerNewObjective(name, "dummy");
+            objective.setDisplayName("Ping");
+            objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
+                        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                            objective.getScore(player.getName()).setScore(PlayerUtil.getPing(player));
+                            player.setScoreboard(board);
+                        }
+                    }
+                }
+            }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
+        }
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
-                if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
-                    for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                        objective.getScore(player.getName()).setScore(PlayerUtil.getPing(player));
-                        player.setScoreboard(board);
-                    }
+                if (ConfigSetting.REPORTS_AUTO_SAVE_ENABLED.getBoolean()) {
+                    saveReports();
                 }
             }
-        }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
+        }, ConfigSetting.REPORTS_AUTO_SAVE_TICKS.getInt(), ConfigSetting.REPORTS_AUTO_SAVE_TICKS.getInt());
     }
 
     @Override
