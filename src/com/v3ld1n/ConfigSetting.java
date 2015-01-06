@@ -24,7 +24,7 @@ public enum ConfigSetting {
     REPORTS_AUTO_SAVE_ENABLED("reports.auto-save.enabled", "config.yml", true),
     REPORTS_AUTO_SAVE_TICKS("reports.auto-save.ticks", "config.yml", 12000),
 
-    FAQ_BACK_COLOR("back-color", "faq.yml", "BLUE"),
+    FAQ_BACK_COLOR("back-color", "faq.yml", "blue"),
 
     INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
     
@@ -42,6 +42,8 @@ public enum ConfigSetting {
     PARTICLE_RATCHETSBOW_BLUE_SKULL("ratchetsbow-blue-wither-skull", "particles.yml"),
 
     PLAYER_EFFECTS("player-effects", "player-data.yml"),
+
+    REPORT_READ_BACK_COLOR("back-color", "reports.yml", "blue"),
 
     CANCEL_SPAWN_WORLDS("cancel-spawn", "world-options.yml"),
     CANCEL_DROP_WORLDS("cancel-drop", "world-options.yml"),
