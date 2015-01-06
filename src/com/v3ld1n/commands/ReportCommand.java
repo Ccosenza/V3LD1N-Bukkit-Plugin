@@ -32,7 +32,7 @@ public class ReportCommand extends V3LD1NCommand {
             String top = "{text:\"" + Message.REPORT_LIST_TOP + "\","
                     + "color:red}";
             if (args.length >= 2) {
-                if (sender.isOp() && args.length == 2) {
+                if (sender.hasPermission("v3ld1n.report.read") && args.length == 2) {
                     if (args[0].equalsIgnoreCase("read")) {
                         int arg;
                         try {
