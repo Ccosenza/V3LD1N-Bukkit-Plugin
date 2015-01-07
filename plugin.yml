@@ -87,7 +87,7 @@ commands:
     aliases: [abmessage, abm, abbroadcast]
     usage: /<command> <message> [player]
   report:
-    description: Sends a player report to the admins.
+    description: Sends a report to the admins.
     aliases: [reports]
     usage: /<command> <player> <reason ...>
   timeplayed:
@@ -102,6 +102,9 @@ commands:
     usage: /<command>
   totalplayers:
     description: Displays the total amount of players that joined the server.
+    usage: /<command>
+  players:
+    description: Opens an inventory of online players' heads
     usage: /<command>
   v3ld1nwarp:
     description: Warp command.

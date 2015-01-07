@@ -90,8 +90,8 @@ public class V3LD1N extends JavaPlugin {
         getCommand("giveall").setExecutor(new GiveAllCommand());
         getCommand("report").setExecutor(new ReportCommand());
         getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
-        WarpCommand warpcommand = new WarpCommand();
-        getCommand("v3ld1nwarp").setExecutor(warpcommand);
+        getCommand("players").setExecutor(new PlayersCommand());
+        getCommand("v3ld1nwarp").setExecutor(new WarpCommand());
         StringUtil.logDebugMessage(String.format(Message.LOADING_COMMANDS.toString(), this.getDescription().getCommands().size()));
         if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
             ScoreboardManager manager = Bukkit.getScoreboardManager();
