@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class GiveAllCommand extends V3LD1NCommand {
     @Override
@@ -22,9 +23,7 @@ public class GiveAllCommand extends V3LD1NCommand {
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                         player.getInventory().addItem(item);
                     }
-                    String itemString = item.getType().toString().toLowerCase();
-                    itemString = itemString.replaceAll("_", " ");
-                    ChatUtil.sendMessage(p, String.format(Message.GIVEALL_GIVE.toString(), amount, itemString), 2);
+                    ChatUtil.sendMessage(p, String.format(Message.GIVEALL_GIVE.toString(), amount, StringUtil.enumToString(item.getType())), 2);
                     return true;
                 }
                 ChatUtil.sendMessage(p, Message.GIVEALL_NO_ITEM.toString(), 2);
