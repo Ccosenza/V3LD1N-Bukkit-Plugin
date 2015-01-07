@@ -25,7 +25,7 @@ public enum Message {
     REPORT_LOAD_ERROR("errors.loading.reports"),
     REPORT_SAVE_ERROR("errors.saving.reports"),
 
-    CHAT_STRINGS_NO_PLAYER("chat-strings.no-player"),
+    CHAT_VARIABLES_NONE("chat-variables.none"),
 
     TASK_ITEM_ERROR("errors.loading.tasks.item"),
     TASK_PARTICLE_ERROR("errors.loading.tasks.particle"),
