@@ -5,6 +5,8 @@ import java.util.Calendar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
@@ -42,6 +44,7 @@ public class StringUtil {
      * @param player the player
      * @return the string with variables replaced
      */
+    @SuppressWarnings("deprecation")
     public static String replacePlayerVariables(String string, Player player) {
         String ignoreCase = "(?i)";
         String replaced = string
@@ -49,22 +52,39 @@ public class StringUtil {
                 .replaceAll(ignoreCase + "%uuid%", player.getUniqueId().toString())
                 .replaceAll(ignoreCase + "%displayname%", player.getDisplayName())
                 .replaceAll(ignoreCase + "%world%", player.getWorld().getName())
-                .replaceAll(ignoreCase + "%biome%", upperCaseFirst(player.getLocation().getBlock().getBiome().name().toLowerCase().replaceAll("_", " ")))
+                .replaceAll(ignoreCase + "%biome%", enumToString(player.getLocation().getBlock().getBiome()))
+                .replaceAll(ignoreCase + "%block%", enumToString(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType()))
                 .replaceAll(ignoreCase + "%health%", Double.toString(player.getHealth()))
                 .replaceAll(ignoreCase + "%maxhealth%", Double.toString(player.getMaxHealth()))
                 .replaceAll(ignoreCase + "%hunger%", Integer.toString(player.getFoodLevel()))
                 .replaceAll(ignoreCase + "%xp%", Integer.toString(player.getTotalExperience()))
                 .replaceAll(ignoreCase + "%players%", Integer.toString(Bukkit.getServer().getOnlinePlayers().size()))
+                .replaceAll(ignoreCase + "%maxplayers%", Integer.toString(Bukkit.getServer().getMaxPlayers()))
                 .replaceAll(ignoreCase + "%worldplayers%", Integer.toString(player.getWorld().getPlayers().size()))
                 .replaceAll(ignoreCase + "%worldtype%", player.getWorld().getWorldType().getName().toLowerCase())
-                .replaceAll(ignoreCase + "%weathertime%", Integer.toString(player.getWorld().getWeatherDuration() / 20))
+                .replaceAll(ignoreCase + "%viewdistance%", Integer.toString(Bukkit.getServer().getViewDistance()))
+                .replaceAll(ignoreCase + "%mobspawnradius%", Integer.toString(Bukkit.getSpawnRadius() * 16))
+                .replaceAll(ignoreCase + "%worldbordersize%", Double.toString(player.getWorld().getWorldBorder().getSize()))
                 .replaceAll(ignoreCase + "%version%", Bukkit.getBukkitVersion())
+                .replaceAll(ignoreCase + "%motd%", Bukkit.getServer().getMotd())
+                .replaceAll(ignoreCase + "%weathertime%", Integer.toString(player.getWorld().getWeatherDuration() / 20))
+                .replaceAll(ignoreCase + "%lightningtime%", Integer.toString(player.getWorld().getThunderDuration() / 20))
                 .replaceAll(ignoreCase + "%worldtime%", Long.toString(player.getWorld().getTime()))
                 .replaceAll(ignoreCase + "%servertime%", getCurrentTime());
         if (WorldUtil.getNearestPlayer(player) != null) {
             replaced = replaced.replaceAll(ignoreCase + "%player%", WorldUtil.getNearestPlayer(player).getName());
         } else {
-            replaced = replaced.replaceAll(ignoreCase + "%player%", Message.CHAT_STRINGS_NO_PLAYER.toString());
+            replaced = replaced.replaceAll(ignoreCase + "%player%", Message.CHAT_VARIABLES_NONE.toString());
+        }
+        if (player.getTargetBlock(null, 5).getType() != Material.AIR) {
+            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", enumToString(player.getTargetBlock(null, 5).getType()));
+        } else {
+            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", Message.CHAT_VARIABLES_NONE.toString());
+        }
+        if (player.getVehicle() != null) {
+            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", enumToString(player.getVehicle().getType()));
+        } else {
+            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", Message.CHAT_VARIABLES_NONE.toString());
         }
         return replaced;
     }
@@ -104,5 +124,9 @@ public class StringUtil {
             }
         }
         return sb.toString();
+    }
+
+    public static String enumToString(Enum<?> toString) {
+        return upperCaseFirst(toString.name().toLowerCase().replaceAll("_", " "));
     }
 }
