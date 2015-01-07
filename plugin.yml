@@ -85,7 +85,7 @@ commands:
   actionbarmessage:
     description: Displays a message above the action bar.
     aliases: [abmessage, abm, abbroadcast]
-    usage: /<command> <message> [player]
+    usage: /<command> all|<player> <message ...>
   report:
     description: Sends a report to the admins.
     aliases: [reports]
