@@ -109,7 +109,9 @@ public class V3LD1N extends JavaPlugin {
                     if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
                         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                             objective.getScore(player.getName()).setScore(PlayerUtil.getPing(player));
-                            player.setScoreboard(board);
+                            if (player.getScoreboard().getObjective(DisplaySlot.SIDEBAR) == null) {
+                                player.setScoreboard(board);
+                            }
                         }
                     }
                 }
