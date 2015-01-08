@@ -7,7 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import com.v3ld1n.Message;
 
 public class SetMaxHealthCommand extends V3LD1NCommand {
-    final double LIMIT = 1000;
+    final double LIMIT = 2000;
 
     public SetMaxHealthCommand() {
         this.addUsage("<health>", "Set your maximum health");
@@ -30,7 +30,7 @@ public class SetMaxHealthCommand extends V3LD1NCommand {
                         sender.sendMessage(String.format(Message.SETMAXHEALTH_SET.toString(), args[0]));
                         return true;
                     }
-                    sender.sendMessage(String.format(Message.SETMAXHEALTH_LIMIT.toString(), LIMIT));
+                    sender.sendMessage(String.format(Message.SETMAXHEALTH_LIMIT.toString(), (int) LIMIT));
                     return true;
                 }
                 this.sendUsage(sender, label, command);
