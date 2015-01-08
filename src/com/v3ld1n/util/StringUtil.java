@@ -52,8 +52,8 @@ public class StringUtil {
                 .replaceAll(ignoreCase + "%uuid%", player.getUniqueId().toString())
                 .replaceAll(ignoreCase + "%displayname%", player.getDisplayName())
                 .replaceAll(ignoreCase + "%world%", player.getWorld().getName())
-                .replaceAll(ignoreCase + "%biome%", enumToString(player.getLocation().getBlock().getBiome()))
-                .replaceAll(ignoreCase + "%block%", enumToString(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType()))
+                .replaceAll(ignoreCase + "%biome%", fromEnum(player.getLocation().getBlock().getBiome(), true))
+                .replaceAll(ignoreCase + "%block%", fromEnum(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType(), true))
                 .replaceAll(ignoreCase + "%health%", Double.toString(player.getHealth()))
                 .replaceAll(ignoreCase + "%maxhealth%", Double.toString(player.getMaxHealth()))
                 .replaceAll(ignoreCase + "%hunger%", Integer.toString(player.getFoodLevel()))
@@ -77,17 +77,17 @@ public class StringUtil {
             replaced = replaced.replaceAll(ignoreCase + "%player%", Message.CHAT_VARIABLES_NONE.toString());
         }
         if (player.getItemInHand().getType() != Material.AIR) {
-            replaced = replaced.replaceAll(ignoreCase + "%item%", enumToString(player.getItemInHand().getType()));
+            replaced = replaced.replaceAll(ignoreCase + "%item%", fromEnum(player.getItemInHand().getType(), true));
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%item%", Message.CHAT_VARIABLES_NONE.toString());
         }
         if (player.getTargetBlock(null, 5).getType() != Material.AIR) {
-            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", enumToString(player.getTargetBlock(null, 5).getType()));
+            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", fromEnum(player.getTargetBlock(null, 5).getType(), true));
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%targetblock%", Message.CHAT_VARIABLES_NONE.toString());
         }
         if (player.getVehicle() != null) {
-            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", enumToString(player.getVehicle().getType()));
+            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", fromEnum(player.getVehicle().getType(), true));
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%vehicle%", Message.CHAT_VARIABLES_NONE.toString());
         }
@@ -131,7 +131,13 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static String enumToString(Enum<?> toString) {
-        return upperCaseFirst(toString.name().toLowerCase().replaceAll("_", " "));
+    public static String fromEnum(Enum<?> toString, boolean upperCase) {
+        String name = toString.name().toLowerCase();
+        String replaced = name.replaceAll("_", " ");
+        String string = replaced;
+        if (upperCase) {
+            string = upperCaseFirst(string);
+        }
+        return string;
     }
 }

@@ -23,7 +23,7 @@ public class GiveAllCommand extends V3LD1NCommand {
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                         player.getInventory().addItem(item);
                     }
-                    String itemString = StringUtil.enumToString(item.getType());
+                    String itemString = StringUtil.fromEnum(item.getType(), true);
                     if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
                         itemString = item.getItemMeta().getDisplayName();
                     }
