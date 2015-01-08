@@ -20,14 +20,10 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.v3ld1nmotd")) {
+        if (sender.isOp()) {
             if (args.length > 1) {
                 String motd;
-                if (args.length > 2) {
-                    motd = StringUtil.fromArray(args, 1);
-                } else {
-                    motd = args[1];
-                }
+                motd = StringUtil.fromArray(args, 1);
                 List<String> motds = ConfigSetting.SERVER_LIST_MOTD.getStringList();
                 if (args[0].equalsIgnoreCase("add")) {
                     motds.add(motd);
