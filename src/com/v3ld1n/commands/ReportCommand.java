@@ -77,7 +77,9 @@ public class ReportCommand extends V3LD1NCommand {
                             ChatUtil.sendJsonMessage(p, senderName, 0);
                             ChatUtil.sendJsonMessage(p, reason, 0);
                             ChatUtil.sendJsonMessage(p, back, 0);
-                            report.setReadBy(playerUuid);
+                            if (!report.isReadBy(playerUuid)) {
+                                report.setReadBy(playerUuid);
+                            }
                             return true;
                         }
                         p.sendMessage(Message.REPORT_INVALID.toString());
