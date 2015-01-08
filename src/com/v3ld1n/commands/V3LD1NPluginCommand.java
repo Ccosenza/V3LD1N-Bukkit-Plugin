@@ -19,16 +19,13 @@ import com.v3ld1n.util.PlayerUtil;
 
 public class V3LD1NPluginCommand extends V3LD1NCommand {
     String usageSetResourcePack = "setresourcepack <url>";
-    String usageToggleWarp = "togglewarp <warp|all>";
 
     public V3LD1NPluginCommand() {
         this.addUsage("debug", "Toggle debug mode");
         this.addUsage("reload", "Reload the plugin config");
         this.addUsage("resourcepackurl", "Send the URL to the resource pack");
         this.addUsage(usageSetResourcePack, "Set the URL to the resource pack");
-        this.addUsage(usageToggleWarp, "Toggle a warp");
         this.addUsage("version", "Send the plugin version");
-        this.addUsage("warps", "Send a list of warps");
     }
 
     @Override
@@ -80,41 +77,13 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                     this.sendArgumentUsage(sender, label, command, usageSetResourcePack);
                 }
                 return true;
-            } else if (args[0].equalsIgnoreCase("togglewarp")) {
-                if (args.length == 2) {
-                    if (args[1].equalsIgnoreCase("all")) {
-                        for (String warp : ConfigUtil.getWarps()) {
-                            ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_TOGGLE_ALL_WARPS.toString(), warp), 2);
-                            ConfigUtil.toggleWarp(warp);
-                        }
-                        return true;
-                    }
-                    if (ConfigUtil.isWarpEnabled(args[1])) {
-                        ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_DISABLE_WARP.toString(), args[1]), 2);
-                    } else {
-                        if (ConfigUtil.getWarps().contains(args[1])) {
-                            ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_ENABLE_WARP.toString(), args[1]), 2);
-                        } else {
-                            ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_INVALID_WARP.toString(), args[1]), 2);
-                        }
-                    }
-                    ConfigUtil.toggleWarp(args[1]);
-                    return true;
-                }
-                this.sendArgumentUsage(sender, label, command, usageToggleWarp);
-                return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("warps") && args.length == 1) {
                 List<String> warpStrings = new ArrayList<>();
                 for (String warp : ConfigUtil.getWarps()) {
-                    String color;
-                    if (ConfigUtil.isWarpEnabled(warp)) {
-                        color = ChatColor.GREEN + warp;
-                    } else {
-                        color = ChatColor.RED + warp;
-                    }
+                    String color = ChatColor.GREEN + warp;
                     warpStrings.add(color);
                 }
                 ChatUtil.sendList(sender, Message.V3LD1NPLUGIN_WARP_LIST_TITLE.toString(), warpStrings);

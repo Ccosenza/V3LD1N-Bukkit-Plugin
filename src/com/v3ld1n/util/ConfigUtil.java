@@ -49,10 +49,6 @@ public class ConfigUtil {
         return unreadReports;
     }
 
-    public static boolean isWarpEnabled(String warp) {
-        return Config.WARPS.getConfig().get(warp + ".enabled") != null && Config.WARPS.getConfig().getBoolean(warp + ".enabled");
-    }
-
     public static List<String> getWarps() {
         List<String> warps = new ArrayList<>();
         if (Config.WARPS.getConfig() != null) {
@@ -71,20 +67,6 @@ public class ConfigUtil {
             }
         }
         return particles;
-    }
-
-    public static void toggleWarp(String warp) {
-        if (Config.WARPS.getConfig().get(warp + ".enabled") != null) {
-            Config.WARPS.getConfig().set(warp + ".enabled", null);
-        } else {
-            Config.WARPS.getConfig().set(warp + ".enabled", true);
-        }
-        Config.WARPS.saveConfig();
-    }
-
-    public static void setWarpEnabled(String warp, boolean enabled) {
-        Config.WARPS.getConfig().set(warp + ".enabled", enabled);
-        Config.WARPS.saveConfig();
     }
 
     /**
