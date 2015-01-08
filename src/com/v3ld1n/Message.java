@@ -141,6 +141,7 @@ public enum Message {
     V3LD1NMOTD_REMOVE("commands.v3ld1nmotd.remove"),
     V3LD1NMOTD_LIST("commands.v3ld1nmotd.list"),
     V3LD1NMOTD_LIST_ITEM("commands.v3ld1nmotd.list-item"),
+    V3LD1NMOTD_INVALID("commands.v3ld1nmotd.invalid"),
 
     V3LD1NPLUGIN_AVAILABLE("commands.v3ld1nplugin.available"),
     V3LD1NPLUGIN_DASH("commands.v3ld1nplugin.dash"),

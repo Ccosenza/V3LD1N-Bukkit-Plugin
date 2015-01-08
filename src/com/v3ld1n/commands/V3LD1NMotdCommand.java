@@ -24,12 +24,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
             if (args.length > 1) {
                 String motd;
                 if (args.length > 2) {
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 1; i < args.length; i++) {
-                        sb.append(args[i]).append(" ");
-                    }
-                    motd = sb.toString();
-                    motd = StringUtil.formatText(motd.substring(0, motd.length() - 1));
+                    motd = StringUtil.fromArray(args, 1);
                 } else {
                     motd = args[1];
                 }
@@ -43,11 +38,16 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                     if (args[1].equalsIgnoreCase("all")) {
                         motds.clear();
                     } else {
-                        Iterator<String> iterator = motds.iterator();
-                        while (iterator.hasNext()) {
-                            if (iterator.next().equals(motd)) {
-                                iterator.remove();
+                        if (motds.contains(motd)) {
+                            Iterator<String> iterator = motds.iterator();
+                            while (iterator.hasNext()) {
+                                if (iterator.next().equals(motd)) {
+                                    iterator.remove();
+                                }
                             }
+                        } else {
+                            sender.sendMessage(String.format(Message.V3LD1NMOTD_INVALID.toString(), motd));
+                            return true;
                         }
                     }
                     ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
