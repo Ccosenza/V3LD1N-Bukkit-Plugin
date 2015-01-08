@@ -76,6 +76,11 @@ public class StringUtil {
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%player%", Message.CHAT_VARIABLES_NONE.toString());
         }
+        if (player.getItemInHand().getType() != Material.AIR) {
+            replaced = replaced.replaceAll(ignoreCase + "%item%", enumToString(player.getItemInHand().getType()));
+        } else {
+            replaced = replaced.replaceAll(ignoreCase + "%item%", Message.CHAT_VARIABLES_NONE.toString());
+        }
         if (player.getTargetBlock(null, 5).getType() != Material.AIR) {
             replaced = replaced.replaceAll(ignoreCase + "%targetblock%", enumToString(player.getTargetBlock(null, 5).getType()));
         } else {
