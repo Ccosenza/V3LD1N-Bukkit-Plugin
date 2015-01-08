@@ -70,7 +70,9 @@ public class ChatUtil {
     }
 
     public static void sendUnreadReports(Player p) {
-        p.sendMessage(String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports(p.getUniqueId())));
+        String message = "{text:\"" + String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports(p.getUniqueId())) + "\","
+                + "clickEvent:{action:run_command,value:\"/report list\"}}";
+        ChatUtil.sendJsonMessage(p, message, 0);
     }
 
     public static void sendList(CommandSender sender, String title, List<?> items) {
