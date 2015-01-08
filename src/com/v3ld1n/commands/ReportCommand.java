@@ -74,7 +74,7 @@ public class ReportCommand extends V3LD1NCommand {
                             ChatUtil.sendJsonMessage(p, senderName, 0);
                             ChatUtil.sendJsonMessage(p, reason, 0);
                             ChatUtil.sendJsonMessage(p, back, 0);
-                            report.setReadBy(p.getUniqueId());
+                            report.setReadBy(playerUuid);
                             return true;
                         }
                         p.sendMessage(Message.REPORT_INVALID.toString());
@@ -133,12 +133,16 @@ public class ReportCommand extends V3LD1NCommand {
                             sender.sendMessage(Message.REPORT_LIST_EMPTY.toString());
                         } else {
                             for (Report report : V3LD1N.getReports()) {
+                                String titleColor = ConfigSetting.REPORTS_LIST_UNREAD_COLOR.getString();
+                                if (report.isReadBy(playerUuid)) {
+                                    titleColor = ConfigSetting.REPORTS_LIST_READ_COLOR.getString();
+                                }
                                 ChatUtil.sendJsonMessage(p,
                                 "{text:\"" + (V3LD1N.getReports().indexOf(report) + 1) + ". \","
                                 + "color:" + "gold" + ","
                                 + "extra:["
                                 + "{text:\"" + report.getTitle() + "\","
-                                + "color:" + "aqua" + ","
+                                + "color:" + titleColor + ","
                                 + "clickEvent:{"
                                 + "action:\"run_command\","
                                 + "value:\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}"
