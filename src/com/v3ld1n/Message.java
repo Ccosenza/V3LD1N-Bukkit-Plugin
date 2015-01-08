@@ -98,6 +98,8 @@ public enum Message {
     REPORT_UNREAD("commands.report.unread"),
     REPORT_NO_TITLE("commands.report.no-title"),
     REPORT_NO_REASON("commands.report.no-reason"),
+    REPORT_INVALID("commands.report.invalid"),
+    REPORT_DELETE("commands.report.delete"),
     REPORT_LIST_TOP("commands.report.list.top"),
     REPORT_LIST_BORDER("commands.report.list.border"),
     REPORT_LIST_HELP("commands.report.list.help"),
@@ -106,7 +108,6 @@ public enum Message {
     REPORT_READ_SENDER("commands.report.read.sender"),
     REPORT_READ_REASON("commands.report.read.reason"),
     REPORT_READ_BACK("commands.report.read.back"),
-    REPORT_READ_INVALID("commands.report.read.invalid-report"),
 
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 

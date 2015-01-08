@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.v3ld1n.Config;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
@@ -14,11 +15,13 @@ import com.v3ld1n.util.ChatUtil;
 public class ReportCommand extends V3LD1NCommand {
     String usageReport = "<player> <reason ...>";
     String usageRead = ("read <report number>");
+    String usageDelete = ("delete <report number>");
 
     public ReportCommand() {
         this.addUsage(usageReport, "Report a player to the server admins");
-        this.addUsage(usageRead, "Read a report");
         this.addUsage("list", "List reports");
+        this.addUsage(usageRead, "Read a report");
+        this.addUsage(usageDelete, "Delete a report");
     }
 
     @Override
@@ -32,8 +35,8 @@ public class ReportCommand extends V3LD1NCommand {
             String top = "{text:\"" + Message.REPORT_LIST_TOP + "\","
                     + "color:red}";
             if (args.length >= 2) {
-                if (sender.hasPermission("v3ld1n.report.read") && args.length == 2) {
-                    if (args[0].equalsIgnoreCase("read")) {
+                if (args.length == 2) {
+                    if (sender.hasPermission("v3ld1n.report.read") && args[0].equalsIgnoreCase("read")) {
                         int arg;
                         try {
                             arg = Integer.parseInt(args[1]);
@@ -72,7 +75,25 @@ public class ReportCommand extends V3LD1NCommand {
                             ChatUtil.sendJsonMessage(p, back, 0);
                             return true;
                         }
-                        p.sendMessage(Message.REPORT_READ_INVALID.toString());
+                        p.sendMessage(Message.REPORT_INVALID.toString());
+                        return true;
+                    } else if (sender.isOp() && args[0].equalsIgnoreCase("delete")) {
+                        int arg;
+                        try {
+                            arg = Integer.parseInt(args[1]);
+                        } catch (IllegalArgumentException e) {
+                            this.sendArgumentUsage(sender, label, command, usageDelete);
+                            return true;
+                        }
+                        if (arg <= V3LD1N.getReports().size() && arg > 0) {
+                            Report report = V3LD1N.getReports().get(arg - 1);
+                            V3LD1N.getReports().remove(report);
+                            Config.REPORTS.getConfig().set("reports." + report.getTitle(), null);
+                            Config.REPORTS.saveConfig();
+                            ChatUtil.sendMessage(sender, String.format(Message.REPORT_DELETE.toString(), report.getTitle()), 2);
+                            return true;
+                        }
+                        p.sendMessage(Message.REPORT_INVALID.toString());
                         return true;
                     }
                 }
@@ -103,7 +124,7 @@ public class ReportCommand extends V3LD1NCommand {
                 Report report = new Report(title, playerName, playerUuid, reason);
                 V3LD1N.addReport(report);
                 ChatUtil.sendUnreadReports();
-                ChatUtil.sendMessage(sender, Message.REPORT_SEND.toString(), 2);
+                ChatUtil.sendMessage(sender, String.format(Message.REPORT_SEND.toString(), title), 2);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
