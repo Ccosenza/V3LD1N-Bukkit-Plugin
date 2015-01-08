@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.PlayerUtil;
 
@@ -45,7 +46,7 @@ public class PushCommand extends V3LD1NCommand {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
                     p.setVelocity(velocity);
-                    sender.sendMessage(String.format(Message.PUSH_PUSH.toString(), p.getName(), speedX, speedY, speedZ));
+                    ChatUtil.sendMessage(sender, String.format(Message.PUSH_PUSH.toString(), p.getName(), speedX, speedY, speedZ), 2);
                     return true;
                 }
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
@@ -61,7 +62,7 @@ public class PushCommand extends V3LD1NCommand {
                         sender.sendMessage(String.format(Message.PUSH_INVALID_SPEED.toString(), SPEED_DEFAULT));
                     }
                     EntityUtil.pushToward(player, player.getLocation(), toPlayer.getLocation(), speed, speed, speed);
-                    sender.sendMessage(String.format(Message.PUSH_PUSH_TO_PLAYER.toString(), player.getName(), speed));
+                    ChatUtil.sendMessage(sender, String.format(Message.PUSH_PUSH_TO_PLAYER.toString(), player.getName(), speed), 2);
                     return true;
                 }
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());

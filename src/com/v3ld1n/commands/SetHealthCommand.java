@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ChatUtil;
 
 public class SetHealthCommand extends V3LD1NCommand {
     public SetHealthCommand() {
@@ -25,7 +26,7 @@ public class SetHealthCommand extends V3LD1NCommand {
                     }
                     if (arg >= 0 && arg <= ((LivingEntity) sender).getMaxHealth()) {
                         ((LivingEntity) sender).setHealth(arg);
-                        sender.sendMessage(String.format(Message.SETHEALTH_SET.toString(), args[0]));
+                        ChatUtil.sendMessage(sender, String.format(Message.SETHEALTH_SET.toString(), args[0]), 2);
                         return true;
                     }
                     sender.sendMessage(Message.SETHEALTH_LIMIT.toString());

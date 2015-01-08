@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerUtil;
 
 public class SetHotbarSlotCommand extends V3LD1NCommand {
@@ -38,11 +39,13 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
                 }
                 try {
                     p.getInventory().setHeldItemSlot(Integer.parseInt(args[0]) - 1);
+                    String message;
                     if (p.getName().equals(sender.getName())) {
-                        sender.sendMessage(String.format(Message.SETHOTBARSLOT_SET_OWN.toString(), args[0]));
+                        message = String.format(Message.SETHOTBARSLOT_SET_OWN.toString(), args[0]);
                     } else {
-                        sender.sendMessage(String.format(Message.SETHOTBARSLOT_SET.toString(), p.getName(), args[0]));
+                        message = String.format(Message.SETHOTBARSLOT_SET.toString(), p.getName(), args[0]);
                     }
+                    ChatUtil.sendMessage(sender, message, 2);
                 } catch (Exception e) {
                     sender.sendMessage(Message.SETHOTBARSLOT_INVALID_SLOT.toString());
                 }
