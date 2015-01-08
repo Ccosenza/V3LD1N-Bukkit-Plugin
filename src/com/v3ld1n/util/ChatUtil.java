@@ -70,7 +70,7 @@ public class ChatUtil {
     }
 
     public static void sendUnreadReports(Player p) {
-        p.sendMessage(String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports()));
+        p.sendMessage(String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports(p.getUniqueId())));
     }
 
     public static void sendList(CommandSender sender, String title, List<?> items) {

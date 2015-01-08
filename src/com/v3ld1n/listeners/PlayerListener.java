@@ -110,6 +110,9 @@ public class PlayerListener implements Listener {
                 }
             }, 1L);
         }
+        if (ConfigUtil.getUnreadReports(p.getUniqueId()) > -1) {
+            ChatUtil.sendUnreadReports(p);
+        }
     }
 
     @EventHandler

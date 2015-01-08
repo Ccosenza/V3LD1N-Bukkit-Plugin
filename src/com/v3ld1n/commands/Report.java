@@ -1,5 +1,7 @@
 package com.v3ld1n.commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Report {
@@ -7,17 +9,17 @@ public class Report {
     private String senderName;
     private UUID senderUuid;
     private String reason;
-    private boolean read;
+    private List<UUID> read;
 
     public Report(String title, String senderName, UUID senderUuid, String reason) {
         this.title = title;
         this.senderName = senderName;
         this.senderUuid = senderUuid;
         this.reason = reason;
-        this.read = false;
+        this.read = new ArrayList<>();
     }
 
-    public Report(String title, String senderName, UUID senderUuid, String reason, boolean read) {
+    public Report(String title, String senderName, UUID senderUuid, String reason, List<UUID> read) {
         this.title = title;
         this.senderName = senderName;
         this.senderUuid = senderUuid;
@@ -42,10 +44,18 @@ public class Report {
     }
 
     public boolean isRead() {
+        return !read.isEmpty();
+    }
+
+    public boolean isReadBy(UUID uuid) {
+        return read.contains(uuid);
+    }
+
+    public List<UUID> getRead() {
         return read;
     }
 
-    public void setRead(boolean read) {
-        this.read = read;
+    public void setReadBy(UUID uuid) {
+        this.read.add(uuid);
     }
 }

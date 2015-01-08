@@ -133,11 +133,10 @@ public class V3LD1N extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
-                if (random.nextInt(100) + 1 == ConfigSetting.PLAYER_EFFECTS_CHANCE.getInt()) {
+                if (random.nextInt(100) + 1 <= ConfigSetting.PLAYER_EFFECTS_CHANCE.getInt()) {
                     Player player = PlayerUtil.getRandomPlayer();
                     if (ConfigSetting.PLAYER_EFFECTS_PLAYERS.getStringList().contains(player.getName())) {
                         player.getWorld().strikeLightningEffect(player.getLocation());
-                        getLogger().info("lightning");
                     }
                 }
             }
@@ -247,9 +246,13 @@ public class V3LD1N extends JavaPlugin {
                     String senderName = config.getString(section + key + ".sender-name");
                     UUID senderUuid = UUID.fromString(config.getString(section + key + ".sender-uuid"));
                     String reason = config.getString(section + key + ".reason");
-                    boolean read = false;
-                    if (config.get(section + key + ".read") != null) {
-                        read = config.getBoolean(section + key + ".read");
+                    List<String> readStrings = new ArrayList<>();
+                    if (config.get(section + key + ".read-by") != null) {
+                        readStrings = config.getStringList(section + key + ".read-by");
+                    }
+                    List<UUID> read = new ArrayList<>();
+                    for (String uuidString : readStrings) {
+                        read.add(UUID.fromString(uuidString));
                     }
                     Report report = new Report(title, senderName, senderUuid, reason, read);
                     reports.add(report);
@@ -271,7 +274,12 @@ public class V3LD1N extends JavaPlugin {
                 config.set(section + report.getTitle() + ".sender-name", report.getSenderName());
                 config.set(section + report.getTitle() + ".sender-uuid", report.getSenderUuid().toString());
                 config.set(section + report.getTitle() + ".reason", report.getReason());
-                config.set(section + report.getTitle() + ".read", report.isRead());
+                List<UUID> read = report.getRead();
+                List<String> readStrings = new ArrayList<>();
+                for (UUID uuid : read) {
+                    readStrings.add(uuid.toString());
+                }
+                config.set(section + report.getTitle() + ".read-by", readStrings);
             }
             Config.REPORTS.saveConfig();
             StringUtil.logDebugMessage(String.format(Message.SAVING_REPORTS.toString(), reports.size()));

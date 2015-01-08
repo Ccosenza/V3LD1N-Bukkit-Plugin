@@ -2,6 +2,7 @@ package com.v3ld1n.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -38,10 +39,10 @@ public class ConfigUtil {
         }
     }
 
-    public static int getUnreadReports() {
+    public static int getUnreadReports(UUID uuid) {
         int unreadReports = 0;
         for (Report report : V3LD1N.getReports()) {
-            if (!report.isRead()) {
+            if (!report.isReadBy(uuid)) {
                 unreadReports++;
             }
         }
