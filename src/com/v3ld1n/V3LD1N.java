@@ -276,7 +276,7 @@ public class V3LD1N extends JavaPlugin {
                 config.set(section + report.getTitle() + ".sender-name", report.getSenderName());
                 config.set(section + report.getTitle() + ".sender-uuid", report.getSenderUuid().toString());
                 config.set(section + report.getTitle() + ".reason", report.getReason());
-                List<UUID> read = report.getRead();
+                List<UUID> read = report.getReadPlayers();
                 List<String> readStrings = new ArrayList<>();
                 for (UUID uuid : read) {
                     readStrings.add(uuid.toString());

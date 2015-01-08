@@ -2,6 +2,7 @@ package com.v3ld1n.commands;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,12 +17,14 @@ import com.v3ld1n.util.StringUtil;
 public class ReportCommand extends V3LD1NCommand {
     String usageReport = "<player> <reason ...>";
     String usageRead = ("read <report number>");
+    String usageReadBy = ("readby <report number>");
     String usageDelete = ("delete <report number>");
 
     public ReportCommand() {
         this.addUsage(usageReport, "Report a player to the server admins");
         this.addUsage("list", "List reports");
         this.addUsage(usageRead, "Read a report");
+        this.addUsage(usageReadBy, "List players who read a report");
         this.addUsage(usageDelete, "Delete a report");
     }
 
@@ -100,6 +103,33 @@ public class ReportCommand extends V3LD1NCommand {
                             return true;
                         }
                         sender.sendMessage(Message.REPORT_DELETE_NO_PERMISSION.toString());
+                        return true;
+                    } else if (args[0].equalsIgnoreCase("readby")) {
+                        if (sender.isOp()) {
+                            int arg;
+                            try {
+                                arg = Integer.parseInt(args[1]);
+                            } catch (IllegalArgumentException e) {
+                                this.sendArgumentUsage(sender, label, command, usageReadBy);
+                                return true;
+                            }
+                            if (arg <= V3LD1N.getReports().size() && arg > 0) {
+                                Report report = V3LD1N.getReports().get(arg - 1);
+                                sender.sendMessage(String.format(Message.REPORT_READBY_LIST.toString(), report.getTitle()));
+                                if (!report.getReadPlayers().isEmpty()) {
+                                    for (UUID uuid : report.getReadPlayers()) {
+                                        String offlineName = Bukkit.getServer().getOfflinePlayer(uuid).getName();
+                                        sender.sendMessage(StringUtil.formatText(String.format(Message.REPORT_READBY_LIST_ITEM.toString(), offlineName)));
+                                    }
+                                } else {
+                                    sender.sendMessage(Message.NONE.toString());
+                                }
+                                return true;
+                            }
+                            p.sendMessage(Message.REPORT_INVALID.toString());
+                            return true;
+                        }
+                        sender.sendMessage(Message.REPORT_READBY_NO_PERMISSION.toString());
                         return true;
                     }
                 }

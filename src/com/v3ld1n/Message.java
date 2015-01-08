@@ -6,6 +6,7 @@ public enum Message {
     INVALID_BUKKIT_VERSION("invalid-bukkit-version"),
     LINK_HOVER("link-hover"),
     COMMAND_HOVER("command-hover"),
+    NONE("none"),
 
     LIST_ITEM("lists.item"),
 
@@ -24,8 +25,6 @@ public enum Message {
 
     REPORT_LOAD_ERROR("errors.loading.reports"),
     REPORT_SAVE_ERROR("errors.saving.reports"),
-
-    CHAT_VARIABLES_NONE("chat-variables.none"),
 
     TASK_ITEM_ERROR("errors.loading.tasks.item"),
     TASK_PARTICLE_ERROR("errors.loading.tasks.particle"),
@@ -109,6 +108,9 @@ public enum Message {
     REPORT_READ_SENDER("commands.report.read.sender"),
     REPORT_READ_REASON("commands.report.read.reason"),
     REPORT_READ_BACK("commands.report.read.back"),
+    REPORT_READBY_LIST("commands.report.readby.list"),
+    REPORT_READBY_LIST_ITEM("commands.report.readby.list-item"),
+    REPORT_READBY_NO_PERMISSION("commands.report.readby.no-permission"),
 
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 

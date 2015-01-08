@@ -51,7 +51,7 @@ public class Report {
         return read.contains(uuid);
     }
 
-    public List<UUID> getRead() {
+    public List<UUID> getReadPlayers() {
         return read;
     }
 

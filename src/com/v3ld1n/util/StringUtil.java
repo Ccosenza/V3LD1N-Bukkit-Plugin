@@ -71,25 +71,26 @@ public class StringUtil {
                 .replaceAll(ignoreCase + "%lightningtime%", Integer.toString(player.getWorld().getThunderDuration() / 20))
                 .replaceAll(ignoreCase + "%worldtime%", Long.toString(player.getWorld().getTime()))
                 .replaceAll(ignoreCase + "%servertime%", getCurrentTime());
+        String none = Message.NONE.toString();
         if (WorldUtil.getNearestPlayer(player) != null) {
             replaced = replaced.replaceAll(ignoreCase + "%player%", WorldUtil.getNearestPlayer(player).getName());
         } else {
-            replaced = replaced.replaceAll(ignoreCase + "%player%", Message.CHAT_VARIABLES_NONE.toString());
+            replaced = replaced.replaceAll(ignoreCase + "%player%", none);
         }
         if (player.getItemInHand().getType() != Material.AIR) {
             replaced = replaced.replaceAll(ignoreCase + "%item%", fromEnum(player.getItemInHand().getType(), true));
         } else {
-            replaced = replaced.replaceAll(ignoreCase + "%item%", Message.CHAT_VARIABLES_NONE.toString());
+            replaced = replaced.replaceAll(ignoreCase + "%item%", none);
         }
         if (player.getTargetBlock(null, 5).getType() != Material.AIR) {
             replaced = replaced.replaceAll(ignoreCase + "%targetblock%", fromEnum(player.getTargetBlock(null, 5).getType(), true));
         } else {
-            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", Message.CHAT_VARIABLES_NONE.toString());
+            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", none);
         }
         if (player.getVehicle() != null) {
             replaced = replaced.replaceAll(ignoreCase + "%vehicle%", fromEnum(player.getVehicle().getType(), true));
         } else {
-            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", Message.CHAT_VARIABLES_NONE.toString());
+            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", none);
         }
         return replaced;
     }
