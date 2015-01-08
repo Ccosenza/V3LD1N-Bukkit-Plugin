@@ -79,23 +79,27 @@ public class ReportCommand extends V3LD1NCommand {
                         }
                         p.sendMessage(Message.REPORT_INVALID.toString());
                         return true;
-                    } else if (sender.isOp() && args[0].equalsIgnoreCase("delete")) {
-                        int arg;
-                        try {
-                            arg = Integer.parseInt(args[1]);
-                        } catch (IllegalArgumentException e) {
-                            this.sendArgumentUsage(sender, label, command, usageDelete);
+                    } else if (args[0].equalsIgnoreCase("delete")) {
+                        if (sender.isOp()) {
+                            int arg;
+                            try {
+                                arg = Integer.parseInt(args[1]);
+                            } catch (IllegalArgumentException e) {
+                                this.sendArgumentUsage(sender, label, command, usageDelete);
+                                return true;
+                            }
+                            if (arg <= V3LD1N.getReports().size() && arg > 0) {
+                                Report report = V3LD1N.getReports().get(arg - 1);
+                                V3LD1N.getReports().remove(report);
+                                Config.REPORTS.getConfig().set("reports." + report.getTitle(), null);
+                                Config.REPORTS.saveConfig();
+                                ChatUtil.sendMessage(sender, String.format(Message.REPORT_DELETE.toString(), report.getTitle()), 2);
+                                return true;
+                            }
+                            p.sendMessage(Message.REPORT_INVALID.toString());
                             return true;
                         }
-                        if (arg <= V3LD1N.getReports().size() && arg > 0) {
-                            Report report = V3LD1N.getReports().get(arg - 1);
-                            V3LD1N.getReports().remove(report);
-                            Config.REPORTS.getConfig().set("reports." + report.getTitle(), null);
-                            Config.REPORTS.saveConfig();
-                            ChatUtil.sendMessage(sender, String.format(Message.REPORT_DELETE.toString(), report.getTitle()), 2);
-                            return true;
-                        }
-                        p.sendMessage(Message.REPORT_INVALID.toString());
+                        sender.sendMessage(Message.REPORT_DELETE_NO_PERMISSION.toString());
                         return true;
                     }
                 }
