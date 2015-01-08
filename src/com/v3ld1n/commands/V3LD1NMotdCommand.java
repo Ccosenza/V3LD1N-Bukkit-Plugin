@@ -60,7 +60,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                 if (args[0].equalsIgnoreCase("list")) {
                     sender.sendMessage(Message.V3LD1NMOTD_LIST.toString());
                     for (String motd : ConfigSetting.SERVER_LIST_MOTD.getStringList()) {
-                        sender.sendMessage(String.format(Message.V3LD1NMOTD_LIST_ITEM.toString(), motd));
+                        sender.sendMessage(StringUtil.formatText(String.format(Message.V3LD1NMOTD_LIST_ITEM.toString(), motd)));
                     }
                     return true;
                 }
