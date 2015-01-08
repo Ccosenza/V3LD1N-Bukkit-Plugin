@@ -93,7 +93,7 @@ public class V3LD1N extends JavaPlugin {
         getCommand("report").setExecutor(new ReportCommand());
         getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
         getCommand("players").setExecutor(new PlayersCommand());
-        getCommand("v3ld1nwarp").setExecutor(new WarpCommand());
+        getCommand("v3ld1n").setExecutor(new WarpCommand());
         StringUtil.logDebugMessage(String.format(Message.LOADING_COMMANDS.toString(), this.getDescription().getCommands().size()));
         //Ping on player list
         if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
