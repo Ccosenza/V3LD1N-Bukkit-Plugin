@@ -140,4 +140,14 @@ public class StringUtil {
         }
         return string;
     }
+
+    public static String fromArray(Object[] array, int fromIndex) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = fromIndex; i < array.length; i++) {
+            sb.append(array[i]).append(" ");
+        }
+        String string = sb.toString();
+        string = string.substring(0, string.length() - 1);
+        return string;
+    }
 }

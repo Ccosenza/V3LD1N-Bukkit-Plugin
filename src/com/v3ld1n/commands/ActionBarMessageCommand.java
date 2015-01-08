@@ -20,12 +20,8 @@ public class ActionBarMessageCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.actionbarmessage")) {
             if (args.length >= 2) {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 1; i < args.length; i++) {
-                    sb.append(args[i]).append(" ");
-                }
-                String message = sb.toString();
-                message = StringUtil.formatText(message.substring(0, message.length() - 1));
+                String message = StringUtil.fromArray(args, 1);
+                message = StringUtil.formatText(message);
                 if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("a")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                         ChatUtil.sendMessage(p, message, 2);

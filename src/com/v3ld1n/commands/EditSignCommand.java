@@ -38,12 +38,7 @@ public class EditSignCommand extends V3LD1NCommand {
                     }
                     Block target = p.getTargetBlock(null, 100);
                     if (target.getState() instanceof Sign) {
-                        StringBuilder sb = new StringBuilder();
-                        for (int i = 2; i < args.length; i++) {
-                            sb.append(args[i]).append(" ");
-                        }
-                        String text = sb.toString();
-                        text = text.substring(0, text.length() - 1);
+                        String text = StringUtil.fromArray(args, 2);
                         switch (args[0].toLowerCase()) {
                         case "set":
                             BlockUtil.editSign(target, line, StringUtil.formatText(text));

@@ -11,6 +11,7 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class ReportCommand extends V3LD1NCommand {
     String usageReport = "<player> <reason ...>";
@@ -98,12 +99,7 @@ public class ReportCommand extends V3LD1NCommand {
                     }
                 }
                 String title = args[0];
-                StringBuilder sb = new StringBuilder();
-                for (int i = 1; i < args.length; i++) {
-                    sb.append(args[i]).append(" ");
-                }
-                String reason = sb.toString();
-                reason = reason.substring(0, reason.length() - 1);
+                String reason = StringUtil.fromArray(args, 1);
                 int sameTitles = 0;
                 for (Report report : V3LD1N.getReports()) {
                     if (report.getTitle().equalsIgnoreCase(title) || report.getTitle().startsWith(title + "(")) {
