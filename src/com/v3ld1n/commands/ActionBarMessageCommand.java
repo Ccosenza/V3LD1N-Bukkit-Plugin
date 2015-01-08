@@ -12,22 +12,27 @@ import com.v3ld1n.util.StringUtil;
 
 public class ActionBarMessageCommand extends V3LD1NCommand {
     public ActionBarMessageCommand() {
-        this.addUsage("<message>", "Broadcast a message to all players");
-        this.addUsage("<message> <player>", "Send a message to a player");
+        this.addUsage("all <message ...>", "Broadcast a message to all players");
+        this.addUsage("<player> <message ...>", "Send a message to a player");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.actionbarmessage")) {
-            if (args.length > 0 && args.length < 3) {
-                String message = StringUtil.formatText(args[0].replaceAll("_", " "));
-                if (args.length == 1) {
+            if (args.length >= 2) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < args.length; i++) {
+                    sb.append(args[i]).append(" ");
+                }
+                String message = sb.toString();
+                message = StringUtil.formatText(message.substring(0, message.length() - 1));
+                if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("a")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                         ChatUtil.sendMessage(p, message, 2);
                     }
-                } else if (args.length == 2) {
-                    if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                        ChatUtil.sendMessage(PlayerUtil.getOnlinePlayer(args[1]), message, 2);
+                } else {
+                    if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
+                        ChatUtil.sendMessage(PlayerUtil.getOnlinePlayer(args[0]), message, 2);
                     } else {
                         sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                     }
