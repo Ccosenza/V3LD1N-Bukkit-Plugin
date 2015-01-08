@@ -63,10 +63,20 @@ public class ConfigUtil {
         List<Particle> particles = new ArrayList<>();
         if (Config.WARPS.getConfig().get(warp.toLowerCase() + ".particles") != null) {
             for (String particleString : Config.WARPS.getConfig().getStringList(warp.toLowerCase() + ".particles")) {
-                particles.add(Particle.fromString((particleString)));
+                particles.add(Particle.fromString(particleString));
             }
         }
         return particles;
+    }
+
+    public static List<String> getWarpSounds(String warp) {
+        List<String> sounds = new ArrayList<>();
+        if (Config.WARPS.getConfig().get(warp.toLowerCase() + ".sounds") != null) {
+            for (String sound : Config.WARPS.getConfig().getStringList(warp.toLowerCase() + ".sounds")) {
+                sounds.add(sound);
+            }
+        }
+        return sounds;
     }
 
     /**

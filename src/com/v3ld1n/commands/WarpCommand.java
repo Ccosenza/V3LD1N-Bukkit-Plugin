@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.Particle;
+import com.v3ld1n.util.SoundUtil;
 
 public class WarpCommand extends V3LD1NCommand {
     @Override
@@ -17,6 +18,9 @@ public class WarpCommand extends V3LD1NCommand {
             Bukkit.getServer().dispatchCommand(sender, "warp " + label);
             for (Particle particle : ConfigUtil.getWarpParticles(label)) {
                 particle.display(p.getLocation(), p);
+            }
+            for (String sound : ConfigUtil.getWarpSounds(label)) {
+                SoundUtil.playSoundString(sound, p.getLocation());
             }
             return true;
         }
