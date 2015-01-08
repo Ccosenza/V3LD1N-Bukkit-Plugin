@@ -1,6 +1,7 @@
 package com.v3ld1n.util;
 
 import java.lang.reflect.Field;
+import java.util.Random;
 
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.EnumTitleAction;
@@ -30,6 +31,11 @@ public class PlayerUtil {
             }
         }
         return null;
+    }
+
+    public static Player getRandomPlayer() {
+        int random = new Random().nextInt(Bukkit.getOnlinePlayers().size());
+        return (Player) Bukkit.getServer().getOnlinePlayers().toArray()[random];
     }
 
     /**

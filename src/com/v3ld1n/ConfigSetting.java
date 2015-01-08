@@ -41,7 +41,9 @@ public enum ConfigSetting {
     PARTICLE_RATCHETSBOW_SKULL("ratchetsbow-wither-skull", "particles.yml"),
     PARTICLE_RATCHETSBOW_BLUE_SKULL("ratchetsbow-blue-wither-skull", "particles.yml"),
 
-    PLAYER_EFFECTS("player-effects", "player-data.yml"),
+    PLAYER_EFFECTS_PLAYERS("player-effects.players", "player-data.yml"),
+    PLAYER_EFFECTS_CHANCE("player-effects.chance", "player-data.yml", 20),
+    PLAYER_EFFECTS_TICKS("player-effects.ticks", "player-data.yml", 400),
 
     REPORT_READ_BACK_COLOR("back-color", "reports.yml", "blue"),
 

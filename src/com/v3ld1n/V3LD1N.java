@@ -2,6 +2,7 @@ package com.v3ld1n;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import com.v3ld1n.listeners.EntityListener;
@@ -38,6 +39,7 @@ public class V3LD1N extends JavaPlugin {
     private static List<SoundTask> soundTasks;
     private static List<TeleportTask> teleportTasks;
     private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
+    private final Random random = new Random();
 
     @Override
     public void onEnable() {
@@ -93,6 +95,7 @@ public class V3LD1N extends JavaPlugin {
         getCommand("players").setExecutor(new PlayersCommand());
         getCommand("v3ld1nwarp").setExecutor(new WarpCommand());
         StringUtil.logDebugMessage(String.format(Message.LOADING_COMMANDS.toString(), this.getDescription().getCommands().size()));
+        //Ping on player list
         if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
             ScoreboardManager manager = Bukkit.getScoreboardManager();
             final Scoreboard board = manager.getNewScoreboard();
@@ -117,6 +120,7 @@ public class V3LD1N extends JavaPlugin {
                 }
             }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
         }
+        //Auto-save reports
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
@@ -125,6 +129,19 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.REPORTS_AUTO_SAVE_TICKS.getInt(), ConfigSetting.REPORTS_AUTO_SAVE_TICKS.getInt());
+        //Player effects
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (random.nextInt(100) + 1 == ConfigSetting.PLAYER_EFFECTS_CHANCE.getInt()) {
+                    Player player = PlayerUtil.getRandomPlayer();
+                    if (ConfigSetting.PLAYER_EFFECTS_PLAYERS.getStringList().contains(player.getName())) {
+                        player.getWorld().strikeLightningEffect(player.getLocation());
+                        getLogger().info("lightning");
+                    }
+                }
+            }
+        }, ConfigSetting.PLAYER_EFFECTS_TICKS.getInt(), ConfigSetting.PLAYER_EFFECTS_TICKS.getInt());
     }
 
     @Override

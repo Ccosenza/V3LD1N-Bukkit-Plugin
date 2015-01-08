@@ -86,7 +86,7 @@ public class PlayerListener implements Listener {
             Location loc = p.getLocation();
             loc.setY(loc.getY() + 0.15);
             ConfigSetting setting = ConfigSetting.PARTICLE_TRAILS;
-            if (ConfigSetting.PLAYER_EFFECTS.getStringList().contains(p.getName())) {
+            if (ConfigSetting.PLAYER_EFFECTS_PLAYERS.getStringList().contains(p.getName())) {
                 setting = ConfigSetting.PARTICLE_TRAILS_RATCHET;
             }
             Particle trail = Particle.fromString(PlayerData.TRAILS.getString(p.getUniqueId()), setting.getString());
