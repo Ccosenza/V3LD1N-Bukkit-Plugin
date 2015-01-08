@@ -41,7 +41,7 @@ public class ConfigUtil {
     public static int getUnreadReports() {
         int unreadReports = 0;
         for (Report report : V3LD1N.getReports()) {
-            if (report.isRead()) {
+            if (!report.isRead()) {
                 unreadReports++;
             }
         }
