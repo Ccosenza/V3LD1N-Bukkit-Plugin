@@ -133,10 +133,12 @@ public class V3LD1N extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
-                if (random.nextInt(100) + 1 <= ConfigSetting.PLAYER_EFFECTS_CHANCE.getInt()) {
-                    Player player = PlayerUtil.getRandomPlayer();
-                    if (ConfigSetting.PLAYER_EFFECTS_PLAYERS.getStringList().contains(player.getName())) {
-                        player.getWorld().strikeLightningEffect(player.getLocation());
+                if (!Bukkit.getServer().getOnlinePlayers().isEmpty()) {
+                    if (random.nextInt(100) + 1 <= ConfigSetting.PLAYER_EFFECTS_CHANCE.getInt()) {
+                        Player player = PlayerUtil.getRandomPlayer();
+                        if (ConfigSetting.PLAYER_EFFECTS_PLAYERS.getStringList().contains(player.getName())) {
+                            player.getWorld().strikeLightningEffect(player.getLocation());
+                        }
                     }
                 }
             }

@@ -34,8 +34,11 @@ public class PlayerUtil {
     }
 
     public static Player getRandomPlayer() {
-        int random = new Random().nextInt(Bukkit.getOnlinePlayers().size());
-        return (Player) Bukkit.getServer().getOnlinePlayers().toArray()[random];
+        if (!Bukkit.getServer().getOnlinePlayers().isEmpty()) {
+            int random = new Random().nextInt(Bukkit.getOnlinePlayers().size());
+            return (Player) Bukkit.getServer().getOnlinePlayers().toArray()[random];
+        }
+        return null;
     }
 
     /**
