@@ -1,6 +1,5 @@
 package com.v3ld1n.util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,36 +46,6 @@ public class ConfigUtil {
             }
         }
         return unreadReports;
-    }
-
-    public static List<String> getWarps() {
-        List<String> warps = new ArrayList<>();
-        if (Config.WARPS.getConfig() != null) {
-            for (String key : Config.WARPS.getConfig().getKeys(false)) {
-                warps.add(key);
-            }
-        }
-        return warps;
-    }
-
-    public static List<Particle> getWarpParticles(String warp) {
-        List<Particle> particles = new ArrayList<>();
-        if (Config.WARPS.getConfig().get(warp.toLowerCase() + ".particles") != null) {
-            for (String particleString : Config.WARPS.getConfig().getStringList(warp.toLowerCase() + ".particles")) {
-                particles.add(Particle.fromString(particleString));
-            }
-        }
-        return particles;
-    }
-
-    public static List<String> getWarpSounds(String warp) {
-        List<String> sounds = new ArrayList<>();
-        if (Config.WARPS.getConfig().get(warp.toLowerCase() + ".sounds") != null) {
-            for (String sound : Config.WARPS.getConfig().getStringList(warp.toLowerCase() + ".sounds")) {
-                sounds.add(sound);
-            }
-        }
-        return sounds;
     }
 
     /**
