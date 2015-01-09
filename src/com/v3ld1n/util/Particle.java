@@ -192,4 +192,10 @@ public class Particle {
         }
         return builder.build();
     }
+
+    @Override
+    public String toString() {
+        String string = name + "|" + offsetX + "|" + offsetY + "|" + offsetZ + "|" + speed + "|" + count + "|" + force;
+        return string;
+    }
 }
