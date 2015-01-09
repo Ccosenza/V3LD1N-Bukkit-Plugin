@@ -299,6 +299,10 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
+    public static void addReport(Report report) {
+        reports.add(report);
+    }
+
     public static void loadWarps() {
         try {
             String sectionName = "warps";
@@ -353,8 +357,27 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void addReport(Report report) {
-        reports.add(report);
+    public static void addWarp(Warp warp) {
+        for (Warp oldWarp : warps) {
+            if (oldWarp.getName().equalsIgnoreCase(warp.getName())) {
+                return;
+            }
+        }
+        warps.add(warp);
+    }
+
+    public static void removeWarp(Warp warp) {
+        if (warps.contains(warp)) {
+            warps.remove(warp);
+        }
+    }
+
+    public static void removeWarp(String warp) {
+        for (Warp oldWarp : getWarps()) {
+            if (oldWarp.getName().equalsIgnoreCase(warp)) {
+                warps.remove(oldWarp);
+            }
+        }
     }
 
     public void loadItemTasks() {
@@ -472,6 +495,10 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<Report> getReports() {
         return reports;
+    }
+
+    public static List<Warp> getWarps() {
+        return warps;
     }
 
     public static List<ItemTask> getItemTasks() {
