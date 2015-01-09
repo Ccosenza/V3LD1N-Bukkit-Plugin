@@ -22,9 +22,11 @@ public enum Message {
 
     ITEM_RELOAD_ERROR("errors.loading.items"),
     FAQ_LOAD_ERROR("errors.loading.faq"),
-
     REPORT_LOAD_ERROR("errors.loading.reports"),
+    WARP_LOAD_ERROR("errors.loading.warps"),
+
     REPORT_SAVE_ERROR("errors.saving.reports"),
+    WARP_SAVE_ERROR("errors.saving.warps"),
 
     TASK_ITEM_ERROR("errors.loading.tasks.item"),
     TASK_PARTICLE_ERROR("errors.loading.tasks.particle"),
@@ -37,9 +39,11 @@ public enum Message {
     LOADING_TASK("debug.loading.task"),
     LOADING_QUESTIONS("debug.loading.questions"),
     LOADING_REPORTS("debug.loading.reports"),
+    LOADING_WARPS("debug.loading.warps"),
     LOADING_COMMANDS("debug.loading.commands"),
 
     SAVING_REPORTS("debug.saving.reports"),
+    SAVING_WARPS("debug.saving.warps"),
 
     RATCHETS_SHOVEL_DAMAGE("items.ratchets-shovel.damage"),
 

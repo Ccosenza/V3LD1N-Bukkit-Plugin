@@ -24,6 +24,7 @@ import com.v3ld1n.items.*;
 import com.v3ld1n.items.ratchet.*;
 import com.v3ld1n.tasks.*;
 import com.v3ld1n.util.ConfigAccessor;
+import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
@@ -34,6 +35,7 @@ public class V3LD1N extends JavaPlugin {
     private static List<V3LD1NItem> items;
     private static List<FAQ> questions;
     private static List<Report> reports;
+    private static List<Warp> warps;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
@@ -52,6 +54,7 @@ public class V3LD1N extends JavaPlugin {
         items = new ArrayList<>();
         questions = new ArrayList<>();
         reports = new ArrayList<>();
+        warps = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
@@ -61,6 +64,7 @@ public class V3LD1N extends JavaPlugin {
         loadItems();
         loadQuestions();
         loadReports();
+        loadWarps();
         loadItemTasks();
         loadParticleTasks();
         loadSoundTasks();
@@ -93,6 +97,7 @@ public class V3LD1N extends JavaPlugin {
         getCommand("report").setExecutor(new ReportCommand());
         getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
         getCommand("players").setExecutor(new PlayersCommand());
+        getCommand("v3ld1nwarp").setExecutor(new V3LD1NWarpCommand());
         getCommand("v3ld1n").setExecutor(new WarpCommand());
         StringUtil.logDebugMessage(String.format(Message.LOADING_COMMANDS.toString(), this.getDescription().getCommands().size()));
         //Ping on player list
@@ -148,10 +153,12 @@ public class V3LD1N extends JavaPlugin {
     @Override
     public void onDisable() {
         saveReports();
+        saveWarps();
         configs = null;
         items = null;
         questions = null;
         reports = null;
+        warps = null;
         itemTasks = null;
         particleTasks = null;
         soundTasks = null;
@@ -273,9 +280,10 @@ public class V3LD1N extends JavaPlugin {
             String section = sectionName + ".";
             FileConfiguration config = Config.REPORTS.getConfig();
             for (Report report : reports) {
-                config.set(section + report.getTitle() + ".sender-name", report.getSenderName());
-                config.set(section + report.getTitle() + ".sender-uuid", report.getSenderUuid().toString());
-                config.set(section + report.getTitle() + ".reason", report.getReason());
+                String title = report.getTitle();
+                config.set(section + title + ".sender-name", report.getSenderName());
+                config.set(section + title + ".sender-uuid", report.getSenderUuid().toString());
+                config.set(section + title + ".reason", report.getReason());
                 List<UUID> read = report.getReadPlayers();
                 List<String> readStrings = new ArrayList<>();
                 for (UUID uuid : read) {
@@ -287,6 +295,60 @@ public class V3LD1N extends JavaPlugin {
             StringUtil.logDebugMessage(String.format(Message.SAVING_REPORTS.toString(), reports.size()));
         } catch (Exception e) {
             plugin.getLogger().warning(Message.REPORT_SAVE_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadWarps() {
+        try {
+            String sectionName = "warps";
+            if (Config.WARPS.getConfig().getConfigurationSection(sectionName) != null) {
+                FileConfiguration config = Config.WARPS.getConfig();
+                String section = sectionName + ".";
+                for (String key : config.getConfigurationSection("warps").getKeys(false)) {
+                    String name = key;
+                    List<String> particleStrings = new ArrayList<>();
+                    if (config.get(section + key + ".particles") != null) {
+                        particleStrings = config.getStringList(section + key + ".particles");
+                    }
+                    List<Particle> particles = new ArrayList<>();
+                    for (String particleString : particleStrings) {
+                        particles.add(Particle.fromString(particleString));
+                    }
+                    List<String> sounds = new ArrayList<>();
+                    if (config.get(section + key + ".sounds") != null) {
+                        sounds = config.getStringList(section + key + ".sounds");
+                    }
+                    Warp warp = new Warp(name, particles, sounds);
+                    warps.add(warp);
+                }
+                StringUtil.logDebugMessage(String.format(Message.LOADING_WARPS.toString(), warps.size()));
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.WARP_LOAD_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveWarps() {
+        try {
+            String sectionName = "warps";
+            String section = sectionName + ".";
+            FileConfiguration config = Config.WARPS.getConfig();
+            for (Warp warp : warps) {
+                String name = warp.getName();
+                List<Particle> particles = warp.getParticles();
+                List<String> particleStrings = new ArrayList<>();
+                for (Particle particle : particles) {
+                    particleStrings.add(particle.toString());
+                }
+                config.set(section + name + ".particles", particleStrings);
+                config.set(section + name + ".sounds", warp.getSounds());
+            }
+            Config.WARPS.saveConfig();
+            StringUtil.logDebugMessage(String.format(Message.SAVING_WARPS.toString(), warps.size()));
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.WARP_SAVE_ERROR.toString());
             e.printStackTrace();
         }
     }
