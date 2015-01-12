@@ -13,7 +13,7 @@ public enum ConfigSetting {
     RESOURCE_PACK("resource-pack", "config.yml"),
     BLOG_POST("blog-post", "config.yml"),
     ENDER_CRYSTAL_EGG_DATA("ender-crystal-spawn-egg-data", "config.yml", 200),
-    SIDEBAR_PREFIX("sidebar-prefix", "config.yml", "v3ld1n_"),
+    SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
     SERVER_LIST_MOTD("server-list.motd", "config.yml"),
     SERVER_LIST_MAX_PLAYERS("server-list.max-players", "config.yml"),
     PLAYER_LIST_HEADER("player-list.header", "config.yml"),
