@@ -1,10 +1,6 @@
 package com.v3ld1n.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -79,14 +75,6 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
-                return true;
-            } else if (args[0].equalsIgnoreCase("warps") && args.length == 1) {
-                List<String> warpStrings = new ArrayList<>();
-                for (String warp : ConfigUtil.getWarps()) {
-                    String color = ChatColor.GREEN + warp;
-                    warpStrings.add(color);
-                }
-                ChatUtil.sendList(sender, Message.V3LD1NPLUGIN_WARP_LIST_TITLE.toString(), warpStrings);
                 return true;
             }
         } else {
