@@ -109,4 +109,4 @@ commands:
   v3ld1nwarp:
     description: Adds, removes, and lists warps.
     aliases: [vwarp]
-    usage: /<command> <add|remove|list> <warp>
+    usage: /<command> <add|remove> <warp> OR /<command> list
