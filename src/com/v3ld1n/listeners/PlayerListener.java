@@ -17,14 +17,17 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.meta.BookMeta;
 
 public class PlayerListener implements Listener {
     private Random random = new Random();
@@ -125,6 +128,27 @@ public class PlayerListener implements Listener {
     public void onCommandPreprocess(PlayerCommandPreprocessEvent event) {
         String msg = StringUtil.replacePlayerVariables(event.getMessage(), event.getPlayer());
         event.setMessage(msg);
+    }
+
+    @EventHandler
+    public void onSignChange(SignChangeEvent event) {
+        for (int i = 0; i < 4; i++) {
+            String line = event.getLine(i);
+            String newLine = StringUtil.replaceSignVariables(line, (Sign) event.getBlock().getState(), event.getPlayer());
+            event.setLine(i, newLine);
+        }
+    }
+
+    @EventHandler
+    public void onBookEdit(PlayerEditBookEvent event) {
+        BookMeta newBookMeta = event.getNewBookMeta();
+        for (String page : newBookMeta.getPages()) {
+            String newPage = StringUtil.formatText(StringUtil.replacePlayerVariables(page, event.getPlayer()));
+            newBookMeta.setPage(newBookMeta.getPages().indexOf(page) + 1, newPage);
+        }
+        String newTitle = StringUtil.formatText(StringUtil.replacePlayerVariables(newBookMeta.getTitle(), event.getPlayer()));
+        newBookMeta.setTitle(newTitle);
+        event.setNewBookMeta(newBookMeta);
     }
 
     @EventHandler
