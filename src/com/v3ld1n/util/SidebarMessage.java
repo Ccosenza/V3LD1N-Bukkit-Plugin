@@ -11,6 +11,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.V3LD1N;
 
 public class SidebarMessage {
@@ -19,7 +20,7 @@ public class SidebarMessage {
 
     String title;
     List<String> lines = new ArrayList<>();
-    final String PREFIX = V3LD1N.getPlugin().getConfig().getString("sidebar-prefix");
+    final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
 
     public SidebarMessage(String title, String... lines) {
         this.title = title;
