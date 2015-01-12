@@ -96,7 +96,7 @@ commands:
     usage: /<command> [player]
   playerlist:
     description: Sets the player list header and footer.
-    usage: /<command> set <header> <footer> OR /<command> reset
+    usage: /<command> set <header> <footer> OR /<command> reset OR /<command> ping
   giveall:
     description: Gives the item you are holding to all players.
     usage: /<command>
@@ -106,7 +106,7 @@ commands:
   players:
     description: Opens an inventory of online players' heads
     usage: /<command>
-  v3ld1n:
-    description: Warp command.
-    aliases: [creative, factions, kitpvp, store, storetop, survival, survival1, survival2, timetravel, veldin, warproom]
-    usage: /<command>
+  v3ld1nwarp:
+    description: Adds, removes, and lists warps.
+    aliases: [vwarp]
+    usage: /<command> <add|remove|list> <warp>

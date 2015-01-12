@@ -88,6 +88,8 @@ public enum Message {
 
     PLAYERLIST_SET("commands.playerlist.set"),
     PLAYERLIST_RESET("commands.playerlist.reset"),
+    PLAYERLIST_ENABLE_PING("commands.playerlist.ping.enable"),
+    PLAYERLIST_DISABLE_PING("commands.playerlist.ping.disable"),
 
     PUSH_PUSH("commands.push.push"),
     PUSH_PUSH_TO_PLAYER("commands.push.push-to-player"),
@@ -146,25 +148,23 @@ public enum Message {
 
     V3LD1NMOTD_ADD("commands.v3ld1nmotd.add"),
     V3LD1NMOTD_REMOVE("commands.v3ld1nmotd.remove"),
-    V3LD1NMOTD_LIST("commands.v3ld1nmotd.list"),
+    V3LD1NMOTD_LIST_TITLE("commands.v3ld1nmotd.list-title"),
     V3LD1NMOTD_LIST_ITEM("commands.v3ld1nmotd.list-item"),
     V3LD1NMOTD_INVALID("commands.v3ld1nmotd.invalid"),
 
     V3LD1NPLUGIN_AVAILABLE("commands.v3ld1nplugin.available"),
     V3LD1NPLUGIN_DASH("commands.v3ld1nplugin.dash"),
     V3LD1NPLUGIN_COMMAND_NOT_PLAYER("commands.v3ld1nplugin.command-not-player"),
-    V3LD1NPLUGIN_DISABLE_DEBUG("commands.v3ld1nplugin.disable-debug"),
-    V3LD1NPLUGIN_ENABLE_DEBUG("commands.v3ld1nplugin.enable-debug"),
-    V3LD1NPLUGIN_DISABLE_WARP("commands.v3ld1nplugin.disable-warp"),
-    V3LD1NPLUGIN_ENABLE_WARP("commands.v3ld1nplugin.enable-warp"),
-    V3LD1NPLUGIN_TOGGLE_ALL_WARPS("commands.v3ld1nplugin.toggle-all-warps"),
-    V3LD1NPLUGIN_INVALID_WARP("commands.v3ld1nplugin.invalid-warp"),
     V3LD1NPLUGIN_RELOAD("commands.v3ld1nplugin.reload"),
     V3LD1NPLUGIN_SETRESOURCEPACK("commands.v3ld1nplugin.setresourcepack"),
     V3LD1NPLUGIN_VERSION("commands.v3ld1nplugin.version"),
-    V3LD1NPLUGIN_WARP_LIST_TITLE("commands.v3ld1nplugin.warp-list-title"),
+    V3LD1NPLUGIN_ENABLE_DEBUG("commands.v3ld1nplugin.debug.enable"),
+    V3LD1NPLUGIN_DISABLE_DEBUG("commands.v3ld1nplugin.debug.disable"),
 
-    WARP_DISABLED("commands.warps.disabled");
+    V3LD1NWARP_ADD("commands.v3ld1nwarp.add"),
+    V3LD1NWARP_REMOVE("commands.v3ld1nwarp.remove"),
+    V3LD1NWARP_LIST_TITLE("commands.v3ld1nwarp.list-title"),
+    V3LD1NWARP_INVALID("commands.v3ld1nwarp.invalid");
 
     private final String name;
 

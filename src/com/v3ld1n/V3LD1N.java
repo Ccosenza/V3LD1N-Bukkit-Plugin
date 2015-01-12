@@ -1,6 +1,7 @@
 package com.v3ld1n;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -71,6 +72,7 @@ public class V3LD1N extends JavaPlugin {
         loadTeleportTasks();
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
+        pluginManager.registerEvents(new WarpCommand(), plugin);
         getCommand("v3ld1nplugin").setExecutor(new V3LD1NPluginCommand());
         getCommand("faq").setExecutor(new FAQCommand());
         getCommand("trail").setExecutor(new TrailCommand());
@@ -98,22 +100,21 @@ public class V3LD1N extends JavaPlugin {
         getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
         getCommand("players").setExecutor(new PlayersCommand());
         getCommand("v3ld1nwarp").setExecutor(new V3LD1NWarpCommand());
-        getCommand("v3ld1n").setExecutor(new WarpCommand());
         StringUtil.logDebugMessage(String.format(Message.LOADING_COMMANDS.toString(), this.getDescription().getCommands().size()));
         //Ping on player list
-        if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
-            ScoreboardManager manager = Bukkit.getScoreboardManager();
-            final Scoreboard board = manager.getNewScoreboard();
-            String name = ConfigSetting.SIDEBAR_PREFIX + "ping";
-            if (name.length() > 16) {
-                name = name.substring(0, 16);
-            }
-            final Objective objective = board.registerNewObjective(name, "dummy");
-            objective.setDisplayName("Ping");
-            objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                @Override
-                public void run() {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        final Scoreboard board = manager.getNewScoreboard();
+        String name = ConfigSetting.SCOREBOARD_PREFIX + "ping";
+        if (name.length() > 16) {
+            name = name.substring(0, 16);
+        }
+        final Objective objective = board.registerNewObjective(name, "dummy");
+        objective.setDisplayName("Ping");
+        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getValue() != null) {
                     if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
                         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                             objective.getScore(player.getName()).setScore(PlayerUtil.getPing(player));
@@ -123,8 +124,8 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }
                 }
-            }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
-        }
+            }
+        }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
         //Auto-save reports
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
@@ -373,9 +374,10 @@ public class V3LD1N extends JavaPlugin {
     }
 
     public static void removeWarp(String warp) {
-        for (Warp oldWarp : getWarps()) {
-            if (oldWarp.getName().equalsIgnoreCase(warp)) {
-                warps.remove(oldWarp);
+        Iterator<Warp> iterator = warps.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getName().equalsIgnoreCase(warp)) {
+                iterator.remove();
             }
         }
     }
