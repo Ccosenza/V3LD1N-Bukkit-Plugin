@@ -3,8 +3,13 @@ package com.v3ld1n.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class WorldUtil {
@@ -105,5 +110,25 @@ public class WorldUtil {
             }
         }
         return blocks;
+    }
+
+    public static List<BlockState> getBlockEntities(World world) {
+        List<BlockState> blockEntities = new ArrayList<>();
+        for (Chunk chunk : world.getLoadedChunks()) {
+            for (BlockState blockState : chunk.getTileEntities()) {
+                blockEntities.add(blockState);
+            }
+        }
+        return blockEntities;
+    }
+
+    public static List<Entity> getAllEntities() {
+        List<Entity> entities = new ArrayList<>();
+        for (World world : Bukkit.getServer().getWorlds()) {
+            for (Entity entity : world.getEntities()) {
+                entities.add(entity);
+            }
+        }
+        return entities;
     }
 }
