@@ -111,6 +111,6 @@ commands:
     aliases: [vwarp]
     usage: /<command> <add|remove> <warp> OR /<command> list
   ride:
-    description: Right click on an entity to ride it.
+    description: Right-click on an entity to ride it.
     aliases: [rideentity, entityride]
     usage: /<command>

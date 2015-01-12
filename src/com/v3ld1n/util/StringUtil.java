@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -43,6 +44,17 @@ public class StringUtil {
         String name = fromEnum(item.getType(), true);
         if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
             name = item.getItemMeta().getDisplayName();
+        }
+        return name;
+    }
+
+    public static String getEntityName(Entity entity) {
+        String name = fromEnum(entity.getType(), true);
+        if (entity.getCustomName() != null) {
+            name = entity.getCustomName();
+        }
+        if (entity instanceof Player) {
+            name = ((Player) entity).getName();
         }
         return name;
     }
