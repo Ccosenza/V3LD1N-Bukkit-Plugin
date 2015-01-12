@@ -30,11 +30,11 @@ public class ConfigUtil {
         ConfigSetting.SERVER_LIST_MAX_PLAYERS.setValue(maxPlayers);
     }
 
-    public static void toggleDebug() {
-        if (!ConfigSetting.DEBUG.getBoolean()) {
-            ConfigSetting.DEBUG.setValue(true);
+    public static void toggleSetting(ConfigSetting setting) {
+        if (!setting.getBoolean()) {
+            setting.setValue(true);
         } else {
-            ConfigSetting.DEBUG.setValue(null);
+            setting.setValue(null);
         }
     }
 

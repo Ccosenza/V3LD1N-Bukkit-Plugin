@@ -38,7 +38,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 } else {
                     message = Message.V3LD1NPLUGIN_ENABLE_DEBUG;
                 }
-                ConfigUtil.toggleDebug();
+                ConfigUtil.toggleSetting(ConfigSetting.DEBUG);
                 sender.sendMessage(message.toString());
                 return true;
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
