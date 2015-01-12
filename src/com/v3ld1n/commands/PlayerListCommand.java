@@ -12,7 +12,7 @@ public class PlayerListCommand extends V3LD1NCommand {
     public PlayerListCommand() {
         this.addUsage("set <header> <footer>", "Set the header and footer");
         this.addUsage("reset", "Reset the header and footer");
-        this.addUsage("ping", "Toggle player list ping display");
+        this.addUsage("ping", "Toggle ping display");
     }
 
     @Override
