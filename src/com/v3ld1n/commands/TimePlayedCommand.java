@@ -11,13 +11,15 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.RepeatableRunnable;
 
 public class TimePlayedCommand extends V3LD1NCommand {
-    final String PREFIX = V3LD1N.getPlugin().getConfig().getString("sidebar-prefix");
+    final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
+    final int SECONDS = 15;
 
     public TimePlayedCommand() {
         this.addUsage("", "View your time played");
@@ -51,7 +53,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
             final Objective objective = board.registerNewObjective(name, "dummy");
             objective.setDisplayName(ChatColor.AQUA + p.getName() + ChatColor.GOLD + "'s Time Played");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            RepeatableRunnable updateSidebarTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, 20, 10) {
+            RepeatableRunnable updateSidebarTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 1, 1, SECONDS * 20) {
                 @Override
                 public void onRun() {
                     updateSidebar(objective, p);
@@ -68,7 +70,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
                         }
                     }
                 }
-            }, 200);
+            }, SECONDS * 20);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
