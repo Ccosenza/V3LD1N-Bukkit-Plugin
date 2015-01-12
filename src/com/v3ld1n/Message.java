@@ -120,6 +120,10 @@ public enum Message {
 
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 
+    RIDE_USE("commands.ride.use"),
+    RIDE_RIDE("commands.ride.ride"),
+    RIDE_NO_TIME("commands.ride.no-time"),
+
     SETFULLTIME_SET("commands.setfulltime.set"),
 
     SETHEALTH_SET("commands.sethealth.set"),

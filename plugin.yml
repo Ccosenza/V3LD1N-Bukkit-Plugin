@@ -110,3 +110,7 @@ commands:
     description: Adds, removes, and lists warps.
     aliases: [vwarp]
     usage: /<command> <add|remove> <warp> OR /<command> list
+  ride:
+    description: Right click on an entity to ride it.
+    aliases: [rideentity, entityride]
+    usage: /<command>

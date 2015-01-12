@@ -1,6 +1,7 @@
 package com.v3ld1n;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -44,6 +45,8 @@ public class V3LD1N extends JavaPlugin {
     private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
     private final Random random = new Random();
 
+    public static HashMap<UUID, Boolean> usingRideCommand;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -60,6 +63,7 @@ public class V3LD1N extends JavaPlugin {
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
         teleportTasks = new ArrayList<>();
+        usingRideCommand = new HashMap<>();
         loadConfig();
         setupWorldGuard();
         loadItems();
@@ -70,9 +74,11 @@ public class V3LD1N extends JavaPlugin {
         loadParticleTasks();
         loadSoundTasks();
         loadTeleportTasks();
+        RideCommand rideCommand = new RideCommand();
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
         pluginManager.registerEvents(new WarpCommand(), plugin);
+        pluginManager.registerEvents(rideCommand, plugin);
         getCommand("v3ld1nplugin").setExecutor(new V3LD1NPluginCommand());
         getCommand("faq").setExecutor(new FAQCommand());
         getCommand("trail").setExecutor(new TrailCommand());
@@ -100,6 +106,7 @@ public class V3LD1N extends JavaPlugin {
         getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
         getCommand("players").setExecutor(new PlayersCommand());
         getCommand("v3ld1nwarp").setExecutor(new V3LD1NWarpCommand());
+        getCommand("ride").setExecutor(rideCommand);
         StringUtil.logDebugMessage(String.format(Message.LOADING_COMMANDS.toString(), this.getDescription().getCommands().size()));
         //Ping on player list
         ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -165,6 +172,7 @@ public class V3LD1N extends JavaPlugin {
         particleTasks = null;
         soundTasks = null;
         teleportTasks = null;
+        usingRideCommand = null;
         plugin = null;
     }
 
