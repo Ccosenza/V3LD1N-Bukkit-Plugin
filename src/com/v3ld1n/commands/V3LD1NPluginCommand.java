@@ -39,7 +39,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                     message = Message.V3LD1NPLUGIN_ENABLE_DEBUG;
                 }
                 ConfigUtil.toggleSetting(ConfigSetting.DEBUG);
-                sender.sendMessage(message.toString());
+                ChatUtil.sendMessage(sender, message.toString(), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
                 for (ConfigAccessor accessor : V3LD1N.getConfigs()) {
