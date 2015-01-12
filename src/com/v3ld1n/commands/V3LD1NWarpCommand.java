@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import com.v3ld1n.Config;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
@@ -30,23 +31,22 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                     ChatUtil.sendMessage(sender, String.format(Message.V3LD1NWARP_ADD.toString(), warpString), 2);
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove")) {
-                    if (args[1].equalsIgnoreCase("all")) {
-                        warps.clear();
-                    } else {
-                        boolean warpExists = false;
-                        for (Warp warp : warps) {
-                            if (warp.getName().equalsIgnoreCase(warpString)) {
-                                warpExists = true;
-                            }
-                        }
-                        if (warpExists) {
-                            V3LD1N.removeWarp(warpString);
-                        } else {
-                            sender.sendMessage(String.format(Message.V3LD1NWARP_INVALID.toString(), warpString));
-                            return true;
+                    boolean warpExists = false;
+                    String warpName = null;
+                    for (Warp warp : warps) {
+                        if (warp.getName().equalsIgnoreCase(warpString)) {
+                            warpExists = true;
+                            warpName = warp.getName();
                         }
                     }
-                    ChatUtil.sendMessage(sender, String.format(Message.V3LD1NWARP_REMOVE.toString(), warpString), 2);
+                    if (warpExists && warpName != null) {
+                        V3LD1N.removeWarp(warpString);
+                        Config.WARPS.getConfig().set("warps." + warpName, null);
+                        Config.WARPS.saveConfig();
+                        ChatUtil.sendMessage(sender, String.format(Message.V3LD1NWARP_REMOVE.toString(), warpName), 2);
+                        return true;
+                    }
+                    sender.sendMessage(String.format(Message.V3LD1NWARP_INVALID.toString(), warpString));
                     return true;
                 }
                 this.sendUsage(sender, label, command);
