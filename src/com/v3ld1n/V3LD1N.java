@@ -126,15 +126,16 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
-        //Auto-save reports
+        //Auto-save reports and warps
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
-                if (ConfigSetting.REPORTS_AUTO_SAVE_ENABLED.getBoolean()) {
+                if (ConfigSetting.AUTO_SAVE_ENABLED.getBoolean()) {
                     saveReports();
+                    saveWarps();
                 }
             }
-        }, ConfigSetting.REPORTS_AUTO_SAVE_TICKS.getInt(), ConfigSetting.REPORTS_AUTO_SAVE_TICKS.getInt());
+        }, ConfigSetting.AUTO_SAVE_TICKS.getInt(), ConfigSetting.AUTO_SAVE_TICKS.getInt());
         //Player effects
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override

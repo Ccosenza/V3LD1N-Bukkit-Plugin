@@ -14,6 +14,8 @@ public enum ConfigSetting {
     BLOG_POST("blog-post", "config.yml"),
     ENDER_CRYSTAL_EGG_DATA("ender-crystal-spawn-egg-data", "config.yml", 200),
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
+    AUTO_SAVE_ENABLED("auto-save.enabled", "config.yml", true),
+    AUTO_SAVE_TICKS("auto-save.ticks", "config.yml", 12000),
     SERVER_LIST_MOTD("server-list.motd", "config.yml"),
     SERVER_LIST_MAX_PLAYERS("server-list.max-players", "config.yml"),
     PLAYER_LIST_HEADER("player-list.header", "config.yml"),
@@ -23,8 +25,6 @@ public enum ConfigSetting {
     REPORTS_JOIN_MESSAGE("reports.join-message", "config.yml", true),
     REPORTS_LIST_UNREAD_COLOR("reports.list.unread-color", "config.yml", "aqua"),
     REPORTS_LIST_READ_COLOR("reports.list.read-color", "config.yml", "blue"),
-    REPORTS_AUTO_SAVE_ENABLED("reports.auto-save.enabled", "config.yml", true),
-    REPORTS_AUTO_SAVE_TICKS("reports.auto-save.ticks", "config.yml", 12000),
 
     FAQ_BACK_COLOR("back-color", "faq.yml", "blue"),
 
