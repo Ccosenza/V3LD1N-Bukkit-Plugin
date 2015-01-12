@@ -10,6 +10,7 @@ import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -26,6 +27,20 @@ public class PlayerUtil {
      */
     public static Player getOnlinePlayer(String name) {
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            if (player.getName().equals(name)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns a player from a name
+     * @param name the player's name
+     * @return the player
+     */
+    public static OfflinePlayer getOfflinePlayer(String name) {
+        for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
             if (player.getName().equals(name)) {
                 return player;
             }
