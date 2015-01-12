@@ -104,6 +104,7 @@ public class StringUtil {
      */
     public static String replaceSignVariables(String string, Sign sign, Player player) {
         return string
+                .replaceAll("%line1%", sign.getLine(0))
                 .replaceAll("%line2%", sign.getLine(1))
                 .replaceAll("%line3%", sign.getLine(2))
                 .replaceAll("%line4%", sign.getLine(3))
