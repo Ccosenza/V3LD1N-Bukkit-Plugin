@@ -23,10 +23,7 @@ public class GiveAllCommand extends V3LD1NCommand {
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                         player.getInventory().addItem(item);
                     }
-                    String itemString = StringUtil.fromEnum(item.getType(), true);
-                    if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
-                        itemString = item.getItemMeta().getDisplayName();
-                    }
+                    String itemString = StringUtil.getItemName(item);
                     ChatUtil.sendMessage(p, String.format(Message.GIVEALL_GIVE.toString(), amount, itemString), 2);
                     return true;
                 }

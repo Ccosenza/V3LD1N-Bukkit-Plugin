@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
@@ -36,6 +37,14 @@ public class StringUtil {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         return formatter.format(calendar.getTime());
+    }
+
+    public static String getItemName(ItemStack item) {
+        String name = fromEnum(item.getType(), true);
+        if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+            name = item.getItemMeta().getDisplayName();
+        }
+        return name;
     }
 
     /**
@@ -78,7 +87,7 @@ public class StringUtil {
             replaced = replaced.replaceAll(ignoreCase + "%player%", none);
         }
         if (player.getItemInHand().getType() != Material.AIR) {
-            replaced = replaced.replaceAll(ignoreCase + "%item%", fromEnum(player.getItemInHand().getType(), true));
+            replaced = replaced.replaceAll(ignoreCase + "%item%", getItemName(player.getItemInHand()));
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%item%", none);
         }
