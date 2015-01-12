@@ -10,6 +10,7 @@ import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class PlayAnimationCommand extends V3LD1NCommand {
     public PlayAnimationCommand() {
@@ -24,8 +25,9 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
                     try {
-                        PlayerAnimation.valueOf(args[0].toUpperCase()).play(p, 50);
-                        ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), args[0]), 2);
+                        PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
+                        animation.play(p, 50);
+                        ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), StringUtil.fromEnum(animation, true)), 2);
                         return true;
                     } catch (Exception e) {
                         p.sendMessage(Message.PLAYANIMATION_ERROR.toString());
@@ -39,8 +41,9 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                     if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
                         Player p = PlayerUtil.getOnlinePlayer(args[1]);
                         try {
-                            PlayerAnimation.valueOf(args[0].toUpperCase()).play(p, 50);
-                            ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), args[0]), 2);
+                            PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
+                            animation.play(p, 50);
+                            ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), StringUtil.fromEnum(animation, true)), 2);
                             return true;
                         } catch (Exception e) {
                             sender.sendMessage(Message.PLAYANIMATION_ERROR.toString());
