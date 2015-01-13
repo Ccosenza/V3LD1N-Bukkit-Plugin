@@ -10,11 +10,8 @@ public enum PlayerAnimation {
     SWING_ARM(0),
     DAMAGE(1),
     BED_LEAVE(2),
-    FOOD_EAT(3),
     CRIT(4),
-    MAGIC_CRIT(5),
-    SNEAK(104),
-    UNSNEAK(105);
+    MAGIC_CRIT(5);
 
     private final int id;
 
