@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitTask;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.StringUtil;
 
 public class RideCommand extends V3LD1NCommand implements Listener {
@@ -51,6 +52,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         Player p = event.getPlayer();
         if (V3LD1N.usingRideCommand.containsKey(p.getUniqueId()) && V3LD1N.usingRideCommand.get(p.getUniqueId())) {
+            PlayerAnimation.SWING_ARM.play(p, 64);
             Entity entity = event.getRightClicked();
             entity.setPassenger(p);
             V3LD1N.usingRideCommand.remove(p.getUniqueId());
