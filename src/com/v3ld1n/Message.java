@@ -139,7 +139,9 @@ public enum Message {
     SIDEBARMESSAGE_DISPLAY("commands.sidebarmessage.display"),
     SIDEBARMESSAGE_INVALID_TIME("commands.sidebarmessage.invalid-time"),
 
-    TOTALPLAYERS_PLAYERS("commands.totalplayers.players"),
+    TOTALPLAYERS_TITLE("commands.totalplayers.title"),
+    TOTALPLAYERS_SUBTITLE("commands.totalplayers.subtitle"),
+    TOTALPLAYERS_NOT_PLAYER("commands.totalplayers.not-player"),
 
     TRAIL_SET_OWN("commands.trail.set-own"),
     TRAIL_SET_OTHER("commands.trail.set-other"),
