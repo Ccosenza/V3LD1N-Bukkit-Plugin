@@ -3,11 +3,9 @@ package com.v3ld1n.util;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -81,17 +79,10 @@ public class EntityUtil {
      * @param color the color of the explosion
      * @param fade the fade color of the explosion
      */
-    public static void displayFireworkEffect(Location location, Type type, Color color, Color fade) {
+    public static void displayFireworkEffect(FireworkEffect effect, Location location) {
         final Firework fw = location.getWorld().spawn(location, Firework.class);
         FireworkMeta fwm = fw.getFireworkMeta();
-        FireworkEffect fwe = FireworkEffect.builder()
-                .with(type)
-                .withColor(color)
-                .withFade(fade)
-                .withTrail()
-                .withFlicker()
-                .build();
-        fwm.addEffects(fwe);
+        fwm.addEffects(effect);
         fw.setFireworkMeta(fwm);
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
@@ -134,8 +125,8 @@ public class EntityUtil {
      * @param color the firework color
      * @param fade the firework fade color
      */
-    public static void detonateFireworkProjectile(Projectile projectile, Location location, Type type, Color color, Color fade) {
-        displayFireworkEffect(location, type, color, fade);
+    public static void detonateFireworkProjectile(Projectile projectile, FireworkEffect effect, Location location) {
+        displayFireworkEffect(effect, location);
         projectile.remove();
     }
 

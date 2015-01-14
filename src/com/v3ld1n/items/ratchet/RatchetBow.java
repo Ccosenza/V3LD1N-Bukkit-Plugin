@@ -3,6 +3,7 @@ package com.v3ld1n.items.ratchet;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Effect;
+import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
@@ -32,7 +33,7 @@ import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.RepeatableRunnable;
 
 public class RatchetBow extends V3LD1NItem {
-    private final Color fwColor = Color.ORANGE;
+    private final Color color = Color.ORANGE;
 
     public RatchetBow() {
         super("ratchets-bow");
@@ -208,12 +209,19 @@ public class RatchetBow extends V3LD1NItem {
                 if (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()) != null) {
                     switch (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId())) {
                     case "fireworkarrow":
-                        Type fwType = Type.BALL;
+                        Type type = Type.BALL;
                         if (PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()) != null) {
-                            fwType = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()));
+                            type = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()));
                         }
-                        Color fadeColor = Color.fromRGB(216, 205, 17);
-                        EntityUtil.detonateFireworkProjectile(pr, pr.getLocation(), fwType, fwColor, fadeColor);
+                        Color fade = Color.fromRGB(216, 205, 17);
+                        FireworkEffect effect = FireworkEffect.builder()
+                                .with(type)
+                                .withColor(color)
+                                .withFade(fade)
+                                .withFlicker()
+                                .withTrail()
+                                .build();
+                        EntityUtil.detonateFireworkProjectile(pr, effect, pr.getLocation());
                         break;
                     default:
                         break;

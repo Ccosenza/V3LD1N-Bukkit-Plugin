@@ -1,6 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
 import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -52,7 +53,14 @@ public class RatchetFireworkStar extends V3LD1NItem {
                 Color color = Color.fromRGB(red, green, blue);
                 Color fade = this.getBooleanSetting("color-fade") ? Color.fromRGB(fadeRed, fadeGreen, fadeBlue) : color;
                 Type type = Type.valueOf(this.getStringSetting("firework-type"));
-                EntityUtil.displayFireworkEffect(pr.getLocation(), type, color, fade);
+                FireworkEffect effect = FireworkEffect.builder()
+                        .with(type)
+                        .withColor(color)
+                        .withFade(fade)
+                        .withFlicker()
+                        .withTrail()
+                        .build();
+                EntityUtil.displayFireworkEffect(effect, pr.getLocation());
             }
         }
     }
