@@ -3,7 +3,6 @@ package com.v3ld1n.commands;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,24 +23,28 @@ public class RatchetsBowCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            Location loc = p.getEyeLocation();
             if (args.length == 1) {
-                String projectile = args[0].toLowerCase();
-                RatchetBowType type = RatchetBowType.valueOf(projectile);
+                String projectile = args[0].toUpperCase();
                 List<RatchetBowType> types = Arrays.asList(RatchetBowType.values());
-                if (type == RatchetBowType.FIREBALL) {
-                    PlayerData.RATCHETS_BOW.set(p.getUniqueId(), null);
-                } else {
-                    if (types.contains(type)) {
-                        PlayerData.RATCHETS_BOW.set(p.getUniqueId(), args[0].toUpperCase());
-                    } else {
-                        p.sendMessage(Message.RATCHETSBOW_INVALID_PROJECTILE.toString());
-                        ChatUtil.sendList(p, Message.RATCHETSBOW_LIST_TITLE.toString(), types, ListType.SHORT);
-                        return true;
+                boolean contains = false;
+                for (RatchetBowType type : types) {
+                    if (type.name().equalsIgnoreCase(projectile)) {
+                        contains = true;
                     }
                 }
-                type.getParticle().display(loc);
-                p.sendMessage(String.format(Message.FIREWORKARROWS_SET.toString(), StringUtil.fromEnum(type, true)));
+                if (contains) {
+                    RatchetBowType type = RatchetBowType.valueOf(projectile);
+                    if (type == RatchetBowType.FIREBALL) {
+                        PlayerData.RATCHETS_BOW.set(p.getUniqueId(), null);
+                    } else {
+                        PlayerData.RATCHETS_BOW.set(p.getUniqueId(), args[0].toUpperCase());
+                    }
+                    type.getParticle().display(p.getEyeLocation());
+                    p.sendMessage(String.format(Message.RATCHETSBOW_SET.toString(), StringUtil.fromEnum(type, true)));
+                    return true;
+                }
+                p.sendMessage(Message.RATCHETSBOW_INVALID_PROJECTILE.toString());
+                ChatUtil.sendList(p, Message.RATCHETSBOW_LIST_TITLE.toString(), types, ListType.SHORT);
                 return true;
             }
             this.sendUsage(sender, label, command);
