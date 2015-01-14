@@ -56,7 +56,11 @@ public class EntityUtil {
         direction.add(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
         newDirection = direction.subtract(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
         entity.getLocation().setDirection(newDirection);
-        entity.setVelocity(newDirection);
+        Vector velocity = entity.getVelocity();
+        Vector newVelocity;
+        velocity.add(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
+        newVelocity = velocity.subtract(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
+        entity.setVelocity(newVelocity);
     }
     
     /**
