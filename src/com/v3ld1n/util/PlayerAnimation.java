@@ -47,7 +47,7 @@ public enum PlayerAnimation {
      * Plays the animation to a player
      * @param player the player
      */
-    public void playToPlayer(Player player) {
+    public void playTo(Player player) {
         PacketPlayOutAnimation packet = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), id);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }

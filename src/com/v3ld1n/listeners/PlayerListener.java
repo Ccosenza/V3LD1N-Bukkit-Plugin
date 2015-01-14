@@ -105,7 +105,7 @@ public class PlayerListener implements Listener {
             PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());
         }
         if (PlayerData.AUTO_RESOURCE_PACK.getBoolean(p.getUniqueId())) {
-            PlayerAnimation.BED_LEAVE.playToPlayer(p);
+            PlayerAnimation.BED_LEAVE.playTo(p);
             Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                 @Override
                 public void run() {

@@ -197,7 +197,7 @@ public class RatchetBow extends V3LD1NItem {
                         @Override
                         public void run() {
                             shooter.teleport(teleLoc);
-                            PlayerAnimation.BED_LEAVE.playToPlayer(shooter);
+                            PlayerAnimation.BED_LEAVE.playTo(shooter);
                             displayTeleportParticles(teleLoc);
                         }
                     }, this.getIntSetting("teleport-delay"));
