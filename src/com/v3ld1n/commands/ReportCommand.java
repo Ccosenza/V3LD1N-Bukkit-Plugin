@@ -11,6 +11,7 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.StringUtil;
 
 public class ReportCommand extends V3LD1NCommand {
@@ -118,7 +119,7 @@ public class ReportCommand extends V3LD1NCommand {
                                 Report report = V3LD1N.getReports().get(arg - 1);
                                 sender.sendMessage(String.format(Message.REPORT_READBY_LIST.toString(), report.getTitle()));
                                 if (!report.getReadPlayers().isEmpty()) {
-                                    ChatUtil.sendLongList(sender, Message.REPORT_READBY_LIST.toString(), report.getReadPlayers());
+                                    ChatUtil.sendList(sender, Message.REPORT_READBY_LIST.toString(), report.getReadPlayers(), ListType.LONG);
                                 } else {
                                     sender.sendMessage(Message.NONE.toString());
                                 }

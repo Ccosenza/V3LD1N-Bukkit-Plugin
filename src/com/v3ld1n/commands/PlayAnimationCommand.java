@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
@@ -57,7 +58,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                 return true;
             }
             this.sendUsage(sender, label, command);
-            ChatUtil.sendShortList(sender, Message.PLAYANIMATION_LIST_TITLE.toString(), Arrays.asList(PlayerAnimation.values()));
+            ChatUtil.sendList(sender, Message.PLAYANIMATION_LIST_TITLE.toString(), Arrays.asList(PlayerAnimation.values()), ListType.SHORT);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

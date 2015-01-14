@@ -83,30 +83,27 @@ public class ChatUtil {
     }
 
     /**
-     * Sends a list in a chat message
-     * @param sender the CommandSender to send the message to
-     * @param title the list title
-     * @param items the list items
-     */
-    public static void sendShortList(CommandSender sender, String title, List<?> items) {
-        StringBuilder sb = new StringBuilder();
-        for (Object item : items) {
-            sb.append(String.format(Message.SHORT_LIST_ITEM.toString(), item.toString()));
-        }
-        String message = title + sb.toString().substring(0, sb.toString().length() - 2);
-        sender.sendMessage(message);
-    }
-
-    /**
      * Sends a list in chat messages
      * @param sender the CommandSender to send the message to
      * @param title the list title
      * @param items the list items
+     * @param type the list type
      */
-    public static void sendLongList(CommandSender sender, String title, List<?> items) {
-        sender.sendMessage(title);
-        for (Object item : items) {
-            sender.sendMessage(StringUtil.formatText(String.format(Message.LONG_LIST_ITEM.toString(), item.toString())));
+    public static void sendList(CommandSender sender, String title, List<?> items, ListType type) {
+        if (type == ListType.SHORT) {
+            StringBuilder sb = new StringBuilder();
+            for (Object item : items) {
+                sb.append(String.format(Message.SHORT_LIST_ITEM.toString(), item.toString()));
+            }
+            String message = title + sb.toString().substring(0, sb.toString().length() - 2);
+            sender.sendMessage(message);
+        } else if (type == ListType.LONG) {
+            sender.sendMessage(title);
+            for (Object item : items) {
+                sender.sendMessage(StringUtil.formatText(String.format(Message.LONG_LIST_ITEM.toString(), item.toString())));
+            }
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 }

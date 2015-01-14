@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NMotdCommand extends V3LD1NCommand {
@@ -54,7 +55,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
-                    ChatUtil.sendLongList(sender, Message.V3LD1NMOTD_LIST_TITLE.toString(), motds);
+                    ChatUtil.sendList(sender, Message.V3LD1NMOTD_LIST_TITLE.toString(), motds, ListType.LONG);
                     return true;
                 }
             }

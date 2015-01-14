@@ -10,6 +10,7 @@ import com.v3ld1n.Config;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.Particle;
 
 public class V3LD1NWarpCommand extends V3LD1NCommand {
@@ -57,7 +58,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                     for (Warp warp : warps) {
                         warpNames.add(warp.getName());
                     }
-                    ChatUtil.sendShortList(sender, Message.V3LD1NWARP_LIST_TITLE.toString(), warpNames);
+                    ChatUtil.sendList(sender, Message.V3LD1NWARP_LIST_TITLE.toString(), warpNames, ListType.SHORT);
                     return true;
                 }
             }
