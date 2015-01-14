@@ -36,34 +36,8 @@ public class EntityUtil {
      * @param speedZ the z velocity
      */
     public static void pushToward(Entity entity, Location to, double speedX, double speedY, double speedZ) {
-        Location entityLocation;
-        if (entity instanceof LivingEntity) {
-            entityLocation = ((LivingEntity) entity).getEyeLocation();
-        } else {
-            entityLocation = entity.getLocation();
-        }
-        Vector direction = entityLocation.toVector().subtract(to.toVector()).normalize();
-        direction.setX(direction.getX()*-(speedX))
-                .setY(direction.getY()*-(speedY))
-                .setZ(direction.getZ()*-(speedZ));
-        entity.setVelocity(direction);
-        if (entity instanceof Fireball) {
-            ((Fireball) entity).setDirection(direction);
-        }
-    }
-    
-    /**
-     * Pushes an entity from a location towards a location
-     * @param entity the entity to push
-     * @param from the location to push the entity from
-     * @param to the location to push the entity towards
-     * @param speedX the x velocity
-     * @param speedY the y velocity
-     * @param speedZ the z velocity
-     */
-    public static void pushToward(Entity entity, Location from, Location to, double speedX, double speedY, double speedZ) {
-        Location entityLocation = from;
-        Vector direction = entityLocation.toVector().subtract(to.toVector()).normalize();
+        Location loc = entity.getLocation();
+        Vector direction = loc.toVector().subtract(to.toVector()).normalize();
         direction.setX(direction.getX()*-(speedX))
                 .setY(direction.getY()*-(speedY))
                 .setZ(direction.getZ()*-(speedZ));
