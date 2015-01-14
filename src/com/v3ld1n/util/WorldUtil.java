@@ -36,23 +36,6 @@ public class WorldUtil {
     }
 
     /**
-     * Returns the nearest player to a location
-     * @param location the location
-     * @return the nearest player to the location
-     */
-    public static Player getNearestPlayer(Location location) {
-        Double nearestDistance = null;
-        Player nearestPlayer = null;
-        for (Player p : location.getWorld().getPlayers()) {
-            if (nearestDistance == null || p.getLocation().distance(location) <= nearestDistance) {
-                nearestDistance = p.getLocation().distance(location);
-                nearestPlayer = p;
-            }
-        }
-        return nearestPlayer;
-    }
-
-    /**
      * Returns a list of players in a radius around a location
      * @param location the location
      * @param radius the radius to find players in

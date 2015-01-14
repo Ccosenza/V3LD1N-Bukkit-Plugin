@@ -32,14 +32,6 @@ public class ConfigUtil {
     }
 
     /**
-     * Sets the "fake" max players on the server list
-     * @param maxPlayers the max player count
-     */
-    public static void setServerListMaxPlayers(int maxPlayers) {
-        ConfigSetting.SERVER_LIST_MAX_PLAYERS.setValue(maxPlayers);
-    }
-
-    /**
      * Toggles a boolean config setting
      * @param setting the setting to toggle
      */

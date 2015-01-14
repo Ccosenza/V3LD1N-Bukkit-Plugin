@@ -131,25 +131,6 @@ public class EntityUtil {
     }
 
     /**
-     * Makes a projectile home toward monsters
-     * @param projectile the projectile
-     * @param ticks the interval in ticks
-     */
-    public static void homingProjectileTask(final Projectile projectile, long ticks) {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(V3LD1N.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                Entity e = projectile.getNearbyEntities(25, 25, 25).get(0);
-                Vector direction = projectile.getLocation().toVector().subtract(e.getLocation().toVector()).normalize();
-                direction.setX(direction.getX()*-(1.0))
-                        .setY(direction.getY()*-(1.0))
-                        .setZ(direction.getZ()*-(1.0));
-                projectile.setVelocity(direction);
-            }
-        }, ticks, ticks);
-    }
-
-    /**
      * Makes a player "jump" away from a projectile
      * @param entity the jumping player
      * @param projectile the projectile
