@@ -39,6 +39,7 @@ public class PlayerListener implements Listener {
         Action a = event.getAction();
         
         if (a == Action.RIGHT_CLICK_BLOCK) {
+            //Ender Crystal spawn egg
             if (p.getItemInHand().getType() == Material.MONSTER_EGG && p.getItemInHand().getDurability() == ConfigSetting.ENDER_CRYSTAL_EGG_DATA.getInt()) {
                 event.setCancelled(true);
                 Location loc = p.getTargetBlock(null, 5).getLocation();
@@ -52,6 +53,7 @@ public class PlayerListener implements Listener {
                 } else {
                     p.sendMessage(Message.WORLDGUARD_PERMISSION.toString());
                 }
+            //Signs
             } else if (event.getClickedBlock().getType() == Material.WALL_SIGN || event.getClickedBlock().getType() == Material.SIGN_POST) {
                 Sign sign = (Sign) event.getClickedBlock().getState();
                 for (String key : Config.SIGNS.getConfig().getKeys(false)) {
