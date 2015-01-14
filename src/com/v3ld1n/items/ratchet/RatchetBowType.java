@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.Arrays;
+
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.util.Particle;
 
@@ -22,5 +24,19 @@ public enum RatchetBowType {
 
     public Particle getParticle() {
         return particle;
+    }
+
+    public static RatchetBowType fromString(String string) {
+        boolean contains = false;
+        for (RatchetBowType type : Arrays.asList(values())) {
+            if (type.name().equalsIgnoreCase(string)) {
+                contains = true;
+            }
+        }
+        if (contains) {
+            RatchetBowType type = RatchetBowType.valueOf(string);
+            return type;
+        }
+        return null;
     }
 }

@@ -44,36 +44,37 @@ public class RatchetBow extends V3LD1NItem {
         Player p = event.getPlayer();
         if (this.equalsItem(p.getItemInHand()) && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             if (PlayerData.RATCHETS_BOW.getString(p.getUniqueId()) != null) {
-                String projectile = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
-                if (!projectile.equalsIgnoreCase("arrow") && !projectile.equalsIgnoreCase("triplearrows") && !projectile.equalsIgnoreCase("fireworkarrow")) {
+                String projectileString = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
+                RatchetBowType projectile = RatchetBowType.valueOf(projectileString);
+                if (projectile != RatchetBowType.ARROW && projectile != RatchetBowType.TRIPLE_ARROWS && projectile != RatchetBowType.FIREWORK_ARROW) {
                     event.setCancelled(true);
-                    switch (projectile.toLowerCase()) {
-                        case "snowball":
+                    switch (projectile) {
+                        case SNOWBALL:
                             new ProjectileBuilder()
                                 .withType(Snowball.class)
                                 .withLaunchSound(this.getStringSetting("snowball-sound"))
                                 .launch(p, 1.5);
                             break;
-                        case "enderpearl":
+                        case ENDER_PEARL:
                             new ProjectileBuilder()
                             .withType(EnderPearl.class)
                             .withLaunchSound(this.getStringSetting("ender-pearl-sound"))
                             .withRandomDirection(this.getDoubleSetting("ender-pearl-direction"))
                             .launch(p, 1.5);
                             break;
-                        case "egg":
+                        case EGG:
                             new ProjectileBuilder()
                             .withType(Egg.class)
                             .withLaunchSound(this.getStringSetting("egg-sound"))
                             .launch(p, 1.5);
                             break;
-                        case "witherskull":
+                        case WITHER_SKULL:
                             new ProjectileBuilder()
                             .withType(WitherSkull.class)
                             .withLaunchSound(this.getStringSetting("wither-skull-sound"))
                             .launch(p, 1.5);
                             break;
-                        case "bluewitherskull":
+                        case BLUE_WITHER_SKULL:
                             WitherSkull blueSkull = (WitherSkull) new ProjectileBuilder()
                                 .withType(WitherSkull.class)
                                 .withLaunchSound(this.getStringSetting("blue-wither-skull-sound"))
@@ -102,7 +103,7 @@ public class RatchetBow extends V3LD1NItem {
             if (this.equalsItem(p.getItemInHand())) {
                 if (PlayerData.RATCHETS_BOW.getString(p.getUniqueId()) != null) {
                     String option = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
-                    if (option.equals("triplearrows")) {
+                    if (RatchetBowType.fromString(option) == RatchetBowType.TRIPLE_ARROWS) {
                         Entity pr = event.getProjectile();
                         double direction = this.getDoubleSetting("triple-arrows-direction");
                         EntityUtil.randomDirection(pr, direction);
@@ -114,7 +115,7 @@ public class RatchetBow extends V3LD1NItem {
                             .withType(Arrow.class)
                             .withRandomDirection(direction)
                             .launch(p, event.getForce() * 4);
-                    } else if (option.equals("fireworkarrow")) {
+                    } else if (RatchetBowType.fromString(option) == RatchetBowType.FIREWORK_ARROW) {
                         event.getProjectile().setFireTicks(Integer.MAX_VALUE);
                     }
                 }
@@ -207,8 +208,9 @@ public class RatchetBow extends V3LD1NItem {
             Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
                 if (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()) != null) {
-                    switch (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId())) {
-                    case "fireworkarrow":
+                    RatchetBowType projectile = RatchetBowType.fromString(PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()));
+                    switch (projectile) {
+                    case FIREWORK_ARROW:
                         Type type = Type.BALL;
                         if (PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()) != null) {
                             type = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()));
