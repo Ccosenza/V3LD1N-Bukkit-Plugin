@@ -144,7 +144,7 @@ public class EntityUtil {
             sneaking = true;
         }
         if (sneaking) {
-            double xz = 1.5;
+            double xz = 0.7;
             double y = 1.1;
             BlockFace down = BlockFace.DOWN;
             Location loc = entity.getLocation();
