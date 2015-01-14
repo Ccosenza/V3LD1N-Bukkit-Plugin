@@ -47,7 +47,7 @@ public class UUIDCommand extends V3LD1NCommand {
                     + "action:\"show_text\","
                     + "value:\"" + String.format(Message.UUID_HOVER.toString(), name) + "\"},"
                     + "clickEvent:{"
-                    + "action:\"suggest_command\","
+                    + "action:\"insertion\","
                     + "value:\"" + uuid + "\"}}";
             ChatUtil.sendJsonMessage(sender, message, 0);
             return true;
