@@ -1,6 +1,7 @@
 package com.v3ld1n.commands;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -10,6 +11,8 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Message;
 import com.v3ld1n.PlayerData;
 import com.v3ld1n.items.ratchet.RatchetBowType;
+import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.StringUtil;
 
 public class RatchetsBowCommand extends V3LD1NCommand {
@@ -25,13 +28,15 @@ public class RatchetsBowCommand extends V3LD1NCommand {
             if (args.length == 1) {
                 String projectile = args[0].toLowerCase();
                 RatchetBowType type = RatchetBowType.valueOf(projectile);
+                List<RatchetBowType> types = Arrays.asList(RatchetBowType.values());
                 if (type == RatchetBowType.FIREBALL) {
                     PlayerData.RATCHETS_BOW.set(p.getUniqueId(), null);
                 } else {
-                    if (Arrays.asList(RatchetBowType.values()).contains(type)) {
+                    if (types.contains(type)) {
                         PlayerData.RATCHETS_BOW.set(p.getUniqueId(), args[0].toUpperCase());
                     } else {
                         p.sendMessage(Message.RATCHETSBOW_INVALID_PROJECTILE.toString());
+                        ChatUtil.sendList(p, Message.RATCHETSBOW_LIST_TITLE.toString(), types, ListType.SHORT);
                         return true;
                     }
                 }

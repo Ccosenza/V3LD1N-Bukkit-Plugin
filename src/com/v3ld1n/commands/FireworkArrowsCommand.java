@@ -1,6 +1,7 @@
 package com.v3ld1n.commands;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.command.Command;
@@ -9,6 +10,8 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.PlayerData;
+import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.StringUtil;
 
 public class FireworkArrowsCommand extends V3LD1NCommand {
@@ -23,13 +26,15 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
             if (args.length == 1) {
                 String typeString = args[0].toUpperCase();
                 Type type = Type.valueOf(typeString);
+                List<Type> types = Arrays.asList(Type.values());
                 if (type == Type.BALL) {
                     PlayerData.FIREWORK_ARROWS.set(p.getUniqueId(), null);
                 } else {
-                    if (Arrays.asList(Type.values()).contains(type)) {
+                    if (types.contains(type)) {
                         PlayerData.FIREWORK_ARROWS.set(p.getUniqueId(), args[0].toUpperCase());
                     } else {
                         p.sendMessage(Message.FIREWORKARROWS_INVALID_SHAPE.toString());
+                        ChatUtil.sendList(p, Message.FIREWORKARROWS_LIST_TITLE.toString(), types, ListType.SHORT);
                         return true;
                     }
                 }

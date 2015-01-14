@@ -75,6 +75,7 @@ public enum Message {
 
     FIREWORKARROWS_SET("commands.fireworkarrows.set"),
     FIREWORKARROWS_INVALID_SHAPE("commands.fireworkarrows.invalid-shape"),
+    FIREWORKARROWS_LIST_TITLE("commands.fireworkarrows.list-title"),
 
     GIVEALL_GIVE("commands.giveall.give"),
     GIVEALL_NO_ITEM("commands.giveall.no-item"),
@@ -99,6 +100,7 @@ public enum Message {
 
     RATCHETSBOW_SET("commands.ratchetsbow.set"),
     RATCHETSBOW_INVALID_PROJECTILE("commands.ratchetsbow.invalid-projectile"),
+    RATCHETSBOW_LIST_TITLE("commands.ratchetsbow.list-title"),
 
     REPORT_SEND("commands.report.send"),
     REPORT_UNREAD("commands.report.unread"),
@@ -115,7 +117,7 @@ public enum Message {
     REPORT_READ_SENDER("commands.report.read.sender"),
     REPORT_READ_REASON("commands.report.read.reason"),
     REPORT_READ_BACK("commands.report.read.back"),
-    REPORT_READBY_LIST("commands.report.readby.list"),
+    REPORT_READBY_LIST_TITLE("commands.report.readby.list-title"),
     REPORT_READBY_NO_PERMISSION("commands.report.readby.no-permission"),
 
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
