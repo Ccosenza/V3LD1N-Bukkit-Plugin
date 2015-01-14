@@ -117,9 +117,9 @@ public class ReportCommand extends V3LD1NCommand {
                             }
                             if (arg <= V3LD1N.getReports().size() && arg > 0) {
                                 Report report = V3LD1N.getReports().get(arg - 1);
-                                sender.sendMessage(String.format(Message.REPORT_READBY_LIST.toString(), report.getTitle()));
+                                sender.sendMessage(String.format(Message.REPORT_READBY_LIST_TITLE.toString(), report.getTitle()));
                                 if (!report.getReadPlayers().isEmpty()) {
-                                    ChatUtil.sendList(sender, Message.REPORT_READBY_LIST.toString(), report.getReadPlayers(), ListType.LONG);
+                                    ChatUtil.sendList(sender, Message.REPORT_READBY_LIST_TITLE.toString(), report.getReadPlayers(), ListType.LONG);
                                 } else {
                                     sender.sendMessage(Message.NONE.toString());
                                 }
