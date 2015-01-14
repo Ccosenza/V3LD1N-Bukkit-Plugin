@@ -8,7 +8,8 @@ public enum Message {
     COMMAND_HOVER("command-hover"),
     NONE("none"),
 
-    LIST_ITEM("lists.item"),
+    SHORT_LIST_ITEM("lists.short-item"),
+    LONG_LIST_ITEM("lists.long-item"),
 
     SIGN_INVALID_PARTICLE("signs.invalid-particle"),
     CANNOT_USE_ITEM("cancel-interact.interact-item"),
@@ -115,7 +116,6 @@ public enum Message {
     REPORT_READ_REASON("commands.report.read.reason"),
     REPORT_READ_BACK("commands.report.read.back"),
     REPORT_READBY_LIST("commands.report.readby.list"),
-    REPORT_READBY_LIST_ITEM("commands.report.readby.list-item"),
     REPORT_READBY_NO_PERMISSION("commands.report.readby.no-permission"),
 
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
@@ -155,7 +155,6 @@ public enum Message {
     V3LD1NMOTD_ADD("commands.v3ld1nmotd.add"),
     V3LD1NMOTD_REMOVE("commands.v3ld1nmotd.remove"),
     V3LD1NMOTD_LIST_TITLE("commands.v3ld1nmotd.list-title"),
-    V3LD1NMOTD_LIST_ITEM("commands.v3ld1nmotd.list-item"),
     V3LD1NMOTD_INVALID("commands.v3ld1nmotd.invalid"),
 
     V3LD1NPLUGIN_AVAILABLE("commands.v3ld1nplugin.available"),

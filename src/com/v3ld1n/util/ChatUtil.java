@@ -88,12 +88,19 @@ public class ChatUtil {
      * @param title the list title
      * @param items the list items
      */
-    public static void sendList(CommandSender sender, String title, List<?> items) {
+    public static void sendShortList(CommandSender sender, String title, List<?> items) {
         StringBuilder sb = new StringBuilder();
-        for (Object object : items) {
-            sb.append(String.format(Message.LIST_ITEM.toString(), object.toString()));
+        for (Object item : items) {
+            sb.append(String.format(Message.SHORT_LIST_ITEM.toString(), item.toString()));
         }
         String message = title + sb.toString().substring(0, sb.toString().length() - 2);
         sender.sendMessage(message);
+    }
+
+    public static void sendLongList(CommandSender sender, String title, List<?> items) {
+        sender.sendMessage(title);
+        for (Object item : items) {
+            sender.sendMessage(StringUtil.formatText(String.format(Message.LONG_LIST_ITEM.toString(), item.toString())));
+        }
     }
 }

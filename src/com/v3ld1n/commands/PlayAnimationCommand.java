@@ -57,7 +57,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                 return true;
             }
             this.sendUsage(sender, label, command);
-            ChatUtil.sendList(sender, Message.PLAYANIMATION_LIST_TITLE.toString(), Arrays.asList(PlayerAnimation.values()));
+            ChatUtil.sendShortList(sender, Message.PLAYANIMATION_LIST_TITLE.toString(), Arrays.asList(PlayerAnimation.values()));
             return true;
         }
         sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());

@@ -21,10 +21,10 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.isOp()) {
+            List<String> motds = ConfigSetting.SERVER_LIST_MOTD.getStringList();
             if (args.length > 1) {
                 String motd;
                 motd = StringUtil.fromArray(args, 1);
-                List<String> motds = ConfigSetting.SERVER_LIST_MOTD.getStringList();
                 if (args[0].equalsIgnoreCase("add")) {
                     motds.add(motd);
                     ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
@@ -54,10 +54,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
-                    sender.sendMessage(Message.V3LD1NMOTD_LIST_TITLE.toString());
-                    for (String motd : ConfigSetting.SERVER_LIST_MOTD.getStringList()) {
-                        sender.sendMessage(StringUtil.formatText(String.format(Message.V3LD1NMOTD_LIST_ITEM.toString(), motd)));
-                    }
+                    ChatUtil.sendLongList(sender, Message.V3LD1NMOTD_LIST_TITLE.toString(), motds);
                     return true;
                 }
             }

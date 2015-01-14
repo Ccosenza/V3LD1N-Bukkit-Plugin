@@ -2,7 +2,6 @@ package com.v3ld1n.commands;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -119,10 +118,7 @@ public class ReportCommand extends V3LD1NCommand {
                                 Report report = V3LD1N.getReports().get(arg - 1);
                                 sender.sendMessage(String.format(Message.REPORT_READBY_LIST.toString(), report.getTitle()));
                                 if (!report.getReadPlayers().isEmpty()) {
-                                    for (UUID uuid : report.getReadPlayers()) {
-                                        String offlineName = Bukkit.getServer().getOfflinePlayer(uuid).getName();
-                                        sender.sendMessage(StringUtil.formatText(String.format(Message.REPORT_READBY_LIST_ITEM.toString(), offlineName)));
-                                    }
+                                    ChatUtil.sendLongList(sender, Message.REPORT_READBY_LIST.toString(), report.getReadPlayers());
                                 } else {
                                     sender.sendMessage(Message.NONE.toString());
                                 }

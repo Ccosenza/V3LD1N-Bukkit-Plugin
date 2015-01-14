@@ -57,7 +57,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                     for (Warp warp : warps) {
                         warpNames.add(warp.getName());
                     }
-                    ChatUtil.sendList(sender, Message.V3LD1NWARP_LIST_TITLE.toString(), warpNames);
+                    ChatUtil.sendShortList(sender, Message.V3LD1NWARP_LIST_TITLE.toString(), warpNames);
                     return true;
                 }
             }
