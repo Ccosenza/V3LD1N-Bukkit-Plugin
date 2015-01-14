@@ -49,7 +49,6 @@ public enum Message {
     RATCHETS_SHOVEL_DAMAGE("items.ratchets-shovel.damage"),
 
     COMMAND_NOT_PLAYER("commands.player"),
-    COMMAND_NOT_PLAYER_ENTITY("commands.player-entity"),
     COMMAND_NO_PERMISSION("commands.permission"),
     COMMAND_INVALID_PLAYER("commands.invalid-player"),
     COMMAND_USAGE_TITLE("commands.usage-title"),

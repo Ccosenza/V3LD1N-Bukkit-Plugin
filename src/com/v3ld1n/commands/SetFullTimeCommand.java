@@ -28,7 +28,7 @@ public class SetFullTimeCommand extends V3LD1NCommand {
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER_ENTITY.toString());
+        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
         return true;
     }
 }
