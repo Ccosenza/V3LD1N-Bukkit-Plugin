@@ -204,4 +204,18 @@ public class StringUtil {
         string = string.substring(0, string.length() - 1);
         return string;
     }
+
+    /**
+     * Returns a substring if the string is longer than the character limit
+     * @param string the string
+     * @param limit the character limit
+     * @return the substring
+     */
+    public static String substring(String string, int charLimit) {
+        String newString = string;
+        if (newString.length() > charLimit) {
+            newString = newString.substring(0, charLimit);
+        }
+        return newString;
+    }
 }

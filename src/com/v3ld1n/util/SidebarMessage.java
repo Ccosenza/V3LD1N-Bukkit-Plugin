@@ -23,23 +23,15 @@ public class SidebarMessage {
     final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
 
     public SidebarMessage(String title, String... lines) {
-        this.title = title;
-        if (title.length() > TITLE_CHARACTER_LIMIT) {
-            this.title = title.substring(0, TITLE_CHARACTER_LIMIT);
-        }
+        this.title = StringUtil.substring(title, TITLE_CHARACTER_LIMIT);
         for (String line : lines) {
-            if (line.length() > LINE_CHARACTER_LIMIT) {
-                line = line.substring(0, LINE_CHARACTER_LIMIT);
-            }
-            this.lines.add(line);
+            String newLine = StringUtil.substring(line, LINE_CHARACTER_LIMIT);
+            this.lines.add(newLine);
         }
     }
 
     public SidebarMessage(String title) {
-        this.title = title;
-        if (title.length() > TITLE_CHARACTER_LIMIT) {
-            this.title = title.substring(0, TITLE_CHARACTER_LIMIT);
-        }
+        this.title = StringUtil.substring(title, TITLE_CHARACTER_LIMIT);
     }
 
     public String getTitle() {
@@ -55,35 +47,24 @@ public class SidebarMessage {
     }
 
     public void setTitle(String title) {
-        this.title = title;
-        if (title.length() > TITLE_CHARACTER_LIMIT) {
-            this.title = title.substring(0, TITLE_CHARACTER_LIMIT);
-        }
+        this.title = StringUtil.substring(title, TITLE_CHARACTER_LIMIT);
     }
 
     public void setLines(List<String> lines) {
+        List<String> newLines = new ArrayList<>();
         for (String line : lines) {
-            if (line.length() > LINE_CHARACTER_LIMIT) {
-                String substring = line.substring(0, LINE_CHARACTER_LIMIT);
-                lines.set(lines.indexOf(line), substring);
-            }
+            newLines.add(StringUtil.substring(line, LINE_CHARACTER_LIMIT));
         }
-        this.lines = lines;
+        this.lines = newLines;
     }
 
     public void setLine(int line, String text) {
-        String newText = text;
-        if (text.length() > LINE_CHARACTER_LIMIT) {
-            newText = text.substring(0, LINE_CHARACTER_LIMIT);
-        }
+        String newText = text.substring(0, LINE_CHARACTER_LIMIT);
         this.lines.set(line, newText);
     }
 
     public void addLine(String text) {
-        String newText = text;
-        if (text.length() > LINE_CHARACTER_LIMIT) {
-            newText = text.substring(0, LINE_CHARACTER_LIMIT);
-        }
+        String newText = text.substring(0, LINE_CHARACTER_LIMIT);
         this.lines.add(newText);
     }
 
@@ -91,10 +72,7 @@ public class SidebarMessage {
         int scoreValue = lines.size();
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         final Scoreboard board = manager.getNewScoreboard();
-        String name = PREFIX + title;
-        if (name.length() > 16) {
-            name = name.substring(0, 16);
-        }
+        String name = StringUtil.substring(PREFIX + title, 16);
         String displayName = StringUtil.formatText(title.replaceAll("_", " "));
         Objective objective = board.registerNewObjective(name, "dummy");
         objective.setDisplayName(displayName);
