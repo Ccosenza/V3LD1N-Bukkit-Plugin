@@ -66,7 +66,7 @@ public class EntityUtil {
      * @param entity the entity to heal
      * @param health the amount of health to heal
      */
-    public static void healEntity(LivingEntity entity, double health) {
+    public static void heal(LivingEntity entity, double health) {
         if (entity.getHealth() + health > entity.getMaxHealth()) {
             entity.setHealth(entity.getMaxHealth());
         } else {
