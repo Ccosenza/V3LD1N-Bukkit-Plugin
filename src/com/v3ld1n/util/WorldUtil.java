@@ -112,6 +112,11 @@ public class WorldUtil {
         return blocks;
     }
 
+    /**
+     * Returns a list of block entities in a world
+     * @param world the world
+     * @return a list of block entities
+     */
     public static List<BlockState> getBlockEntities(World world) {
         List<BlockState> blockEntities = new ArrayList<>();
         for (Chunk chunk : world.getLoadedChunks()) {
@@ -122,6 +127,10 @@ public class WorldUtil {
         return blockEntities;
     }
 
+    /**
+     * Returns a list of all entities in all worlds
+     * @return a list of entities
+     */
     public static List<Entity> getAllEntities() {
         List<Entity> entities = new ArrayList<>();
         for (World world : Bukkit.getServer().getWorlds()) {

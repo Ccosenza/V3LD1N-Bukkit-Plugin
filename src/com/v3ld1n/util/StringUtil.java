@@ -40,6 +40,11 @@ public class StringUtil {
         return formatter.format(calendar.getTime());
     }
 
+    /**
+     * Returns an item's name from its Material, or its custom name if it has one
+     * @param item the item
+     * @return the item's name
+     */
     public static String getItemName(ItemStack item) {
         String name = fromEnum(item.getType(), true);
         if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
@@ -48,6 +53,11 @@ public class StringUtil {
         return name;
     }
 
+    /**
+     * Returns an entity's name from its EntityType, or its custom name if it has one
+     * @param entity the entity
+     * @return the entity's name
+     */
     public static String getEntityName(Entity entity) {
         String name = fromEnum(entity.getType(), true);
         if (entity.getCustomName() != null) {
@@ -144,6 +154,11 @@ public class StringUtil {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
+    /**
+     * Capitalizes the first letter of every word in a string
+     * @param string the string
+     * @return the string with uppercase letters
+     */
     public static String upperCaseFirst(String string) {
         String[] words = string.split(" ");
         StringBuilder sb = new StringBuilder();
@@ -157,6 +172,12 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * Returns an enum name as a string
+     * @param toString the enum
+     * @param upperCase whether the first letters should be capitalized
+     * @return the enum name as a string
+     */
     public static String fromEnum(Enum<?> toString, boolean upperCase) {
         String name = toString.name().toLowerCase();
         String replaced = name.replaceAll("_", " ");
@@ -167,6 +188,12 @@ public class StringUtil {
         return string;
     }
 
+    /**
+     * Returns an array as a string
+     * @param array the array
+     * @param fromIndex the index to start from
+     * @return the array as a string
+     */
     public static String fromArray(Object[] array, int fromIndex) {
         StringBuilder sb = new StringBuilder();
         for (int i = fromIndex; i < array.length; i++) {

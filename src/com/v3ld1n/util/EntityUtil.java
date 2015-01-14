@@ -74,6 +74,8 @@ public class EntityUtil {
 
     /**
      * Randomly changes an entity's direction
+     * @param entity the entity to move
+     * @param distance the maximum distance from the starting location
      */
     public static void randomDirection(Entity entity, double distance) {
         Vector direction = entity.getLocation().getDirection();

@@ -18,6 +18,11 @@ public class ConfigUtil {
     private ConfigUtil() {
     }
 
+    /**
+     * Sets the header and footer on the player list
+     * @param header JSON header
+     * @param footer JSON footer
+     */
     public static void setPlayerListHeaderFooter(String header, String footer) {
         ConfigSetting.PLAYER_LIST_HEADER.setValue(header);
         ConfigSetting.PLAYER_LIST_FOOTER.setValue(footer);
@@ -26,10 +31,18 @@ public class ConfigUtil {
         }
     }
 
+    /**
+     * Sets the "fake" max players on the server list
+     * @param maxPlayers the max player count
+     */
     public static void setServerListMaxPlayers(int maxPlayers) {
         ConfigSetting.SERVER_LIST_MAX_PLAYERS.setValue(maxPlayers);
     }
 
+    /**
+     * Toggles a boolean config setting
+     * @param setting the setting to toggle
+     */
     public static void toggleSetting(ConfigSetting setting) {
         if (!setting.getBoolean()) {
             setting.setValue(true);
@@ -38,6 +51,11 @@ public class ConfigUtil {
         }
     }
 
+    /**
+     * Returns the amount of reports a player has not read
+     * @param uuid the player's UUID
+     * @return the amount of unread reports
+     */
     public static int getUnreadReports(UUID uuid) {
         int unreadReports = 0;
         for (Report report : V3LD1N.getReports()) {
@@ -140,6 +158,11 @@ public class ConfigUtil {
         return item;
     }
 
+    /**
+     * Returns a location from a config string
+     * @param configSetting the string
+     * @return a location
+     */
     public static Location locationFromString(String configSetting) {
         String[] split = configSetting.split("\\|");
         String world = split[0];

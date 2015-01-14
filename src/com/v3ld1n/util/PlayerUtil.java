@@ -48,6 +48,10 @@ public class PlayerUtil {
         return null;
     }
 
+    /**
+     * Returns a random online player
+     * @return a random online player
+     */
     public static Player getRandomPlayer() {
         if (!Bukkit.getServer().getOnlinePlayers().isEmpty()) {
             int random = new Random().nextInt(Bukkit.getOnlinePlayers().size());
@@ -121,6 +125,11 @@ public class PlayerUtil {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
+    /**
+     * Returns a player's ping
+     * @param p the player
+     * @return the player's ping
+     */
     public static int getPing(Player p) {
         return ((CraftPlayer) p).getHandle().ping;
     }
