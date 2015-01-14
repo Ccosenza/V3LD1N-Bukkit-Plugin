@@ -89,6 +89,7 @@ public class StringUtil {
                 .replaceAll(ignoreCase + "%maxhealth%", Double.toString(player.getMaxHealth()))
                 .replaceAll(ignoreCase + "%hunger%", Integer.toString(player.getFoodLevel()))
                 .replaceAll(ignoreCase + "%xp%", Integer.toString(player.getTotalExperience()))
+                .replaceAll(ignoreCase + "%ping%", Integer.toString(PlayerUtil.getPing(player)))
                 .replaceAll(ignoreCase + "%entities%", Integer.toString(WorldUtil.getAllEntities().size()))
                 .replaceAll(ignoreCase + "%worldentities%", Integer.toString(player.getWorld().getEntities().size()))
                 .replaceAll(ignoreCase + "%blockentities%", Integer.toString(WorldUtil.getBlockEntities(player.getWorld()).size()))
