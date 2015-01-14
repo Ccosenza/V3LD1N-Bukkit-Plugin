@@ -208,7 +208,7 @@ public class StringUtil {
     /**
      * Returns a substring if the string is longer than the character limit
      * @param string the string
-     * @param limit the character limit
+     * @param charLimit the character limit
      * @return the substring
      */
     public static String substring(String string, int charLimit) {
