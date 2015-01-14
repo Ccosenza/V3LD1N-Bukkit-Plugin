@@ -58,34 +58,7 @@ public class EntityUtil {
         direction.add(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
         newDirection = direction.subtract(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
         entity.getLocation().setDirection(newDirection);
-        Vector velocity = entity.getVelocity();
-        Vector newVelocity;
-        velocity.add(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
-        newVelocity = velocity.subtract(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
-        entity.setVelocity(newVelocity);
-    }
-    
-    /**
-     * Pushes an entity towards a location
-     * @param entity the entity to push
-     * @param to the location to push the entity towards
-     * @param speed the velocity
-     */
-    public static void pushToward(Entity entity, Location to, Vector speed) {
-        Location entityLocation;
-        if (entity instanceof LivingEntity) {
-            entityLocation = ((LivingEntity) entity).getEyeLocation();
-        } else {
-            entityLocation = entity.getLocation();
-        }
-        Vector direction = entityLocation.toVector().subtract(to.toVector()).normalize();
-        direction.setX(direction.getX()*-(speed.getX()))
-                .setY(direction.getY()*-(speed.getY()))
-                .setZ(direction.getZ()*-(speed.getZ()));
-        entity.setVelocity(direction);
-        if (entity instanceof Fireball) {
-            ((Fireball) entity).setDirection(direction);
-        }
+        entity.setVelocity(newDirection);
     }
     
     /**
