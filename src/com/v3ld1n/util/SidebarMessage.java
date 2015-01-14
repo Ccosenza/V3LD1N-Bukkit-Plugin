@@ -59,12 +59,12 @@ public class SidebarMessage {
     }
 
     public void setLine(int line, String text) {
-        String newText = text.substring(0, LINE_CHARACTER_LIMIT);
+        String newText = StringUtil.substring(text, LINE_CHARACTER_LIMIT);
         this.lines.set(line, newText);
     }
 
     public void addLine(String text) {
-        String newText = text.substring(0, LINE_CHARACTER_LIMIT);
+        String newText = StringUtil.substring(text, LINE_CHARACTER_LIMIT);
         this.lines.add(newText);
     }
 
