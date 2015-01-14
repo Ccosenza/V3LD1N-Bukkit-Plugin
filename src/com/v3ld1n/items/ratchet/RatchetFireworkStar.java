@@ -60,7 +60,7 @@ public class RatchetFireworkStar extends V3LD1NItem {
                         .withFlicker()
                         .withTrail()
                         .build();
-                EntityUtil.displayFireworkEffect(effect, pr.getLocation());
+                EntityUtil.displayFireworkEffect(effect, pr.getLocation(), 1);
             }
         }
     }

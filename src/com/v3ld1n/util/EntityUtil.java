@@ -79,7 +79,7 @@ public class EntityUtil {
      * @param color the color of the explosion
      * @param fade the fade color of the explosion
      */
-    public static void displayFireworkEffect(FireworkEffect effect, Location location) {
+    public static void displayFireworkEffect(FireworkEffect effect, Location location, long delay) {
         final Firework fw = location.getWorld().spawn(location, Firework.class);
         FireworkMeta fwm = fw.getFireworkMeta();
         fwm.addEffects(effect);
@@ -89,7 +89,7 @@ public class EntityUtil {
             public void run() {
                 fw.detonate();
             }
-        }, 1L);
+        }, delay);
     }
 
     /**
@@ -126,7 +126,7 @@ public class EntityUtil {
      * @param fade the firework fade color
      */
     public static void detonateFireworkProjectile(Projectile projectile, FireworkEffect effect, Location location) {
-        displayFireworkEffect(effect, location);
+        displayFireworkEffect(effect, location, 1);
         projectile.remove();
     }
 
