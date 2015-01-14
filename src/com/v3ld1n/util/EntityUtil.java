@@ -8,6 +8,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.FireworkEffect.Type;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -214,6 +215,9 @@ public class EntityUtil {
      * Makes a player "jump" away from a projectile
      * @param entity the jumping player
      * @param projectile the projectile
+     * @param speedX the X-axis speed
+     * @param speedY the Y-axis speed
+     * @param speedZ the Z-axis speed
      */
     public static void projectileJump(LivingEntity entity, Projectile projectile, double speedX, double speedY, double speedZ) {
         boolean sneaking = false;
@@ -221,22 +225,22 @@ public class EntityUtil {
             sneaking = true;
         }
         if (sneaking) {
+            double xz = 1.5;
+            double y = 1.1;
+            BlockFace down = BlockFace.DOWN;
             Location loc = entity.getLocation();
-            Location belowLoc = entity.getLocation();
-            Location twoBelowLoc = entity.getLocation();
-            belowLoc.setY(loc.getY() - 1);
-            twoBelowLoc.setY(loc.getY() - 2);
-            Material locBlock = loc.getBlock().getType();
-            Material belowLocBlock = belowLoc.getBlock().getType();
-            Material twoBelowLocBlock = twoBelowLoc.getBlock().getType();
-            if (locBlock == Material.AIR && belowLocBlock != Material.AIR) {
-                pushToward(entity, projectile.getLocation(), -speedX * 1.5, -speedY * 1.1, -speedZ * 1.5);
-            } else if (locBlock == Material.AIR && belowLocBlock == Material.AIR && twoBelowLocBlock != Material.AIR) {
-                pushToward(entity, projectile.getLocation(), -speedX * 1.5, -speedY * 1.1, -speedZ * 1.5);
-            } else if (locBlock == Material.AIR && belowLocBlock == Material.AIR && twoBelowLocBlock == Material.AIR) {
-                entity.setVelocity(new Vector(0, speedY * 1.4, 0));
-            } else if (locBlock != Material.AIR) {
-                pushToward(entity, projectile.getLocation(), -speedX * 1.5, -speedY * 1.5, -speedZ * 1.5);
+            Material block = loc.getBlock().getType();
+            Material blockBelow = loc.getBlock().getRelative(down).getType();
+            Material blockTwoBelow = loc.getBlock().getRelative(down).getRelative(down).getType();
+            Material air = Material.AIR;
+            if (block == air && blockBelow != air) {
+                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz);
+            } else if (block == air && blockBelow == air && blockTwoBelow != air) {
+                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz);
+            } else if (block == air && blockBelow == air && blockTwoBelow == air) {
+                entity.setVelocity(new Vector(0, speedY * y, 0));
+            } else if (block != air) {
+                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz);
             }
         } else {
             pushToward(entity, projectile.getLocation(), -speedX, -speedY, -speedZ);
