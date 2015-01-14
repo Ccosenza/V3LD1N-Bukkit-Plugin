@@ -97,6 +97,12 @@ public class ChatUtil {
         sender.sendMessage(message);
     }
 
+    /**
+     * Sends a list in chat messages
+     * @param sender the CommandSender to send the message to
+     * @param title the list title
+     * @param items the list items
+     */
     public static void sendLongList(CommandSender sender, String title, List<?> items) {
         sender.sendMessage(title);
         for (Object item : items) {
