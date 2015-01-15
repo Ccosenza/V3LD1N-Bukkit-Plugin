@@ -1,5 +1,6 @@
 package com.v3ld1n.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.v1_8_R1.ChatSerializer;
@@ -90,19 +91,33 @@ public final class ChatUtil {
      * @param type the list type
      */
     public static void sendList(CommandSender sender, String title, List<?> items, ListType type) {
-        if (type == ListType.SHORT) {
+        List<String> strings = new ArrayList<>();
+        for (Object item : items) {
+            strings.add(item.toString());
+        }
+        switch (type) {
+        case SHORT:
             StringBuilder sb = new StringBuilder();
-            for (Object item : items) {
-                sb.append(String.format(Message.SHORT_LIST_ITEM.toString(), item.toString()));
+            for (String item : strings) {
+                sb.append(String.format(Message.SHORT_LIST_ITEM.toString(), item));
             }
             String message = title + sb.toString().substring(0, sb.toString().length() - 2);
             sender.sendMessage(message);
-        } else if (type == ListType.LONG) {
+            break;
+        case LONG:
             sender.sendMessage(title);
-            for (Object item : items) {
-                sender.sendMessage(StringUtil.formatText(String.format(Message.LONG_LIST_ITEM.toString(), item.toString())));
+            for (String item : strings) {
+                sender.sendMessage(StringUtil.formatText(String.format(Message.LONG_LIST_ITEM.toString(), item)));
             }
-        } else {
+            break;
+        case SIDEBAR:
+            if (sender instanceof Player) {
+                SidebarMessage sbm = new SidebarMessage(title);
+                sbm.setLines(strings);
+                sbm.display((Player) sender, 200);
+            }
+            break;
+        default:
             throw new IllegalArgumentException();
         }
     }
