@@ -13,8 +13,6 @@ public class ProjectileBuilder {
     String soundName, soundString;
     Particle launchParticle;
     String particleString;
-    float particleRadius, particleSpeed;
-    int particleCount;
     double randomDirection;
 
     /**
