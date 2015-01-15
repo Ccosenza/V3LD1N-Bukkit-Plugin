@@ -29,6 +29,9 @@ public enum ConfigSetting {
     FAQ_BACK_COLOR("back-color", "faq.yml", "blue"),
 
     INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
+
+    PROJECTILE_JUMP_X_Z("projectile-jump.x-z-multiplier", "items.yml", 0.6),
+    PROJECTILE_JUMP_Y("projectile-jump.y-multiplier", "items.yml", 1.1),
     
     PARTICLE_SPAWN_ENDER_CRYSTAL("spawn-ender-crystal", "particles.yml"),
     PARTICLE_TRAILS("trails.normal", "particles.yml"),

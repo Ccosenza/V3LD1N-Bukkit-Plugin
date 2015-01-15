@@ -17,6 +17,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.util.Vector;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.V3LD1N;
 
 public final class EntityUtil {
@@ -148,8 +149,8 @@ public final class EntityUtil {
             sneaking = true;
         }
         if (sneaking) {
-            double xz = 0.7;
-            double y = 1.1;
+            double xz = ConfigSetting.PROJECTILE_JUMP_X_Z.getDouble();
+            double y = ConfigSetting.PROJECTILE_JUMP_Y.getDouble();
             BlockFace down = BlockFace.DOWN;
             Location loc = entity.getLocation();
             Material block = loc.getBlock().getType();
