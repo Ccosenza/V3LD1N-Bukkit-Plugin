@@ -13,7 +13,7 @@ import com.v3ld1n.util.SidebarMessage;
 import com.v3ld1n.util.StringUtil;
 
 public class SidebarMessageCommand extends V3LD1NCommand {
-    final int DEFAULT_TIME = 100;
+    private static final int DEFAULT_TIME = 100;
 
     public SidebarMessageCommand() {
         this.addUsage("<time> <title> <line1> [more lines] ...", "Broadcast a message to all players");

@@ -15,8 +15,8 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.V3LD1N;
 
 public class SidebarMessage {
-    final int TITLE_CHARACTER_LIMIT = 32;
-    final int LINE_CHARACTER_LIMIT = 40;
+    private static final int TITLE_CHARACTER_LIMIT = 32;
+    private static final int LINE_CHARACTER_LIMIT = 40;
 
     String title;
     List<String> lines = new ArrayList<>();

@@ -19,7 +19,7 @@ import com.v3ld1n.util.RepeatableRunnable;
 
 public class TimePlayedCommand extends V3LD1NCommand {
     final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
-    final int SECONDS = 15;
+    private static final int SECONDS = 15;
 
     public TimePlayedCommand() {
         this.addUsage("", "View your time played");

@@ -11,8 +11,8 @@ import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.PlayerUtil;
 
 public class PushCommand extends V3LD1NCommand {
-    final double SPEED_DEFAULT = 1.0;
-    final double SPEED_LIMIT = 8.0;
+    private static final double SPEED_DEFAULT = 1.0;
+    private static final double SPEED_LIMIT = 8.0;
 
     public PushCommand() {
         this.addUsage("<player> <speedX> <speedY> <speedZ>", "Push a player in a direction");

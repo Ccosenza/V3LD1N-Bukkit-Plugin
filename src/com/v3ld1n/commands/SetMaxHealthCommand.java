@@ -8,7 +8,7 @@ import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 
 public class SetMaxHealthCommand extends V3LD1NCommand {
-    final double LIMIT = 2000;
+    private static final double LIMIT = 2000;
 
     public SetMaxHealthCommand() {
         this.addUsage("<health>", "Set your maximum health");
