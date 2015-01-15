@@ -181,9 +181,7 @@ public class ReportCommand extends V3LD1NCommand {
                                 + "value:\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}"
                                 , 0);
                             }
-                            ChatUtil.sendJsonMessage(p,
-                                    "{text:\"" + Message.REPORT_LIST_HELP + "\","
-                                    + "color:green}", 0);
+                            ChatUtil.sendJsonMessage(p, StringUtil.jsonMessage(Message.REPORT_LIST_HELP.toString(), "green"), 0);
                         }
                         return true;
                     }

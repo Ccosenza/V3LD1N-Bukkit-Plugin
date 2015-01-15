@@ -8,6 +8,7 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class FAQCommand extends V3LD1NCommand {
     public FAQCommand() {
@@ -19,10 +20,8 @@ public class FAQCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            String border = "{text:\"" + Message.FAQ_BORDER + "\","
-                    + "color:dark_red}";
-            String top = "{text:\"" + Message.FAQ_TOP + "\","
-                    + "color:red}";
+            String border = StringUtil.jsonMessage(Message.FAQ_BORDER.toString(), "dark_red");
+            String top = StringUtil.jsonMessage(Message.FAQ_TOP.toString(), "red");
             if (args.length == 0) {
                 ChatUtil.sendJsonMessage(p, border, 0);
                 ChatUtil.sendJsonMessage(p, top, 0);
@@ -39,9 +38,7 @@ public class FAQCommand extends V3LD1NCommand {
                     + "value:\"/" + label + " " + faq.getId() + "\"}}]}"
                     , 0);
                 }
-                ChatUtil.sendJsonMessage(p,
-                        "{text:\"" + Message.FAQ_HELP + "\","
-                        + "color:green}", 0);
+                ChatUtil.sendJsonMessage(p, StringUtil.jsonMessage(Message.FAQ_HELP.toString(), "green"), 0);
                 return true;
             } else if (args.length == 1) {
                 int arg;

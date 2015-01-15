@@ -218,4 +218,14 @@ public final class StringUtil {
         }
         return newString;
     }
+
+    /**
+     * Returns a simple JSON message
+     * @param text the message text
+     * @param color the text color
+     * @return the message
+     */
+    public static String jsonMessage(String text, String color) {
+        return "{text:\"" + text + "\",color:\"" + color + "\"}";
+    }
 }
