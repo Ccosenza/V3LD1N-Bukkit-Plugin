@@ -121,6 +121,7 @@ public final class PlayerUtil {
             footerField.set(packet, footer);
             footerField.setAccessible(!footerField.isAccessible());
         } catch (Exception e) {
+            e.printStackTrace();
         }
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
