@@ -16,7 +16,7 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 
-public class StringUtil {
+public final class StringUtil {
     private StringUtil() {
     }
 

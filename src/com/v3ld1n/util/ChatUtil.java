@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Config;
 import com.v3ld1n.Message;
 
-public class ChatUtil {
+public final class ChatUtil {
     private ChatUtil() {
     }
 

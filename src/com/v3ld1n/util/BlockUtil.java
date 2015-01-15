@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
-public class BlockUtil {
+public final class BlockUtil {
     private BlockUtil() {
     }
 

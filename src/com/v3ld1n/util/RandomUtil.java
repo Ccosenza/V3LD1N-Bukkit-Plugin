@@ -1,6 +1,6 @@
 package com.v3ld1n.util;
 
-public class RandomUtil {
+public final class RandomUtil {
     private RandomUtil() {
     }
 

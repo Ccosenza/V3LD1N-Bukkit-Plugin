@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.PlayerData;
 
-public class PlayerUtil {
+public final class PlayerUtil {
     private PlayerUtil() {
     }
 

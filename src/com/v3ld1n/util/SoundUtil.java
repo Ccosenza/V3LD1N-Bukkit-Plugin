@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class SoundUtil {
+public final class SoundUtil {
     private SoundUtil() {
     }
 

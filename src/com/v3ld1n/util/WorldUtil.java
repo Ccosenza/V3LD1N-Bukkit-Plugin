@@ -12,7 +12,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-public class WorldUtil {
+public final class WorldUtil {
     private WorldUtil() {
     }
 

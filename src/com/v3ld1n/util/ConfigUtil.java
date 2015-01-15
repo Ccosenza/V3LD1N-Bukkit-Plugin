@@ -14,7 +14,7 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.commands.Report;
 
-public class ConfigUtil {
+public final class ConfigUtil {
     private ConfigUtil() {
     }
 

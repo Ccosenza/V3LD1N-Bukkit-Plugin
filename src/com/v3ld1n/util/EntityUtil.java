@@ -19,7 +19,7 @@ import org.bukkit.util.Vector;
 
 import com.v3ld1n.V3LD1N;
 
-public class EntityUtil {
+public final class EntityUtil {
     private static final Random random = new Random();
 
     private EntityUtil() {
