@@ -21,6 +21,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.v3ld1n.blocks.Sign;
 import com.v3ld1n.commands.*;
 import com.v3ld1n.items.*;
 import com.v3ld1n.items.ratchet.*;
@@ -39,6 +40,7 @@ public class V3LD1N extends JavaPlugin {
     private static List<FAQ> questions;
     private static List<Report> reports;
     private static List<Warp> warps;
+    private static List<Sign> signs;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
@@ -60,6 +62,7 @@ public class V3LD1N extends JavaPlugin {
         questions = new ArrayList<>();
         reports = new ArrayList<>();
         warps = new ArrayList<>();
+        signs = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
@@ -71,6 +74,7 @@ public class V3LD1N extends JavaPlugin {
         loadQuestions();
         loadReports();
         loadWarps();
+        loadSigns();
         loadItemTasks();
         loadParticleTasks();
         loadSoundTasks();
@@ -141,6 +145,7 @@ public class V3LD1N extends JavaPlugin {
                 if (ConfigSetting.AUTO_SAVE_ENABLED.getBoolean()) {
                     saveReports();
                     saveWarps();
+                    saveSigns();
                 }
             }
         }, ConfigSetting.AUTO_SAVE_TICKS.getInt(), ConfigSetting.AUTO_SAVE_TICKS.getInt());
@@ -368,6 +373,77 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
+    public static void loadSigns() {
+        try {
+            String sectionName = "signs";
+            if (Config.SIGNS.getConfig().getConfigurationSection(sectionName) != null) {
+                FileConfiguration config = Config.SIGNS.getConfig();
+                String section = sectionName + ".";
+                for (String key : config.getConfigurationSection("signs").getKeys(false)) {
+                    String text = key;
+                    List<String> playerCommands = new ArrayList<>();
+                    if (config.getStringList(section + key + ".player-commands") != null) {
+                        for (String command : config.getStringList(section + key + ".player-commands")) {
+                            playerCommands.add(command);
+                        }
+                    }
+                    List<String> consoleCommands = new ArrayList<>();
+                    if (config.getStringList(section + key + ".console-commands") != null) {
+                        for (String command : config.getStringList(section + key + ".console-commands")) {
+                            consoleCommands.add(command);
+                        }
+                    }
+                    List<Particle> particles = new ArrayList<>();
+                    if (config.getStringList(section + key + ".particles") != null) {
+                        for (String particleString : config.getStringList(section + key + ".particles")) {
+                            particles.add(Particle.fromString(particleString));
+                        }
+                    }
+                    List<Sound> sounds = new ArrayList<>();
+                    if (config.getStringList(section + key + ".sounds") != null) {
+                        for (String soundString : config.getStringList(section + key + ".sounds")) {
+                            sounds.add(Sound.fromString(soundString));
+                        }
+                    }
+                    Sign sign = new Sign(text, playerCommands, consoleCommands, particles, sounds);
+                    signs.add(sign);
+                }
+                StringUtil.logDebugMessage(String.format(Message.LOADING_SIGNS.toString(), signs.size()));
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.SIGN_LOAD_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveSigns() {
+        try {
+            String sectionName = "signs";
+            String section = sectionName + ".";
+            FileConfiguration config = Config.SIGNS.getConfig();
+            for (Sign sign : signs) {
+                String text = sign.getText();
+                List<String> particleStrings = new ArrayList<>();
+                for (Particle particle : sign.getParticles()) {
+                    particleStrings.add(particle.toString());
+                }
+                List<String> soundStrings = new ArrayList<>();
+                for (Sound sound : sign.getSounds()) {
+                    soundStrings.add(sound.toString());
+                }
+                config.set(section + text + ".player-commands", sign.getPlayerCommands());
+                config.set(section + text + ".console-commands", sign.getConsoleCommands());
+                config.set(section + text + ".particles", particleStrings);
+                config.set(section + text + ".sounds", soundStrings);
+            }
+            Config.SIGNS.saveConfig();
+            StringUtil.logDebugMessage(String.format(Message.SAVING_SIGNS.toString(), signs.size()));
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.SIGN_SAVE_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
     public static void addWarp(Warp warp) {
         for (Warp oldWarp : warps) {
             if (oldWarp.getName().equalsIgnoreCase(warp.getName())) {
@@ -511,6 +587,10 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<Warp> getWarps() {
         return warps;
+    }
+
+    public static List<Sign> getSigns() {
+        return signs;
     }
 
     public static List<ItemTask> getItemTasks() {
