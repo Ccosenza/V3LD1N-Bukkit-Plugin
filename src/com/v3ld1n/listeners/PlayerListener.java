@@ -55,28 +55,21 @@ public class PlayerListener implements Listener {
                 }
             //Signs
             } else if (event.getClickedBlock().getType() == Material.WALL_SIGN || event.getClickedBlock().getType() == Material.SIGN_POST) {
-                Sign sign = (Sign) event.getClickedBlock().getState();
-                for (String key : Config.SIGNS.getConfig().getKeys(false)) {
-                    if (sign.getLine(0).equals(StringUtil.formatText(ConfigUtil.getSignText(key)))) {
-                        if (ConfigUtil.getSignPlayerCommands(key) != null) {
-                            for (String command : ConfigUtil.getSignPlayerCommands(key)) {
-                                Bukkit.dispatchCommand(p, StringUtil.replaceSignVariables(command, sign, p));
-                            }
+                Sign signState = (Sign) event.getClickedBlock().getState();
+                for (com.v3ld1n.blocks.Sign sign : V3LD1N.getSigns()) {
+                    if (signState.getLine(0).equals(sign.getText())) {
+                        Location loc = signState.getBlock().getLocation().add(0.5, 0.5, 0.5);
+                        for (String command : sign.getPlayerCommands()) {
+                            Bukkit.dispatchCommand(p, StringUtil.replaceSignVariables(command, signState, p));
                         }
-                        if (ConfigUtil.getSignConsoleCommands(key) != null) {
-                            for (String command : ConfigUtil.getSignConsoleCommands(key)) {
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtil.replaceSignVariables(command, sign, p));
-                            }
+                        for (String command : sign.getConsoleCommands()) {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtil.replaceSignVariables(command, signState, p));
                         }
-                        if (ConfigUtil.getSignSound(key) != null) {
-                            Sound.fromString(ConfigUtil.getSignSound(key)).play(sign.getLocation());
+                        for (Particle particle : sign.getParticles()) {
+                            particle.display(loc);
                         }
-                        if (ConfigUtil.getSignParticleName(key) != null) {
-                            try {
-                                Particle.fromString(ConfigUtil.getSignParticle(key)).display(sign.getBlock().getLocation().add(new Location(sign.getBlock().getLocation().getWorld(), 0.5, 0.5, 0.5)));
-                            } catch (IllegalArgumentException e) {
-                                V3LD1N.getPlugin().getLogger().info(String.format(Message.SIGN_INVALID_PARTICLE.toString(), key));
-                            }
+                        for (Sound sound : sign.getSounds()) {
+                            sound.play(loc);
                         }
                     }
                 }

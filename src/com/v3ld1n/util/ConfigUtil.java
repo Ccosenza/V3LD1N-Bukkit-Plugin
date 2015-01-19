@@ -1,6 +1,5 @@
 package com.v3ld1n.util;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -9,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.v3ld1n.Config;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.commands.Report;
@@ -56,81 +54,6 @@ public final class ConfigUtil {
             }
         }
         return unreadReports;
-    }
-
-    /**
-     * Returns the text of a custom sign
-     * @param sign the config name of the sign
-     * @return the text of the sign
-     */
-    public static String getSignText(String sign) {
-        return Config.SIGNS.getConfig().getString(sign + ".text");
-    }
-
-    /**
-     * Returns the player commands of a custom sign
-     * @param sign the config name of the sign
-     * @return the player commands of the sign
-     */
-    public static List<String> getSignPlayerCommands(String sign) {
-        return Config.SIGNS.getConfig().getStringList(sign + ".player-commands");
-    }
-
-    /**
-     * Returns the console commands of a custom sign
-     * @param sign the config name of the sign
-     * @return the console commands of the sign
-     */
-    public static List<String> getSignConsoleCommands(String sign) {
-        return Config.SIGNS.getConfig().getStringList(sign + ".console-commands");
-    }
-
-    /**
-     * Returns the click sound of a custom sign
-     * @param sign the config name of the sign
-     * @return the click sound of the sign
-     */
-    public static String getSignSound(String sign) {
-        if (Config.SIGNS.getConfig().getString(sign + ".sound") != null) {
-            return Config.SIGNS.getConfig().getString(sign + ".sound");
-        }
-        return null;
-    }
-
-    /**
-     * Returns the click sound of a custom sign
-     * @param sign the config name of the sign
-     * @return the click sound of the sign
-     */
-    public static String getSignSoundName(String sign) {
-        if (Config.SIGNS.getConfig().getString(sign + ".sound") != null) {
-            return Config.SIGNS.getConfig().getString(sign + ".sound").split("\\|")[0];
-        }
-        return null;
-    }
-
-    /**
-     * Returns the click particle of a custom sign
-     * @param sign the config name of the sign
-     * @return the click particle of the sign
-     */
-    public static String getSignParticle(String sign) {
-        if (Config.SIGNS.getConfig().getString(sign + ".particle") != null) {
-            return Config.SIGNS.getConfig().getString(sign + ".particle");
-        }
-        return null;
-    }
-
-    /**
-     * Returns the name of the click particle of a custom sign
-     * @param sign the config name of the sign
-     * @return the name of the particle
-     */
-    public static String getSignParticleName(String sign) {
-        if (Config.SIGNS.getConfig().getString(sign + ".particle") != null) {
-            return Config.SIGNS.getConfig().getString(sign + ".particle").split("\\|")[0];
-        }
-        return null;
     }
 
     /**
