@@ -80,12 +80,5 @@ public class ConfigAccessor {
                 plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
             }
         }
-    }
-    
-    public void saveDefaultConfig() {
-        if (!configFile.exists()) {            
-            this.plugin.saveResource(fileName, false);
-        }
-    }
- 
+    } 
 }
