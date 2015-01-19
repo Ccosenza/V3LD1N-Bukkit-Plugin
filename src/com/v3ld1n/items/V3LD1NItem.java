@@ -14,9 +14,9 @@ import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NItem implements Listener {
-    final String id;
-    Material material;
-    String name;
+    private final String id;
+    private Material material;
+    private String name;
     protected static final Random random = new Random();
 
     public V3LD1NItem(String id) {

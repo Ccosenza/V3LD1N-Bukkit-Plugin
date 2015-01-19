@@ -15,12 +15,12 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.V3LD1N;
 
 public class SidebarMessage {
-    private static final int TITLE_CHARACTER_LIMIT = 32;
-    private static final int LINE_CHARACTER_LIMIT = 40;
+    private final int TITLE_CHARACTER_LIMIT = 32;
+    private final int LINE_CHARACTER_LIMIT = 40;
+    private final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
 
-    String title;
-    List<String> lines = new ArrayList<>();
-    final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
+    private String title;
+    private List<String> lines = new ArrayList<>();
 
     public SidebarMessage(String title, String... lines) {
         this.title = StringUtil.substring(title, TITLE_CHARACTER_LIMIT);
@@ -40,10 +40,6 @@ public class SidebarMessage {
 
     public List<String> getLines() {
         return this.lines;
-    }
-
-    public String getLine(int line) {
-        return this.lines.get(line);
     }
 
     public void setTitle(String title) {

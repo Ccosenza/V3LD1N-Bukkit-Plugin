@@ -21,7 +21,7 @@ public class RatchetHoe extends V3LD1NItem {
         super("ratchets-hoe");
     }
     
-    public void use(Player p, Block block) {
+    private void use(Player p, Block block) {
         PlayerAnimation.SWING_ARM.play(p, 50);
         block.setType(Material.SOIL);
         Location loc = new Location(block.getWorld(), block.getLocation().getX() + 0.5, block.getLocation().getY() + 1, block.getLocation().getZ() + 0.5);

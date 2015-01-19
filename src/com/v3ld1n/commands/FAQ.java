@@ -1,13 +1,13 @@
 package com.v3ld1n.commands;
 
 public class FAQ {
-    int id;
-    String name;
-    String question;
-    String answer;
-    String nameColor;
-    String questionColor;
-    String answerColor;
+    private int id;
+    private String name;
+    private String question;
+    private String answer;
+    private String nameColor;
+    private String questionColor;
+    private String answerColor;
 
     public FAQ(int id, String name, String question, String answer) {
         this.id = id;

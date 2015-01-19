@@ -6,9 +6,9 @@ import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.Sound;
 
 public class Warp {
-    String name;
-    List<Particle> particles;
-    List<Sound> sounds;
+    private String name;
+    private List<Particle> particles;
+    private List<Sound> sounds;
 
     public Warp(String name, List<Particle> particles, List<Sound> sounds) {
         this.name = name;

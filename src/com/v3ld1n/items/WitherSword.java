@@ -11,7 +11,7 @@ import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.Sound;
 
 public class WitherSword extends V3LD1NItem {
-    public final PotionEffectType effect = PotionEffectType.WITHER;
+    private final PotionEffectType effect = PotionEffectType.WITHER;
 
     public WitherSword() {
         super("wither-sword");

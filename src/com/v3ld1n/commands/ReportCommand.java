@@ -15,10 +15,10 @@ import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.StringUtil;
 
 public class ReportCommand extends V3LD1NCommand {
-    String usageReport = "<player> <reason ...>";
-    String usageRead = ("read <report number>");
-    String usageReadBy = ("readby <report number>");
-    String usageDelete = ("delete <report number>");
+    private String usageReport = "<player> <reason ...>";
+    private String usageRead = ("read <report number>");
+    private String usageReadBy = ("readby <report number>");
+    private String usageDelete = ("delete <report number>");
 
     public ReportCommand() {
         this.addUsage(usageReport, "Report a player to the server admins");

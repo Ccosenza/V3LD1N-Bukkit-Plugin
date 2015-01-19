@@ -18,7 +18,7 @@ import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.RepeatableRunnable;
 
 public class TimePlayedCommand extends V3LD1NCommand {
-    final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
+    private final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
     private static final int SECONDS = 15;
 
     public TimePlayedCommand() {

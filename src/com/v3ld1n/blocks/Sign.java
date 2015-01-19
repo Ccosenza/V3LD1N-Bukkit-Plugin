@@ -6,11 +6,11 @@ import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.Sound;
 
 public class Sign {
-    String text;
-    List<String> playerCommands;
-    List<String> consoleCommands;
-    List<Particle> particles;
-    List<Sound> sounds;
+    private String text;
+    private List<String> playerCommands;
+    private List<String> consoleCommands;
+    private List<Particle> particles;
+    private List<Sound> sounds;
 
     public Sign(String text, List<String> playerCommands, List<String> consoleCommands, List<Particle> particles, List<Sound> sounds) {
         this.text = text;

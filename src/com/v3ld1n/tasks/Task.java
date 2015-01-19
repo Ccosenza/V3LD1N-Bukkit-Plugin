@@ -10,7 +10,7 @@ import com.v3ld1n.Config;
 import com.v3ld1n.util.ConfigUtil;
 
 public abstract class Task {
-    protected final String name;
+    private final String name;
     private final Config config;
     protected Random random = new Random();
 

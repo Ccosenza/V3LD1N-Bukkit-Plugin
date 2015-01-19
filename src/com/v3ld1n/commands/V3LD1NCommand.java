@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import com.v3ld1n.Message;
 
 public abstract class V3LD1NCommand implements CommandExecutor {
-    List<CommandUsage> usages = new ArrayList<>();
+    private List<CommandUsage> usages = new ArrayList<>();
 
     public List<CommandUsage> getUsages() {
         return usages;

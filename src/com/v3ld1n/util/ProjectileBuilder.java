@@ -1,15 +1,13 @@
 package com.v3ld1n.util;
 
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
-import org.bukkit.util.Vector;
 
 public class ProjectileBuilder {
-    Class<? extends Projectile> projectile;
-    Particle launchParticle;
-    Sound launchSound;
-    double randomDirection;
+    private Class<? extends Projectile> projectile;
+    private Particle launchParticle;
+    private Sound launchSound;
+    private double randomDirection;
 
     /**
      * Set the type of the projectile
@@ -49,21 +47,6 @@ public class ProjectileBuilder {
     public ProjectileBuilder withRandomDirection(double distance) {
         this.randomDirection = distance;
         return this;
-    }
-
-    /**
-     * Launch the projectile at a location
-     * @param location the location to launch the projectile at
-     * @param direction the direction of the projectile
-     * @return the projectile
-     */
-    public Projectile launch(Location location, Vector direction) {
-        Projectile pr = location.getWorld().spawn(location, projectile);
-        pr.setVelocity(direction);
-        if (launchSound != null) {
-            launchSound.play(location);
-        }
-        return pr;
     }
 
     /**

@@ -3,8 +3,8 @@ package com.v3ld1n.commands;
 import org.bukkit.ChatColor;
 
 public class CommandUsage {
-    String command;
-    String description;
+    private String command;
+    private String description;
 
     public CommandUsage(String command, String description) {
         this.command = command;

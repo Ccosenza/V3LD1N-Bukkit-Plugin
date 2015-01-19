@@ -14,7 +14,7 @@ import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.PlayerUtil;
 
 public class V3LD1NPluginCommand extends V3LD1NCommand {
-    String usageSetResourcePack = "setresourcepack <url>";
+    private String usageSetResourcePack = "setresourcepack <url>";
 
     public V3LD1NPluginCommand() {
         this.addUsage("debug", "Toggle debug mode");
