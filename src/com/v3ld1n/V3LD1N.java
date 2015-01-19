@@ -182,7 +182,7 @@ public class V3LD1N extends JavaPlugin {
         plugin = null;
     }
 
-    public void loadConfig() {
+    private void loadConfig() {
         configs.add(new ConfigAccessor(plugin, "config.yml"));
         configs.add(new ConfigAccessor(plugin, "faq.yml"));
         configs.add(new ConfigAccessor(plugin, "info-messages.yml"));
@@ -202,7 +202,7 @@ public class V3LD1N extends JavaPlugin {
         configs.add(new ConfigAccessor(plugin, "world-options.yml"));
     }
 
-    public static void setupWorldGuard() {
+    private static void setupWorldGuard() {
         if (Bukkit.getServer().getPluginManager().getPlugin("WorldGuard") != null) {
             worldGuard = (WorldGuardPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
         } else {
@@ -210,7 +210,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void loadItems() {
+    private static void loadItems() {
         items.add(new FireworkBow());
         items.add(new FlightFeather());
         items.add(new LightningBow());
@@ -236,7 +236,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void loadQuestions() {
+    private static void loadQuestions() {
         try {
             String sectionName = "questions";
             if (Config.FAQ.getConfig().getConfigurationSection(sectionName) != null) {
@@ -260,7 +260,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void loadReports() {
+    private static void loadReports() {
         try {
             String sectionName = "reports";
             if (Config.REPORTS.getConfig().getConfigurationSection(sectionName) != null) {
@@ -290,7 +290,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void saveReports() {
+    private static void saveReports() {
         try {
             String sectionName = "reports";
             String section = sectionName + ".";
@@ -319,7 +319,7 @@ public class V3LD1N extends JavaPlugin {
         reports.add(report);
     }
 
-    public static void loadWarps() {
+    private static void loadWarps() {
         try {
             String sectionName = "warps";
             if (Config.WARPS.getConfig().getConfigurationSection(sectionName) != null) {
@@ -350,7 +350,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void saveWarps() {
+    private static void saveWarps() {
         try {
             String sectionName = "warps";
             String section = sectionName + ".";
@@ -373,7 +373,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void loadSigns() {
+    private static void loadSigns() {
         try {
             String sectionName = "signs";
             if (Config.SIGNS.getConfig().getConfigurationSection(sectionName) != null) {
@@ -416,7 +416,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public static void saveSigns() {
+    private static void saveSigns() {
         try {
             String sectionName = "signs";
             String section = sectionName + ".";
@@ -453,12 +453,6 @@ public class V3LD1N extends JavaPlugin {
         warps.add(warp);
     }
 
-    public static void removeWarp(Warp warp) {
-        if (warps.contains(warp)) {
-            warps.remove(warp);
-        }
-    }
-
     public static void removeWarp(String warp) {
         Iterator<Warp> iterator = warps.iterator();
         while (iterator.hasNext()) {
@@ -468,7 +462,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public void loadItemTasks() {
+    private void loadItemTasks() {
         try {
             if (Config.TASKS_ITEM.getConfig() != null) {
                 FileConfiguration config = Config.TASKS_ITEM.getConfig();
@@ -490,7 +484,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public void loadParticleTasks() {
+    private void loadParticleTasks() {
         try {
             if (Config.TASKS_PARTICLE.getConfig() != null) {
                 FileConfiguration config = Config.TASKS_PARTICLE.getConfig();
@@ -512,7 +506,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public void loadSoundTasks() {
+    private void loadSoundTasks() {
         try {
             if (Config.TASKS_SOUND.getConfig() != null) {
                 FileConfiguration config = Config.TASKS_SOUND.getConfig();
@@ -534,7 +528,7 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    public void loadTeleportTasks() {
+    private void loadTeleportTasks() {
         try {
             if (Config.TASKS_TELEPORT.getConfig() != null) {
                 FileConfiguration config = Config.TASKS_TELEPORT.getConfig();
@@ -564,7 +558,7 @@ public class V3LD1N extends JavaPlugin {
         return plugin;
     }
 
-    public static ConfigAccessor getConfig(String fileName) {
+    static ConfigAccessor getConfig(String fileName) {
         for (ConfigAccessor config : configs) {
             if (config.getFileName().equals(fileName)) {
                 return config;
@@ -593,20 +587,8 @@ public class V3LD1N extends JavaPlugin {
         return signs;
     }
 
-    public static List<ItemTask> getItemTasks() {
-        return itemTasks;
-    }
-
-    public static List<ParticleTask> getParticleTasks() {
-        return particleTasks;
-    }
-
     public static List<SoundTask> getSoundTasks() {
         return soundTasks;
-    }
-
-    public static List<TeleportTask> getTeleportTasks() {
-        return teleportTasks;
     }
 
     public static WorldGuardPlugin getWorldGuard() {
