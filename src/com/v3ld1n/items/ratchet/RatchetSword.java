@@ -50,7 +50,7 @@ public class RatchetSword extends V3LD1NItem {
                         }
                         double pushSpeed = this.getDoubleSetting("push-speed");
                         double pushUpSpeed = this.getDoubleSetting("push-up-speed");
-                        EntityUtil.pushToward(entity, p.getLocation(), pushSpeed, 0, pushSpeed);
+                        EntityUtil.pushToward(entity, p.getLocation(), pushSpeed, 0, pushSpeed, true);
                         if (!(entity instanceof Projectile)) {
                             entity.setVelocity(entity.getVelocity().add(new Vector(0, pushUpSpeed, 0)));
                         }

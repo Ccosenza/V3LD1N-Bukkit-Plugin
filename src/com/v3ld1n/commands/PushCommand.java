@@ -61,7 +61,7 @@ public class PushCommand extends V3LD1NCommand {
                     } catch (Exception e) {
                         sender.sendMessage(String.format(Message.PUSH_INVALID_SPEED.toString(), SPEED_DEFAULT));
                     }
-                    EntityUtil.pushToward(player, toPlayer.getLocation(), speed, speed, speed);
+                    EntityUtil.pushToward(player, toPlayer.getLocation(), speed, speed, speed, false);
                     ChatUtil.sendMessage(sender, String.format(Message.PUSH_PUSH_TO_PLAYER.toString(), player.getName(), speed), 2);
                     return true;
                 }

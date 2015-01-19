@@ -34,8 +34,11 @@ public final class EntityUtil {
      * @param speedY the y velocity
      * @param speedZ the z velocity
      */
-    public static void pushToward(Entity entity, Location to, double speedX, double speedY, double speedZ) {
+    public static void pushToward(Entity entity, Location to, double speedX, double speedY, double speedZ, boolean fromEyeLocation) {
         Location loc = entity.getLocation();
+        if (entity instanceof LivingEntity && fromEyeLocation) {
+            loc = ((LivingEntity) entity).getEyeLocation();
+        }
         Vector direction = loc.toVector().subtract(to.toVector()).normalize();
         direction.setX(direction.getX()*-(speedX))
                 .setY(direction.getY()*-(speedY))
@@ -158,16 +161,16 @@ public final class EntityUtil {
             Material blockTwoBelow = loc.getBlock().getRelative(down).getRelative(down).getType();
             Material air = Material.AIR;
             if (block == air && blockBelow != air) {
-                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz);
+                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz, true);
             } else if (block == air && blockBelow == air && blockTwoBelow != air) {
-                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz);
+                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz, true);
             } else if (block == air && blockBelow == air && blockTwoBelow == air) {
                 entity.setVelocity(new Vector(0, speedY * y, 0));
             } else if (block != air) {
-                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz);
+                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz, true);
             }
         } else {
-            pushToward(entity, projectile.getLocation(), -speedX, -speedY, -speedZ);
+            pushToward(entity, projectile.getLocation(), -speedX, -speedY, -speedZ, true);
         }
     }
 }

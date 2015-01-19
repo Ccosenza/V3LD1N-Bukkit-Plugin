@@ -56,7 +56,7 @@ public class RatchetFishingRod extends V3LD1NItem {
                                             speedY = 0;
                                             p.setVelocity(p.getVelocity().add(new Vector(0, 0.1, 0)));
                                         }
-                                        EntityUtil.pushToward(p, eLoc, speedX, speedY, speedZ);
+                                        EntityUtil.pushToward(p, eLoc, speedX, speedY, speedZ, false);
                                         p.setFallDistance(0);
                                         getParticleSetting("particle").display(p.getLocation());
                                     }
