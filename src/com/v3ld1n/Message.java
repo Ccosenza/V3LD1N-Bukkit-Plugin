@@ -16,10 +16,6 @@ public enum Message {
 
     WORLDGUARD_PERMISSION("worldguard.permission"),
 
-    MOTD_SHOWING("motd.showing"),
-    MOTD_NO_PERMISSION_OTHERS("commands.motd.others-permission"),
-    MOTD_ERROR("motd.error"),
-
     ITEM_RELOAD_ERROR("errors.loading.items"),
     FAQ_LOAD_ERROR("errors.loading.faq"),
     REPORT_LOAD_ERROR("errors.loading.reports"),
@@ -81,6 +77,9 @@ public enum Message {
 
     GIVEALL_GIVE("commands.giveall.give"),
     GIVEALL_NO_ITEM("commands.giveall.no-item"),
+
+    MOTD_SHOWING("commands.motd.show"),
+    MOTD_NO_PERMISSION_OTHERS("commands.motd.others-permission"),
 
     NEXTSOUND_NOW_PLAYING("commands.nextsound.now-playing"),
     NEXTSOUND_NO_SOUND_TASKS("commands.nextsound.no-sound-tasks"),
