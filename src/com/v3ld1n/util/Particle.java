@@ -79,10 +79,6 @@ public class Particle {
         this.count = builder.count;
     }
 
-    /**
-     * Returns the name of the particle
-     * @return the particle's name
-     */
     public String getName() {
         return this.name;
     }
@@ -172,7 +168,7 @@ public class Particle {
                 .setOffsetZ(Float.parseFloat(split[3]))
                 .setSpeed(Float.parseFloat(split[4]))
                 .setCount(Integer.parseInt(split[5]));
-        if (split.length > 6) {
+        if (split.length >= 7) {
             builder.setForced(Boolean.parseBoolean(split[6]));
         }
         return builder.build();
@@ -187,7 +183,7 @@ public class Particle {
                 .setOffsetZ(Float.parseFloat(split[2]))
                 .setSpeed(Float.parseFloat(split[3]))
                 .setCount(Integer.parseInt(split[4]));
-        if (split.length > 5) {
+        if (split.length >= 6) {
             builder.setForced(Boolean.parseBoolean(split[5]));
         }
         return builder.build();
