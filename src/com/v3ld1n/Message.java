@@ -11,7 +11,6 @@ public enum Message {
     SHORT_LIST_ITEM("lists.short-item"),
     LONG_LIST_ITEM("lists.long-item"),
 
-    SIGN_INVALID_PARTICLE("signs.invalid-particle"),
     CANNOT_USE_ITEM("cancel-interact.interact-item"),
     CANNOT_USE_CONTAINER("cancel-interact.interact-container"),
 
