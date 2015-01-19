@@ -31,6 +31,7 @@ import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.RepeatableRunnable;
+import com.v3ld1n.util.Sound;
 
 public class RatchetBow extends V3LD1NItem {
     private final Color color = Color.ORANGE;
@@ -52,32 +53,32 @@ public class RatchetBow extends V3LD1NItem {
                         case SNOWBALL:
                             new ProjectileBuilder()
                                 .withType(Snowball.class)
-                                .withLaunchSound(this.getStringSetting("snowball-sound"))
+                                .withLaunchSound(Sound.fromString(this.getStringSetting("snowball-sound")))
                                 .launch(p, 1.5);
                             break;
                         case ENDER_PEARL:
                             new ProjectileBuilder()
                             .withType(EnderPearl.class)
-                            .withLaunchSound(this.getStringSetting("ender-pearl-sound"))
+                            .withLaunchSound(Sound.fromString(this.getStringSetting("ender-pearl-sound")))
                             .withRandomDirection(this.getDoubleSetting("ender-pearl-direction"))
                             .launch(p, 1.5);
                             break;
                         case EGG:
                             new ProjectileBuilder()
                             .withType(Egg.class)
-                            .withLaunchSound(this.getStringSetting("egg-sound"))
+                            .withLaunchSound(Sound.fromString(this.getStringSetting("egg-sound")))
                             .launch(p, 1.5);
                             break;
                         case WITHER_SKULL:
                             new ProjectileBuilder()
                             .withType(WitherSkull.class)
-                            .withLaunchSound(this.getStringSetting("wither-skull-sound"))
+                            .withLaunchSound(Sound.fromString(this.getStringSetting("wither-skull-sound")))
                             .launch(p, 1.5);
                             break;
                         case BLUE_WITHER_SKULL:
                             WitherSkull blueSkull = (WitherSkull) new ProjectileBuilder()
                                 .withType(WitherSkull.class)
-                                .withLaunchSound(this.getStringSetting("blue-wither-skull-sound"))
+                                .withLaunchSound(Sound.fromString(this.getStringSetting("blue-wither-skull-sound")))
                                 .launch(p, 1.5);
                             blueSkull.setCharged(true);
                             break;
@@ -89,7 +90,7 @@ public class RatchetBow extends V3LD1NItem {
                 event.setCancelled(true);
                 new ProjectileBuilder()
                     .withType(Fireball.class)
-                    .withLaunchSound(this.getStringSetting("fireball-sound"))
+                    .withLaunchSound(Sound.fromString(this.getStringSetting("fireball-sound")))
                     .withLaunchParticle(this.getParticleSetting("launch-particle"))
                     .launch(p, 1.5);
             }

@@ -14,7 +14,7 @@ import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.PlayerAnimation;
-import com.v3ld1n.util.SoundUtil;
+import com.v3ld1n.util.Sound;
 
 public class RatchetHoe extends V3LD1NItem {
     public RatchetHoe() {
@@ -26,7 +26,7 @@ public class RatchetHoe extends V3LD1NItem {
         block.setType(Material.SOIL);
         Location loc = new Location(block.getWorld(), block.getLocation().getX() + 0.5, block.getLocation().getY() + 1, block.getLocation().getZ() + 0.5);
         this.getParticleSetting("particle").display(loc);
-        SoundUtil.playSoundString(this.getStringSetting("sound"), loc);
+        Sound.fromString(this.getStringSetting("sound")).play(loc);
     }
 
     @SuppressWarnings("deprecation")

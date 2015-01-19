@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.Particle;
-import com.v3ld1n.util.SoundUtil;
+import com.v3ld1n.util.Sound;
 
 public class WarpCommand implements Listener {
     @EventHandler
@@ -28,8 +28,8 @@ public class WarpCommand implements Listener {
             for (Particle particle : warp.getParticles()) {
                 particle.display(p.getLocation(), p);
             }
-            for (String sound : warp.getSounds()) {
-                SoundUtil.playSoundString(sound, p.getLocation());
+            for (Sound sound : warp.getSounds()) {
+                sound.play(p.getLocation(), p);
             }
         }
     }

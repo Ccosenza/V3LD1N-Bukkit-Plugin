@@ -16,6 +16,7 @@ import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.RepeatableRunnable;
+import com.v3ld1n.util.Sound;
 
 public class RatchetFlintAndSteel extends V3LD1NItem {
     public RatchetFlintAndSteel() {
@@ -31,7 +32,7 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
                 event.setCancelled(true);
                 final Projectile pr = new ProjectileBuilder()
                     .withType(Fireball.class)
-                    .withLaunchSound(this.getStringSetting("sound"))
+                    .withLaunchSound(Sound.fromString(this.getStringSetting("sound")))
                     .withLaunchParticle(this.getParticleSetting("launch-particle"))
                     .launch(p, 0.8);
                 RepeatableRunnable trailTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, this.getIntSetting("trail-ticks"), this.getIntSetting("trail-times")) {

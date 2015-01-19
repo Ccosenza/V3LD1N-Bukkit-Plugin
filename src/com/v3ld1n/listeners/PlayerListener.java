@@ -69,7 +69,7 @@ public class PlayerListener implements Listener {
                             }
                         }
                         if (ConfigUtil.getSignSound(key) != null) {
-                            SoundUtil.playSoundString(ConfigUtil.getSignSound(key), sign.getLocation());
+                            Sound.fromString(ConfigUtil.getSignSound(key)).play(sign.getLocation());
                         }
                         if (ConfigUtil.getSignParticleName(key) != null) {
                             try {

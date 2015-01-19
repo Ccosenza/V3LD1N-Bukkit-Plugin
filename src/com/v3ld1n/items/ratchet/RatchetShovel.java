@@ -13,6 +13,7 @@ import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
+import com.v3ld1n.util.Sound;
 
 public class RatchetShovel extends V3LD1NItem {
     public RatchetShovel() {
@@ -27,7 +28,7 @@ public class RatchetShovel extends V3LD1NItem {
                 event.setCancelled(true);
                 new ProjectileBuilder()
                     .withType(Snowball.class)
-                    .withLaunchSound(this.getStringSetting("throw-sound"))
+                    .withLaunchSound(Sound.fromString(this.getStringSetting("throw-sound")))
                     .launch(p, 1.5);
                 PlayerAnimation.SWING_ARM.play(p, 64);
             }

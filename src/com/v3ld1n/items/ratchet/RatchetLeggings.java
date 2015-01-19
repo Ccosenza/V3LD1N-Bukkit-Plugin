@@ -11,7 +11,7 @@ import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.RepeatableRunnable;
-import com.v3ld1n.util.SoundUtil;
+import com.v3ld1n.util.Sound;
 
 public class RatchetLeggings extends V3LD1NItem {
     public RatchetLeggings() {
@@ -24,7 +24,7 @@ public class RatchetLeggings extends V3LD1NItem {
         if (this.equalsItem(p.getInventory().getLeggings())) {
             event.setAmount((int) (event.getAmount() * this.getDoubleSetting("xp-multiplier")));
             this.getParticleSetting("xp-particle").display(p.getLocation());
-            SoundUtil.playSoundString(this.getStringSetting("xp-sound"), p.getLocation());
+            Sound.fromString(this.getStringSetting("xp-sound")).play(p.getLocation());
         }
     }
 

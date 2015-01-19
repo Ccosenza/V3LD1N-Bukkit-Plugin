@@ -1,18 +1,14 @@
 package com.v3ld1n.util;
 
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
 public class ProjectileBuilder {
     Class<? extends Projectile> projectile;
-    float soundVolume, soundPitch;
-    Sound launchSound;
-    String soundName, soundString;
     Particle launchParticle;
-    String particleString;
+    Sound launchSound;
     double randomDirection;
 
     /**
@@ -22,44 +18,6 @@ public class ProjectileBuilder {
      */
     public ProjectileBuilder withType(Class<? extends Projectile> type) {
         this.projectile = type;
-        return this;
-    }
-
-    /**
-     * Add a firing sound
-     * @param sound the sound
-     * @param pitch the pitch of the sound
-     * @param volume the volume of the sound
-     * @return this object
-     */
-    public ProjectileBuilder withLaunchSound(Sound sound, float pitch, float volume) {
-        this.launchSound = sound;
-        this.soundVolume = volume;
-        this.soundPitch = pitch;
-        return this;
-    }
-
-    /**
-     * Add a firing sound
-     * @param sound the sound name
-     * @param pitch the pitch of the sound
-     * @param volume the volume of the sound
-     * @return this object
-     */
-    public ProjectileBuilder withLaunchSound(String sound, float pitch, float volume) {
-        this.soundName = sound;
-        this.soundPitch = pitch;
-        this.soundVolume = volume;
-        return this;
-    }
-
-    /**
-     * Add a firing sound
-     * @param sound the sound string
-     * @return this object
-     */
-    public ProjectileBuilder withLaunchSound(String sound) {
-        this.soundString = sound;
         return this;
     }
 
@@ -74,15 +32,20 @@ public class ProjectileBuilder {
     }
 
     /**
-     * Add a firing particle
-     * @param particle the particle
+     * Add a firing sound
+     * @param sound the sound
      * @return this object
      */
-    public ProjectileBuilder withLaunchParticle(String particle) {
-        this.particleString = particle;
+    public ProjectileBuilder withLaunchSound(Sound sound) {
+        this.launchSound = sound;
         return this;
     }
 
+    /**
+     * Make the projectile move in a random direction
+     * @param distance the distance from the starting direction
+     * @return this object
+     */
     public ProjectileBuilder withRandomDirection(double distance) {
         this.randomDirection = distance;
         return this;
@@ -97,12 +60,8 @@ public class ProjectileBuilder {
     public Projectile launch(Location location, Vector direction) {
         Projectile pr = location.getWorld().spawn(location, projectile);
         pr.setVelocity(direction);
-        if (soundName != null) {
-            SoundUtil.playSound(soundName, location, soundVolume, soundPitch);
-        } else if (launchSound != null) {
-            location.getWorld().playSound(location, launchSound, soundVolume, soundPitch);
-        } else if (soundString != null) {
-            SoundUtil.playSoundString(soundString, location);
+        if (launchSound != null) {
+            launchSound.play(location);
         }
         return pr;
     }
@@ -116,17 +75,11 @@ public class ProjectileBuilder {
     public Projectile launch(LivingEntity shooter, double speed) {
         Projectile pr = shooter.launchProjectile(projectile);
         pr.setVelocity(shooter.getLocation().getDirection().multiply(speed));
-        if (soundName != null) {
-            SoundUtil.playSound(soundName, shooter.getEyeLocation(), soundVolume, soundPitch);
-        } else if (launchSound != null) {
-            shooter.getWorld().playSound(shooter.getEyeLocation(), launchSound, soundVolume, soundPitch);
-        } else if (soundString != null) {
-            SoundUtil.playSoundString(soundString, shooter.getEyeLocation());
-        }
         if (launchParticle != null) {
             launchParticle.display(pr.getLocation());
-        } else if (particleString != null) {
-            Particle.fromString(particleString).display(pr.getLocation());
+        }
+        if (launchSound != null) {
+            launchSound.play(shooter.getEyeLocation());
         }
         if (randomDirection > 0) {
             EntityUtil.randomDirection(pr, randomDirection);

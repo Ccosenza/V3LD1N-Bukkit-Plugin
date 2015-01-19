@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Config;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
-import com.v3ld1n.util.SoundUtil;
+import com.v3ld1n.util.Sound;
 import com.v3ld1n.util.WorldUtil;
 
 public class TeleportTask extends Task {
@@ -47,10 +47,10 @@ public class TeleportTask extends Task {
                 Particle.fromString(particle).display(teleportLoc);
             }
             for (String sound : this.getStringListSetting("sounds")) {
-                SoundUtil.playSoundString(sound, location);
+                Sound.fromString(sound).play(location);
             }
             for (String sound : this.getStringListSetting("teleport-location-sounds")) {
-                SoundUtil.playSoundString(sound, teleportLoc);
+                Sound.fromString(sound).play(teleportLoc);
             }
         }
     }

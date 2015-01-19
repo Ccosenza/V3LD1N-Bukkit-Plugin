@@ -12,6 +12,7 @@ import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.Particle;
+import com.v3ld1n.util.Sound;
 
 public class V3LD1NWarpCommand extends V3LD1NCommand {
     public V3LD1NWarpCommand() {
@@ -28,7 +29,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                 String warpString;
                 warpString = args[1];
                 if (args[0].equalsIgnoreCase("add")) {
-                    V3LD1N.addWarp(new Warp(warpString, new ArrayList<Particle>(), new ArrayList<String>()));
+                    V3LD1N.addWarp(new Warp(warpString, new ArrayList<Particle>(), new ArrayList<Sound>()));
                     ChatUtil.sendMessage(sender, String.format(Message.V3LD1NWARP_ADD.toString(), warpString), 2);
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove")) {

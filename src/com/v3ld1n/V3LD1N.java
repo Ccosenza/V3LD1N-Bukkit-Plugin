@@ -28,6 +28,7 @@ import com.v3ld1n.tasks.*;
 import com.v3ld1n.util.ConfigAccessor;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.Sound;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1N extends JavaPlugin {
@@ -321,17 +322,17 @@ public class V3LD1N extends JavaPlugin {
                 String section = sectionName + ".";
                 for (String key : config.getConfigurationSection("warps").getKeys(false)) {
                     String name = key;
-                    List<String> particleStrings = new ArrayList<>();
-                    if (config.get(section + key + ".particles") != null) {
-                        particleStrings = config.getStringList(section + key + ".particles");
-                    }
                     List<Particle> particles = new ArrayList<>();
-                    for (String particleString : particleStrings) {
-                        particles.add(Particle.fromString(particleString));
+                    if (config.getStringList(section + key + ".particles") != null) {
+                        for (String particleString : config.getStringList(section + key + ".particles")) {
+                            particles.add(Particle.fromString(particleString));
+                        }
                     }
-                    List<String> sounds = new ArrayList<>();
-                    if (config.get(section + key + ".sounds") != null) {
-                        sounds = config.getStringList(section + key + ".sounds");
+                    List<Sound> sounds = new ArrayList<>();
+                    if (config.getStringList(section + key + ".sounds") != null) {
+                        for (String soundString : config.getStringList(section + key + ".sounds")) {
+                            sounds.add(Sound.fromString(soundString));
+                        }
                     }
                     Warp warp = new Warp(name, particles, sounds);
                     warps.add(warp);
