@@ -42,14 +42,15 @@ public final class WorldUtil {
      * @return the nearest player
      */
     public static Player getNearestPlayer(Player player) {
-        Double nearestDistance = null;
         Player nearestPlayer = null;
+        double nearestDistance = Double.MAX_VALUE;
         for (Player p : player.getWorld().getPlayers()) {
-            if ((nearestDistance == null || p.getLocation().distance(player.getLocation()) <= nearestDistance) && !p.getName().equals(player.getName())) {
-                nearestDistance = p.getLocation().distance(player.getLocation());
-                nearestPlayer = p;
-            } else {
-                nearestPlayer = null;
+            if (player.getUniqueId() != p.getUniqueId()) {
+                double distance = player.getLocation().distance(p.getLocation());
+                if(distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestPlayer = p;
+                }
             }
         }
         return nearestPlayer;
