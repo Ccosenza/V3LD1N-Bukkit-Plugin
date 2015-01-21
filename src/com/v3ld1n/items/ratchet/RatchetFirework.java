@@ -38,7 +38,7 @@ public class RatchetFirework extends V3LD1NItem {
                             }
                         }
                     };
-                    RepeatableRunnable fireworkParticleTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, 2, 55) {
+                    RepeatableRunnable fireworkParticleTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, 1, 110) {
                         @Override
                         public void onRun() {
                             if (!p.isDead()) {
