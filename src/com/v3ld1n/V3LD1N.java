@@ -158,6 +158,7 @@ public class V3LD1N extends JavaPlugin {
                         Player player = PlayerUtil.getRandomPlayer();
                         if (ConfigSetting.PLAYER_EFFECTS_PLAYERS.getStringList().contains(player.getName())) {
                             player.getWorld().strikeLightningEffect(player.getLocation());
+                            Particle.fromString(ConfigSetting.PARTICLE_PLAYER_EFFECTS_LIGHTNING.getString()).display(player.getLocation());
                         }
                     }
                 }

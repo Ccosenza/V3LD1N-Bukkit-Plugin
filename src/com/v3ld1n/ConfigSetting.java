@@ -34,6 +34,7 @@ public enum ConfigSetting {
     PROJECTILE_JUMP_Y("projectile-jump.y-multiplier", "items.yml", 1.1),
     
     PARTICLE_SPAWN_ENDER_CRYSTAL("spawn-ender-crystal", "particles.yml"),
+    PARTICLE_PLAYER_EFFECTS_LIGHTNING("player-effects-lightning", "particles.yml"),
     PARTICLE_TRAILS("trails.normal", "particles.yml"),
     PARTICLE_TRAILS_PLAYER_EFFECTS("trails.player-effects", "particles.yml"),
     PARTICLE_RATCHETSBOW_FIREBALL("ratchetsbow.fireball", "particles.yml"),
