@@ -22,6 +22,7 @@ public class ActionBarMessageCommand extends V3LD1NCommand {
             if (args.length >= 2) {
                 String message = StringUtil.fromArray(args, 1);
                 message = StringUtil.formatText(message);
+                message = message.replaceAll("[\"\\\\]", "");
                 if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("a")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                         ChatUtil.sendMessage(p, message, 2);
