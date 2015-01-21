@@ -17,9 +17,29 @@ public final class WorldUtil {
     }
 
     /**
+     * Returns the nearest entity to another entity
+     * @param entity the entity to find an entity near
+     * @return the nearest entity
+     */
+    public static Entity getNearestEntity(Entity entity) {
+        Entity nearestEntity = null;
+        double nearestDistance = Double.MAX_VALUE;
+        for (Entity e : entity.getWorld().getEntities()) {
+            if (entity != e) {
+                double distance = entity.getLocation().distance(e.getLocation());
+                if(distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestEntity = e;
+                }
+            }
+        }
+        return nearestEntity;
+    }
+
+    /**
      * Returns the nearest player to another player
      * @param player the player to find a player near
-     * @return the nearest player to the player
+     * @return the nearest player
      */
     public static Player getNearestPlayer(Player player) {
         Double nearestDistance = null;

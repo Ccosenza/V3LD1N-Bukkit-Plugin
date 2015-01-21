@@ -112,6 +112,11 @@ public final class StringUtil {
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%player%", none);
         }
+        if (WorldUtil.getNearestEntity(player) != null) {
+            replaced = replaced.replaceAll(ignoreCase + "%entity%", getEntityName(WorldUtil.getNearestEntity(player)));
+        } else {
+            replaced = replaced.replaceAll(ignoreCase + "%entity%", none);
+        }
         if (player.getItemInHand().getType() != Material.AIR) {
             replaced = replaced.replaceAll(ignoreCase + "%item%", getItemName(player.getItemInHand()));
         } else {
