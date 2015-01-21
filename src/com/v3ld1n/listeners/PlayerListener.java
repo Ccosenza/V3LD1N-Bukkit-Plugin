@@ -57,7 +57,7 @@ public class PlayerListener implements Listener {
             } else if (event.getClickedBlock().getType() == Material.WALL_SIGN || event.getClickedBlock().getType() == Material.SIGN_POST) {
                 Sign signState = (Sign) event.getClickedBlock().getState();
                 for (com.v3ld1n.blocks.Sign sign : V3LD1N.getSigns()) {
-                    if (signState.getLine(0).equals(sign.getText())) {
+                    if (signState.getLine(0).equals(StringUtil.formatText(sign.getText()))) {
                         Location loc = signState.getBlock().getLocation().add(0.5, 0.5, 0.5);
                         for (String command : sign.getPlayerCommands()) {
                             Bukkit.dispatchCommand(p, StringUtil.replaceSignVariables(command, signState, p));
