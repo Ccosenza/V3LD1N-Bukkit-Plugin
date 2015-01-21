@@ -42,6 +42,7 @@ public class RatchetLeggings extends V3LD1NItem {
                 }
                 if (action != null) {
                     p.setVelocity(p.getLocation().getDirection().divide(this.getVectorSetting(action + ".divide-velocity")).add(this.getVectorSetting(action + ".velocity")));
+                    Sound.fromString(this.getStringSetting("sound")).play(p.getLocation());
                     RepeatableRunnable trailTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, this.getIntSetting("trail-ticks"), this.getIntSetting("trail-times")) {
                         @Override
                         public void onRun() {
