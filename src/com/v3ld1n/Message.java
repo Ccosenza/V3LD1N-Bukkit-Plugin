@@ -14,7 +14,8 @@ public enum Message {
     CANNOT_USE_ITEM("cancel-interact.interact-item"),
     CANNOT_USE_CONTAINER("cancel-interact.interact-container"),
 
-    WORLDGUARD_PERMISSION("worldguard.permission"),
+    SIGN_PERMISSION("permissions.signs"),
+    WORLDGUARD_PERMISSION("permissions.worldguard"),
 
     ITEM_RELOAD_ERROR("errors.loading.items"),
     FAQ_LOAD_ERROR("errors.loading.faq"),

@@ -127,10 +127,20 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
+        Player p = event.getPlayer();
         for (int i = 0; i < 4; i++) {
             String line = event.getLine(i);
             String newLine = StringUtil.replaceSignVariables(line, (Sign) event.getBlock().getState(), event.getPlayer());
             event.setLine(i, newLine);
+        }
+        if (!p.hasPermission("v3ld1n.createsigns")) {
+            String firstLine = event.getLine(0);
+            for (com.v3ld1n.blocks.Sign sign : V3LD1N.getSigns()) {
+                if (firstLine.replaceAll("§", "&").equals(sign.getText())) {
+                    event.setCancelled(true);
+                    p.sendMessage(String.format(Message.SIGN_PERMISSION.toString(), firstLine));
+                }
+            }
         }
     }
 
