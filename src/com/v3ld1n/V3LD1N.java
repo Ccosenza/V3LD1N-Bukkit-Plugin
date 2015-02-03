@@ -108,7 +108,6 @@ public class V3LD1N extends JavaPlugin {
         getCommand("playerlist").setExecutor(new PlayerListCommand());
         getCommand("giveall").setExecutor(new GiveAllCommand());
         getCommand("report").setExecutor(new ReportCommand());
-        getCommand("totalplayers").setExecutor(new TotalPlayersCommand());
         getCommand("players").setExecutor(new PlayersCommand());
         getCommand("v3ld1nwarp").setExecutor(new V3LD1NWarpCommand());
         getCommand("ride").setExecutor(rideCommand);
