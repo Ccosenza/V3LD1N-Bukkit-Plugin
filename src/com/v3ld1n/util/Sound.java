@@ -86,6 +86,8 @@ public class Sound {
         String[] split = sound.split("\\|");
         Builder builder = builder()
                 .setName(split[0]);
+        builder.setVolume(1);
+        builder.setPitch(1);
         if (split.length >= 2) {
             builder.setVolume(Float.parseFloat(split[1]));
             if (split.length >= 3) {
