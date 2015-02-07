@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -232,5 +233,16 @@ public final class StringUtil {
      */
     public static String jsonMessage(String text, String color) {
         return "{text:\"" + text + "\",color:\"" + color + "\"}";
+    }
+
+    public static String fromLocation(Location location) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(location.getWorld().getName())
+        .append("|").append(location.getX())
+        .append("|").append(location.getY())
+        .append("|").append(location.getZ())
+        .append("|").append(location.getYaw())
+        .append("|").append(location.getPitch());
+        return sb.toString();
     }
 }
