@@ -1,6 +1,7 @@
 package com.v3ld1n.util;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Random;
 
 import net.minecraft.server.v1_8_R1.ChatSerializer;
@@ -11,6 +12,7 @@ import net.minecraft.server.v1_8_R1.PacketPlayOutTitle;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -132,6 +134,31 @@ public final class PlayerUtil {
      * @return the player's ping
      */
     public static int getPing(Player p) {
-        return ((CraftPlayer) p).getHandle().ping;
+        if (((CraftPlayer) p).getHandle() != null) {
+            return ((CraftPlayer) p).getHandle().ping;
+        }
+        return 0;
+    }
+
+    public static HashMap<String, Object> getInfo(Player player) {
+        Player p = player.getPlayer();
+        HashMap<String, Object> info = new HashMap<>();
+        info.put("UUID", p.getUniqueId());
+        info.put("Display Name", p.getDisplayName());
+        info.put("Online", p.isOnline());
+        info.put("Ping", getPing(p));
+        info.put("Location", StringUtil.fromLocation(p.getLocation()));
+        info.put("Biome", StringUtil.fromEnum(p.getLocation().getBlock().getBiome(), true));
+        info.put("Standing on", StringUtil.fromEnum(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType(), true));
+        info.put("Health", p.getHealth());
+        info.put("Max Health", p.getMaxHealth());
+        info.put("Hunger", p.getFoodLevel());
+        info.put("Experience", p.getExp());
+        info.put("Op", p.isOp());
+        info.put("Banned", p.isBanned());
+        info.put("IP Address", p.getAddress());
+        info.put("Game Mode", StringUtil.fromEnum(p.getGameMode(), true));
+        info.put("Flying", p.isFlying());
+        return info;
     }
 }

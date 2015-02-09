@@ -90,6 +90,10 @@ public enum Message {
     PLAYANIMATION_NO_PERMISSION_OTHERS("commands.playanimation.others-permission"),
     PLAYANIMATION_ERROR("commands.playanimation.error"),
 
+    PLAYERS_AMOUNT_TITLE("commands.players.amount.title"),
+    PLAYERS_AMOUNT_SUBTITLE("commands.players.amount.subtitle"),
+    PLAYERS_AMOUNT_NOT_PLAYER("commands.players.amount.not-player"),
+
     PLAYERLIST_SET("commands.playerlist.set"),
     PLAYERLIST_RESET("commands.playerlist.reset"),
     PLAYERLIST_ENABLE_PING("commands.playerlist.ping.enable"),
@@ -142,10 +146,6 @@ public enum Message {
 
     SIDEBARMESSAGE_DISPLAY("commands.sidebarmessage.display"),
     SIDEBARMESSAGE_INVALID_TIME("commands.sidebarmessage.invalid-time"),
-
-    TOTALPLAYERS_TITLE("commands.totalplayers.title"),
-    TOTALPLAYERS_SUBTITLE("commands.totalplayers.subtitle"),
-    TOTALPLAYERS_NOT_PLAYER("commands.totalplayers.not-player"),
 
     TRAIL_SET_OWN("commands.trail.set-own"),
     TRAIL_SET_OTHER("commands.trail.set-other"),

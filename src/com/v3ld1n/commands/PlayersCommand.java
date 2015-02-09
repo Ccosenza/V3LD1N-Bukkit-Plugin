@@ -1,6 +1,12 @@
 package com.v3ld1n.commands;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.command.Command;
@@ -11,28 +17,101 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class PlayersCommand extends V3LD1NCommand {
+    private String usageInfo = "info <player>";
+
+    public PlayersCommand() {
+        this.addUsage(usageInfo, "View information about a player");
+        this.addUsage("total", "Displays the total amount of players who joined the server");
+        this.addUsage("online", "Displays the amount of players who are currently on the server");
+        this.addUsage("heads", "Opens an inventory of all online players' heads");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            if (sender.hasPermission("v3ld1n.players")) {
+        if (sender.hasPermission("v3ld1n.players")) {
+            if (args.length == 0) {
+                this.sendUsage(sender, label, command);
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("info") && args.length == 2) {
+                if (PlayerUtil.getOfflinePlayer(args[1]) != null) {
+                    sendPlayerInfo(PlayerUtil.getOnlinePlayer(args[1]), sender);
+                    return true;
+                }
+                sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                return true;
+            } else if ((args[0].equalsIgnoreCase("total") || args[0].equalsIgnoreCase("online")) && args.length == 1) {
+                int players = 0;
+                switch (args[0]) {
+                case "total":
+                    players = Bukkit.getServer().getOfflinePlayers().length;
+                    break;
+                case "online":
+                    players = Bukkit.getServer().getOnlinePlayers().size();
+                    break;
+                default:
+                    break;
+                }
+                if (sender instanceof Player) {
+                    Player p = (Player) sender;
+                    String title = String.format(Message.PLAYERS_AMOUNT_TITLE.toString(), StringUtil.upperCaseFirst(args[0]));
+                    String subtitle = String.format(Message.PLAYERS_AMOUNT_SUBTITLE.toString(), players);
+                    PlayerUtil.displayTitle(p, "{text:\"" + title + "\"}", 2, 2, 2);
+                    PlayerUtil.displaySubtitle(p, "{text:\"" + subtitle + "\"}", 2, 2, 2, false);
+                    return true;
+                }
+                String notPlayer = String.format(Message.PLAYERS_AMOUNT_NOT_PLAYER.toString(), players);
+                ChatUtil.sendMessage(sender, notPlayer, 2);
+                return true;
+            } else if (args[0].equalsIgnoreCase("heads") && args.length == 1 && sender instanceof Player) {
                 Player p = (Player) sender;
-                Inventory inv = Bukkit.createInventory(null, 27, "Players");
+                Inventory inv = Bukkit.createInventory(null, 27, "Player Heads");
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
                     SkullMeta meta = (SkullMeta) head.getItemMeta();
                     meta.setOwner(player.getName());
                     head.setItemMeta(meta);
                     inv.addItem(head);
-                    p.openInventory(inv);
                 }
+                p.openInventory(inv);
                 return true;
             }
+        } else {
             sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        this.sendUsage(sender, label, command);
         return true;
+    }
+
+    private void sendPlayerInfo(Player player, CommandSender to) {
+        StringBuilder borderB = new StringBuilder();
+        for (int i = 0; i < player.getName().length(); i++) {
+            borderB.append(ChatColor.DARK_BLUE + "=");
+        }
+        String border = borderB.toString();
+        to.sendMessage(border);
+        to.sendMessage(ChatColor.AQUA + player.getName());
+        to.sendMessage(border);
+        HashMap<String, Object> info = PlayerUtil.getInfo(player);
+        Set<String> namesSet = info.keySet();
+        List<String> names = new ArrayList<>(namesSet);
+        ChatColor color1;
+        ChatColor color2;
+        for (int i = 0; i < info.size(); i++) {
+            if (i % 2 == 0) {
+                color1 = ChatColor.GOLD;
+                color2 = ChatColor.GREEN;
+            } else {
+                color1 = ChatColor.YELLOW;
+                color2 = ChatColor.DARK_GREEN;
+            }
+            to.sendMessage(color1 + names.get(i) + ": " + color2 + info.get(names.get(i)));
+        }
     }
 }
