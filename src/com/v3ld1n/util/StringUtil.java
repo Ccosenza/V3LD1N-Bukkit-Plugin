@@ -1,5 +1,6 @@
 package com.v3ld1n.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -236,13 +237,14 @@ public final class StringUtil {
     }
 
     public static String fromLocation(Location location) {
+        DecimalFormat df = new DecimalFormat("##.##");
         StringBuilder sb = new StringBuilder();
         sb.append(location.getWorld().getName())
-        .append("|").append(location.getX())
-        .append("|").append(location.getY())
-        .append("|").append(location.getZ())
-        .append("|").append(location.getYaw())
-        .append("|").append(location.getPitch());
+        .append(" | ").append(df.format(location.getX()))
+        .append(" | ").append(df.format(location.getY()))
+        .append(" | ").append(df.format(location.getZ()))
+        .append(" | ").append(df.format(location.getYaw()))
+        .append(" | ").append(df.format(location.getPitch()));
         return sb.toString();
     }
 }
