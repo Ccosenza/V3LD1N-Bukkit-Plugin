@@ -1,6 +1,7 @@
 package com.v3ld1n.listeners;
 
 import java.util.Random;
+import java.util.Set;
 
 import com.v3ld1n.*;
 import com.v3ld1n.util.*;
@@ -32,7 +33,6 @@ import org.bukkit.inventory.meta.BookMeta;
 public class PlayerListener implements Listener {
     private Random random = new Random();
 
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
@@ -42,7 +42,7 @@ public class PlayerListener implements Listener {
             //Ender Crystal spawn egg
             if (p.getItemInHand().getType() == Material.MONSTER_EGG && p.getItemInHand().getDurability() == ConfigSetting.ENDER_CRYSTAL_EGG_DATA.getInt()) {
                 event.setCancelled(true);
-                Location loc = p.getTargetBlock(null, 5).getLocation();
+                Location loc = p.getTargetBlock((Set<Material>) null, 5).getLocation();
                 if (V3LD1N.getWorldGuard().canBuild(p, loc) && V3LD1N.getWorldGuard().canBuild(p, loc.add(0, 1, 0))) {
                     if (p.getGameMode() != GameMode.CREATIVE) {
                         p.getInventory().remove(p.getItemInHand());

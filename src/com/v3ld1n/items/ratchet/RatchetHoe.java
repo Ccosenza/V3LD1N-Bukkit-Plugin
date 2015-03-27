@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.Set;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,14 +31,13 @@ public class RatchetHoe extends V3LD1NItem {
         Sound.fromString(this.getStringSetting("sound")).play(loc);
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         Action a = event.getAction();
         if (a == Action.RIGHT_CLICK_AIR) {
             if (this.equalsItem(p.getItemInHand())) {
-                Block target = p.getTargetBlock(null, this.getIntSetting("range"));
+                Block target = p.getTargetBlock((Set<Material>) null, this.getIntSetting("range"));
                 if ((target.getType() == Material.GRASS || target.getType() == Material.MYCEL || target.getType() == Material.DIRT) && target.getRelative(BlockFace.UP, 1).getType() == Material.AIR) {
                     boolean playerCanBuild;
                     if (V3LD1N.getWorldGuard() != null) {

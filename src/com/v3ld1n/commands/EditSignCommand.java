@@ -1,5 +1,8 @@
 package com.v3ld1n.commands;
 
+import java.util.Set;
+
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -18,7 +21,6 @@ public class EditSignCommand extends V3LD1NCommand {
         this.addUsage("remove <line> <text ...>", "Remove text");
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -36,7 +38,7 @@ public class EditSignCommand extends V3LD1NCommand {
                         p.sendMessage(Message.EDITSIGN_INVALID_LINE.toString());
                         return true;
                     }
-                    Block target = p.getTargetBlock(null, 100);
+                    Block target = p.getTargetBlock((Set<Material>) null, 100);
                     if (target.getState() instanceof Sign) {
                         String text = StringUtil.fromArray(args, 2);
                         switch (args[0].toLowerCase()) {

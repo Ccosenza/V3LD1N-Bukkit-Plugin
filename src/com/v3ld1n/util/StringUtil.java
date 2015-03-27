@@ -3,6 +3,7 @@ package com.v3ld1n.util;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -77,7 +78,6 @@ public final class StringUtil {
      * @param player the player
      * @return the string with variables replaced
      */
-    @SuppressWarnings("deprecation")
     public static String replacePlayerVariables(String string, Player player) {
         String ignoreCase = "(?i)";
         String replaced = string
@@ -124,8 +124,8 @@ public final class StringUtil {
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%item%", none);
         }
-        if (player.getTargetBlock(null, 5).getType() != Material.AIR) {
-            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", fromEnum(player.getTargetBlock(null, 5).getType(), true));
+        if (player.getTargetBlock((Set<Material>) null, 5).getType() != Material.AIR) {
+            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", fromEnum(player.getTargetBlock((Set<Material>) null, 5).getType(), true));
         } else {
             replaced = replaced.replaceAll(ignoreCase + "%targetblock%", none);
         }
