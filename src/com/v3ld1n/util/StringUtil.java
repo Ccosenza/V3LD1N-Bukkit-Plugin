@@ -254,6 +254,6 @@ public final class StringUtil {
         second -= minute * 60;
         int hour = minute / 60;
         minute -= hour * 60;
-        return hour + "h " + minute + "m " + second + "s";
+        return ChatColor.RED.toString() + hour + ChatColor.GOLD + "h " + ChatColor.RED + minute + ChatColor.GOLD + "m " + ChatColor.RED + second + ChatColor.GOLD + "s";
     }
 }
