@@ -169,6 +169,7 @@ public enum Message {
     V3LD1NPLUGIN_AVAILABLE("commands.v3ld1nplugin.available"),
     V3LD1NPLUGIN_DASH("commands.v3ld1nplugin.dash"),
     V3LD1NPLUGIN_COMMAND_NOT_PLAYER("commands.v3ld1nplugin.command-not-player"),
+    V3LD1NPLUGIN_HELP("commands.v3ld1nplugin.help"),
     V3LD1NPLUGIN_RELOAD("commands.v3ld1nplugin.reload"),
     V3LD1NPLUGIN_SETRESOURCEPACK("commands.v3ld1nplugin.setresourcepack"),
     V3LD1NPLUGIN_VERSION("commands.v3ld1nplugin.version"),

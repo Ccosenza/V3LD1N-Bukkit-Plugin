@@ -41,6 +41,12 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 ConfigUtil.toggleSetting(ConfigSetting.DEBUG);
                 ChatUtil.sendMessage(sender, message.toString(), 2);
                 return true;
+            } else if (args[0].equalsIgnoreCase("help") && args.length == 1) {
+                sender.sendMessage(Message.V3LD1NPLUGIN_HELP.toString());
+                for (String v3ld1ncommand : V3LD1N.getCommands().keySet()) {
+                    V3LD1N.getCommands().get(v3ld1ncommand).sendUsageNoTitle(sender, v3ld1ncommand);
+                }
+                return true;
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
                 for (ConfigAccessor accessor : V3LD1N.getConfigs()) {
                     accessor.reloadConfig();

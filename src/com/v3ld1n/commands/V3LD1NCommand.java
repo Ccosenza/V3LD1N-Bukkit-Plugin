@@ -28,6 +28,12 @@ public abstract class V3LD1NCommand implements CommandExecutor {
         }
     }
 
+    public void sendUsageNoTitle(CommandSender user, String commandLabel) {
+        for (CommandUsage usage : usages) {
+            user.sendMessage(" - /" + commandLabel + " " + usage.toString());
+        }
+    }
+
     public void sendArgumentUsage(CommandSender user, String commandLabel, Command command, String argument) {
         user.sendMessage(String.format(Message.COMMAND_USAGE_TITLE.toString(), "/" + command.getName()));
         for (CommandUsage usage : usages) {
