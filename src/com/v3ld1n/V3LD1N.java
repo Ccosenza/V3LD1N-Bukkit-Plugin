@@ -53,11 +53,11 @@ public class V3LD1N extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        String bukkitVersion = "1.8-R0.1-SNAPSHOT";
+        configs = new ArrayList<>();
+        String bukkitVersion = "1.8.3-R0.1-SNAPSHOT";
         if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
             plugin.getLogger().warning(String.format(Message.INVALID_BUKKIT_VERSION.toString(), plugin.getDescription().getName(), plugin.getDescription().getVersion(), bukkitVersion, Bukkit.getBukkitVersion()));
         }
-        configs = new ArrayList<>();
         items = new ArrayList<>();
         questions = new ArrayList<>();
         reports = new ArrayList<>();

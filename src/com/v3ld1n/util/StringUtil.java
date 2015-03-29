@@ -247,4 +247,13 @@ public final class StringUtil {
         .append(" | ").append(df.format(location.getPitch()));
         return sb.toString();
     }
+
+    public static String secondsToTime(int seconds) {
+        int second = seconds;
+        int minute = seconds / 60;
+        second -= minute * 60;
+        int hour = minute / 60;
+        minute -= hour * 60;
+        return hour + "h " + minute + "m " + second + "s";
+    }
 }
