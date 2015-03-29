@@ -7,43 +7,70 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class PlayerListCommand extends V3LD1NCommand {
+    private String usagePingTime = "ping time <ticks>";
+
     public PlayerListCommand() {
         this.addUsage("set <header> <footer>", "Set the header and footer");
         this.addUsage("reset", "Reset the header and footer");
-        this.addUsage("ping", "Toggle ping display");
+        this.addUsage("ping", "Display ping display information");
+        this.addUsage("ping toggle", "Toggle ping display");
+        this.addUsage(usagePingTime, "Set ping display update frequency");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.isOp()) {
-            if (args.length == 3) {
-                if (args[0].equalsIgnoreCase("set")) {
-                    String header = args[1].replaceAll("__", " ");
-                    String footer = args[2].replaceAll("__", " ");
+            int l = args.length;
+            if (l > 0) {
+                if (args[0].equalsIgnoreCase("set") && l == 3) {
+                    String header = StringUtil.formatText(args[1].replaceAll("_", " "));
+                    String footer = StringUtil.formatText(args[2].replaceAll("_", " "));
                     ConfigUtil.setPlayerListHeaderFooter(header, footer);
                     ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET.toString(), header, footer), 2);
-                } else {
-                    this.sendUsage(sender, label, command);
-                }
-                return true;
-            } else if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("reset")) {
+                    return true;
+                } else if (args[0].equalsIgnoreCase("reset") && l == 1) {
                     ConfigUtil.setPlayerListHeaderFooter("{text:\"\"}", "{text:\"\"}");
                     ChatUtil.sendMessage(sender, Message.PLAYERLIST_RESET.toString(), 2);
                     return true;
-                } else if (args[0].equalsIgnoreCase("ping")) {
-                    Message message = null;
-                    if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
-                        message = Message.PLAYERLIST_DISABLE_PING;
-                    } else {
-                        message = Message.PLAYERLIST_ENABLE_PING;
+                } else if (args[0].equalsIgnoreCase("ping") && (l >= 1 || l <= 3)) {
+                    if (l == 1) {
+                        int ticks = ConfigSetting.PLAYER_LIST_PING_TICKS.getInt();
+                        double seconds = ((double) ticks) / 20;
+                        sender.sendMessage(String.format(Message.PLAYERLIST_PING_DISPLAY.toString(), ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()));
+                        sender.sendMessage(String.format(Message.PLAYERLIST_PING_TIME.toString(), String.format("%.2f", seconds), ticks));
+                        return true;
+                    } else if (l == 2) {
+                        if (args[1].equalsIgnoreCase("toggle")) {
+                            Message message = null;
+                            if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
+                                message = Message.PLAYERLIST_DISABLE_PING;
+                            } else {
+                                message = Message.PLAYERLIST_ENABLE_PING;
+                            }
+                            ConfigUtil.toggleSetting(ConfigSetting.PLAYER_LIST_PING_ENABLED);
+                            ChatUtil.sendMessage(sender, message.toString(), 2);
+                            return true;
+                        }
+                    } else if (l == 3) {
+                        if (args[1].equalsIgnoreCase("time")) {
+                            int arg;
+                            try {
+                                arg = Integer.parseInt(args[2]);
+                            } catch (IllegalArgumentException e) {
+                                this.sendArgumentUsage(sender, label, command, usagePingTime);
+                                return true;
+                            }
+                            ConfigSetting.PLAYER_LIST_PING_TICKS.setValue(arg);
+                            ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET_PING_TIME.toString(), arg), 2);
+                            return true;
+                        }
                     }
-                    ConfigUtil.toggleSetting(ConfigSetting.PLAYER_LIST_PING_ENABLED);
-                    ChatUtil.sendMessage(sender, message.toString(), 2);
-                    return true;
                 }
+                this.sendUsage(sender, label, command);
+                return true;
             }
             this.sendUsage(sender, label, command);
             return true;

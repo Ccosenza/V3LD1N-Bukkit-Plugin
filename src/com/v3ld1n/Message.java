@@ -96,8 +96,11 @@ public enum Message {
 
     PLAYERLIST_SET("commands.playerlist.set"),
     PLAYERLIST_RESET("commands.playerlist.reset"),
+    PLAYERLIST_PING_DISPLAY("commands.playerlist.ping.display"),
+    PLAYERLIST_PING_TIME("commands.playerlist.ping.time"),
     PLAYERLIST_ENABLE_PING("commands.playerlist.ping.enable"),
     PLAYERLIST_DISABLE_PING("commands.playerlist.ping.disable"),
+    PLAYERLIST_SET_PING_TIME("commands.playerlist.ping.set-time"),
 
     PUSH_PUSH("commands.push.push"),
     PUSH_PUSH_TO_PLAYER("commands.push.push-to-player"),
