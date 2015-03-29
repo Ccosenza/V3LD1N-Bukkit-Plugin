@@ -150,6 +150,8 @@ public enum Message {
     SIDEBARMESSAGE_DISPLAY("commands.sidebarmessage.display"),
     SIDEBARMESSAGE_INVALID_TIME("commands.sidebarmessage.invalid-time"),
 
+    TIMEPLAYED_TIME("commands.timeplayed.time"),
+
     TRAIL_SET_OWN("commands.trail.set-own"),
     TRAIL_SET_OTHER("commands.trail.set-other"),
     TRAIL_REMOVE_OWN("commands.trail.remove-own"),
