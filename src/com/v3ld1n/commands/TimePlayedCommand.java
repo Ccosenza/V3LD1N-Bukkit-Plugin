@@ -14,8 +14,10 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
+import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.RepeatableRunnable;
+import com.v3ld1n.util.StringUtil;
 
 public class TimePlayedCommand extends V3LD1NCommand {
     private final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
@@ -56,7 +58,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
             RepeatableRunnable updateSidebarTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 5, 5, SECONDS * 4) {
                 @Override
                 public void onRun() {
-                    updateSidebar(objective, p);
+                    updateTime(objective, p);
                 }
             };
             updateSidebarTask.run();
@@ -77,7 +79,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
         return true;
     }
 
-    private void updateSidebar(Objective objective, Player player) {
+    private void updateTime(Objective objective, Player player) {
         int ticks = player.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK);
         int seconds = ticks / 20;
         int milliseconds = seconds * 1000;
@@ -85,6 +87,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
         int hours = minutes / 60;
         int days = hours / 24;
         int weeks = days / 7;
+        ChatUtil.sendMessage(player, StringUtil.secondsToTime(seconds), 2);
         objective.getScore("Milliseconds").setScore(milliseconds);
         objective.getScore("Ticks").setScore(ticks);
         if (seconds > 0) {
