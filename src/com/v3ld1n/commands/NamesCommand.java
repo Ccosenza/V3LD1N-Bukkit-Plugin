@@ -13,8 +13,7 @@ import com.v3ld1n.util.StringUtil;
 
 public class NamesCommand extends V3LD1NCommand {
     public NamesCommand() {
-        this.addUsage("previous <player>", "Show a list of a player's previous names");
-        this.addUsage("current <name>", "Show the current user for an old name");
+        this.addUsage("<player name>", "Show information about a player's names");
     }
 
     @Override
