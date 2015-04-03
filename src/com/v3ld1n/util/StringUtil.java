@@ -1,8 +1,13 @@
 package com.v3ld1n.util;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -15,6 +20,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
@@ -255,5 +262,41 @@ public final class StringUtil {
         int hour = minute / 60;
         minute -= hour * 60;
         return ChatColor.RED.toString() + hour + ChatColor.GOLD + "h " + ChatColor.RED + minute + ChatColor.GOLD + "m " + ChatColor.RED + second + ChatColor.GOLD + "s";
+    }
+
+    public static JsonElement readJsonFromUrl(String url) {
+        JsonElement element = null;
+        try {
+            URL readFrom = new URL(url);
+            Scanner s = new Scanner(readFrom.openStream());
+            if (s.hasNext()) {
+                String line = s.nextLine();
+                element = new JsonParser().parse(line);
+            }
+            s.close();
+        } catch (IOException e) {
+            if (ConfigSetting.DEBUG.getBoolean()) {
+                e.printStackTrace();
+            }
+        }
+        return element;
+    }
+
+    public static String dashUUID(String uuid) {
+        StringBuffer sb = new StringBuffer(uuid);
+        sb.insert(8, "-");
+        sb = new StringBuffer(sb.toString());
+        sb.insert(13, "-");
+        sb = new StringBuffer(sb.toString());
+        sb.insert(18, "-");
+        sb = new StringBuffer(sb.toString());
+        sb.insert(23, "-");
+        return sb.toString();
+    }
+
+    public static String formatTime(long time, String timeFormat) {
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat(timeFormat);
+        return format.format(date);
     }
 }

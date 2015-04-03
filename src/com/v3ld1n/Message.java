@@ -82,6 +82,12 @@ public enum Message {
     MOTD_SHOWING("commands.motd.show"),
     MOTD_NO_PERMISSION_OTHERS("commands.motd.others-permission"),
 
+    NAMES_BORDER("commands.names.border"),
+    NAMES_ORIGINAL("commands.names.original"),
+    NAMES_CHANGED("commands.names.changed"),
+    NAMES_NO_PREVIOUS_NAMES("commands.names.no-previous-names"),
+    NAMES_CURRENT("commands.names.current"),
+
     NEXTSOUND_NOW_PLAYING("commands.nextsound.now-playing"),
     NEXTSOUND_NO_SOUND_TASKS("commands.nextsound.no-sound-tasks"),
 

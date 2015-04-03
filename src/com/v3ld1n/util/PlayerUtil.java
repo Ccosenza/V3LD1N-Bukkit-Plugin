@@ -16,6 +16,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import com.google.gson.JsonElement;
 import com.v3ld1n.PlayerData;
 
 public final class PlayerUtil {
@@ -160,5 +161,18 @@ public final class PlayerUtil {
         info.put("Game Mode", StringUtil.fromEnum(p.getGameMode(), true));
         info.put("Flying", p.isFlying());
         return info;
+    }
+
+    public static String getUuid(String playerName, boolean dashes) {
+        String url = "https://api.mojang.com/users/profiles/minecraft/" + playerName + "?at=1422921600";
+        JsonElement element = StringUtil.readJsonFromUrl(url);
+        if (element != null) {
+            String uuid = element.getAsJsonObject().get("id").toString().replaceAll("\"", "");
+            if (dashes) {
+                return StringUtil.dashUUID(uuid);
+            }
+            return uuid;
+        }
+        return null;
     }
 }

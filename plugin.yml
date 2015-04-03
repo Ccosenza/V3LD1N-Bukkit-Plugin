@@ -112,3 +112,7 @@ commands:
     description: Right-click on an entity to ride it.
     aliases: [rideentity, entityride]
     usage: /<command>
+  names:
+    description: Displays information about player names.
+    aliases: [name]
+    usage: /<command> <playerName>
