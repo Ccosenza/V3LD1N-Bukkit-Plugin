@@ -1,6 +1,5 @@
 package com.v3ld1n.commands;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,10 +28,8 @@ public class UUIDCommand extends V3LD1NCommand {
                 return true;
             }
         } else if (args.length == 1) {
-            if (PlayerUtil.getOfflinePlayer(args[0]) != null) {
-                OfflinePlayer p = PlayerUtil.getOfflinePlayer(args[0]);
-                uuid = p.getUniqueId().toString();
-                name = p.getName();
+            if (PlayerUtil.getUuid(args[0], true) != null) {
+                uuid = PlayerUtil.getUuid(args[0], true).toString();
             } else {
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                 return true;
