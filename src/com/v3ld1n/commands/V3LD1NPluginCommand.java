@@ -18,6 +18,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
 
     public V3LD1NPluginCommand() {
         this.addUsage("debug", "Toggle debug mode");
+        this.addUsage("help", "Show a list of all plugin commands");
         this.addUsage("reload", "Reload the plugin config");
         this.addUsage("resourcepackurl", "Send the URL to the resource pack");
         this.addUsage(usageSetResourcePack, "Set the URL to the resource pack");
