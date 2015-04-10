@@ -82,13 +82,11 @@ public class TimePlayedCommand extends V3LD1NCommand {
     private void updateTime(Objective objective, Player player) {
         int ticks = player.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK);
         int seconds = ticks / 20;
-        int milliseconds = seconds * 1000;
         int minutes = seconds / 60;
         int hours = minutes / 60;
         int days = hours / 24;
         int weeks = days / 7;
         ChatUtil.sendMessage(player, Message.TIMEPLAYED_TIME.toString() + StringUtil.secondsToTime(seconds), 2);
-        objective.getScore("Milliseconds").setScore(milliseconds);
         objective.getScore("Ticks").setScore(ticks);
         if (seconds > 0) {
             objective.getScore("Seconds").setScore(seconds);
