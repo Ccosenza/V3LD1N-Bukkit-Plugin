@@ -30,6 +30,7 @@ public class UUIDCommand extends V3LD1NCommand {
         } else if (args.length == 1) {
             if (PlayerUtil.getUuid(args[0], true) != null) {
                 uuid = PlayerUtil.getUuid(args[0], true).toString();
+                name = args[0];
             } else {
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                 return true;
