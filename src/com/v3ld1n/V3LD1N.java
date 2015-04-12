@@ -56,6 +56,7 @@ public class V3LD1N extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         configs = new ArrayList<>();
+        loadConfig();
         String bukkitVersion = "1.8.3-R0.1-SNAPSHOT";
         if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
             plugin.getLogger().warning(String.format(Message.INVALID_BUKKIT_VERSION.toString(), plugin.getDescription().getName(), plugin.getDescription().getVersion(), bukkitVersion, Bukkit.getBukkitVersion()));
@@ -71,7 +72,6 @@ public class V3LD1N extends JavaPlugin {
         teleportTasks = new ArrayList<>();
         usingRideCommand = new HashMap<>();
         commands = new HashMap<>();
-        loadConfig();
         setupWorldGuard();
         loadItems();
         loadQuestions();
