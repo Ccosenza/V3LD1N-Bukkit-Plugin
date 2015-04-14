@@ -32,7 +32,7 @@ public class RatchetPickaxe extends V3LD1NItem {
             Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                 @Override
                 public void run() {
-                    for (Entity entity : WorldUtil.getNearbyEntities(loc, 2)) {
+                    for (Entity entity : WorldUtil.getNearbyEntities(loc, 0.5)) {
                         if (entity.getType() == EntityType.DROPPED_ITEM) {
                             Item item = (Item) entity;
                             ItemStack smeltedStack = ItemUtil.smelt(item.getItemStack());
