@@ -144,6 +144,7 @@ public enum Message {
     SETFULLTIME_SET("commands.setfulltime.set"),
 
     SETHEALTH_SET("commands.sethealth.set"),
+    SETHEALTH_SET_OWN("commands.sethealth.set-own"),
     SETHEALTH_LIMIT("commands.sethealth.limit"),
 
     SETHOTBARSLOT_SET("commands.sethotbarslot.set"),
@@ -151,6 +152,7 @@ public enum Message {
     SETHOTBARSLOT_INVALID_SLOT("commands.sethotbarslot.invalid-slot"),
 
     SETMAXHEALTH_SET("commands.setmaxhealth.set"),
+    SETMAXHEALTH_SET_OWN("commands.setmaxhealth.set-own"),
     SETMAXHEALTH_LIMIT("commands.setmaxhealth.limit"),
 
     SIDEBARMESSAGE_DISPLAY("commands.sidebarmessage.display"),
