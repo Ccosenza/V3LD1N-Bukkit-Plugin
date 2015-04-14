@@ -136,19 +136,17 @@ public class Particle {
     }
 
     public void display(Location location) {
-        EnumParticle particle = EnumParticle.BARRIER;
-        for (EnumParticle enumparticle : EnumParticle.values()) {
-            if (this.name.equals(enumparticle.b())) {
-                particle = enumparticle;
-            }
-        }
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, force, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
         for (Player p : location.getWorld().getPlayers()) {
-            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+            display(location, p);
         }
     }
 
     public void display(Location location, Player player) {
+        PacketPlayOutWorldParticles packet = createPacket(location);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    private PacketPlayOutWorldParticles createPacket(Location location) {
         EnumParticle particle = EnumParticle.BARRIER;
         for (EnumParticle enumparticle : EnumParticle.values()) {
             if (this.name.equals(enumparticle.b())) {
@@ -156,7 +154,7 @@ public class Particle {
             }
         }
         PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, force, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        return packet;
     }
 
     public static Particle fromString(String particle) {
