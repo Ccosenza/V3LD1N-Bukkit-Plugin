@@ -19,13 +19,13 @@ commands:
     aliases: [trails, particletrail, particletrails]
     usage: /<command> <particle|remove> [player]
   sethealth:
-    description: Sets your health.
+    description: Sets a player's health.
     aliases: [health]
-    usage: /<command> <health>
+    usage: /<command> <health> [player]
   setmaxhealth:
-    description: Sets your maximum health.
+    description: Sets a player's maximum health.
     aliases: [maxhealth]
-    usage: /<command> <health>
+    usage: /<command> <health> [player]
   ratchetsbow:
     description: Sets your projectile for Ratchet's Bow.
     aliases: [rbow, rb]
@@ -119,3 +119,8 @@ commands:
   playersay:
     description: Send a chat message as another player.
     aliases: [sayplayer, ps, psay]
+    usage: /<command> <player> <message ...>
+  sethunger:
+    description: Sets a player's hunger level.
+    aliases: [hunger]
+    usage: /<sethunger> <hunger> [player]

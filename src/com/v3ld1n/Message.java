@@ -151,6 +151,10 @@ public enum Message {
     SETHOTBARSLOT_SET_OWN("commands.sethotbarslot.set-own"),
     SETHOTBARSLOT_INVALID_SLOT("commands.sethotbarslot.invalid-slot"),
 
+    SETHUNGER_SET("commands.sethunger.set"),
+    SETHUNGER_SET_OWN("commands.sethunger.set-own"),
+    SETHUNGER_LIMIT("commands.sethunger.limit"),
+
     SETMAXHEALTH_SET("commands.setmaxhealth.set"),
     SETMAXHEALTH_SET_OWN("commands.setmaxhealth.set-own"),
     SETMAXHEALTH_LIMIT("commands.setmaxhealth.limit"),
