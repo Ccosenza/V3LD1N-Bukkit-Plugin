@@ -57,6 +57,22 @@ public final class WorldUtil {
     }
 
     /**
+     * Returns a list of entities in a radius around a location
+     * @param location the location
+     * @param radius the radius to find entities in
+     * @return the entities in the radius
+     */
+    public static List<Entity> getNearbyEntities(Location location, double radius) {
+        List<Entity> entities = new ArrayList<>();
+        for (Entity entity : location.getWorld().getEntities()) {
+            if (entity.getLocation().distance(location) <= radius) {
+                entities.add(entity);
+            }
+        }
+        return entities;
+    }
+
+    /**
      * Returns a list of players in a radius around a location
      * @param location the location
      * @param radius the radius to find players in
