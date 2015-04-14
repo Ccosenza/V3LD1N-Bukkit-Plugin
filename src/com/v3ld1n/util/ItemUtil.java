@@ -36,7 +36,7 @@ public class ItemUtil {
             type = Material.IRON_INGOT;
             break;
         case GOLD_ORE:
-            type = Material.GOLD_ORE;
+            type = Material.GOLD_INGOT;
             break;
         case SAND:
             type = Material.GLASS;
@@ -77,6 +77,10 @@ public class ItemUtil {
             type = Material.QUARTZ;
             break;
         case LOG:
+            type = Material.COAL;
+            data = 1;
+            break;
+        case LOG_2:
             type = Material.COAL;
             data = 1;
             break;
