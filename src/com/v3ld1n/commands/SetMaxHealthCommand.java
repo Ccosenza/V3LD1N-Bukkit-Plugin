@@ -37,7 +37,7 @@ public class SetMaxHealthCommand extends V3LD1NCommand {
                     sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                     return true;
                 }
-                if (health >= 0 && health <= LIMIT) {
+                if (health > 0 && health <= LIMIT) {
                     p.setMaxHealth(health);
                     String message;
                     if (p.getName().equals(sender.getName())) {
