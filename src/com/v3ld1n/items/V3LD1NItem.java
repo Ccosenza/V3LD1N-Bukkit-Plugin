@@ -1,5 +1,6 @@
 package com.v3ld1n.items;
 
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -64,6 +65,10 @@ public class V3LD1NItem implements Listener {
 
     public boolean getBooleanSetting(String settingName) {
         return Config.ITEMS.getConfig().getBoolean(id + "." + settingName);
+    }
+
+    public List<String> getStringListSetting(String settingName) {
+        return Config.ITEMS.getConfig().getStringList(id + "." + settingName);
     }
 
     public Location getLocationSetting(String settingName) {
