@@ -10,38 +10,55 @@ import com.v3ld1n.util.PlayerUtil;
 
 public class SetHungerCommand extends V3LD1NCommand {
     public SetHungerCommand() {
-        this.addUsage("<hunger>", "Set your hunger level");
-        this.addUsage("<hunger> <player>", "Set a player's hunger level");
+        this.addUsage("<hunger> hunger", "Set your hunger level");
+        this.addUsage("<hunger> exhaustion", "Set your exhaustion level");
+        this.addUsage("<hunger> saturation", "Set your saturation level");
+        this.addUsage("<hunger> hunger <player>", "Set a player's hunger level");
+        this.addUsage("<hunger> exhaustion <player>", "Set a player's exhaustion level");
+        this.addUsage("<hunger> saturation <player>", "Set a player's saturation level");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.sethunger")) {
             int l = args.length;
-            if (l == 1 || l == 2) {
-                int hunger;
+            if (l == 2 || l == 3) {
+                int foodLevel;
                 try {
-                    hunger = Integer.parseInt(args[0]);
+                    foodLevel = Integer.parseInt(args[0]);
                 } catch (IllegalArgumentException e) {
                     this.sendUsage(sender, label, command);
                     return true;
                 }
                 Player p;
-                if (l == 1 && sender instanceof Player) {
+                if (l == 2 && sender instanceof Player) {
                     p = (Player) sender;
-                } else if (l == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                    p = PlayerUtil.getOnlinePlayer(args[1]);
+                } else if (l == 3 && PlayerUtil.getOnlinePlayer(args[2]) != null) {
+                    p = PlayerUtil.getOnlinePlayer(args[2]);
                 } else {
                     sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
                     return true;
                 }
-                if (hunger >= 0 && hunger <= 20) {
-                    p.setFoodLevel(hunger);
+                if (foodLevel >= 0 && foodLevel <= 20) {
+                    switch (args[1].toLowerCase()) {
+                    case "hunger":
+                        p.setFoodLevel(foodLevel);
+                        break;
+                    case "exhaustion":
+                        p.setExhaustion(foodLevel);
+                        break;
+                    case "saturation":
+                        p.setSaturation(foodLevel);
+                        break;
+                    default:
+                        this.sendUsage(sender, label, command);
+                        return true;
+                    }
                     String message;
                     if (p.getName().equals(sender.getName())) {
-                        message = String.format(Message.SETHUNGER_SET_OWN.toString(), args[0]);
+                        message = String.format(Message.SETHUNGER_SET_OWN.toString(), args[1], args[0]);
                     } else {
-                        message = String.format(Message.SETHUNGER_SET.toString(), p.getName(), args[0]);
+                        message = String.format(Message.SETHUNGER_SET.toString(), p.getName(), args[1], args[0]);
                     }
                     ChatUtil.sendMessage(sender, message, 2);
                     return true;
