@@ -96,6 +96,7 @@ public enum Message {
     PLAYANIMATION_NO_PERMISSION_OTHERS("commands.playanimation.others-permission"),
     PLAYANIMATION_ERROR("commands.playanimation.error"),
 
+    PLAYERS_LIST_TITLE("commands.players.list-title"),
     PLAYERS_AMOUNT_TITLE("commands.players.amount.title"),
     PLAYERS_AMOUNT_SUBTITLE("commands.players.amount.subtitle"),
     PLAYERS_AMOUNT_NOT_PLAYER("commands.players.amount.not-player"),

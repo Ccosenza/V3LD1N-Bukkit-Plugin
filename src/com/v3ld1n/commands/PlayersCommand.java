@@ -1,6 +1,8 @@
 package com.v3ld1n.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +10,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.SkullType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,6 +21,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
@@ -26,6 +30,8 @@ public class PlayersCommand extends V3LD1NCommand {
 
     public PlayersCommand() {
         this.addUsage(usageInfo, "View information about a player");
+        this.addUsage("list", "Displays a list of players who are currently online");
+        this.addUsage("fulllist", "Displays a list of all players");
         this.addUsage("total", "Displays the total amount of players who joined the server");
         this.addUsage("online", "Displays the amount of players who are currently on the server");
         this.addUsage("heads", "Opens an inventory of all online players' heads");
@@ -44,6 +50,25 @@ public class PlayersCommand extends V3LD1NCommand {
                     return true;
                 }
                 sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                return true;
+            } else if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("fulllist") && args.length == 1) {
+                Collection<? extends OfflinePlayer> players = new ArrayList<>();
+                switch (args[0]) {
+                case "list":
+                    players = Bukkit.getServer().getOnlinePlayers();
+                    break;
+                case "fulllist":
+                    OfflinePlayer[] offline = Bukkit.getServer().getOfflinePlayers();
+                    players = Arrays.asList(offline);
+                    break;
+                default:
+                    break;
+                }
+                List<String> names = new ArrayList<>();
+                for (OfflinePlayer player : players) {
+                    names.add(player.getName());
+                }
+                ChatUtil.sendList(sender, Message.PLAYERS_LIST_TITLE.toString(), names, ListType.SHORT);
                 return true;
             } else if ((args[0].equalsIgnoreCase("total") || args[0].equalsIgnoreCase("online")) && args.length == 1) {
                 int players = 0;
