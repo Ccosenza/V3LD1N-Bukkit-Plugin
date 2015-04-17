@@ -57,6 +57,10 @@ public enum Message {
     AUTORESOURCEPACK_ENABLE("commands.autoresourcepack.enable"),
     AUTORESOURCEPACK_DISABLE("commands.autoresourcepack.disable"),
 
+    DAMAGE_DAMAGE("commands.damage.damage"),
+    DAMAGE_DAMAGE_SELF("commands.damage.damage-self"),
+    DAMAGE_INVULNERABLE("commands.damage.invulnerable"),
+
     EDITSIGN_SET("commands.editsign.set"),
     EDITSIGN_ADD("commands.editsign.add"),
     EDITSIGN_REMOVE("commands.editsign.remove"),
