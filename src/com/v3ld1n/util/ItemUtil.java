@@ -51,7 +51,7 @@ public class ItemUtil {
             type = Material.NETHER_BRICK_ITEM;
             break;
         case CLAY:
-            type = Material.BRICK;
+            type = Material.HARD_CLAY;
             break;
         case SMOOTH_BRICK:
             type = Material.SMOOTH_BRICK;
