@@ -6,6 +6,8 @@ import java.util.Set;
 import com.v3ld1n.*;
 import com.v3ld1n.util.*;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -28,7 +30,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class PlayerListener implements Listener {
     private Random random = new Random();
@@ -72,6 +76,26 @@ public class PlayerListener implements Listener {
                             sound.play(loc);
                         }
                     }
+                }
+            }
+        }
+        //Velds
+        if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
+            ItemStack i = p.getItemInHand();
+            if (i.getType() == Material.DOUBLE_PLANT && i.getDurability() == 0 && i.hasItemMeta()) {
+                ItemMeta meta = i.getItemMeta();
+                String name = meta.getDisplayName();
+                if (name.contains(ChatColor.GOLD + "Velds")) {
+                    event.setCancelled(true);
+                    if (i.getAmount() > 1) {
+                        i.setAmount(i.getAmount() - 1);
+                    } else {
+                        p.getInventory().remove(i);
+                    }
+                    String amountString = name.substring(4, name.indexOf(" "));
+                    double amount = Double.parseDouble(amountString);
+                    p.sendMessage(String.format(Message.VELDS_ADDED.toString(), amountString));
+                    V3LD1N.econ.depositPlayer(p, amount);
                 }
             }
         }

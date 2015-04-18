@@ -10,10 +10,15 @@ import java.util.UUID;
 import com.v3ld1n.listeners.EntityListener;
 import com.v3ld1n.listeners.PlayerListener;
 
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -46,6 +51,9 @@ public class V3LD1N extends JavaPlugin {
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
     private static List<TeleportTask> teleportTasks;
+    public static Economy econ = null;
+    public static Permission perms = null;
+    public static Chat chat = null;
     private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
     private final Random random = new Random();
 
@@ -73,6 +81,7 @@ public class V3LD1N extends JavaPlugin {
         usingRideCommand = new HashMap<>();
         commands = new HashMap<>();
         setupWorldGuard();
+        setupVault();
         loadItems();
         loadQuestions();
         loadReports();
@@ -184,6 +193,36 @@ public class V3LD1N extends JavaPlugin {
         } else {
             worldGuard = null;
         }
+    }
+
+    private static void setupVault() {
+        setupEconomy();
+        setupChat();
+        setupPermissions();
+    }
+
+    private static boolean setupEconomy() {
+        if (plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
+    }
+
+    private static boolean setupChat() {
+        RegisteredServiceProvider<Chat> rsp = plugin.getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+        return chat != null;
+    }
+
+    private static boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = plugin.getServer().getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+        return perms != null;
     }
 
     private static void loadCommands() {

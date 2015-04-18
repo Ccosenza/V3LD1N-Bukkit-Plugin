@@ -8,6 +8,8 @@ public enum Message {
     COMMAND_HOVER("command-hover"),
     NONE("none"),
 
+    VELDS_ADDED("velds.added"),
+
     SHORT_LIST_ITEM("lists.short-item"),
     LONG_LIST_ITEM("lists.long-item"),
 
