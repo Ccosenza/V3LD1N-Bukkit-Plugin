@@ -128,3 +128,7 @@ commands:
     description: Damages a player.
     aliases: [hurt, dmg, removehealth]
     usage: /<command> <amount> [player]
+  moneyitem:
+    description: Creates a Vault money item.
+    aliases: [mi, veldsitem, vi]
+    usage: /<command> <amount>

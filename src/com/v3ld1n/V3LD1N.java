@@ -257,6 +257,7 @@ public class V3LD1N extends JavaPlugin {
         commands.put("playersay", new PlayerSayCommand());
         commands.put("sethunger", new SetHungerCommand());
         commands.put("damage", new DamageCommand());
+        commands.put("moneyitem", new MoneyItemCommand());
         for (String command : commands.keySet()) {
             plugin.getCommand(command).setExecutor(commands.get(command));
         }
