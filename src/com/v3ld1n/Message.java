@@ -9,6 +9,7 @@ public enum Message {
     NONE("none"),
 
     VELDS_ADDED("velds.added"),
+    VELDS_LORE("velds.lore"),
 
     SHORT_LIST_ITEM("lists.short-item"),
     LONG_LIST_ITEM("lists.long-item"),

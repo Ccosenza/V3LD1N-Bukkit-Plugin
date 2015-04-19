@@ -1,5 +1,6 @@
 package com.v3ld1n.listeners;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Set;
 
@@ -82,10 +83,10 @@ public class PlayerListener implements Listener {
         //Velds
         if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
             ItemStack i = p.getItemInHand();
-            if (i.getType() == Material.DOUBLE_PLANT && i.getDurability() == 0 && i.hasItemMeta()) {
+            if (i.getType() == Material.EMERALD && i.hasItemMeta()) {
                 ItemMeta meta = i.getItemMeta();
                 String name = meta.getDisplayName();
-                if (name.contains(ChatColor.GOLD + "Velds")) {
+                if (name.contains(ChatColor.GOLD + "Velds") && meta.hasLore() && meta.getLore().get(0).equals(Message.VELDS_LORE.toString())) {
                     event.setCancelled(true);
                     if (i.getAmount() > 1) {
                         i.setAmount(i.getAmount() - 1);
@@ -94,6 +95,8 @@ public class PlayerListener implements Listener {
                     }
                     String amountString = name.substring(4, name.indexOf(" "));
                     double amount = Double.parseDouble(amountString);
+                    DecimalFormat df = new DecimalFormat("0.##");
+                    amountString = df.format(amount);
                     p.sendMessage(String.format(Message.VELDS_ADDED.toString(), amountString));
                     V3LD1N.econ.depositPlayer(p, amount);
                 }
