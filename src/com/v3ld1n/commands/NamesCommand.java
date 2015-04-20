@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
+import com.v3ld1n.util.TimeUtil;
 
 public class NamesCommand extends V3LD1NCommand {
     public NamesCommand() {
@@ -47,8 +48,8 @@ public class NamesCommand extends V3LD1NCommand {
                 String originalName = array.get(0).getAsJsonObject().get("name").toString().replaceAll("\"", "");
                 sender.sendMessage(String.format(Message.NAMES_ORIGINAL.toString(), originalName));
                 for (String name : previousNames.keySet()) {
-                    String date = StringUtil.formatTime(previousNames.get(name), "MMMM d, YYYY");
-                    String time = StringUtil.formatTime(previousNames.get(name), "h:mm:ss a");
+                    String date = TimeUtil.format(previousNames.get(name), "MMMM d, YYYY");
+                    String time = TimeUtil.format(previousNames.get(name), "h:mm:ss a");
                     sender.sendMessage(String.format(Message.NAMES_CHANGED.toString(), name, date, time));
                 }
             } else {

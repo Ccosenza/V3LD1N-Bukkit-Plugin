@@ -3,10 +3,6 @@ package com.v3ld1n.util;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -38,16 +34,6 @@ public final class StringUtil {
         if (ConfigSetting.DEBUG.getBoolean()) {
             V3LD1N.getPlugin().getLogger().info(message);
         }
-    }
-
-    /**
-     * Returns the current server time
-     * @return the current server time
-     */
-    public static String getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-        return formatter.format(calendar.getTime());
     }
 
     /**
@@ -111,10 +97,11 @@ public final class StringUtil {
                 .replaceAll(ignoreCase + "%worldbordersize%", Double.toString(player.getWorld().getWorldBorder().getSize()))
                 .replaceAll(ignoreCase + "%version%", Bukkit.getBukkitVersion())
                 .replaceAll(ignoreCase + "%motd%", Bukkit.getServer().getMotd())
-                .replaceAll(ignoreCase + "%weathertime%", Integer.toString(player.getWorld().getWeatherDuration() / 20))
+                .replaceAll(ignoreCase + "%weathertime%", TimeUtil.fromSeconds(player.getWorld().getWeatherDuration() / 20))
+                .replaceAll(ignoreCase + "%weatherticks%", Integer.toString(player.getWorld().getWeatherDuration()))
                 .replaceAll(ignoreCase + "%lightningtime%", Integer.toString(player.getWorld().getThunderDuration() / 20))
                 .replaceAll(ignoreCase + "%worldtime%", Long.toString(player.getWorld().getTime()))
-                .replaceAll(ignoreCase + "%servertime%", getCurrentTime());
+                .replaceAll(ignoreCase + "%servertime%", TimeUtil.format(TimeUtil.getTime(), "MMMM d, YYYY, h:mm:ss a"));
         String none = Message.NONE.toString();
         if (WorldUtil.getNearestPlayer(player) != null) {
             replaced = replaced.replaceAll(ignoreCase + "%player%", WorldUtil.getNearestPlayer(player).getName());
@@ -255,15 +242,6 @@ public final class StringUtil {
         return sb.toString();
     }
 
-    public static String secondsToTime(int seconds) {
-        int second = seconds;
-        int minute = seconds / 60;
-        second -= minute * 60;
-        int hour = minute / 60;
-        minute -= hour * 60;
-        return ChatColor.RED.toString() + hour + ChatColor.GOLD + "h " + ChatColor.RED + minute + ChatColor.GOLD + "m " + ChatColor.RED + second + ChatColor.GOLD + "s";
-    }
-
     public static JsonElement readJsonFromUrl(String url) {
         JsonElement element = null;
         try {
@@ -292,11 +270,5 @@ public final class StringUtil {
         sb = new StringBuffer(sb.toString());
         sb.insert(23, "-");
         return sb.toString();
-    }
-
-    public static String formatTime(long time, String timeFormat) {
-        Date date = new Date(time);
-        Format format = new SimpleDateFormat(timeFormat);
-        return format.format(date);
     }
 }

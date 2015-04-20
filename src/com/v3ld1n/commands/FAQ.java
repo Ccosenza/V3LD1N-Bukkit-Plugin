@@ -20,10 +20,7 @@ public class FAQ {
     }
 
     public FAQ(int id, String name, String question, String answer, String nameColor, String questionColor, String answerColor) {
-        this.id = id;
-        this.name = name;
-        this.question = question;
-        this.answer = answer;
+        this(id, name, question, answer);
         this.nameColor = nameColor;
         this.questionColor = questionColor;
         this.answerColor = answerColor;

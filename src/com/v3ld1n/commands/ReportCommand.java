@@ -13,6 +13,7 @@ import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.StringUtil;
+import com.v3ld1n.util.TimeUtil;
 
 public class ReportCommand extends V3LD1NCommand {
     private String usageReport = "<player> <reason ...>";
@@ -151,7 +152,7 @@ public class ReportCommand extends V3LD1NCommand {
                 if (reason.isEmpty()) {
                     title = Message.REPORT_NO_REASON.toString();
                 }
-                Report report = new Report(title, playerName, playerUuid, reason);
+                Report report = new Report(title, playerName, playerUuid, reason, TimeUtil.getTime());
                 V3LD1N.addReport(report);
                 ChatUtil.sendUnreadReports();
                 ChatUtil.sendMessage(sender, String.format(Message.REPORT_SEND.toString(), title), 2);

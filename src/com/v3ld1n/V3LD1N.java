@@ -324,6 +324,7 @@ public class V3LD1N extends JavaPlugin {
                     String senderName = config.getString(section + key + ".sender-name");
                     UUID senderUuid = UUID.fromString(config.getString(section + key + ".sender-uuid"));
                     String reason = config.getString(section + key + ".reason");
+                    long time = config.getLong(section + key + ".time");
                     List<String> readStrings = new ArrayList<>();
                     if (config.get(section + key + ".read-by") != null) {
                         readStrings = config.getStringList(section + key + ".read-by");
@@ -332,7 +333,7 @@ public class V3LD1N extends JavaPlugin {
                     for (String uuidString : readStrings) {
                         read.add(UUID.fromString(uuidString));
                     }
-                    Report report = new Report(title, senderName, senderUuid, reason, read);
+                    Report report = new Report(title, senderName, senderUuid, reason, time, read);
                     reports.add(report);
                 }
                 StringUtil.logDebugMessage(String.format(Message.LOADING_REPORTS.toString(), reports.size()));

@@ -9,21 +9,20 @@ public class Report {
     private String senderName;
     private UUID senderUuid;
     private String reason;
+    private long time;
     private List<UUID> read;
 
-    public Report(String title, String senderName, UUID senderUuid, String reason) {
+    public Report(String title, String senderName, UUID senderUuid, String reason, long time) {
         this.title = title;
         this.senderName = senderName;
         this.senderUuid = senderUuid;
         this.reason = reason;
+        this.time = time;
         this.read = new ArrayList<>();
     }
 
-    public Report(String title, String senderName, UUID senderUuid, String reason, List<UUID> read) {
-        this.title = title;
-        this.senderName = senderName;
-        this.senderUuid = senderUuid;
-        this.reason = reason;
+    public Report(String title, String senderName, UUID senderUuid, String reason, long time, List<UUID> read) {
+        this(title, senderName, senderUuid, reason, time);
         this.read = read;
     }
 
@@ -41,6 +40,10 @@ public class Report {
 
     public String getReason() {
         return reason;
+    }
+
+    public long getTime() {
+        return time;
     }
 
     public boolean isRead() {

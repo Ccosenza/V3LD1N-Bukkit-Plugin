@@ -17,7 +17,7 @@ import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.RepeatableRunnable;
-import com.v3ld1n.util.StringUtil;
+import com.v3ld1n.util.TimeUtil;
 
 public class TimePlayedCommand extends V3LD1NCommand {
     private final String PREFIX = ConfigSetting.SCOREBOARD_PREFIX.getString();
@@ -86,7 +86,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
         int hours = minutes / 60;
         int days = hours / 24;
         int weeks = days / 7;
-        ChatUtil.sendMessage(player, Message.TIMEPLAYED_TIME.toString() + StringUtil.secondsToTime(seconds), 2);
+        ChatUtil.sendMessage(player, Message.TIMEPLAYED_TIME.toString() + TimeUtil.fromSeconds(seconds), 2);
         objective.getScore("Ticks").setScore(ticks);
         if (seconds > 0) {
             objective.getScore("Seconds").setScore(seconds);
