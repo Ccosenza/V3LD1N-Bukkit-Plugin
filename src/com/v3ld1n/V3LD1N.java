@@ -660,6 +660,10 @@ public class V3LD1N extends JavaPlugin {
         return signs;
     }
 
+    public static List<Change> getChangelog() {
+        return changelog;
+    }
+
     public static List<SoundTask> getSoundTasks() {
         return soundTasks;
     }
