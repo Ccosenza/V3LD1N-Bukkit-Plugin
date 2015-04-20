@@ -11,7 +11,7 @@ public class TimeUtil {
     }
 
     public static long getTime() {
-        return System.currentTimeMillis() / 1000;
+        return System.currentTimeMillis();
     }
 
     public static String format(long time, String timeFormat) {
