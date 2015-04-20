@@ -47,7 +47,6 @@ public class V3LD1N extends JavaPlugin {
     private static List<Report> reports;
     private static List<Warp> warps;
     private static List<Sign> signs;
-    private static List<Change> changelog;
     private static List<ChangelogDay> changelogDays;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
@@ -76,7 +75,6 @@ public class V3LD1N extends JavaPlugin {
         reports = new ArrayList<>();
         warps = new ArrayList<>();
         signs = new ArrayList<>();
-        changelog = new ArrayList<>();
         changelogDays = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
@@ -250,6 +248,7 @@ public class V3LD1N extends JavaPlugin {
         commands.put("sethunger", new SetHungerCommand());
         commands.put("damage", new DamageCommand());
         commands.put("moneyitem", new MoneyItemCommand());
+        commands.put("changelog", new ChangelogCommand());
         for (String command : commands.keySet()) {
             plugin.getCommand(command).setExecutor(commands.get(command));
         }
@@ -490,10 +489,9 @@ public class V3LD1N extends JavaPlugin {
                     for (String key : config.getConfigurationSection(section + dayKey).getKeys(false)) {
                         long time = Long.parseLong(key);
                         String day = dayKey;
-                        String player = config.getString(section + key + ".player");
-                        String changed = config.getString(section + key + ".change");
+                        String player = config.getString(section + dayKey + "." + key + ".player");
+                        String changed = config.getString(section + dayKey + "." + key + ".change");
                         Change change = new Change(time, day, player, changed);
-                        changelog.add(change);
                         for (ChangelogDay clDay : changelogDays) {
                             if (clDay.getDay().equals(dayKey)) {
                                 clDay.addChange(change);
@@ -505,10 +503,11 @@ public class V3LD1N extends JavaPlugin {
                         } else {
                             ChangelogDay cld = compare;
                             cld.addChange(change);
+                            changelogDays.add(cld);
                         }
                     }
                 }
-                StringUtil.logDebugMessage(String.format(Message.LOADING_CHANGELOG.toString(), changelog.size()));
+                StringUtil.logDebugMessage(String.format(Message.LOADING_CHANGELOG.toString(), changelogDays.size()));
             }
         } catch (Exception e) {
             plugin.getLogger().warning(Message.CHANGELOG_LOAD_ERROR.toString());
@@ -518,17 +517,19 @@ public class V3LD1N extends JavaPlugin {
 
     private static void saveChangelog() {
         try {
-            String sectionName = "changelog";
+            String sectionName = "changes";
             String section = sectionName + ".";
             FileConfiguration config = Config.CHANGELOG.getConfig();
-            for (Change change : changelog) {
-                long time = change.getTime();
-                String day = change.getDay() + ".";
-                config.set(section + day + time + ".player", change.getPlayer());
-                config.set(section + day + time + ".change", change.getChange());
+            for (ChangelogDay cld : changelogDays) {
+                for (Change change : cld.getChanges()) {
+                    long time = change.getTime();
+                    String day = change.getDay() + ".";
+                    config.set(section + day + time + ".player", change.getPlayer());
+                    config.set(section + day + time + ".change", change.getChange());
+                }
             }
             Config.CHANGELOG.saveConfig();
-            StringUtil.logDebugMessage(String.format(Message.SAVING_CHANGELOG.toString(), changelog.size()));
+            StringUtil.logDebugMessage(String.format(Message.SAVING_CHANGELOG.toString(), changelogDays.size()));
         } catch (Exception e) {
             plugin.getLogger().warning(Message.CHANGELOG_SAVE_ERROR.toString());
             e.printStackTrace();
@@ -662,10 +663,6 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<Sign> getSigns() {
         return signs;
-    }
-
-    public static List<Change> getChangelog() {
-        return changelog;
     }
 
     public static List<ChangelogDay> getChangelogDays() {
