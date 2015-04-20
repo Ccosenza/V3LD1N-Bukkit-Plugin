@@ -8,6 +8,9 @@ public enum Message {
     COMMAND_HOVER("command-hover"),
     NONE("none"),
 
+    MOTD_WELCOME("motd.welcome"),
+    MOTD_WELCOME_BACK("motd.welcome-back"),
+
     VELDS_ADDED("velds.added"),
     VELDS_LORE("velds.lore"),
 
