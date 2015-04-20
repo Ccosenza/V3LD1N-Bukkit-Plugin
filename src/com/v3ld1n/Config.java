@@ -15,6 +15,7 @@ public enum Config {
     PLAYER_DATA("player-data.yml"),
     REPORTS("reports.yml"),
     SIGNS("signs.yml"),
+    CHANGELOG("changelog.yml"),
     TASKS_ITEM("tasks-item.yml"),
     TASKS_PARTICLE("tasks-particle.yml"),
     TASKS_SOUND("tasks-sound.yml"),

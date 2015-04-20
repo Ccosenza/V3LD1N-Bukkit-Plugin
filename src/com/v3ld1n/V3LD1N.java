@@ -47,6 +47,7 @@ public class V3LD1N extends JavaPlugin {
     private static List<Report> reports;
     private static List<Warp> warps;
     private static List<Sign> signs;
+    private static List<Change> changelog;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
@@ -74,6 +75,7 @@ public class V3LD1N extends JavaPlugin {
         reports = new ArrayList<>();
         warps = new ArrayList<>();
         signs = new ArrayList<>();
+        changelog = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
@@ -87,6 +89,7 @@ public class V3LD1N extends JavaPlugin {
         loadReports();
         loadWarps();
         loadSigns();
+        loadChangelog();
         loadItemTasks();
         loadParticleTasks();
         loadSoundTasks();
@@ -122,14 +125,14 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
-        //Auto-save reports and warps
+        //Auto-save save-data files
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
                 if (ConfigSetting.AUTO_SAVE_ENABLED.getBoolean()) {
                     saveReports();
                     saveWarps();
-                    saveSigns();
+                    saveChangelog();
                 }
             }
         }, ConfigSetting.AUTO_SAVE_TICKS.getInt(), ConfigSetting.AUTO_SAVE_TICKS.getInt());
@@ -154,6 +157,7 @@ public class V3LD1N extends JavaPlugin {
     public void onDisable() {
         saveReports();
         saveWarps();
+        saveChangelog();
         configs = null;
         items = null;
         questions = null;
@@ -427,6 +431,24 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
+    public static void addWarp(Warp warp) {
+        for (Warp oldWarp : warps) {
+            if (oldWarp.getName().equalsIgnoreCase(warp.getName())) {
+                return;
+            }
+        }
+        warps.add(warp);
+    }
+
+    public static void removeWarp(String warp) {
+        Iterator<Warp> iterator = warps.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getName().equalsIgnoreCase(warp)) {
+                iterator.remove();
+            }
+        }
+    }
+
     private static void loadSigns() {
         try {
             String sectionName = "signs";
@@ -470,49 +492,42 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
-    private static void saveSigns() {
+    private static void loadChangelog() {
         try {
-            String sectionName = "signs";
-            String section = sectionName + ".";
-            FileConfiguration config = Config.SIGNS.getConfig();
-            for (Sign sign : signs) {
-                String text = sign.getText();
-                List<String> particleStrings = new ArrayList<>();
-                for (Particle particle : sign.getParticles()) {
-                    particleStrings.add(particle.toString());
+            String sectionName = "changes";
+            if (Config.CHANGELOG.getConfig().getConfigurationSection(sectionName) != null) {
+                FileConfiguration config = Config.CHANGELOG.getConfig();
+                String section = sectionName + ".";
+                for (String key : config.getConfigurationSection("changes").getKeys(false)) {
+                    long time = Long.parseLong(key);
+                    String player = config.getString(section + key + ".player");
+                    String changed = config.getString(section + key + ".change");
+                    Change change = new Change(time, player, changed);
+                    changelog.add(change);
                 }
-                List<String> soundStrings = new ArrayList<>();
-                for (Sound sound : sign.getSounds()) {
-                    soundStrings.add(sound.toString());
-                }
-                config.set(section + text + ".player-commands", sign.getPlayerCommands());
-                config.set(section + text + ".console-commands", sign.getConsoleCommands());
-                config.set(section + text + ".particles", particleStrings);
-                config.set(section + text + ".sounds", soundStrings);
+                StringUtil.logDebugMessage(String.format(Message.LOADING_CHANGELOG.toString(), changelog.size()));
             }
-            Config.SIGNS.saveConfig();
-            StringUtil.logDebugMessage(String.format(Message.SAVING_SIGNS.toString(), signs.size()));
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.SIGN_SAVE_ERROR.toString());
+            plugin.getLogger().warning(Message.CHANGELOG_LOAD_ERROR.toString());
             e.printStackTrace();
         }
     }
 
-    public static void addWarp(Warp warp) {
-        for (Warp oldWarp : warps) {
-            if (oldWarp.getName().equalsIgnoreCase(warp.getName())) {
-                return;
+    private static void saveChangelog() {
+        try {
+            String sectionName = "changelog";
+            String section = sectionName + ".";
+            FileConfiguration config = Config.CHANGELOG.getConfig();
+            for (Change change : changelog) {
+                long time = change.getTime();
+                config.set(section + time + ".player", change.getPlayer().getUniqueId());
+                config.set(section + time + ".change", change.getChange());
             }
-        }
-        warps.add(warp);
-    }
-
-    public static void removeWarp(String warp) {
-        Iterator<Warp> iterator = warps.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getName().equalsIgnoreCase(warp)) {
-                iterator.remove();
-            }
+            Config.CHANGELOG.saveConfig();
+            StringUtil.logDebugMessage(String.format(Message.SAVING_CHANGELOG.toString(), changelog.size()));
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.CHANGELOG_SAVE_ERROR.toString());
+            e.printStackTrace();
         }
     }
 
