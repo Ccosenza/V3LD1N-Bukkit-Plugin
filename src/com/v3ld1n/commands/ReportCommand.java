@@ -66,6 +66,12 @@ public class ReportCommand extends V3LD1NCommand {
                                     + "extra:["
                                     + "{text:\"" + report.getReason() + "\","
                                     + "color:aqua}]}";
+                            long rTime = report.getTime();
+                            String time = "{text:\"" + Message.REPORT_READ_TIME + "\","
+                                    + "color:yellow,"
+                                    + "extra:["
+                                    + "{text:\"" + TimeUtil.formatDate(rTime) + " at " + TimeUtil.formatTime(rTime) + "\","
+                                    + "color:green}]}";
                             String back = "{text:\"" + Message.REPORT_READ_BACK + "\","
                                     + "color:" + ConfigSetting.REPORT_READ_BACK_COLOR.getString() + ","
                                     + "clickEvent:{"
@@ -77,6 +83,7 @@ public class ReportCommand extends V3LD1NCommand {
                             ChatUtil.sendJsonMessage(p, title, 0);
                             ChatUtil.sendJsonMessage(p, senderName, 0);
                             ChatUtil.sendJsonMessage(p, reason, 0);
+                            ChatUtil.sendJsonMessage(p, time, 0);
                             ChatUtil.sendJsonMessage(p, back, 0);
                             if (!report.isReadBy(playerUuid)) {
                                 report.setReadBy(playerUuid);

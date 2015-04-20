@@ -139,6 +139,7 @@ public enum Message {
     REPORT_READ_TITLE("commands.report.read.title"),
     REPORT_READ_SENDER("commands.report.read.sender"),
     REPORT_READ_REASON("commands.report.read.reason"),
+    REPORT_READ_TIME("commands.report.read.time"),
     REPORT_READ_BACK("commands.report.read.back"),
     REPORT_READBY_LIST_TITLE("commands.report.readby.list-title"),
     REPORT_READBY_NO_PERMISSION("commands.report.readby.no-permission"),

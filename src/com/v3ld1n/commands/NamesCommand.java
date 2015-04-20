@@ -48,9 +48,10 @@ public class NamesCommand extends V3LD1NCommand {
                 String originalName = array.get(0).getAsJsonObject().get("name").toString().replaceAll("\"", "");
                 sender.sendMessage(String.format(Message.NAMES_ORIGINAL.toString(), originalName));
                 for (String name : previousNames.keySet()) {
-                    String date = TimeUtil.format(previousNames.get(name), "MMMM d, YYYY");
-                    String time = TimeUtil.format(previousNames.get(name), "h:mm:ss a");
-                    sender.sendMessage(String.format(Message.NAMES_CHANGED.toString(), name, date, time));
+                    long time = previousNames.get(name);
+                    String fDate = TimeUtil.formatDate(time);
+                    String fTime = TimeUtil.formatTime(time);
+                    sender.sendMessage(String.format(Message.NAMES_CHANGED.toString(), name, fDate, fTime));
                 }
             } else {
                 sender.sendMessage(Message.NAMES_NO_PREVIOUS_NAMES.toString());

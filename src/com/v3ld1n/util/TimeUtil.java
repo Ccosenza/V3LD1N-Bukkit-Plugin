@@ -20,6 +20,14 @@ public class TimeUtil {
         return format.format(date);
     }
 
+    public static String formatDate(long time) {
+        return format(time, "MMMM d, YYYY");
+    }
+
+    public static String formatTime(long time) {
+        return format(time, "h:mm:ss a");
+    }
+
     public static String fromSeconds(int seconds) {
         int second = seconds;
         int minute = seconds / 60;
