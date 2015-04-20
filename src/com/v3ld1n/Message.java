@@ -62,6 +62,14 @@ public enum Message {
     AUTORESOURCEPACK_ENABLE("commands.autoresourcepack.enable"),
     AUTORESOURCEPACK_DISABLE("commands.autoresourcepack.disable"),
 
+    CHANGELOG_BORDER_TOP("commands.changelog.border-top"),
+    CHANGELOG_BORDER_BOTTOM("commands.changelog.border-bottom"),
+    CHANGELOG_HOVER_TOP("commands.changelog.hover-top"),
+    CHANGELOG_LIST_ITEM("commands.changelog.list-item"),
+    CHANGELOG_LOG("commands.changelog.log"),
+    CHANGELOG_NO_PERMISSION("commands.changelog.no-permission"),
+    CHANGELOG_ERROR("commands.changelog.error"),
+
     DAMAGE_DAMAGE("commands.damage.damage"),
     DAMAGE_DAMAGE_SELF("commands.damage.damage-self"),
     DAMAGE_INVULNERABLE("commands.damage.invulnerable"),

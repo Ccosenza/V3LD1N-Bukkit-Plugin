@@ -132,3 +132,7 @@ commands:
     description: Creates a Vault money item.
     aliases: [mi, veldsitem, vi]
     usage: /<command> <amount>
+  changelog:
+    description: Shows the server changelog.
+    aliases: [change, changes]
+    usage: /<command> [log <change>]

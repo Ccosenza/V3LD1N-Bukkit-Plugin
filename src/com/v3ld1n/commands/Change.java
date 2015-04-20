@@ -1,8 +1,5 @@
 package com.v3ld1n.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 public class Change {
     private long time;
     private String player;
@@ -18,8 +15,8 @@ public class Change {
         return time;
     }
 
-    public Player getPlayer() {
-        return Bukkit.getPlayer(player);
+    public String getPlayer() {
+        return player;
     }
 
     public String getChange() {

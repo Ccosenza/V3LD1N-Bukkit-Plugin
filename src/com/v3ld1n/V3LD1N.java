@@ -345,6 +345,7 @@ public class V3LD1N extends JavaPlugin {
                 config.set(section + title + ".sender-name", report.getSenderName());
                 config.set(section + title + ".sender-uuid", report.getSenderUuid().toString());
                 config.set(section + title + ".reason", report.getReason());
+                config.set(section + title + ".time", report.getTime());
                 List<UUID> read = report.getReadPlayers();
                 List<String> readStrings = new ArrayList<>();
                 for (UUID uuid : read) {
@@ -488,23 +489,10 @@ public class V3LD1N extends JavaPlugin {
                 for (String dayKey : config.getConfigurationSection("changes").getKeys(false)) {
                     for (String key : config.getConfigurationSection(section + dayKey).getKeys(false)) {
                         long time = Long.parseLong(key);
-                        String day = dayKey;
                         String player = config.getString(section + dayKey + "." + key + ".player");
                         String changed = config.getString(section + dayKey + "." + key + ".change");
-                        Change change = new Change(time, day, player, changed);
-                        for (ChangelogDay clDay : changelogDays) {
-                            if (clDay.getDay().equals(dayKey)) {
-                                clDay.addChange(change);
-                            }
-                        }
-                        ChangelogDay compare = new ChangelogDay(dayKey, new ArrayList<Change>());
-                        if (changelogDays.contains(compare)) {
-                            changelogDays.get(changelogDays.indexOf(compare)).addChange(change);
-                        } else {
-                            ChangelogDay cld = compare;
-                            cld.addChange(change);
-                            changelogDays.add(cld);
-                        }
+                        Change change = new Change(time, player, changed);
+                        addChange(change, dayKey);
                     }
                 }
                 StringUtil.logDebugMessage(String.format(Message.LOADING_CHANGELOG.toString(), changelogDays.size()));
@@ -523,7 +511,7 @@ public class V3LD1N extends JavaPlugin {
             for (ChangelogDay cld : changelogDays) {
                 for (Change change : cld.getChanges()) {
                     long time = change.getTime();
-                    String day = change.getDay() + ".";
+                    String day = cld.getDay() + ".";
                     config.set(section + day + time + ".player", change.getPlayer());
                     config.set(section + day + time + ".change", change.getChange());
                 }
@@ -533,6 +521,17 @@ public class V3LD1N extends JavaPlugin {
         } catch (Exception e) {
             plugin.getLogger().warning(Message.CHANGELOG_SAVE_ERROR.toString());
             e.printStackTrace();
+        }
+    }
+
+    public static void addChange(Change change, String day) {
+        ChangelogDay compare = new ChangelogDay(day, new ArrayList<Change>());
+        if (changelogDays.contains(compare)) {
+            changelogDays.get(changelogDays.indexOf(compare)).addChange(change);
+        } else {
+            ChangelogDay cld = compare;
+            cld.addChange(change);
+            changelogDays.add(cld);
         }
     }
 

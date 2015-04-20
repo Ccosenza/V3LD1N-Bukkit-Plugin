@@ -1,6 +1,9 @@
 package com.v3ld1n.commands;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import com.v3ld1n.util.TimeUtil;
 
 public class ChangelogDay {
     private String day;
@@ -21,6 +24,14 @@ public class ChangelogDay {
 
     public void addChange(Change change) {
         changes.add(change);
+    }
+
+    public static SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("MM-dd-yyyy");
+    }
+
+    public static String today() {
+        return getDateFormat().format(TimeUtil.getTime());
     }
 
     @Override
