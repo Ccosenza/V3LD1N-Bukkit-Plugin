@@ -19,6 +19,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -32,6 +33,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -196,11 +198,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (ConfigSetting.CANCEL_DROP_WORLDS.getList().contains(event.getEntity().getWorld())) {
+        if (ConfigSetting.CANCEL_DROP_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
             event.getDrops().clear();
             event.setDroppedExp(0);
         }
-        if (ConfigSetting.REMOVE_PROJECTILE_WORLDS.getList().contains(event.getEntity().getWorld())) {
+        if (ConfigSetting.REMOVE_PROJECTILE_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
             Player p = event.getEntity();
             for (Entity e : p.getWorld().getEntities()) {
                 if (e instanceof Projectile) {
@@ -208,6 +210,25 @@ public class PlayerListener implements Listener {
                     if (pr.getShooter() == p) {
                         pr.remove();
                     }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onVehicleExit(VehicleExitEvent event) {
+        final Vehicle veh = event.getVehicle();
+        if (ConfigSetting.REMOVE_VEHICLE_WORLDS.getList().contains(veh.getWorld().getName())) {
+            if (event.getExited() instanceof Player) {
+                if (veh.getType() == EntityType.MINECART || veh.getType() == EntityType.BOAT) {
+                    Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+                        @Override
+                        public void run() {
+                            if (veh.getPassenger() == null) {
+                                veh.remove();
+                            }
+                        }
+                    }, 100L);
                 }
             }
         }

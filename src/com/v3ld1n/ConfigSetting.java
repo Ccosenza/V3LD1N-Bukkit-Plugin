@@ -65,7 +65,8 @@ public enum ConfigSetting {
     CANCEL_SPAWN_WORLDS("cancel-spawn", "world-options.yml"),
     CANCEL_DROP_WORLDS("cancel-drop", "world-options.yml"),
     REMOVE_ARROW_WORLDS("remove-arrows", "world-options.yml"),
-    REMOVE_PROJECTILE_WORLDS("remove-projectiles-on-death", "world-options.yml");
+    REMOVE_PROJECTILE_WORLDS("remove-projectiles-on-death", "world-options.yml"),
+    REMOVE_VEHICLE_WORLDS("remove-vehicles", "world-options.yml");
 
     private final String name;
     private final String fileName;
