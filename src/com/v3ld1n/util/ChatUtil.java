@@ -57,14 +57,13 @@ public final class ChatUtil {
      * @param p the player to send the message to
      */
     public static void sendMotd(Player p) {
-        Message welcome = Message.MOTD_WELCOME;
-        if (p.hasPlayedBefore()) {
-            welcome = Message.MOTD_WELCOME_BACK;
+        String listName = "old-players";
+        if (!p.hasPlayedBefore()) {
+            listName = "new-players";
         }
-        for (String jsonText : Config.MOTD.getConfig().getStringList("lines")) {
+        for (String jsonText : Config.MOTD.getConfig().getStringList(listName)) {
             String message = StringUtil.formatText(jsonText);
-            message = message.replaceAll("%welcome%", String.format(welcome.toString(), p.getName()));
-            StringUtil.replacePlayerVariables(message, p);
+            message = StringUtil.replacePlayerVariables(message, p);
             ChatUtil.sendJsonMessage(p, message, 0);
         }
     }
