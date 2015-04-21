@@ -12,6 +12,7 @@ import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -174,5 +175,29 @@ public final class PlayerUtil {
             return uuid;
         }
         return null;
+    }
+
+    public static int getTicksPlayed(Player p) {
+        return p.getStatistic(Statistic.PLAY_ONE_TICK);
+    }
+
+    public static int getSecondsPlayed(Player p) {
+        return getTicksPlayed(p) / 20;
+    }
+
+    public static int getMinutesPlayed(Player p) {
+        return getSecondsPlayed(p) / 60;
+    }
+
+    public static int getHoursPlayed(Player p) {
+        return getMinutesPlayed(p) / 60;
+    }
+
+    public static int getDaysPlayed(Player p) {
+        return getHoursPlayed(p) / 24;
+    }
+
+    public static int getWeeksPlayed(Player p) {
+        return getDaysPlayed(p) / 7;
     }
 }

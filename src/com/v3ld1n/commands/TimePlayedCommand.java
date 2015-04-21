@@ -2,7 +2,6 @@ package com.v3ld1n.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -80,12 +79,12 @@ public class TimePlayedCommand extends V3LD1NCommand {
     }
 
     private void updateTime(Objective objective, Player player) {
-        int ticks = player.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK);
-        int seconds = ticks / 20;
-        int minutes = seconds / 60;
-        int hours = minutes / 60;
-        int days = hours / 24;
-        int weeks = days / 7;
+        int ticks = PlayerUtil.getTicksPlayed(player);
+        int seconds = PlayerUtil.getSecondsPlayed(player);
+        int minutes = PlayerUtil.getMinutesPlayed(player);
+        int hours = PlayerUtil.getHoursPlayed(player);
+        int days = PlayerUtil.getDaysPlayed(player);
+        int weeks = PlayerUtil.getWeeksPlayed(player);
         ChatUtil.sendMessage(player, Message.TIMEPLAYED_TIME.toString() + TimeUtil.fromSeconds(seconds), 2);
         objective.getScore("Ticks").setScore(ticks);
         if (seconds > 0) {
