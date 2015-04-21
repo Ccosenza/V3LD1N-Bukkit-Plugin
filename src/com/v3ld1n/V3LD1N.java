@@ -151,6 +151,20 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.PLAYER_EFFECTS_TICKS.getInt(), ConfigSetting.PLAYER_EFFECTS_TICKS.getInt());
+        //Velds reward
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (ConfigSetting.VELDS_REWARD_ENABLED.getBoolean()) {
+                    for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                        int base = ConfigSetting.VELDS_REWARD_BASE_AMOUNT.getInt();
+                        int multiplier = ConfigSetting.VELDS_REWARD_HOUR_MULTIPLIER.getInt();
+                        int amount = base + (PlayerUtil.getHoursPlayed(p) * multiplier);
+                        econ.depositPlayer(p, amount);
+                    }
+                }
+            }
+        }, ConfigSetting.VELDS_REWARD_TICKS.getInt(), ConfigSetting.VELDS_REWARD_TICKS.getInt());
     }
 
     @Override

@@ -14,14 +14,23 @@ public enum ConfigSetting {
     BLOG_POST("blog-post", "config.yml"),
     ENDER_CRYSTAL_EGG_DATA("ender-crystal-spawn-egg-data", "config.yml", 200),
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
+
     AUTO_SAVE_ENABLED("auto-save.enabled", "config.yml", true),
     AUTO_SAVE_TICKS("auto-save.ticks", "config.yml", 12000),
+
     SERVER_LIST_MOTD("server-list.motd", "config.yml"),
     SERVER_LIST_MAX_PLAYERS("server-list.max-players", "config.yml"),
+
     PLAYER_LIST_HEADER("player-list.header", "config.yml"),
     PLAYER_LIST_FOOTER("player-list.footer", "config.yml"),
     PLAYER_LIST_PING_ENABLED("player-list.ping.enabled", "config.yml", false),
     PLAYER_LIST_PING_TICKS("player-list.ping.ticks", "config.yml", 20),
+
+    VELDS_REWARD_ENABLED("velds-reward.enabled", "config.yml", false),
+    VELDS_REWARD_BASE_AMOUNT("velds-reward.base-amount", "config.yml", 0),
+    VELDS_REWARD_HOUR_MULTIPLIER("velds-reward.hour-multiplier", "config.yml", 1),
+    VELDS_REWARD_TICKS("velds-reward.ticks", "config.yml", 72000),
+
     REPORTS_JOIN_MESSAGE("reports.join-message", "config.yml", true),
     REPORTS_LIST_UNREAD_COLOR("reports.list.unread-color", "config.yml", "aqua"),
     REPORTS_LIST_READ_COLOR("reports.list.read-color", "config.yml", "blue"),
