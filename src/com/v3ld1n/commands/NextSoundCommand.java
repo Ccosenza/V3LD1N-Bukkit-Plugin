@@ -27,8 +27,8 @@ public class NextSoundCommand extends V3LD1NCommand {
                             ChatUtil.sendMessage(sender, String.format(Message.NEXTSOUND_NOW_PLAYING.toString(), task.getName().toUpperCase(), task.getCurrentSoundName()), 0);
                         }
                     }, 1L);
-                    return true;
                 }
+                return true;
             } else if (args.length == 1) {
                 for (final SoundTask task : V3LD1N.getSoundTasks()) {
                     if (task.getName().contains(args[0])) {
@@ -41,9 +41,9 @@ public class NextSoundCommand extends V3LD1NCommand {
                         }, 1L);
                         return true;
                     }
-                    sender.sendMessage(String.format(Message.NEXTSOUND_NO_SOUND_TASKS.toString(), args[0]));
-                    return true;
                 }
+                sender.sendMessage(String.format(Message.NEXTSOUND_NO_SOUND_TASKS.toString(), args[0]));
+                return true;
             }
             this.sendUsage(sender, label, command);
             return true;
