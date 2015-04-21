@@ -101,7 +101,11 @@ public final class StringUtil {
                 .replaceAll(ignoreCase + "%weatherticks%", Integer.toString(player.getWorld().getWeatherDuration()))
                 .replaceAll(ignoreCase + "%lightningtime%", Integer.toString(player.getWorld().getThunderDuration() / 20))
                 .replaceAll(ignoreCase + "%worldtime%", Long.toString(player.getWorld().getTime()))
-                .replaceAll(ignoreCase + "%servertime%", TimeUtil.format(TimeUtil.getTime(), "MMMM d, YYYY, h:mm:ss a"));
+                .replaceAll(ignoreCase + "%servertime%", TimeUtil.format(TimeUtil.getTime(), "MMMM d, YYYY, h:mm:ss a"))
+                .replaceAll(ignoreCase + "%lft%", "\u21E6")
+                .replaceAll(ignoreCase + "%up%", "\u21E7")
+                .replaceAll(ignoreCase + "%rht%", "\u21E8")
+                .replaceAll(ignoreCase + "%dwn%", "\u21E9");
         String none = Message.NONE.toString();
         if (WorldUtil.getNearestPlayer(player) != null) {
             replaced = replaced.replaceAll(ignoreCase + "%player%", WorldUtil.getNearestPlayer(player).getName());

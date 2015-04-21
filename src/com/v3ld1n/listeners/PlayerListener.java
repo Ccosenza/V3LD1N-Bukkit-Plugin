@@ -161,6 +161,7 @@ public class PlayerListener implements Listener {
         for (int i = 0; i < 4; i++) {
             String line = event.getLine(i);
             String newLine = StringUtil.replaceSignVariables(line, (Sign) event.getBlock().getState(), event.getPlayer());
+            newLine = StringUtil.replacePlayerVariables(newLine, p);
             event.setLine(i, newLine);
         }
         if (!p.hasPermission("v3ld1n.createsigns")) {
