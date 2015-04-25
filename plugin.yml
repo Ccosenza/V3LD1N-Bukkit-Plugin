@@ -39,7 +39,7 @@ commands:
     aliases: [pack, rp]
     usage: /<command> [resource pack]
   autoresourcepack:
-    description: Automatically download a resource pack when you join the server.
+    description: Downloads a resource pack when you join the server.
     aliases: [autopack, autorp]
     usage: /<command> [resource pack]
   motd:

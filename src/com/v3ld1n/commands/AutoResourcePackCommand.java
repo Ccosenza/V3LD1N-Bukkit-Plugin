@@ -15,7 +15,7 @@ import com.v3ld1n.V3LD1N;
 
 public class AutoResourcePackCommand extends V3LD1NCommand {
     public AutoResourcePackCommand() {
-        this.addUsage("[resource pack]", "Automatically download a resource pack when you join the server");
+        this.addUsage("[resource pack]", "Download a resource pack when you join the server");
         this.addUsage("remove", "Remove your auto resource pack");
     }
 
