@@ -48,6 +48,8 @@ public class V3LD1N extends JavaPlugin {
     private static List<Warp> warps;
     private static List<Sign> signs;
     private static List<ChangelogDay> changelogDays;
+    private static List<ResourcePack> resourcePacks;
+    private static List<String> resourcePackNames;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
@@ -76,6 +78,8 @@ public class V3LD1N extends JavaPlugin {
         warps = new ArrayList<>();
         signs = new ArrayList<>();
         changelogDays = new ArrayList<>();
+        resourcePacks = new ArrayList<>();
+        resourcePackNames = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
@@ -90,6 +94,7 @@ public class V3LD1N extends JavaPlugin {
         loadWarps();
         loadSigns();
         loadChangelog();
+        loadResourcePacks();
         loadItemTasks();
         loadParticleTasks();
         loadSoundTasks();
@@ -549,6 +554,35 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
+    private static void loadResourcePacks() {
+        try {
+            String sectionName = "resource-packs";
+            if (Config.CONFIG.getConfig().getConfigurationSection(sectionName) != null) {
+                FileConfiguration config = Config.CONFIG.getConfig();
+                String section = sectionName + ".";
+                for (String key : config.getConfigurationSection("resource-packs").getKeys(false)) {
+                    String url = config.getString(section + key);
+                    ResourcePack resourcePack = new ResourcePack(key, url);
+                    resourcePacks.add(resourcePack);
+                    resourcePackNames.add(key);
+                }
+                StringUtil.logDebugMessage(String.format(Message.LOADING_RESOURCE_PACKS.toString(), resourcePacks.size()));
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning(Message.RESOURCE_PACK_LOAD_ERROR.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public static ResourcePack getResourcePack(String name) {
+        for (ResourcePack rp : resourcePacks) {
+            if (rp.getName().equalsIgnoreCase(name)) {
+                return rp;
+            }
+        }
+        return null;
+    }
+
     private void loadItemTasks() {
         try {
             if (Config.TASKS_ITEM.getConfig() != null) {
@@ -680,6 +714,14 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<ChangelogDay> getChangelogDays() {
         return changelogDays;
+    }
+
+    public static List<ResourcePack> getResourcePacks() {
+        return resourcePacks;
+    }
+
+    public static List<String> getResourcePackNames() {
+        return resourcePackNames;
     }
 
     public static List<SoundTask> getSoundTasks() {
