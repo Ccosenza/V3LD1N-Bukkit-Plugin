@@ -187,8 +187,10 @@ public class PlayerListener implements Listener {
             String newPage = StringUtil.formatText(StringUtil.replacePlayerVariables(page, event.getPlayer()));
             newBookMeta.setPage(newBookMeta.getPages().indexOf(page) + 1, newPage);
         }
-        String newTitle = StringUtil.formatText(StringUtil.replacePlayerVariables(newBookMeta.getTitle(), event.getPlayer()));
-        newBookMeta.setTitle(newTitle);
+        if (newBookMeta.hasTitle()) {
+            String newTitle = StringUtil.formatText(StringUtil.replacePlayerVariables(newBookMeta.getTitle(), event.getPlayer()));
+            newBookMeta.setTitle(newTitle);
+        }
         event.setNewBookMeta(newBookMeta);
     }
 
