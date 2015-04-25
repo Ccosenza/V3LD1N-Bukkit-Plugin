@@ -184,16 +184,20 @@ public class RatchetBow extends V3LD1NItem {
                         @Override
                         public void onRun() {
                             getParticleSetting("teleport-hit-particle").display(location);
-                            location.getWorld().strikeLightning(location);
+                            if (getBooleanSetting("teleport-lightning")) {
+                                location.getWorld().strikeLightning(location);
+                            }
                         }
                     };
                     teleportTask.run();
-                    Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
-                        @Override
-                        public void run() {
-                            location.getWorld().strikeLightning(location);
-                        }
-                    }, 24);
+                    if (this.getBooleanSetting("teleport-lightning")) {
+                        Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
+                            @Override
+                            public void run() {
+                                location.getWorld().strikeLightning(location);
+                            }
+                        }, 24);
+                    }
                     final Location teleLoc = this.getLocationSetting("teleport-location");
                     Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                         @Override
