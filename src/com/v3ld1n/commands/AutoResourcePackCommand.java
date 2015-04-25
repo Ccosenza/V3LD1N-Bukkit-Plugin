@@ -41,7 +41,11 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
                 return true;
             }
             this.sendUsage(p, label, command);
-            p.sendMessage(String.format(Message.AUTORESOURCEPACK_INFO.toString(), PlayerData.AUTO_RESOURCE_PACK.get(uuid)));
+            String currentPack = Message.NONE.toString();
+            if (PlayerData.AUTO_RESOURCE_PACK.get(uuid) != null) {
+                currentPack = PlayerData.AUTO_RESOURCE_PACK.getString(uuid);
+            }
+            p.sendMessage(String.format(Message.AUTORESOURCEPACK_INFO.toString(), currentPack));
             return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
