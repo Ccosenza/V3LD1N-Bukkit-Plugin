@@ -10,7 +10,6 @@ import com.v3ld1n.util.ConfigUtil;
 
 public enum ConfigSetting {
     DEBUG("debug", "config.yml", false),
-    RESOURCE_PACK("resource-pack", "config.yml"),
     BLOG_POST("blog-post", "config.yml"),
     ENDER_CRYSTAL_EGG_DATA("ender-crystal-spawn-egg-data", "config.yml", 200),
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),

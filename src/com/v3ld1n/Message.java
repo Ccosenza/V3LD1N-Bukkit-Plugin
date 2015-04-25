@@ -29,6 +29,7 @@ public enum Message {
     WARP_LOAD_ERROR("errors.loading.warps"),
     SIGN_LOAD_ERROR("errors.loading.signs"),
     CHANGELOG_LOAD_ERROR("errors.loading.changelog"),
+    RESOURCE_PACK_LOAD_ERROR("errors.loading.resource-packs"),
 
     REPORT_SAVE_ERROR("errors.saving.reports"),
     WARP_SAVE_ERROR("errors.saving.warps"),
@@ -48,6 +49,7 @@ public enum Message {
     LOADING_WARPS("debug.loading.warps"),
     LOADING_SIGNS("debug.loading.signs"),
     LOADING_CHANGELOG("debug.loading.changelog"),
+    LOADING_RESOURCE_PACKS("debug.loading.resource-packs"),
     LOADING_COMMANDS("debug.loading.commands"),
 
     SAVING_REPORTS("debug.saving.reports"),
@@ -62,8 +64,11 @@ public enum Message {
     COMMAND_USAGE_TITLE("commands.usage-title"),
     COMMAND_USAGE_DESCRIPTION("commands.usage-description"),
 
-    AUTORESOURCEPACK_ENABLE("commands.autoresourcepack.enable"),
-    AUTORESOURCEPACK_DISABLE("commands.autoresourcepack.disable"),
+    AUTORESOURCEPACK_SET("commands.autoresourcepack.set"),
+    AUTORESOURCEPACK_REMOVE_COMMAND("commands.autoresourcepack.remove-command"),
+    AUTORESOURCEPACK_REMOVE("commands.autoresourcepack.remove"),
+    AUTORESOURCEPACK_INFO("commands.autoresourcepack.info"),
+    AUTORESOURCEPACK_ERROR("commands.autoresourcepack.error"),
 
     CHANGELOG_BORDER_TOP("commands.changelog.border-top"),
     CHANGELOG_BORDER_BOTTOM("commands.changelog.border-bottom"),
@@ -157,6 +162,7 @@ public enum Message {
     REPORT_READBY_LIST_TITLE("commands.report.readby.list-title"),
     REPORT_READBY_NO_PERMISSION("commands.report.readby.no-permission"),
 
+    RESOURCEPACK_LIST_TITLE("commands.resourcepack.list-title"),
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 
     RIDE_USE("commands.ride.use"),

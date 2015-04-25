@@ -35,13 +35,13 @@ commands:
     aliases: [fireworkarrow, rbfw, fwa, fwas]
     usage: /<command> <ball|ball_large|star|creeper|burst>
   resourcepack:
-    description: Downloads the server's resource pack.
+    description: Downloads the server's resource packs.
     aliases: [pack, rp]
-    usage: /<command>
+    usage: /<command> [resource pack]
   autoresourcepack:
-    description: Toggles whether to automatically download the resource pack on join.
+    description: Automatically download a resource pack when you join the server.
     aliases: [autopack, autorp]
-    usage: /<command>
+    usage: /<command> [resource pack]
   motd:
     description: Displays the login message.
     aliases: [vpmotd]

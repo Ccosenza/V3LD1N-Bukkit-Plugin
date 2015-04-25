@@ -134,14 +134,17 @@ public class PlayerListener implements Listener {
         if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
             PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());
         }
-        if (PlayerData.AUTO_RESOURCE_PACK.getBoolean(p.getUniqueId())) {
-            PlayerAnimation.BED_LEAVE.playTo(p);
-            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    p.setResourcePack(ConfigSetting.RESOURCE_PACK.getString());
-                }
-            }, 1L);
+        if (PlayerData.AUTO_RESOURCE_PACK.getString(p.getUniqueId()) != null) {
+            final String pack = PlayerData.AUTO_RESOURCE_PACK.getString(p.getUniqueId());
+            if (V3LD1N.getResourcePack(pack) != null) {
+                PlayerAnimation.BED_LEAVE.playTo(p);
+                Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+                    @Override
+                    public void run() {
+                        p.setResourcePack(V3LD1N.getResourcePack(pack).getUrl());
+                    }
+                }, 1L);
+            }
         }
         if (ConfigUtil.getUnreadReports(p.getUniqueId()) > 0) {
             ChatUtil.sendUnreadReports(p);
