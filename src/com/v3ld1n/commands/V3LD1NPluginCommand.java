@@ -14,14 +14,10 @@ import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.PlayerUtil;
 
 public class V3LD1NPluginCommand extends V3LD1NCommand {
-    private String usageSetResourcePack = "setresourcepack <url>";
-
     public V3LD1NPluginCommand() {
         this.addUsage("debug", "Toggle debug mode");
         this.addUsage("help", "Show a list of all plugin commands");
         this.addUsage("reload", "Reload the plugin config");
-        this.addUsage("resourcepackurl", "Send the URL to the resource pack");
-        this.addUsage(usageSetResourcePack, "Set the URL to the resource pack");
         this.addUsage("version", "Send the plugin version");
     }
 
@@ -58,27 +54,6 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                     }
                 }
                 ChatUtil.sendMessage(sender, Message.V3LD1NPLUGIN_RELOAD.toString(), 2);
-                return true;
-            } else if (args[0].equalsIgnoreCase("resourcepackurl") && args.length == 1) {
-                String pack = ConfigSetting.RESOURCE_PACK.getString();
-                if (sender instanceof Player) {
-                   ChatUtil.sendJsonMessage(sender,
-                   "{text:\"" + pack + "\","
-                   + "underlined:true,"
-                   + "hoverEvent:{action:'show_text',value:'" + Message.LINK_HOVER + "'},"
-                   + "clickEvent:{action:'open_url',value:'" + pack + "'}}"
-                   , 0);
-                   return true;
-                }
-                sender.sendMessage(ConfigSetting.RESOURCE_PACK.getString());
-                return true;
-            } else if (args[0].equalsIgnoreCase("setresourcepack")) {
-                if (args.length == 2) {
-                    ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_SETRESOURCEPACK.toString(), args[1]), 2);
-                    ConfigSetting.RESOURCE_PACK.setValue(args[1]);
-                } else {
-                    this.sendArgumentUsage(sender, label, command, usageSetResourcePack);
-                }
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
                 ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
