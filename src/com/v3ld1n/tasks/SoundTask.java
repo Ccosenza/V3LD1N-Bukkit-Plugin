@@ -27,7 +27,7 @@ public class SoundTask extends Task {
         ChatColor signColor = ChatColor.valueOf(this.getStringSetting("sign-color"));
 
         List<String> soundList = this.getStringListSetting("sounds");
-        if (soundList.contains(currentSound)) {
+        if (soundList.size() > 1 && soundList.contains(currentSound)) {
             soundList.remove(currentSound);
         }
 
