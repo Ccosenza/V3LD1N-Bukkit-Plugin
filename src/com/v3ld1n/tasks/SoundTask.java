@@ -22,7 +22,7 @@ public class SoundTask extends Task {
     public void run() {
         Location location = this.getLocationSetting("location");
         double distance = this.getDoubleSetting("distance");
-        List<String> signs = this.getStringListSetting("sign-location");
+        List<String> signs = this.getStringListSetting("signs");
         int signLine = this.getIntSetting("sign-line");
         ChatColor signColor = ChatColor.valueOf(this.getStringSetting("sign-color"));
 
