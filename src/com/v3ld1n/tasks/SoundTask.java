@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Config;
 import com.v3ld1n.util.BlockUtil;
+import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.Sound;
 
 public class SoundTask extends Task {
@@ -21,7 +22,7 @@ public class SoundTask extends Task {
     public void run() {
         Location location = this.getLocationSetting("location");
         double distance = this.getDoubleSetting("distance");
-        Location signLoc = this.getLocationSetting("sign-location");
+        List<String> signs = this.getStringListSetting("sign-location");
         int signLine = this.getIntSetting("sign-line");
         ChatColor signColor = ChatColor.valueOf(this.getStringSetting("sign-color"));
 
@@ -32,7 +33,9 @@ public class SoundTask extends Task {
 
         currentSound = soundList.get(random.nextInt(soundList.size()));
         String soundName = nameOf(currentSound);
-        BlockUtil.editSign(signLoc.getBlock(), signLine, signColor + soundName);
+        for (String sign : signs) {
+            BlockUtil.editSign(ConfigUtil.locationFromString(sign).getBlock(), signLine, signColor + soundName);
+        }
         for (Player p : location.getWorld().getPlayers()) {
             if (distance < 0) {
                 Sound.fromString(currentSound).play(location);
