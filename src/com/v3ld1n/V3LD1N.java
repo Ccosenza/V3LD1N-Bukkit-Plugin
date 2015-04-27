@@ -162,9 +162,9 @@ public class V3LD1N extends JavaPlugin {
             public void run() {
                 if (ConfigSetting.VELDS_REWARD_ENABLED.getBoolean()) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                        int base = ConfigSetting.VELDS_REWARD_BASE_AMOUNT.getInt();
+                        int amount = ConfigSetting.VELDS_REWARD_BASE_AMOUNT.getInt();
                         int multiplier = ConfigSetting.VELDS_REWARD_HOUR_MULTIPLIER.getInt();
-                        int amount = base + (PlayerUtil.getHoursPlayed(p) * multiplier);
+                        amount += (PlayerUtil.getHoursPlayed(p) * multiplier);
                         econ.depositPlayer(p, amount);
                     }
                 }
