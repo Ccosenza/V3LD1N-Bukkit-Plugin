@@ -15,7 +15,7 @@ public class GiveAllCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            if (sender.isOp()) {
+            if (sender.hasPermission("v3ld1n.owner")) {
                 Player p = (Player) sender;
                 ItemStack item = p.getItemInHand();
                 if (item.getType() != Material.AIR) {

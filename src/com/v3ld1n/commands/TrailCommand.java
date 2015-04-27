@@ -13,9 +13,9 @@ import com.v3ld1n.util.PlayerUtil;
 public class TrailCommand extends V3LD1NCommand {
     public TrailCommand() {
         this.addUsage("<particle>", "Set your trail");
-        this.addUsage("<particle> <player>", "Set a player's trail");
+        this.addUsage("<particle> <player>", "Set a player's trail", "v3ld1n.trail.others");
         this.addUsage("remove", "Remove your trail");
-        this.addUsage("remove <player>", "Remove a player's trail");
+        this.addUsage("remove <player>", "Remove a player's trail", "v3ld1n.trail.others");
     }
 
     @Override

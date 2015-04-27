@@ -17,7 +17,7 @@ public class NextSoundCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
-        if (sender.isOp()) {
+        if (sender.hasPermission("v3ld1n.owner")) {
             if (args.length == 0) {
                 for (final SoundTask task : V3LD1N.getSoundTasks()) {
                     task.run();

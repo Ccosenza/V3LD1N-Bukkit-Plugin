@@ -16,7 +16,7 @@ import com.v3ld1n.util.StringUtil;
 public class PlayAnimationCommand extends V3LD1NCommand {
     public PlayAnimationCommand() {
         this.addUsage("<animation>", "Play an animation on yourself");
-        this.addUsage("<animation> <player>", "Play an animation on a player");
+        this.addUsage("<animation> <player>", "Play an animation on a player", "v3ld1n.playanimation.others");
     }
 
     @Override

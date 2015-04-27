@@ -12,7 +12,7 @@ import com.v3ld1n.util.StringUtil;
 public class MotdCommand extends V3LD1NCommand {
     public MotdCommand() {
         this.addUsage("", "Send the MOTD to yourself");
-        this.addUsage("<player>", "Send the MOTD to a player");
+        this.addUsage("<player>", "Send the MOTD to a player", "v3ld1n.motd.others");
     }
 
     @Override

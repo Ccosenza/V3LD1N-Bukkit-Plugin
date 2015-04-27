@@ -23,7 +23,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.isOp()) {
+        if (sender.hasPermission("v3ld1n.owner")) {
             List<Warp> warps = V3LD1N.getWarps();
             if (args.length > 1) {
                 String warpString;

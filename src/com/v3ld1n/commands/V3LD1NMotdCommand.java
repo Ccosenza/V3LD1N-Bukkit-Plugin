@@ -21,7 +21,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.isOp()) {
+        if (sender.hasPermission("v3ld1n.owner")) {
             List<String> motds = ConfigSetting.SERVER_LIST_MOTD.getStringList();
             if (args.length > 1) {
                 String motd;

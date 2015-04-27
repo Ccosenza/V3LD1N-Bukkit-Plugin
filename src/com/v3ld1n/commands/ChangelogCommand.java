@@ -18,7 +18,7 @@ import com.v3ld1n.util.TimeUtil;
 public class ChangelogCommand extends V3LD1NCommand {
     public ChangelogCommand() {
         this.addUsage("", "Display the changelog");
-        this.addUsage("log <change>", "Log a change (for ops)");
+        this.addUsage("log <change>", "Log a change", "v3ld1n.owner");
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                 displayChangelog(p);
                 return true;
             } else if (args.length >= 2 && args[0].equalsIgnoreCase("log")) {
-                if (p.isOp()) {
+                if (p.hasPermission("v3ld1n.owner")) {
                     String changed = StringUtil.fromArray(args, 1);
                     changed = changed.replaceAll("[\"\\\\]", "");
                     Change change = new Change(TimeUtil.getTime(), p.getUniqueId().toString(), changed);

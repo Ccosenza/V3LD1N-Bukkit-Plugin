@@ -21,7 +21,7 @@ public class PlayerSayCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.isOp()) {
+        if (sender.hasPermission("v3ld1n.owner")) {
             if (args.length >= 2) {
                 String message = StringUtil.fromArray(args, 1);
                 String namePrefix = "";

@@ -20,25 +20,31 @@ public abstract class V3LD1NCommand implements CommandExecutor {
         this.usages.add(new CommandUsage(command, description));
     }
 
+    public void addUsage(String command, String description, String permission) {
+        this.usages.add(new CommandUsage(command, description, permission));
+    }
+
     public void sendUsage(CommandSender user, String commandLabel, Command command) {
         user.sendMessage(String.format(Message.COMMAND_USAGE_TITLE.toString(), "/" + command.getName()));
         user.sendMessage(String.format(Message.COMMAND_USAGE_DESCRIPTION.toString(), command.getDescription()));
-        for (CommandUsage usage : usages) {
-            user.sendMessage(" - /" + commandLabel + " " + usage.toString());
-        }
+        sendUsageNoTitle(user, commandLabel);
     }
 
     public void sendUsageNoTitle(CommandSender user, String commandLabel) {
         for (CommandUsage usage : usages) {
-            user.sendMessage(" - /" + commandLabel + " " + usage.toString());
+            if (usage.getPermission() == null || user.hasPermission(usage.getPermission())) {
+                user.sendMessage(" - /" + commandLabel + " " + usage.toString());
+            }
         }
     }
 
     public void sendArgumentUsage(CommandSender user, String commandLabel, Command command, String argument) {
         user.sendMessage(String.format(Message.COMMAND_USAGE_TITLE.toString(), "/" + command.getName()));
         for (CommandUsage usage : usages) {
-            if (usage.getCommand().equalsIgnoreCase(argument)) {
-                user.sendMessage(" - /" + commandLabel + " " + usage.toString());
+            if (usage.getPermission() == null || user.hasPermission(usage.getPermission())) {
+                if (usage.getCommand().equalsIgnoreCase(argument)) {
+                    user.sendMessage(" - /" + commandLabel + " " + usage.toString());
+                }
             }
         }
     }

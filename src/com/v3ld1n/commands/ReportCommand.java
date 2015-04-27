@@ -23,10 +23,10 @@ public class ReportCommand extends V3LD1NCommand {
 
     public ReportCommand() {
         this.addUsage(usageReport, "Report a player to the server admins");
-        this.addUsage("list", "List reports");
-        this.addUsage(usageRead, "Read a report");
-        this.addUsage(usageReadBy, "List players who read a report");
-        this.addUsage(usageDelete, "Delete a report");
+        this.addUsage("list", "List reports", "v3ld1n.report.read");
+        this.addUsage(usageRead, "Read a report", "v3ld1n.report.read");
+        this.addUsage(usageReadBy, "List players who read a report", "v3ld1n.owner");
+        this.addUsage(usageDelete, "Delete a report", "v3ld1n.owner");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ReportCommand extends V3LD1NCommand {
                         p.sendMessage(Message.REPORT_INVALID.toString());
                         return true;
                     } else if (args[0].equalsIgnoreCase("delete")) {
-                        if (sender.isOp()) {
+                        if (sender.hasPermission("v3ld1n.owner")) {
                             int arg;
                             try {
                                 arg = Integer.parseInt(args[1]);
@@ -115,7 +115,7 @@ public class ReportCommand extends V3LD1NCommand {
                         sender.sendMessage(Message.REPORT_DELETE_NO_PERMISSION.toString());
                         return true;
                     } else if (args[0].equalsIgnoreCase("readby")) {
-                        if (sender.isOp()) {
+                        if (sender.hasPermission("v3ld1n.owner")) {
                             int arg;
                             try {
                                 arg = Integer.parseInt(args[1]);
@@ -197,11 +197,7 @@ public class ReportCommand extends V3LD1NCommand {
                     return true;
                 }
             }
-            if (sender.hasPermission("v3ld1n.report.read")) {
-                this.sendUsage(sender, label, command);
-            } else {
-                this.sendArgumentUsage(sender, label, command, usageReport);
-            }
+            this.sendUsage(sender, label, command);
             return true;
         }
         sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());

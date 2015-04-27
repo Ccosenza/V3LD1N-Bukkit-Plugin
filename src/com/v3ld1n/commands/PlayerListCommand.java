@@ -22,7 +22,7 @@ public class PlayerListCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.isOp()) {
+        if (sender.hasPermission("v3ld1n.owner")) {
             int l = args.length;
             if (l > 0) {
                 if (args[0].equalsIgnoreCase("set") && l == 3) {

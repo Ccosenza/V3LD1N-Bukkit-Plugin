@@ -14,7 +14,7 @@ public class SetFullTimeCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof LivingEntity) {
-            if (sender.isOp()) {
+            if (sender.hasPermission("v3ld1n.owner")) {
                 if (args.length == 1) {
                     LivingEntity p = (LivingEntity) sender;
                     long time = p.getWorld().getFullTime();
