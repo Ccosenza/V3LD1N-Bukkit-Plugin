@@ -268,6 +268,7 @@ public class V3LD1N extends JavaPlugin {
         commands.put("damage", new DamageCommand());
         commands.put("moneyitem", new MoneyItemCommand());
         commands.put("changelog", new ChangelogCommand());
+        commands.put("itemname", new ItemNameCommand());
         for (String command : commands.keySet()) {
             plugin.getCommand(command).setExecutor(commands.get(command));
         }

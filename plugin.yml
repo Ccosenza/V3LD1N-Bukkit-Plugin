@@ -136,3 +136,7 @@ commands:
     description: Shows the server changelog.
     aliases: [change, changes]
     usage: /<command> [log <change>]
+  itemname:
+    description: Sets the name of the item you're holding.
+    aliases: [iname, in, nameitem, namei]
+    usage: /<command> <name> OR /<command> remove

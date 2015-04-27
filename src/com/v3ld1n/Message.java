@@ -104,6 +104,11 @@ public enum Message {
     GIVEALL_GIVE("commands.giveall.give"),
     GIVEALL_NO_ITEM("commands.giveall.no-item"),
 
+    ITEMNAME_SET("commands.itemname.set"),
+    ITEMNAME_REMOVE("commands.itemname.remove"),
+    ITEMNAME_NOT_NAMED("commands.itemname.not-named"),
+    ITEMNAME_NO_ITEM("commands.itemname.no-item"),
+
     MOTD_SHOWING("commands.motd.show"),
     MOTD_NO_PERMISSION_OTHERS("commands.motd.others-permission"),
 
