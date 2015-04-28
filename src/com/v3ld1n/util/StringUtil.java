@@ -72,67 +72,57 @@ public final class StringUtil {
      * @return the string with variables replaced
      */
     public static String replacePlayerVariables(String string, Player player) {
-        String ignoreCase = "(?i)";
-        String replaced = string
-                .replaceAll(ignoreCase + "%name%", player.getName())
-                .replaceAll(ignoreCase + "%uuid%", player.getUniqueId().toString())
-                .replaceAll(ignoreCase + "%displayname%", player.getDisplayName())
-                .replaceAll(ignoreCase + "%world%", player.getWorld().getName())
-                .replaceAll(ignoreCase + "%biome%", fromEnum(player.getLocation().getBlock().getBiome(), true))
-                .replaceAll(ignoreCase + "%block%", fromEnum(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType(), true))
-                .replaceAll(ignoreCase + "%health%", Double.toString(player.getHealth()))
-                .replaceAll(ignoreCase + "%maxhealth%", Double.toString(player.getMaxHealth()))
-                .replaceAll(ignoreCase + "%hunger%", Integer.toString(player.getFoodLevel()))
-                .replaceAll(ignoreCase + "%xp%", Integer.toString(player.getTotalExperience()))
-                .replaceAll(ignoreCase + "%ping%", Integer.toString(PlayerUtil.getPing(player)))
-                .replaceAll(ignoreCase + "%entities%", Integer.toString(WorldUtil.getAllEntities().size()))
-                .replaceAll(ignoreCase + "%worldentities%", Integer.toString(player.getWorld().getEntities().size()))
-                .replaceAll(ignoreCase + "%blockentities%", Integer.toString(WorldUtil.getBlockEntities(player.getWorld()).size()))
-                .replaceAll(ignoreCase + "%players%", Integer.toString(Bukkit.getServer().getOnlinePlayers().size()))
-                .replaceAll(ignoreCase + "%maxplayers%", Integer.toString(Bukkit.getServer().getMaxPlayers()))
-                .replaceAll(ignoreCase + "%worldplayers%", Integer.toString(player.getWorld().getPlayers().size()))
-                .replaceAll(ignoreCase + "%worldtype%", player.getWorld().getWorldType().getName().toLowerCase())
-                .replaceAll(ignoreCase + "%viewdistance%", Integer.toString(Bukkit.getServer().getViewDistance()))
-                .replaceAll(ignoreCase + "%mobspawnradius%", Integer.toString(Bukkit.getSpawnRadius() * 16))
-                .replaceAll(ignoreCase + "%worldbordersize%", Double.toString(player.getWorld().getWorldBorder().getSize()))
-                .replaceAll(ignoreCase + "%version%", Bukkit.getBukkitVersion())
-                .replaceAll(ignoreCase + "%motd%", Bukkit.getServer().getMotd())
-                .replaceAll(ignoreCase + "%weathertime%", TimeUtil.fromSeconds(player.getWorld().getWeatherDuration() / 20))
-                .replaceAll(ignoreCase + "%weatherticks%", Integer.toString(player.getWorld().getWeatherDuration()))
-                .replaceAll(ignoreCase + "%lightningtime%", Integer.toString(player.getWorld().getThunderDuration() / 20))
-                .replaceAll(ignoreCase + "%worldtime%", Long.toString(player.getWorld().getTime()))
-                .replaceAll(ignoreCase + "%servertime%", TimeUtil.format(TimeUtil.getTime(), "MMMM d, YYYY, h:mm:ss a"))
-                .replaceAll(ignoreCase + "%lft%", "\u21E6")
-                .replaceAll(ignoreCase + "%up%", "\u21E7")
-                .replaceAll(ignoreCase + "%rht%", "\u21E8")
-                .replaceAll(ignoreCase + "%dwn%", "\u21E9");
+        String ic = "(?i)";
+        String vars = string
+                .replaceAll(ic + "%name%", player.getName())
+                .replaceAll(ic + "%uuid%", player.getUniqueId().toString())
+                .replaceAll(ic + "%displayname%", player.getDisplayName())
+                .replaceAll(ic + "%world%", player.getWorld().getName())
+                .replaceAll(ic + "%biome%", fromEnum(player.getLocation().getBlock().getBiome(), true))
+                .replaceAll(ic + "%block%", fromEnum(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType(), true))
+                .replaceAll(ic + "%health%", Double.toString(player.getHealth()))
+                .replaceAll(ic + "%maxhealth%", Double.toString(player.getMaxHealth()))
+                .replaceAll(ic + "%hunger%", Integer.toString(player.getFoodLevel()))
+                .replaceAll(ic + "%xp%", Integer.toString(player.getTotalExperience()))
+                .replaceAll(ic + "%ping%", Integer.toString(PlayerUtil.getPing(player)))
+                .replaceAll(ic + "%entities%", Integer.toString(WorldUtil.getAllEntities().size()))
+                .replaceAll(ic + "%worldentities%", Integer.toString(player.getWorld().getEntities().size()))
+                .replaceAll(ic + "%blockentities%", Integer.toString(WorldUtil.getBlockEntities(player.getWorld()).size()))
+                .replaceAll(ic + "%players%", Integer.toString(Bukkit.getServer().getOnlinePlayers().size()))
+                .replaceAll(ic + "%maxplayers%", Integer.toString(Bukkit.getServer().getMaxPlayers()))
+                .replaceAll(ic + "%worldplayers%", Integer.toString(player.getWorld().getPlayers().size()))
+                .replaceAll(ic + "%worldtype%", player.getWorld().getWorldType().getName().toLowerCase())
+                .replaceAll(ic + "%viewdistance%", Integer.toString(Bukkit.getServer().getViewDistance()))
+                .replaceAll(ic + "%mobspawnradius%", Integer.toString(Bukkit.getSpawnRadius() * 16))
+                .replaceAll(ic + "%worldbordersize%", Double.toString(player.getWorld().getWorldBorder().getSize()))
+                .replaceAll(ic + "%version%", Bukkit.getBukkitVersion())
+                .replaceAll(ic + "%motd%", Bukkit.getServer().getMotd())
+                .replaceAll(ic + "%weathertime%", TimeUtil.fromSeconds(player.getWorld().getWeatherDuration() / 20))
+                .replaceAll(ic + "%weatherticks%", Integer.toString(player.getWorld().getWeatherDuration()))
+                .replaceAll(ic + "%lightningtime%", Integer.toString(player.getWorld().getThunderDuration() / 20))
+                .replaceAll(ic + "%worldtime%", Long.toString(player.getWorld().getTime()))
+                .replaceAll(ic + "%servertime%", TimeUtil.format(TimeUtil.getTime(), "MMMM d, YYYY, h:mm:ss a"))
+                .replaceAll(ic + "%lft%", "\u21E6")
+                .replaceAll(ic + "%up%", "\u21E7")
+                .replaceAll(ic + "%rht%", "\u21E8")
+                .replaceAll(ic + "%dwn%", "\u21E9");
         String none = Message.NONE.toString();
-        if (WorldUtil.getNearestPlayer(player) != null) {
-            replaced = replaced.replaceAll(ignoreCase + "%player%", WorldUtil.getNearestPlayer(player).getName());
-        } else {
-            replaced = replaced.replaceAll(ignoreCase + "%player%", none);
-        }
-        if (WorldUtil.getNearestEntity(player) != null) {
-            replaced = replaced.replaceAll(ignoreCase + "%entity%", getEntityName(WorldUtil.getNearestEntity(player)));
-        } else {
-            replaced = replaced.replaceAll(ignoreCase + "%entity%", none);
-        }
-        if (player.getItemInHand().getType() != Material.AIR) {
-            replaced = replaced.replaceAll(ignoreCase + "%item%", getItemName(player.getItemInHand()));
-        } else {
-            replaced = replaced.replaceAll(ignoreCase + "%item%", none);
-        }
-        if (player.getTargetBlock((Set<Material>) null, 5).getType() != Material.AIR) {
-            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", fromEnum(player.getTargetBlock((Set<Material>) null, 5).getType(), true));
-        } else {
-            replaced = replaced.replaceAll(ignoreCase + "%targetblock%", none);
-        }
-        if (player.getVehicle() != null) {
-            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", fromEnum(player.getVehicle().getType(), true));
-        } else {
-            replaced = replaced.replaceAll(ignoreCase + "%vehicle%", none);
-        }
-        return replaced;
+        Player np = WorldUtil.getNearestPlayer(player);
+        Entity ne = WorldUtil.getNearestEntity(player);
+        ItemStack i = player.getItemInHand();
+        Material tb = player.getTargetBlock((Set<Material>) null, 5).getType();
+        Entity v = player.getVehicle();
+        String nps = ic + "%player%";
+        String nes = ic + "%entity%";
+        String is = ic + "%item%";
+        String tbs = ic + "%targetblock%";
+        String vs = ic + "%vehicle%";
+        vars = np != null ? vars.replaceAll(nps, np.getName()) : vars.replaceAll(nps, none);
+        vars = ne != null ? vars.replaceAll(nes, getEntityName(ne)) : vars.replaceAll(nes, none);
+        vars = i.getType() != Material.AIR ? vars.replaceAll(is, getItemName(i)) : vars.replaceAll(is, none);
+        vars = tb != Material.AIR ? vars.replaceAll(tbs, fromEnum(tb, true)) : vars.replaceAll(tbs, none);
+        vars = v != null ? vars.replaceAll(vs, fromEnum(v.getType(), true)) : vars.replaceAll(vs, none);
+        return vars;
     }
 
     /**
