@@ -1,14 +1,13 @@
 package com.v3ld1n.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ItemUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class ItemNameCommand extends V3LD1NCommand {
@@ -25,20 +24,16 @@ public class ItemNameCommand extends V3LD1NCommand {
                 if (args.length >= 1) {
                     ItemStack i = p.getItemInHand();
                     if (i.getType() != Material.AIR) {
-                        ItemMeta meta = i.getItemMeta();
+                        String name = null;
                         if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {
-                            if (meta.hasDisplayName()) {
-                                meta.setDisplayName(null);
-                                p.sendMessage(Message.ITEMNAME_REMOVE.toString());
-                            } else {
-                                p.sendMessage(Message.ITEMNAME_NOT_NAMED.toString());
-                            }
+                            boolean hasName = i.getItemMeta().hasDisplayName();
+                            Message message = hasName ? Message.ITEMNAME_REMOVE : Message.ITEMNAME_NOT_NAMED;
+                            p.sendMessage(message.toString());
                         } else {
-                            String name = StringUtil.formatText(StringUtil.fromArray(args, 0));
-                            meta.setDisplayName(ChatColor.RESET + name);
+                            name = StringUtil.formatText(StringUtil.fromArray(args, 0));
                             p.sendMessage(String.format(Message.ITEMNAME_SET.toString(), name));
                         }
-                        i.setItemMeta(meta);
+                        ItemUtil.setName(i, name);
                         return true;
                     }
                     p.sendMessage(Message.ITEMNAME_NO_ITEM.toString());

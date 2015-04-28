@@ -1,10 +1,18 @@
 package com.v3ld1n.util;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemUtil {
     private ItemUtil() {
+    }
+
+    public static void setName(ItemStack item, String name) {
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name == null ? null : ChatColor.RESET + name);
+        item.setItemMeta(meta);
     }
 
     public static ItemStack smelt(ItemStack item) {
