@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ChatUtil;
 
 public abstract class V3LD1NCommand implements CommandExecutor {
     private List<CommandUsage> usages = new ArrayList<>();
@@ -47,5 +48,21 @@ public abstract class V3LD1NCommand implements CommandExecutor {
                 }
             }
         }
+    }
+
+    protected void message(CommandSender user, Message message) {
+        user.sendMessage(message.toString());
+    }
+
+    protected void messageF(CommandSender user, Message message, Object... format) {
+        user.sendMessage(String.format(message.toString(), format));
+    }
+
+    protected void aMessage(CommandSender user, Message message) {
+        ChatUtil.sendMessage(user, message.toString(), 2);
+    }
+
+    protected void aMessageF(CommandSender user, Message message, Object... format) {
+        ChatUtil.sendMessage(user, String.format(message.toString(), format), 2);
     }
 }

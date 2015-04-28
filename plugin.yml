@@ -17,7 +17,7 @@ commands:
   trail:
     description: Sets a particle trail for a player.
     aliases: [trails, particletrail, particletrails]
-    usage: /<command> <particle|remove> [player]
+    usage: /<command> <particle>|remove [player]
   sethealth:
     description: Sets a player's health.
     aliases: [health]
@@ -29,11 +29,11 @@ commands:
   ratchetsbow:
     description: Sets your projectile for Ratchet's Bow.
     aliases: [rbow, rb]
-    usage: /<command> <arrow|triplearrows|fireworkarrow|fireball|snowball|enderpearl|egg|witherskull|bluewitherskull>
+    usage: /<command> arrow|triplearrows|fireworkarrow|fireball|snowball|enderpearl|egg|witherskull|bluewitherskull
   fireworkarrows:
     description: Sets your firework shape for firework arrows.
     aliases: [fireworkarrow, rbfw, fwa, fwas]
-    usage: /<command> <ball|ball_large|star|creeper|burst>
+    usage: /<command> ball|ball_large|star|creeper|burst
   resourcepack:
     description: Downloads the server's resource packs.
     aliases: [pack, rp]
@@ -53,7 +53,7 @@ commands:
   editsign:
     description: Changes the text on a sign.
     aliases: [signedit, changesign, es, se]
-    usage: /<command> <set|add|remove> <line> <text ...>
+    usage: /<command> set|add|remove <line> <text ...>
   setfulltime:
     description: Sets the full time of the world you are in.
     aliases: [setftime, sfulltime]
@@ -81,7 +81,7 @@ commands:
   v3ld1nmotd:
     description: Adds, removes, and lists MOTDs.
     aliases: [vmotd]
-    usage: /<command> <add|remove|list> <motd ...>
+    usage: /<command> add|remove|list <motd ...>
   actionbarmessage:
     description: Displays a message above the action bar.
     aliases: [abmessage, abm, abbroadcast]
@@ -107,7 +107,7 @@ commands:
   v3ld1nwarp:
     description: Adds, removes, and lists warps.
     aliases: [vwarp]
-    usage: /<command> <add|remove> <warp> OR /<command> list
+    usage: /<command> add|remove <warp> OR /<command> list
   ride:
     description: Right-click on an entity to ride it.
     aliases: [rideentity, entityride]
@@ -123,7 +123,7 @@ commands:
   sethunger:
     description: Sets a player's hunger, exhaustion, or saturation level.
     aliases: [hunger, sethungerlevel, setfood, setfoodlevel, foodlevel]
-    usage: /<command> <hunger> <hunger|exhaustion|saturation> [player]
+    usage: /<command> <hunger> hunger|exhaustion|saturation [player]
   damage:
     description: Damages a player.
     aliases: [hurt, dmg, removehealth]
@@ -140,3 +140,7 @@ commands:
     description: Sets the name of the item you're holding.
     aliases: [iname, in, nameitem, namei]
     usage: /<command> <name> OR /<command> remove
+  itemlore:
+    description: Sets the lore of the item you're holding.
+    aliases: [description, desc, lore, itemdesc]
+    usage: /<command> set|remove <line> <lore ...> OR /<command> add <lore ...>

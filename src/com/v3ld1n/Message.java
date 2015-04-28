@@ -104,6 +104,14 @@ public enum Message {
     GIVEALL_GIVE("commands.giveall.give"),
     GIVEALL_NO_ITEM("commands.giveall.no-item"),
 
+    ITEMLORE_SET("commands.itemlore.set"),
+    ITEMLORE_ADD("commands.itemlore.add"),
+    ITEMLORE_REMOVE("commands.itemlore.remove"),
+    ITEMLORE_REMOVE_LINE("commands.itemlore.remove-line"),
+    ITEMLORE_NO_LORE("commands.itemlore.no-lore"),
+    ITEMLORE_NO_ITEM("commands.itemlore.no-item"),
+    ITEMLORE_INVALID_LINE("commands.itemlore.invalid-line"),
+
     ITEMNAME_SET("commands.itemname.set"),
     ITEMNAME_REMOVE("commands.itemname.remove"),
     ITEMNAME_NOT_NAMED("commands.itemname.not-named"),
