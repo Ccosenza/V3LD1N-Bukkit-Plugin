@@ -35,10 +35,6 @@ public class ReportCommand extends V3LD1NCommand {
             Player p = (Player) sender;
             String playerName = p.getName();
             UUID playerUuid = p.getUniqueId();
-            String border = "{text:\"" + Message.REPORT_LIST_BORDER + "\","
-                    + "color:dark_red}";
-            String top = "{text:\"" + Message.REPORT_LIST_TOP + "\","
-                    + "color:red}";
             if (args.length >= 2) {
                 if (args.length == 2) {
                     if (sender.hasPermission("v3ld1n.report.read") && args[0].equalsIgnoreCase("read")) {
@@ -77,20 +73,19 @@ public class ReportCommand extends V3LD1NCommand {
                                     + "clickEvent:{"
                                     + "action:\"run_command\","
                                     + "value:\"/" + label + " list\"}}";
-                            ChatUtil.sendJsonMessage(p, border, 0);
-                            ChatUtil.sendJsonMessage(p, top, 0);
-                            ChatUtil.sendJsonMessage(p, border, 0);
+                            Message.REPORT_BORDER_TOP.send(p);
                             ChatUtil.sendJsonMessage(p, title, 0);
                             ChatUtil.sendJsonMessage(p, senderName, 0);
                             ChatUtil.sendJsonMessage(p, reason, 0);
                             ChatUtil.sendJsonMessage(p, time, 0);
                             ChatUtil.sendJsonMessage(p, back, 0);
+                            Message.REPORT_BORDER_BOTTOM.send(p);
                             if (!report.isReadBy(playerUuid)) {
                                 report.setReadBy(playerUuid);
                             }
                             return true;
                         }
-                        p.sendMessage(Message.REPORT_INVALID.toString());
+                        Message.REPORT_INVALID.send(p);
                         return true;
                     } else if (args[0].equalsIgnoreCase("delete")) {
                         if (sender.hasPermission("v3ld1n.owner")) {
@@ -106,13 +101,13 @@ public class ReportCommand extends V3LD1NCommand {
                                 V3LD1N.getReports().remove(report);
                                 Config.REPORTS.getConfig().set("reports." + report.getTitle(), null);
                                 Config.REPORTS.saveConfig();
-                                ChatUtil.sendMessage(sender, String.format(Message.REPORT_DELETE.toString(), report.getTitle()), 2);
+                                Message.REPORT_DELETE.aSendF(sender, report.getTitle());
                                 return true;
                             }
-                            p.sendMessage(Message.REPORT_INVALID.toString());
+                            Message.REPORT_INVALID.send(p);
                             return true;
                         }
-                        sender.sendMessage(Message.REPORT_DELETE_NO_PERMISSION.toString());
+                        Message.REPORT_DELETE_NO_PERMISSION.send(sender);
                         return true;
                     } else if (args[0].equalsIgnoreCase("readby")) {
                         if (sender.hasPermission("v3ld1n.owner")) {
@@ -125,18 +120,18 @@ public class ReportCommand extends V3LD1NCommand {
                             }
                             if (arg <= V3LD1N.getReports().size() && arg > 0) {
                                 Report report = V3LD1N.getReports().get(arg - 1);
-                                sender.sendMessage(String.format(Message.REPORT_READBY_LIST_TITLE.toString(), report.getTitle()));
+                                Message.REPORT_READBY_LIST_TITLE.sendF(sender, report.getTitle());
                                 if (!report.getReadPlayers().isEmpty()) {
                                     ChatUtil.sendList(sender, Message.REPORT_READBY_LIST_TITLE.toString(), report.getReadPlayers(), ListType.LONG);
                                 } else {
-                                    sender.sendMessage(Message.NONE.toString());
+                                    Message.NONE.send(sender);
                                 }
                                 return true;
                             }
-                            p.sendMessage(Message.REPORT_INVALID.toString());
+                            Message.REPORT_INVALID.send(p);
                             return true;
                         }
-                        sender.sendMessage(Message.REPORT_READBY_NO_PERMISSION.toString());
+                        Message.REPORT_READBY_NO_PERMISSION.send(sender);
                         return true;
                     }
                 }
@@ -162,16 +157,14 @@ public class ReportCommand extends V3LD1NCommand {
                 Report report = new Report(title, playerName, playerUuid, reason, TimeUtil.getTime());
                 V3LD1N.addReport(report);
                 ChatUtil.sendUnreadReports();
-                ChatUtil.sendMessage(sender, String.format(Message.REPORT_SEND.toString(), title), 2);
+                Message.REPORT_SEND.aSendF(p, title);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
                     if (sender.hasPermission("v3ld1n.report.read")) {
-                        ChatUtil.sendJsonMessage(p, border, 0);
-                        ChatUtil.sendJsonMessage(p, top, 0);
-                        ChatUtil.sendJsonMessage(p, border, 0);
+                        Message.REPORT_BORDER_TOP.send(p);
                         if (V3LD1N.getReports().isEmpty()) {
-                            sender.sendMessage(Message.REPORT_LIST_EMPTY.toString());
+                            Message.REPORT_LIST_EMPTY.send(p);
                         } else {
                             for (Report report : V3LD1N.getReports()) {
                                 String titleColor = ConfigSetting.REPORTS_LIST_UNREAD_COLOR.getString();
@@ -189,18 +182,18 @@ public class ReportCommand extends V3LD1NCommand {
                                 + "value:\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}"
                                 , 0);
                             }
-                            ChatUtil.sendJsonMessage(p, StringUtil.jsonMessage(Message.REPORT_LIST_HELP.toString(), "green"), 0);
+                            Message.REPORT_LIST_HELP.send(p);
                         }
                         return true;
                     }
-                    sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+                    sendPermissionMessage(sender);
                     return true;
                 }
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

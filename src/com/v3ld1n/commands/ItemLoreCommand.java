@@ -30,18 +30,18 @@ public class ItemLoreCommand extends V3LD1NCommand {
                             if (args.length == 1) {
                                 if (i.getItemMeta().hasLore()) {
                                     ItemUtil.setLore(i, null);
-                                    message(p, Message.ITEMLORE_REMOVE);
+                                    Message.ITEMLORE_REMOVE.send(p);
                                 } else {
-                                    message(p, Message.ITEMLORE_NO_LORE);
+                                    Message.ITEMLORE_NO_LORE.send(p);
                                 }
                             } else if (args.length == 2) {
                                 int line;
                                 try {
                                     line = Integer.parseInt(args[1]);
                                     ItemUtil.removeLore(i, line - 1);
-                                    messageF(p, Message.ITEMLORE_REMOVE_LINE, line);
+                                    Message.ITEMLORE_REMOVE_LINE.sendF(p, line);
                                 } catch (Exception e) {
-                                    message(p, Message.ITEMLORE_INVALID_LINE);
+                                    Message.ITEMLORE_INVALID_LINE.send(p);
                                     return true;
                                 }
                             }
@@ -51,7 +51,7 @@ public class ItemLoreCommand extends V3LD1NCommand {
                             String lore = StringUtil.formatText(StringUtil.fromArray(args, 1));
                             if (args[0].equalsIgnoreCase("add")) {
                                 ItemUtil.addLore(i, lore);
-                                messageF(p, Message.ITEMLORE_ADD, lore);
+                                Message.ITEMLORE_ADD.sendF(p, lore);
                             }
                             if (args.length >= 3) {
                                 lore = StringUtil.fromArray(args, 2);
@@ -60,9 +60,9 @@ public class ItemLoreCommand extends V3LD1NCommand {
                                     try {
                                         line = Integer.parseInt(args[1]);
                                         ItemUtil.setLoreAtLine(i, lore, line - 1);
-                                        messageF(p, Message.ITEMLORE_SET, line, lore);
+                                        Message.ITEMLORE_SET.sendF(p, line, lore);
                                     } catch (Exception e) {
-                                        message(p, Message.ITEMLORE_INVALID_LINE);
+                                        Message.ITEMLORE_INVALID_LINE.send(p);
                                         return true;
                                     }
                                 }
@@ -72,16 +72,16 @@ public class ItemLoreCommand extends V3LD1NCommand {
                         this.sendUsage(p, label, command);
                         return true;
                     }
-                    message(p, Message.ITEMLORE_NO_ITEM);
+                    Message.ITEMLORE_NO_ITEM.send(p);
                     return true;
                 }
                 this.sendUsage(p, label, command);
                 return true;
             }
-            message(sender, Message.COMMAND_NOT_PLAYER);
+            sendPlayerMessage(sender);
             return true;
         }
-        message(sender, Message.COMMAND_NO_PERMISSION);
+        sendPermissionMessage(sender);
         return true;
     }
 }

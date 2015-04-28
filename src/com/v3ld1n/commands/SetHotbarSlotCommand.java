@@ -23,14 +23,14 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
                     if (sender instanceof Player) {
                         p = (Player) sender;
                     } else {
-                        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+                        sendPlayerMessage(sender);
                         return true;
                     }
                 } else if (args.length == 2) {
                     if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
                         p = PlayerUtil.getOnlinePlayer(args[1]);
                     } else {
-                        sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                        sendInvalidPlayerMessage(sender);
                         return true;
                     }
                 } else {
@@ -39,22 +39,20 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
                 }
                 try {
                     p.getInventory().setHeldItemSlot(Integer.parseInt(args[0]) - 1);
-                    String message;
-                    if (p.getName().equals(sender.getName())) {
-                        message = String.format(Message.SETHOTBARSLOT_SET_OWN.toString(), args[0]);
-                    } else {
-                        message = String.format(Message.SETHOTBARSLOT_SET.toString(), p.getName(), args[0]);
-                    }
+                    boolean pIsSender = p.getName().equals(sender.getName());
+                    String ownMessage = String.format(Message.SETHOTBARSLOT_SET_OWN.toString(), args[0]);
+                    String otherMessage = String.format(Message.SETHOTBARSLOT_SET.toString(), p.getName(), args[0]);
+                    String message = pIsSender ? ownMessage : otherMessage;
                     ChatUtil.sendMessage(sender, message, 2);
                 } catch (Exception e) {
-                    sender.sendMessage(Message.SETHOTBARSLOT_INVALID_SLOT.toString());
+                    Message.SETHOTBARSLOT_INVALID_SLOT.send(sender);
                 }
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

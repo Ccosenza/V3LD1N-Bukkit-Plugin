@@ -8,7 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
 
 public abstract class V3LD1NCommand implements CommandExecutor {
     private List<CommandUsage> usages = new ArrayList<>();
@@ -26,8 +25,8 @@ public abstract class V3LD1NCommand implements CommandExecutor {
     }
 
     public void sendUsage(CommandSender user, String commandLabel, Command command) {
-        user.sendMessage(String.format(Message.COMMAND_USAGE_TITLE.toString(), "/" + command.getName()));
-        user.sendMessage(String.format(Message.COMMAND_USAGE_DESCRIPTION.toString(), command.getDescription()));
+        Message.COMMAND_USAGE_TITLE.sendF(user, "/" + command.getName());
+        Message.COMMAND_USAGE_DESCRIPTION.sendF(user, command.getDescription());
         sendUsageNoTitle(user, commandLabel);
     }
 
@@ -40,7 +39,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
     }
 
     public void sendArgumentUsage(CommandSender user, String commandLabel, Command command, String argument) {
-        user.sendMessage(String.format(Message.COMMAND_USAGE_TITLE.toString(), "/" + command.getName()));
+        Message.COMMAND_USAGE_TITLE.sendF(user, "/" + command.getName());
         for (CommandUsage usage : usages) {
             if (usage.getPermission() == null || user.hasPermission(usage.getPermission())) {
                 if (usage.getCommand().equalsIgnoreCase(argument)) {
@@ -50,19 +49,15 @@ public abstract class V3LD1NCommand implements CommandExecutor {
         }
     }
 
-    protected void message(CommandSender user, Message message) {
-        user.sendMessage(message.toString());
+    public void sendPermissionMessage(CommandSender user) {
+        Message.COMMAND_NO_PERMISSION.send(user);
     }
 
-    protected void messageF(CommandSender user, Message message, Object... format) {
-        user.sendMessage(String.format(message.toString(), format));
+    public void sendPlayerMessage(CommandSender user) {
+        Message.COMMAND_NOT_PLAYER.send(user);
     }
 
-    protected void aMessage(CommandSender user, Message message) {
-        ChatUtil.sendMessage(user, message.toString(), 2);
-    }
-
-    protected void aMessageF(CommandSender user, Message message, Object... format) {
-        ChatUtil.sendMessage(user, String.format(message.toString(), format), 2);
+    public void sendInvalidPlayerMessage(CommandSender user) {
+        Message.COMMAND_INVALID_PLAYER.send(user);
     }
 }

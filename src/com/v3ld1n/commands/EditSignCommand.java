@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.BlockUtil;
-import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class EditSignCommand extends V3LD1NCommand {
@@ -31,11 +30,11 @@ public class EditSignCommand extends V3LD1NCommand {
                     try {
                         line = Integer.parseInt(args[1]);
                     } catch (Exception e) {
-                        p.sendMessage(Message.EDITSIGN_INVALID_LINE.toString());
+                        Message.EDITSIGN_INVALID_LINE.send(p);
                         return true;
                     }
                     if (line > 4 || line < 1) {
-                        p.sendMessage(Message.EDITSIGN_INVALID_LINE.toString());
+                        Message.EDITSIGN_INVALID_LINE.send(p);
                         return true;
                     }
                     Block target = p.getTargetBlock((Set<Material>) null, 100);
@@ -44,31 +43,31 @@ public class EditSignCommand extends V3LD1NCommand {
                         switch (args[0].toLowerCase()) {
                         case "set":
                             BlockUtil.editSign(target, line, StringUtil.formatText(text));
-                            ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_SET.toString(), line, text), 2);
+                            Message.EDITSIGN_SET.aSendF(p, line, text);
                             return true;
                         case "add":
                             BlockUtil.addToSign(target, line, StringUtil.formatText(text));
-                            ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_ADD.toString(), text, line), 2);
+                            Message.EDITSIGN_ADD.aSendF(p, text, line);
                             return true;
                         case "remove":
                             BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
-                            ChatUtil.sendMessage(p, String.format(Message.EDITSIGN_REMOVE.toString(), text, line), 2);
+                            Message.EDITSIGN_REMOVE.aSendF(p, text, line);
                             return true;
                         default:
                             this.sendUsage(sender, label, command);
                             return true;
                         }
                     }
-                    p.sendMessage(Message.EDITSIGN_INVALID_BLOCK.toString());
+                    Message.EDITSIGN_INVALID_BLOCK.send(p);
                     return true;
                 }
                 this.sendUsage(sender, label, command);
                 return true;
             }
-            sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+            sendPermissionMessage(sender);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

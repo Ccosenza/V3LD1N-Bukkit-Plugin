@@ -26,11 +26,11 @@ public class NamesCommand extends V3LD1NCommand {
             String currentUrl = "https://api.mojang.com/users/profiles/minecraft/" + playerName + "?at=1422921600";
             JsonElement currentElement = StringUtil.readJsonFromUrl(currentUrl);
             if (currentElement != null) {
-                sender.sendMessage(Message.NAMES_BORDER.toString());
+                Message.NAMES_BORDER.send(sender);
                 String currentName = currentElement.getAsJsonObject().get("name").toString().replaceAll("\"", "");
-                sender.sendMessage(String.format(Message.NAMES_CURRENT.toString(), playerName, currentName));
+                Message.NAMES_CURRENT.sendF(sender, playerName, currentName);
             } else {
-                sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                sendInvalidPlayerMessage(sender);
                 return true;
             }
             JsonElement namesElement = StringUtil.readJsonFromUrl(previousUrl);
@@ -46,17 +46,17 @@ public class NamesCommand extends V3LD1NCommand {
                     }
                 }
                 String originalName = array.get(0).getAsJsonObject().get("name").toString().replaceAll("\"", "");
-                sender.sendMessage(String.format(Message.NAMES_ORIGINAL.toString(), originalName));
+                Message.NAMES_ORIGINAL.sendF(sender, originalName);
                 for (String name : previousNames.keySet()) {
                     long time = previousNames.get(name);
                     String fDate = TimeUtil.formatDate(time);
                     String fTime = TimeUtil.formatTime(time);
-                    sender.sendMessage(String.format(Message.NAMES_CHANGED.toString(), name, fDate, fTime));
+                    Message.NAMES_CHANGED.sendF(sender, name, fDate, fTime);
                 }
             } else {
-                sender.sendMessage(Message.NAMES_NO_PREVIOUS_NAMES.toString());
+                Message.NAMES_NO_PREVIOUS_NAMES.send(sender);
             }
-            sender.sendMessage(Message.NAMES_BORDER.toString());
+            Message.NAMES_BORDER.send(sender);
         } else {
             this.sendUsage(sender, label, command);
         }

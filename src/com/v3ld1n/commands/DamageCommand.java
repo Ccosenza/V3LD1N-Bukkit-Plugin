@@ -33,7 +33,7 @@ public class DamageCommand extends V3LD1NCommand {
                 } else if (l == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
                     p = PlayerUtil.getOnlinePlayer(args[1]);
                 } else {
-                    sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                    sendInvalidPlayerMessage(sender);
                     return true;
                 }
                 GameMode gm = p.getGameMode();
@@ -48,13 +48,13 @@ public class DamageCommand extends V3LD1NCommand {
                     ChatUtil.sendMessage(sender, message, 2);
                     return true;
                 }
-                sender.sendMessage(Message.DAMAGE_INVULNERABLE.toString());
+                Message.DAMAGE_INVULNERABLE.send(sender);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

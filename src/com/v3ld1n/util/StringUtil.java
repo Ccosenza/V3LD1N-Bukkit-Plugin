@@ -20,20 +20,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
-import com.v3ld1n.V3LD1N;
 
 public final class StringUtil {
     private StringUtil() {
-    }
-
-    /**
-     * Sends a message to the console if debug is set to true
-     * @param message the message to send to the console
-     */
-    public static void logDebugMessage(String message) {
-        if (ConfigSetting.DEBUG.getBoolean()) {
-            V3LD1N.getPlugin().getLogger().info(message);
-        }
     }
 
     /**

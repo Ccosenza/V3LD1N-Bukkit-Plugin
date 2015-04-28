@@ -59,7 +59,7 @@ public class PlayerListener implements Listener {
                     Location particleLoc = loc.add(0, 1.6, 0);
                     Particle.fromString(ConfigSetting.PARTICLE_SPAWN_ENDER_CRYSTAL.getString()).display(particleLoc);
                 } else {
-                    p.sendMessage(Message.WORLDGUARD_PERMISSION.toString());
+                    Message.WORLDGUARD_PERMISSION.send(p);
                 }
             //Signs
             } else if (event.getClickedBlock().getType() == Material.WALL_SIGN || event.getClickedBlock().getType() == Material.SIGN_POST) {
@@ -100,7 +100,7 @@ public class PlayerListener implements Listener {
                     double amount = Double.parseDouble(amountString);
                     DecimalFormat df = new DecimalFormat("0.##");
                     amountString = df.format(amount);
-                    p.sendMessage(String.format(Message.VELDS_ADDED.toString(), amountString));
+                    Message.VELDS_ADDED.sendF(p, amountString);
                     V3LD1N.econ.depositPlayer(p, amount);
                 }
             } else if (i.getType() == Material.ENDER_PEARL && p.getGameMode() == GameMode.CREATIVE) {
@@ -177,7 +177,7 @@ public class PlayerListener implements Listener {
             for (com.v3ld1n.blocks.Sign sign : V3LD1N.getSigns()) {
                 if (firstLine.replaceAll("§", "&").equals(sign.getText())) {
                     event.setCancelled(true);
-                    p.sendMessage(String.format(Message.SIGN_PERMISSION.toString(), firstLine));
+                    Message.SIGN_PERMISSION.sendF(p, firstLine);
                 }
             }
         }

@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.tasks.SoundTask;
-import com.v3ld1n.util.ChatUtil;
 
 public class NextSoundCommand extends V3LD1NCommand {
     public NextSoundCommand() {
@@ -24,7 +23,7 @@ public class NextSoundCommand extends V3LD1NCommand {
                     Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                         @Override
                         public void run() {
-                            ChatUtil.sendMessage(sender, String.format(Message.NEXTSOUND_NOW_PLAYING.toString(), task.getName().toUpperCase(), task.getCurrentSoundName()), 0);
+                            Message.NEXTSOUND_NOW_PLAYING.sendF(sender, task.getName().toUpperCase(), task.getCurrentSoundName());
                         }
                     }, 1L);
                 }
@@ -36,19 +35,19 @@ public class NextSoundCommand extends V3LD1NCommand {
                         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                             @Override
                             public void run() {
-                                ChatUtil.sendMessage(sender, String.format(Message.NEXTSOUND_NOW_PLAYING.toString(), task.getName().toUpperCase(), task.getCurrentSoundName()), 2);
+                                Message.NEXTSOUND_NOW_PLAYING.aSendF(sender, task.getName().toUpperCase(), task.getCurrentSoundName());
                             }
                         }, 1L);
                         return true;
                     }
                 }
-                sender.sendMessage(String.format(Message.NEXTSOUND_NO_SOUND_TASKS.toString(), args[0]));
+                Message.NEXTSOUND_NO_SOUND_TASKS.sendF(sender, args[0]);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

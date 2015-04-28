@@ -49,7 +49,7 @@ public class PlayersCommand extends V3LD1NCommand {
                     sendPlayerInfo(PlayerUtil.getOnlinePlayer(args[1]), sender);
                     return true;
                 }
-                sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                sendInvalidPlayerMessage(sender);
                 return true;
             } else if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("fulllist") && args.length == 1) {
                 Collection<? extends OfflinePlayer> players = new ArrayList<>();
@@ -90,8 +90,7 @@ public class PlayersCommand extends V3LD1NCommand {
                     PlayerUtil.displaySubtitle(p, "{text:\"" + subtitle + "\"}", 2, 2, 2, false);
                     return true;
                 }
-                String notPlayer = String.format(Message.PLAYERS_AMOUNT_NOT_PLAYER.toString(), players);
-                ChatUtil.sendMessage(sender, notPlayer, 2);
+                Message.PLAYERS_AMOUNT_NOT_PLAYER.aSendF(sender, players);
                 return true;
             } else if (args[0].equalsIgnoreCase("heads") && args.length == 1 && sender instanceof Player) {
                 Player p = (Player) sender;
@@ -107,7 +106,7 @@ public class PlayersCommand extends V3LD1NCommand {
                 return true;
             }
         } else {
-            sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+            sendPermissionMessage(sender);
             return true;
         }
         this.sendUsage(sender, label, command);

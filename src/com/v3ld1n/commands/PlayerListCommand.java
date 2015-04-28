@@ -29,27 +29,23 @@ public class PlayerListCommand extends V3LD1NCommand {
                     String header = StringUtil.formatText(args[1].replaceAll("_", " "));
                     String footer = StringUtil.formatText(args[2].replaceAll("_", " "));
                     ConfigUtil.setPlayerListHeaderFooter(header, footer);
-                    ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET.toString(), header, footer), 2);
+                    Message.PLAYERLIST_SET.aSendF(sender, header, footer);
                     return true;
                 } else if (args[0].equalsIgnoreCase("reset") && l == 1) {
                     ConfigUtil.setPlayerListHeaderFooter("{text:\"\"}", "{text:\"\"}");
-                    ChatUtil.sendMessage(sender, Message.PLAYERLIST_RESET.toString(), 2);
+                    Message.PLAYERLIST_RESET.aSend(sender);
                     return true;
                 } else if (args[0].equalsIgnoreCase("ping") && (l >= 1 || l <= 3)) {
                     if (l == 1) {
                         int ticks = ConfigSetting.PLAYER_LIST_PING_TICKS.getInt();
                         double seconds = ((double) ticks) / 20;
-                        sender.sendMessage(String.format(Message.PLAYERLIST_PING_DISPLAY.toString(), ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()));
-                        sender.sendMessage(String.format(Message.PLAYERLIST_PING_TIME.toString(), String.format("%.2f", seconds), ticks));
+                        Message.PLAYERLIST_PING_DISPLAY.sendF(sender, ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean());
+                        Message.PLAYERLIST_PING_TIME.sendF(sender, String.format("%.2f", seconds), ticks);
                         return true;
                     } else if (l == 2) {
                         if (args[1].equalsIgnoreCase("toggle")) {
-                            Message message = null;
-                            if (ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean()) {
-                                message = Message.PLAYERLIST_DISABLE_PING;
-                            } else {
-                                message = Message.PLAYERLIST_ENABLE_PING;
-                            }
+                            boolean pingEnabled = ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean();
+                            Message message = pingEnabled ? Message.PLAYERLIST_DISABLE_PING : Message.PLAYERLIST_ENABLE_PING;
                             ConfigUtil.toggleSetting(ConfigSetting.PLAYER_LIST_PING_ENABLED);
                             ChatUtil.sendMessage(sender, message.toString(), 2);
                             return true;
@@ -64,7 +60,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                                 return true;
                             }
                             ConfigSetting.PLAYER_LIST_PING_TICKS.setValue(arg);
-                            ChatUtil.sendMessage(sender, String.format(Message.PLAYERLIST_SET_PING_TIME.toString(), arg), 2);
+                            Message.PLAYERLIST_SET_PING_TIME.aSendF(sender, arg);
                             return true;
                         }
                     }
@@ -75,7 +71,7 @@ public class PlayerListCommand extends V3LD1NCommand {
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

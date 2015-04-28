@@ -27,16 +27,16 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("remove")) {
                     PlayerData.AUTO_RESOURCE_PACK.set(uuid, null);
-                    ChatUtil.sendMessage(p, Message.AUTORESOURCEPACK_REMOVE.toString(), 2);
+                    Message.AUTORESOURCEPACK_REMOVE.aSend(p);
                     return true;
                 }
                 if (V3LD1N.getResourcePack(args[0]) != null) {
                     PlayerData.AUTO_RESOURCE_PACK.set(uuid, args[0]);
-                    p.sendMessage(String.format(Message.AUTORESOURCEPACK_SET.toString(), args[0]));
-                    p.sendMessage(Message.AUTORESOURCEPACK_REMOVE_COMMAND.toString());
+                    Message.AUTORESOURCEPACK_SET.sendF(p, args[0]);
+                    Message.AUTORESOURCEPACK_REMOVE_COMMAND.send(p);
                 } else {
                     ChatUtil.sendList(p, Message.RESOURCEPACK_LIST_TITLE.toString(), V3LD1N.getResourcePackNames(), ListType.LONG);
-                    p.sendMessage(String.format(Message.AUTORESOURCEPACK_ERROR.toString(), args[0]));
+                    Message.AUTORESOURCEPACK_ERROR.sendF(p, args[0]);
                 }
                 return true;
             }
@@ -45,10 +45,10 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
             if (PlayerData.AUTO_RESOURCE_PACK.get(uuid) != null) {
                 currentPack = PlayerData.AUTO_RESOURCE_PACK.getString(uuid);
             }
-            p.sendMessage(String.format(Message.AUTORESOURCEPACK_INFO.toString(), currentPack));
+            Message.AUTORESOURCEPACK_INFO.sendF(p, currentPack);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

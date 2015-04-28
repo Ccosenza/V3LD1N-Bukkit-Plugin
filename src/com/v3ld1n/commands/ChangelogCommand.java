@@ -34,21 +34,21 @@ public class ChangelogCommand extends V3LD1NCommand {
                     changed = changed.replaceAll("[\"\\\\]", "");
                     Change change = new Change(TimeUtil.getTime(), p.getUniqueId().toString(), changed);
                     V3LD1N.addChange(change, ChangelogDay.today());
-                    p.sendMessage(Message.CHANGELOG_LOG.toString());
+                    Message.CHANGELOG_LOG.send(p);
                 } else {
-                    p.sendMessage(Message.CHANGELOG_NO_PERMISSION.toString());
+                    Message.CHANGELOG_NO_PERMISSION.send(p);
                 }
                 return true;
             }
             this.sendUsage(p, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 
     public void displayChangelog(Player p) {
-        p.sendMessage(Message.CHANGELOG_BORDER_TOP.toString());
+        Message.CHANGELOG_BORDER_TOP.send(p);
         for (ChangelogDay cld : V3LD1N.getChangelogDays()) {
             List<Change> c = cld.getChanges();
             SimpleDateFormat df = ChangelogDay.getDateFormat();
@@ -74,10 +74,10 @@ public class ChangelogCommand extends V3LD1NCommand {
                 message = String.format(message, sbs);
                 ChatUtil.sendJsonMessage(p, message, 0);
             } catch (Exception e) {
-                p.sendMessage(Message.CHANGELOG_ERROR.toString());
+                Message.CHANGELOG_ERROR.send(p);
                 e.printStackTrace();
             }
         }
-        p.sendMessage(Message.CHANGELOG_BORDER_BOTTOM.toString());
+        Message.CHANGELOG_BORDER_BOTTOM.send(p);
     }
 }

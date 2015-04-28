@@ -1,8 +1,6 @@
 package com.v3ld1n.commands;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -13,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ItemUtil;
 
 public class MoneyItemCommand extends V3LD1NCommand {
     public MoneyItemCommand() {
@@ -32,12 +31,10 @@ public class MoneyItemCommand extends V3LD1NCommand {
                     return true;
                 }
                 ItemStack item = new ItemStack(Material.EMERALD);
-                ItemMeta meta = item.getItemMeta();
                 DecimalFormat df = new DecimalFormat("0.##");
-                meta.setDisplayName("§r§e" + df.format(amount) + " §6Velds");
-                List<String> lore = new ArrayList<>();
-                lore.add(Message.VELDS_LORE.toString());
-                meta.setLore(lore);
+                ItemUtil.setName(item, "§r§e" + df.format(amount) + " §6Velds");
+                ItemUtil.addLore(item, Message.VELDS_LORE.toString());
+                ItemMeta meta = item.getItemMeta();
                 meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 10, false);
                 item.setItemMeta(meta);
                 p.getInventory().addItem(item);
@@ -46,7 +43,7 @@ public class MoneyItemCommand extends V3LD1NCommand {
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

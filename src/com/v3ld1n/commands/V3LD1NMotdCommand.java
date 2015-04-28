@@ -29,7 +29,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                 if (args[0].equalsIgnoreCase("add")) {
                     motds.add(motd);
                     ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
-                    ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_ADD.toString(), motd), 2);
+                    Message.V3LD1NMOTD_ADD.aSendF(sender, motd);
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove")) {
                     if (args[1].equalsIgnoreCase("all")) {
@@ -43,12 +43,12 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                                 }
                             }
                         } else {
-                            sender.sendMessage(String.format(Message.V3LD1NMOTD_INVALID.toString(), motd));
+                            Message.V3LD1NMOTD_INVALID.sendF(sender, motd);
                             return true;
                         }
                     }
                     ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
-                    ChatUtil.sendMessage(sender, String.format(Message.V3LD1NMOTD_REMOVE.toString(), motd), 2);
+                    Message.V3LD1NMOTD_REMOVE.aSendF(sender, motd);
                     return true;
                 }
                 this.sendUsage(sender, label, command);
@@ -62,7 +62,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

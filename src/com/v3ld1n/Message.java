@@ -1,5 +1,11 @@
 package com.v3ld1n;
 
+import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+
+import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.StringUtil;
 
 public enum Message {
@@ -89,7 +95,8 @@ public enum Message {
     EDITSIGN_INVALID_LINE("commands.editsign.invalid-line"),
     EDITSIGN_INVALID_ARGUMENTS("commands.editsign.invalid-arguments"),
 
-    FAQ_BORDER("commands.faq.border"),
+    FAQ_BORDER_TOP("commands.faq.border-top"),
+    FAQ_BORDER_BOTTOM("commands.faq.border-bottom"),
     FAQ_TOP("commands.faq.top"),
     FAQ_HELP("commands.faq.help"),
     FAQ_QUESTION("commands.faq.question"),
@@ -156,6 +163,8 @@ public enum Message {
     RATCHETSBOW_INVALID_PROJECTILE("commands.ratchetsbow.invalid-projectile"),
     RATCHETSBOW_LIST_TITLE("commands.ratchetsbow.list-title"),
 
+    REPORT_BORDER_TOP("commands.report.border-top"),
+    REPORT_BORDER_BOTTOM("commands.report.border-bottom"),
     REPORT_SEND("commands.report.send"),
     REPORT_UNREAD("commands.report.unread"),
     REPORT_NO_TITLE("commands.report.no-title"),
@@ -164,7 +173,6 @@ public enum Message {
     REPORT_DELETE("commands.report.delete"),
     REPORT_DELETE_NO_PERMISSION("commands.report.delete-no-permission"),
     REPORT_LIST_TOP("commands.report.list.top"),
-    REPORT_LIST_BORDER("commands.report.list.border"),
     REPORT_LIST_HELP("commands.report.list.help"),
     REPORT_LIST_EMPTY("commands.report.list.empty"),
     REPORT_READ_TITLE("commands.report.read.title"),
@@ -242,13 +250,50 @@ public enum Message {
 
     @Override
     public String toString() {
+        String string = name;
         if (V3LD1N.getConfig("messages.yml").getConfig().getString(name) != null) {
-            return StringUtil.formatText(V3LD1N.getConfig("messages.yml").getConfig().getString(name));
+            string = StringUtil.formatText(V3LD1N.getConfig("messages.yml").getConfig().getString(name));
         }
-        return name;
+        return string;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void send(CommandSender user) {
+        user.sendMessage(this.toString());
+    }
+
+    public void sendF(CommandSender user, Object... format) {
+        user.sendMessage(String.format(this.toString(), format));
+    }
+
+    public void aSend(CommandSender user) {
+        ChatUtil.sendMessage(user, this.toString(), 2);
+    }
+
+    public void aSendF(CommandSender user, Object... format) {
+        ChatUtil.sendMessage(user, String.format(this.toString(), format), 2);
+    }
+
+    public void log(Level level) {
+        Bukkit.getLogger().log(level, this.toString());
+    }
+
+    public void logF(Level level, Object... format) {
+        Bukkit.getLogger().log(level, String.format(this.toString(), format));
+    }
+
+    public void logDebug() {
+        if (ConfigSetting.DEBUG.getBoolean()) {
+            Bukkit.getLogger().info(this.toString());
+        }
+    }
+
+    public void logDebugF(Object... format) {
+        if (ConfigSetting.DEBUG.getBoolean()) {
+            Bukkit.getLogger().info(String.format(this.toString(), format));
+        }
     }
 }

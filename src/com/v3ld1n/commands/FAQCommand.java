@@ -8,7 +8,6 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.StringUtil;
 
 public class FAQCommand extends V3LD1NCommand {
     public FAQCommand() {
@@ -20,12 +19,8 @@ public class FAQCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            String border = StringUtil.jsonMessage(Message.FAQ_BORDER.toString(), "dark_red");
-            String top = StringUtil.jsonMessage(Message.FAQ_TOP.toString(), "red");
             if (args.length == 0) {
-                ChatUtil.sendJsonMessage(p, border, 0);
-                ChatUtil.sendJsonMessage(p, top, 0);
-                ChatUtil.sendJsonMessage(p, border, 0);
+                Message.FAQ_BORDER_TOP.send(p);
                 for (FAQ faq : V3LD1N.getQuestions()) {
                     ChatUtil.sendJsonMessage(p,
                     "{text:\"" + faq.getName() + "\","
@@ -38,7 +33,8 @@ public class FAQCommand extends V3LD1NCommand {
                     + "value:\"/" + label + " " + faq.getId() + "\"}}]}"
                     , 0);
                 }
-                ChatUtil.sendJsonMessage(p, StringUtil.jsonMessage(Message.FAQ_HELP.toString(), "green"), 0);
+                Message.FAQ_HELP.send(p);
+                Message.FAQ_BORDER_BOTTOM.send(p);
                 return true;
             } else if (args.length == 1) {
                 int arg;
@@ -64,21 +60,20 @@ public class FAQCommand extends V3LD1NCommand {
                             + "clickEvent:{"
                             + "action:\"run_command\","
                             + "value:\"/" + label + "\"}}";
-                    ChatUtil.sendJsonMessage(p, border, 0);
-                    ChatUtil.sendJsonMessage(p, top, 0);
-                    ChatUtil.sendJsonMessage(p, border, 0);
+                    Message.FAQ_BORDER_TOP.send(p);
                     ChatUtil.sendJsonMessage(p, question, 0);
                     ChatUtil.sendJsonMessage(p, answer, 0);
                     ChatUtil.sendJsonMessage(p, back, 0);
+                    Message.FAQ_BORDER_BOTTOM.send(p);
                     return true;
                 }
-                p.sendMessage(Message.FAQ_INVALID_QUESTION.toString());
+                Message.FAQ_INVALID_QUESTION.send(p);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

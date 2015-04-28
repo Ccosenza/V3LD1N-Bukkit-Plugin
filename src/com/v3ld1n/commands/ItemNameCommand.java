@@ -31,21 +31,21 @@ public class ItemNameCommand extends V3LD1NCommand {
                             p.sendMessage(message.toString());
                         } else {
                             name = StringUtil.formatText(StringUtil.fromArray(args, 0));
-                            p.sendMessage(String.format(Message.ITEMNAME_SET.toString(), name));
+                            Message.ITEMNAME_SET.sendF(p, name);
                         }
                         ItemUtil.setName(i, name);
                         return true;
                     }
-                    p.sendMessage(Message.ITEMNAME_NO_ITEM.toString());
+                    Message.ITEMNAME_NO_ITEM.send(p);
                     return true;
                 }
                 this.sendUsage(p, label, command);
                 return true;
             }
-            sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+            sendPlayerMessage(sender);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

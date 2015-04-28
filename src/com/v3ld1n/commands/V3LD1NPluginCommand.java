@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
@@ -29,17 +30,13 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 return true;
             }
             if (args[0].equalsIgnoreCase("debug") && args.length == 1) {
-                Message message = null;
-                if (ConfigSetting.DEBUG.getBoolean()) {
-                    message = Message.V3LD1NPLUGIN_DISABLE_DEBUG;
-                } else {
-                    message = Message.V3LD1NPLUGIN_ENABLE_DEBUG;
-                }
+                boolean debug = ConfigSetting.DEBUG.getBoolean();
+                Message message = debug ? Message.V3LD1NPLUGIN_DISABLE_DEBUG : Message.V3LD1NPLUGIN_ENABLE_DEBUG;
                 ConfigUtil.toggleSetting(ConfigSetting.DEBUG);
                 ChatUtil.sendMessage(sender, message.toString(), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("help") && args.length == 1) {
-                sender.sendMessage(Message.V3LD1NPLUGIN_HELP.toString());
+                Message.V3LD1NPLUGIN_HELP.send(sender);
                 for (String v3ld1ncommand : V3LD1N.getCommands().keySet()) {
                     V3LD1N.getCommands().get(v3ld1ncommand).sendUsageNoTitle(sender, v3ld1ncommand);
                 }
@@ -53,14 +50,15 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                         PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());
                     }
                 }
-                ChatUtil.sendMessage(sender, Message.V3LD1NPLUGIN_RELOAD.toString(), 2);
+                Message.V3LD1NPLUGIN_RELOAD.aSend(sender);
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
-                ChatUtil.sendMessage(sender, String.format(Message.V3LD1NPLUGIN_VERSION.toString(), V3LD1N.getPlugin().getDescription().getName(), V3LD1N.getPlugin().getDescription().getVersion()), 2);
+                PluginDescriptionFile desc = V3LD1N.getPlugin().getDescription();
+                Message.V3LD1NPLUGIN_VERSION.aSendF(sender, desc.getName(), desc.getVersion());
                 return true;
             }
         } else {
-            sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+            sendPermissionMessage(sender);
             return true;
         }
         this.sendUsage(sender, label, command);

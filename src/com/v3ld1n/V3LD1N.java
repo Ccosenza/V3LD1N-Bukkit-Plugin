@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import com.v3ld1n.listeners.EntityListener;
 import com.v3ld1n.listeners.PlayerListener;
@@ -35,7 +36,6 @@ import com.v3ld1n.util.ConfigAccessor;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.Sound;
-import com.v3ld1n.util.StringUtil;
 
 public class V3LD1N extends JavaPlugin {
     private static V3LD1N plugin;
@@ -70,7 +70,7 @@ public class V3LD1N extends JavaPlugin {
         loadConfig();
         String bukkitVersion = "1.8.3-R0.1-SNAPSHOT";
         if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
-            plugin.getLogger().warning(String.format(Message.INVALID_BUKKIT_VERSION.toString(), plugin.getDescription().getName(), plugin.getDescription().getVersion(), bukkitVersion, Bukkit.getBukkitVersion()));
+            Message.INVALID_BUKKIT_VERSION.logF(Level.WARNING, plugin.getDescription().getName(), plugin.getDescription().getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
         }
         items = new ArrayList<>();
         questions = new ArrayList<>();
@@ -104,7 +104,7 @@ public class V3LD1N extends JavaPlugin {
         pluginManager.registerEvents(new WarpCommand(), plugin);
         pluginManager.registerEvents(rideCommand, plugin);
         loadCommands();
-        StringUtil.logDebugMessage(String.format(Message.LOADING_COMMANDS.toString(), this.getDescription().getCommands().size()));
+        Message.LOADING_COMMANDS.logDebugF(this.getDescription().getCommands().size());
         //Ping on player list
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         final Scoreboard board = manager.getNewScoreboard();
@@ -297,7 +297,7 @@ public class V3LD1N extends JavaPlugin {
         items.add(new RatchetSword());
         for (V3LD1NItem item : items) {
             pluginManager.registerEvents(item, plugin);
-            StringUtil.logDebugMessage(String.format(Message.LOADING_ITEM.toString(), item.getId()));
+            Message.LOADING_ITEM.logDebugF(item.getId());
         }
     }
 
@@ -317,10 +317,10 @@ public class V3LD1N extends JavaPlugin {
                     FAQ faq = new FAQ(Integer.parseInt(key), name, question, answer, nameColor, questionColor, answerColor);
                     questions.add(faq);
                 }
-                StringUtil.logDebugMessage(String.format(Message.LOADING_QUESTIONS.toString(), questions.size()));
+                Message.LOADING_QUESTIONS.logDebugF(questions.size());
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.FAQ_LOAD_ERROR.toString());
+            Message.FAQ_LOAD_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -348,10 +348,10 @@ public class V3LD1N extends JavaPlugin {
                     Report report = new Report(title, senderName, senderUuid, reason, time, read);
                     reports.add(report);
                 }
-                StringUtil.logDebugMessage(String.format(Message.LOADING_REPORTS.toString(), reports.size()));
+                Message.LOADING_REPORTS.logDebugF(reports.size());
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.REPORT_LOAD_ERROR.toString());
+            Message.REPORT_LOAD_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -375,9 +375,9 @@ public class V3LD1N extends JavaPlugin {
                 config.set(section + report.getTitle() + ".read-by", readStrings);
             }
             Config.REPORTS.saveConfig();
-            StringUtil.logDebugMessage(String.format(Message.SAVING_REPORTS.toString(), reports.size()));
+            Message.SAVING_REPORTS.logDebugF(reports.size());
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.REPORT_SAVE_ERROR.toString());
+            Message.REPORT_SAVE_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -409,10 +409,10 @@ public class V3LD1N extends JavaPlugin {
                     Warp warp = new Warp(name, particles, sounds);
                     warps.add(warp);
                 }
-                StringUtil.logDebugMessage(String.format(Message.LOADING_WARPS.toString(), warps.size()));
+                Message.LOADING_WARPS.logDebugF(warps.size());
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.WARP_LOAD_ERROR.toString());
+            Message.WARP_LOAD_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -433,9 +433,9 @@ public class V3LD1N extends JavaPlugin {
                 config.set(section + name + ".sounds", warp.getSounds());
             }
             Config.WARPS.saveConfig();
-            StringUtil.logDebugMessage(String.format(Message.SAVING_WARPS.toString(), warps.size()));
+            Message.SAVING_WARPS.logDebugF(warps.size());
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.WARP_SAVE_ERROR.toString());
+            Message.WARP_SAVE_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -493,10 +493,10 @@ public class V3LD1N extends JavaPlugin {
                     Sign sign = new Sign(text, playerCommands, consoleCommands, particles, sounds);
                     signs.add(sign);
                 }
-                StringUtil.logDebugMessage(String.format(Message.LOADING_SIGNS.toString(), signs.size()));
+                Message.LOADING_SIGNS.logDebugF(signs.size());
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.SIGN_LOAD_ERROR.toString());
+            Message.SIGN_LOAD_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -516,10 +516,10 @@ public class V3LD1N extends JavaPlugin {
                         addChange(change, dayKey);
                     }
                 }
-                StringUtil.logDebugMessage(String.format(Message.LOADING_CHANGELOG.toString(), changelogDays.size()));
+                Message.LOADING_CHANGELOG.logDebugF(changelogDays.size());
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.CHANGELOG_LOAD_ERROR.toString());
+            Message.CHANGELOG_LOAD_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -538,9 +538,9 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
             Config.CHANGELOG.saveConfig();
-            StringUtil.logDebugMessage(String.format(Message.SAVING_CHANGELOG.toString(), changelogDays.size()));
+            Message.SAVING_CHANGELOG.logDebugF(changelogDays.size());
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.CHANGELOG_SAVE_ERROR.toString());
+            Message.CHANGELOG_SAVE_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -568,10 +568,10 @@ public class V3LD1N extends JavaPlugin {
                     resourcePacks.add(resourcePack);
                     resourcePackNames.add(key);
                 }
-                StringUtil.logDebugMessage(String.format(Message.LOADING_RESOURCE_PACKS.toString(), resourcePacks.size()));
+                Message.LOADING_RESOURCE_PACKS.logDebugF(resourcePacks.size());
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.RESOURCE_PACK_LOAD_ERROR.toString());
+            Message.RESOURCE_PACK_LOAD_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -602,7 +602,7 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.TASK_ITEM_ERROR.toString());
+            Message.TASK_ITEM_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -624,7 +624,7 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.TASK_PARTICLE_ERROR.toString());
+            Message.TASK_PARTICLE_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -646,7 +646,7 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.TASK_SOUND_ERROR.toString());
+            Message.TASK_SOUND_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -668,7 +668,7 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         } catch (Exception e) {
-            plugin.getLogger().warning(Message.TASK_TELEPORT_ERROR.toString());
+            Message.TASK_TELEPORT_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
     }

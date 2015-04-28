@@ -113,7 +113,7 @@ public final class ChatUtil {
         case LONG:
             sender.sendMessage(title);
             for (String item : strings) {
-                sender.sendMessage(StringUtil.formatText(String.format(Message.LONG_LIST_ITEM.toString(), item)));
+                Message.LONG_LIST_ITEM.sendF(sender, StringUtil.formatText(item));
             }
             break;
         case SIDEBAR:

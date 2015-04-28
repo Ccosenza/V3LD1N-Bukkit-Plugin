@@ -28,14 +28,14 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                     try {
                         PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
                         animation.play(p, 50);
-                        ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), StringUtil.fromEnum(animation, true)), 2);
+                        Message.PLAYANIMATION_PLAY.aSendF(sender, StringUtil.fromEnum(animation, true));
                         return true;
                     } catch (Exception e) {
-                        p.sendMessage(Message.PLAYANIMATION_ERROR.toString());
+                        Message.PLAYANIMATION_ERROR.send(p);
                         return true;
                     }
                 }
-                sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+                Message.COMMAND_NOT_PLAYER.send(sender);
                 return true;
             } else if (args.length >= 2) {
                 if (sender.hasPermission("v3ld1n.playanimation.others")) {
@@ -44,24 +44,24 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                         try {
                             PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
                             animation.play(p, 50);
-                            ChatUtil.sendMessage(sender, String.format(Message.PLAYANIMATION_PLAY.toString(), StringUtil.fromEnum(animation, true)), 2);
+                            Message.PLAYANIMATION_PLAY.sendF(sender, StringUtil.fromEnum(animation, true));
                             return true;
                         } catch (Exception e) {
-                            sender.sendMessage(Message.PLAYANIMATION_ERROR.toString());
+                            Message.PLAYANIMATION_ERROR.send(sender);
                             return true;
                         }
                     }
-                    sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                    sendInvalidPlayerMessage(sender);
                     return true;
                 }
-                sender.sendMessage(Message.PLAYANIMATION_NO_PERMISSION_OTHERS.toString());
+                Message.PLAYANIMATION_NO_PERMISSION_OTHERS.send(sender);
                 return true;
             }
             this.sendUsage(sender, label, command);
             ChatUtil.sendList(sender, Message.PLAYANIMATION_LIST_TITLE.toString(), Arrays.asList(PlayerAnimation.values()), ListType.SHORT);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

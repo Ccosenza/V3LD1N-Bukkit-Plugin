@@ -34,17 +34,17 @@ public class RatchetsBowCommand extends V3LD1NCommand {
                         PlayerData.RATCHETS_BOW.set(p.getUniqueId(), args[0].toUpperCase());
                     }
                     type.getParticle().display(p.getEyeLocation());
-                    p.sendMessage(String.format(Message.RATCHETSBOW_SET.toString(), StringUtil.fromEnum(type, true)));
+                    Message.RATCHETSBOW_SET.sendF(p, StringUtil.fromEnum(type, true));
                     return true;
                 }
-                p.sendMessage(Message.RATCHETSBOW_INVALID_PROJECTILE.toString());
+                Message.RATCHETSBOW_INVALID_PROJECTILE.send(p);
                 ChatUtil.sendList(p, Message.RATCHETSBOW_LIST_TITLE.toString(), types, ListType.SHORT);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

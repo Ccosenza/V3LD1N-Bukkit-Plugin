@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerUtil;
-import com.v3ld1n.util.StringUtil;
 
 public class MotdCommand extends V3LD1NCommand {
     public MotdCommand() {
@@ -22,20 +21,20 @@ public class MotdCommand extends V3LD1NCommand {
                 ChatUtil.sendMotd((Player) sender);
                 return true;
             }
-            sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+            sendPlayerMessage(sender);
             return true;
         } else if (args.length > 0) {
             if (sender.hasPermission("v3ld1n.motd.others")) {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
                     ChatUtil.sendMotd(p);
-                    sender.sendMessage(String.format(StringUtil.formatText(Message.MOTD_SHOWING.toString()), p.getName()));
+                    Message.MOTD_SHOWING.sendF(sender, p.getName());
                     return true;
                 }
-                sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                sendInvalidPlayerMessage(sender);
                 return true;
             }
-            sender.sendMessage(Message.MOTD_NO_PERMISSION_OTHERS.toString());
+            Message.MOTD_NO_PERMISSION_OTHERS.send(sender);
             return true;
         }
         this.sendUsage(sender, label, command);

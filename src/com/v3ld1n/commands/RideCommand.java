@@ -12,7 +12,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
-import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.StringUtil;
 
@@ -28,23 +27,24 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                     task.cancel();
                 }
                 V3LD1N.usingRideCommand.put(p.getUniqueId(), true);
-                ChatUtil.sendMessage(p, Message.RIDE_USE.toString(), 2);
+                Message.RIDE_USE.aSend(p);
                 task = Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
                     @Override
                     public void run() {
                         if (V3LD1N.usingRideCommand.get(p.getUniqueId()) != null) {
                             if (V3LD1N.usingRideCommand.get(p.getUniqueId()) == true) {
                                 V3LD1N.usingRideCommand.remove(p.getUniqueId());
-                                ChatUtil.sendMessage(p, Message.RIDE_NO_TIME.toString(), 2);
+                                Message.RIDE_NO_TIME.aSend(p);
                             }
                         }
                     }
                 }, 200L);
                 return true;
             }
-            sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+            sendPlayerMessage(sender);
+            return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 
@@ -57,7 +57,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
             entity.setPassenger(p);
             V3LD1N.usingRideCommand.remove(p.getUniqueId());
             task.cancel();
-            ChatUtil.sendMessage(p, String.format(Message.RIDE_RIDE.toString(), StringUtil.getEntityName(entity)), 2);
+            Message.RIDE_RIDE.aSendF(p, StringUtil.getEntityName(entity));
         }
     }
 }

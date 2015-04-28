@@ -18,17 +18,18 @@ public class SetFullTimeCommand extends V3LD1NCommand {
                 if (args.length == 1) {
                     LivingEntity p = (LivingEntity) sender;
                     long time = p.getWorld().getFullTime();
-                    p.getWorld().setFullTime(Long.parseLong(args[0]));
-                    sender.sendMessage(String.format(Message.SETFULLTIME_SET.toString(), time, Long.parseLong(args[0])));
+                    long newTime = Long.parseLong(args[0]);
+                    p.getWorld().setFullTime(newTime);
+                    Message.SETFULLTIME_SET.sendF(sender, time, newTime);
                     return true;
                 }
                 this.sendUsage(sender, label, command);
                 return true;
             }
-            sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+            sendPermissionMessage(sender);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

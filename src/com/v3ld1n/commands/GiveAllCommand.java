@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class GiveAllCommand extends V3LD1NCommand {
@@ -24,16 +23,16 @@ public class GiveAllCommand extends V3LD1NCommand {
                         player.getInventory().addItem(item);
                     }
                     String itemString = StringUtil.getItemName(item);
-                    ChatUtil.sendMessage(p, String.format(Message.GIVEALL_GIVE.toString(), amount, itemString), 2);
+                    Message.GIVEALL_GIVE.aSendF(p, amount, itemString);
                     return true;
                 }
-                ChatUtil.sendMessage(p, Message.GIVEALL_NO_ITEM.toString(), 2);
+                Message.GIVEALL_NO_ITEM.aSend(p);
                 return true;
             }
-            sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+            sendPermissionMessage(sender);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

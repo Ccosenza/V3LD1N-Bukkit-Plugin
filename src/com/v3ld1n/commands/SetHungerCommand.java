@@ -36,7 +36,7 @@ public class SetHungerCommand extends V3LD1NCommand {
                 } else if (l == 3 && PlayerUtil.getOnlinePlayer(args[2]) != null) {
                     p = PlayerUtil.getOnlinePlayer(args[2]);
                 } else {
-                    sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                    sendInvalidPlayerMessage(sender);
                     return true;
                 }
                 if (foodLevel >= 0 && foodLevel <= 20) {
@@ -54,22 +54,20 @@ public class SetHungerCommand extends V3LD1NCommand {
                         this.sendUsage(sender, label, command);
                         return true;
                     }
-                    String message;
-                    if (p.getName().equals(sender.getName())) {
-                        message = String.format(Message.SETHUNGER_SET_OWN.toString(), args[1], args[0]);
-                    } else {
-                        message = String.format(Message.SETHUNGER_SET.toString(), p.getName(), args[1], args[0]);
-                    }
+                    boolean pIsSender = p.getName().equals(sender.getName());
+                    String ownMessage = String.format(Message.SETHUNGER_SET_OWN.toString(), args[1], args[0]);
+                    String otherMessage = String.format(Message.SETHUNGER_SET.toString(), p.getName(), args[1], args[0]);
+                    String message = pIsSender ? ownMessage : otherMessage;
                     ChatUtil.sendMessage(sender, message, 2);
                     return true;
                 }
-                sender.sendMessage(Message.SETHUNGER_LIMIT.toString());
+                Message.SETHUNGER_LIMIT.send(sender);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

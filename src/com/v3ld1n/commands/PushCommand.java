@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.PlayerUtil;
 
@@ -31,7 +30,7 @@ public class PushCommand extends V3LD1NCommand {
                     speedY = Double.parseDouble(args[2]);
                     speedZ = Double.parseDouble(args[3]);
                 } catch (Exception e) {
-                    sender.sendMessage(String.format(Message.PUSH_INVALID_SPEED.toString(), SPEED_DEFAULT));
+                    Message.PUSH_INVALID_SPEED.sendF(sender, SPEED_DEFAULT);
                 }
                 if (speedX > SPEED_LIMIT) {
                     speedX = SPEED_LIMIT;
@@ -46,10 +45,10 @@ public class PushCommand extends V3LD1NCommand {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
                     p.setVelocity(velocity);
-                    ChatUtil.sendMessage(sender, String.format(Message.PUSH_PUSH.toString(), p.getName(), speedX, speedY, speedZ), 2);
+                    Message.PUSH_PUSH.aSendF(sender, p.getName(), speedX, speedY, speedZ);
                     return true;
                 }
-                sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                sendInvalidPlayerMessage(sender);
                 return true;
             } else if (args.length == 2 || args.length == 3) {
                 double speed = SPEED_DEFAULT;
@@ -59,19 +58,19 @@ public class PushCommand extends V3LD1NCommand {
                     try {
                         speed = Double.parseDouble(args[2]);
                     } catch (Exception e) {
-                        sender.sendMessage(String.format(Message.PUSH_INVALID_SPEED.toString(), SPEED_DEFAULT));
+                        Message.PUSH_INVALID_SPEED.sendF(sender, SPEED_DEFAULT);
                     }
                     EntityUtil.pushToward(player, toPlayer.getLocation(), speed, speed, speed, false);
-                    ChatUtil.sendMessage(sender, String.format(Message.PUSH_PUSH_TO_PLAYER.toString(), player.getName(), speed), 2);
+                    Message.PUSH_PUSH_TO_PLAYER.aSendF(sender, player.getName(), speed);
                     return true;
                 }
-                sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                sendInvalidPlayerMessage(sender);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

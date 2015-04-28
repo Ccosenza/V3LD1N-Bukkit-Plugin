@@ -49,7 +49,7 @@ public class RatchetHoe extends V3LD1NItem {
                     if (playerCanBuild) {
                         use(p, target);
                     } else {
-                        p.sendMessage(Message.WORLDGUARD_PERMISSION.toString());
+                        Message.WORLDGUARD_PERMISSION.send(p);
                     }
                 }
             }

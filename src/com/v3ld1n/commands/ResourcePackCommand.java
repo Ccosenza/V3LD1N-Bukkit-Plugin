@@ -37,9 +37,10 @@ public class ResourcePackCommand extends V3LD1NCommand {
                 p.setResourcePack(V3LD1N.getResourcePack(pack).getUrl());
                 return true;
             }
-            p.sendMessage(Message.RESOURCEPACK_ERROR.toString());
+            Message.RESOURCEPACK_ERROR.send(p);
+            return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

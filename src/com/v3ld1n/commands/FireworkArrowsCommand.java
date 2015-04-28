@@ -52,17 +52,17 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
                     Location loc = p.getLocation();
                     loc.add(0, 5, 0);
                     EntityUtil.displayFireworkEffect(effect, loc, 2);
-                    p.sendMessage(String.format(Message.FIREWORKARROWS_SET.toString(), StringUtil.fromEnum(type, true)));
+                    Message.FIREWORKARROWS_SET.sendF(p, StringUtil.fromEnum(type, true));
                     return true;
                 }
-                p.sendMessage(Message.FIREWORKARROWS_INVALID_SHAPE.toString());
+                Message.FIREWORKARROWS_INVALID_SHAPE.send(p);
                 ChatUtil.sendList(p, Message.FIREWORKARROWS_LIST_TITLE.toString(), types, ListType.SHORT);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sendPlayerMessage(sender);
         return true;
     }
 }

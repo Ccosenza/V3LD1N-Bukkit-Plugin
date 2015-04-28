@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import com.v3ld1n.Message;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
@@ -47,7 +46,7 @@ public class PlayerSayCommand extends V3LD1NCommand {
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }
