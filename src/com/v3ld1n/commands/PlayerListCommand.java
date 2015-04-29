@@ -24,7 +24,7 @@ public class PlayerListCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.owner")) {
             int l = args.length;
-            if (l > 0) {
+            if (l >= 1) {
                 if (args[0].equalsIgnoreCase("set") && l == 3) {
                     String header = StringUtil.formatText(args[1].replaceAll("_", " "));
                     String footer = StringUtil.formatText(args[2].replaceAll("_", " "));
@@ -35,7 +35,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                     ConfigUtil.setPlayerListHeaderFooter("{text:\"\"}", "{text:\"\"}");
                     Message.PLAYERLIST_RESET.aSend(sender);
                     return true;
-                } else if (args[0].equalsIgnoreCase("ping") && (l >= 1 || l <= 3)) {
+                } else if (args[0].equalsIgnoreCase("ping") && (l <= 3)) {
                     if (l == 1) {
                         int ticks = ConfigSetting.PLAYER_LIST_PING_TICKS.getInt();
                         double seconds = ((double) ticks) / 20;
