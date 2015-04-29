@@ -41,7 +41,7 @@ public class V3LD1N extends JavaPlugin {
     private static V3LD1N plugin;
     private static List<ConfigAccessor> configs;
     private static WorldGuardPlugin worldGuard;
-    public static HashMap<String, V3LD1NCommand> commands;
+    private static HashMap<String, V3LD1NCommand> commands;
     private static List<V3LD1NItem> items;
     private static List<FAQ> questions;
     private static List<Report> reports;
@@ -54,9 +54,9 @@ public class V3LD1N extends JavaPlugin {
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
     private static List<TeleportTask> teleportTasks;
-    public static Economy econ = null;
-    public static Permission perms = null;
-    public static Chat chat = null;
+    private static Economy econ = null;
+    private static Permission perms = null;
+    private static Chat chat = null;
     private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
     private final Random random = new Random();
 
