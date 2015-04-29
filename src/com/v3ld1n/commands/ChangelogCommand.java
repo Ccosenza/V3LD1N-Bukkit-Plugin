@@ -47,7 +47,7 @@ public class ChangelogCommand extends V3LD1NCommand {
         return true;
     }
 
-    public void displayChangelog(Player p) {
+    private void displayChangelog(Player p) {
         Message.CHANGELOG_BORDER_TOP.send(p);
         for (ChangelogDay cld : V3LD1N.getChangelogDays()) {
             List<Change> c = cld.getChanges();
