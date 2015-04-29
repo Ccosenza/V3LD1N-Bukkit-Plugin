@@ -49,15 +49,15 @@ public abstract class V3LD1NCommand implements CommandExecutor {
         }
     }
 
-    public void sendPermissionMessage(CommandSender user) {
+    protected void sendPermissionMessage(CommandSender user) {
         Message.COMMAND_NO_PERMISSION.send(user);
     }
 
-    public void sendPlayerMessage(CommandSender user) {
+    protected void sendPlayerMessage(CommandSender user) {
         Message.COMMAND_NOT_PLAYER.send(user);
     }
 
-    public void sendInvalidPlayerMessage(CommandSender user) {
+    protected void sendInvalidPlayerMessage(CommandSender user) {
         Message.COMMAND_INVALID_PLAYER.send(user);
     }
 }
