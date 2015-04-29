@@ -37,7 +37,9 @@ public abstract class RepeatableRunnable extends BukkitRunnable {
             this.onRun();
         } else {
             try {
-                if (Bukkit.getScheduler().isCurrentlyRunning(this.repeatableTaskID) || Bukkit.getScheduler().isQueued(this.repeatableTaskID)) Bukkit.getScheduler().cancelTask(this.repeatableTaskID);
+                if (Bukkit.getScheduler().isCurrentlyRunning(this.repeatableTaskID) || Bukkit.getScheduler().isQueued(this.repeatableTaskID)) {
+                    Bukkit.getScheduler().cancelTask(this.repeatableTaskID);
+                }
             } catch (Exception ex) {
                 try {
                     this.cancel();
