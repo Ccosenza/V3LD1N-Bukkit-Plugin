@@ -82,10 +82,9 @@ public final class EntityUtil {
     
     /**
      * Launches a firework rocket that explodes 1 tick later
+     * @param effect the firework effect
      * @param location the location to launch the rocket at
-     * @param type the type of explosion
-     * @param color the color of the explosion
-     * @param fade the fade color of the explosion
+     * @param delay the number of ticks before detonating the rocket
      */
     public static void displayFireworkEffect(FireworkEffect effect, Location location, long delay) {
         final Firework fw = location.getWorld().spawn(location, Firework.class);
