@@ -58,7 +58,7 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
             if (this.equalsItem(shooter.getItemInHand())) {
                 Particle.fromString(this.getStringSetting("particle1")).display(pr.getLocation());
                 Particle.fromString(this.getStringSetting("particle2")).display(pr.getLocation());
-                EntityUtil.detonateLightningProjectile(pr, pr.getLocation());
+                EntityUtil.detonateLightningProjectile(pr, pr.getLocation(), true);
             }
         }
     }

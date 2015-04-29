@@ -54,17 +54,17 @@ public final class ChatUtil {
 
     /**
      * Sends the MOTD to a player
-     * @param p the player to send the message to
+     * @param player the player to send the message to
      */
-    public static void sendMotd(Player p) {
+    public static void sendMotd(Player player) {
         String listName = "old-players";
-        if (!p.hasPlayedBefore()) {
+        if (!player.hasPlayedBefore()) {
             listName = "new-players";
         }
         for (String jsonText : Config.MOTD.getConfig().getStringList(listName)) {
             String message = StringUtil.formatText(jsonText);
-            message = StringUtil.replacePlayerVariables(message, p);
-            ChatUtil.sendJsonMessage(p, message, 0);
+            message = StringUtil.replacePlayerVariables(message, player);
+            ChatUtil.sendJsonMessage(player, message, 0);
         }
     }
 
@@ -80,23 +80,23 @@ public final class ChatUtil {
     }
 
     /**
-     * Sends the number of unread reports to  a player
-     * @param p the player to send the message to
+     * Sends the number of unread reports to a player
+     * @param player the player to send the message to
      */
-    public static void sendUnreadReports(Player p) {
-        String message = "{text:\"" + String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports(p.getUniqueId())) + "\","
+    public static void sendUnreadReports(Player player) {
+        String message = "{text:\"" + String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports(player.getUniqueId())) + "\","
                 + "clickEvent:{action:run_command,value:\"/report list\"}}";
-        ChatUtil.sendJsonMessage(p, message, 0);
+        ChatUtil.sendJsonMessage(player, message, 0);
     }
 
     /**
-     * Sends a list in chat messages
-     * @param sender the CommandSender to send the message to
+     * Sends a list to a user
+     * @param user the CommandSender to send the message to
      * @param title the list title
      * @param items the list items
      * @param type the list type
      */
-    public static void sendList(CommandSender sender, String title, List<?> items, ListType type) {
+    public static void sendList(CommandSender user, String title, List<?> items, ListType type) {
         List<String> strings = new ArrayList<>();
         for (Object item : items) {
             strings.add(item.toString());
@@ -108,19 +108,19 @@ public final class ChatUtil {
                 sb.append(String.format(Message.SHORT_LIST_ITEM.toString(), item));
             }
             String message = title + sb.toString().substring(0, sb.toString().length() - 2);
-            sender.sendMessage(message);
+            user.sendMessage(message);
             break;
         case LONG:
-            sender.sendMessage(title);
+            user.sendMessage(title);
             for (String item : strings) {
-                Message.LONG_LIST_ITEM.sendF(sender, StringUtil.formatText(item));
+                Message.LONG_LIST_ITEM.sendF(user, StringUtil.formatText(item));
             }
             break;
         case SIDEBAR:
-            if (sender instanceof Player) {
+            if (user instanceof Player) {
                 SidebarMessage sbm = new SidebarMessage(title);
                 sbm.setLines(strings);
-                sbm.display((Player) sender, 200);
+                sbm.display((Player) user, 200);
             }
             break;
         default:

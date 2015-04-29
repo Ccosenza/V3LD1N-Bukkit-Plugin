@@ -148,7 +148,7 @@ public final class WorldUtil {
     }
 
     /**
-     * Returns a list of all entities in all worlds
+     * Returns a list of all loaded entities on the server
      * @return a list of entities
      */
     public static List<Entity> getAllEntities() {

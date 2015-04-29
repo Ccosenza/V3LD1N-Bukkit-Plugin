@@ -261,36 +261,70 @@ public enum Message {
         return name;
     }
 
+    /**
+     * Sends the message to a user
+     * @param user the user
+     */
     public void send(CommandSender user) {
         user.sendMessage(this.toString());
     }
 
+    /**
+     * Formats the message, then sends it to a user
+     * @param user the user
+     * @param format the strings to format the message with
+     */
     public void sendF(CommandSender user, Object... format) {
         user.sendMessage(String.format(this.toString(), format));
     }
 
+    /**
+     * Sends the message to a user as a type 2 message (above action bar)
+     * @param user the user
+     */
     public void aSend(CommandSender user) {
         ChatUtil.sendMessage(user, this.toString(), 2);
     }
 
+    /**
+     * Formats the message, then sends it to a user as a type 2 message (above action bar)
+     * @param user the user
+     * @param format the strings to format the message with
+     */
     public void aSendF(CommandSender user, Object... format) {
         ChatUtil.sendMessage(user, String.format(this.toString(), format), 2);
     }
 
+    /**
+     * Logs the message
+     * @param level the log level
+     */
     public void log(Level level) {
         Bukkit.getLogger().log(level, this.toString());
     }
 
+    /**
+     * Formats the message, then logs it
+     * @param level the log level
+     * @param format the strings to format the message with
+     */
     public void logF(Level level, Object... format) {
         Bukkit.getLogger().log(level, String.format(this.toString(), format));
     }
 
+    /**
+     * Logs the message if debug mode is enabled
+     */
     public void logDebug() {
         if (ConfigSetting.DEBUG.getBoolean()) {
             Bukkit.getLogger().info(this.toString());
         }
     }
 
+    /**
+     * Formats the message, then logs it if debug is enabled
+     * @param format the strings to format the message with
+     */
     public void logDebugF(Object... format) {
         if (ConfigSetting.DEBUG.getBoolean()) {
             Bukkit.getLogger().info(String.format(this.toString(), format));

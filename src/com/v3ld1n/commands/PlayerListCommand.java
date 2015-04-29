@@ -46,7 +46,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                         if (args[1].equalsIgnoreCase("toggle")) {
                             boolean pingEnabled = ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean();
                             Message message = pingEnabled ? Message.PLAYERLIST_DISABLE_PING : Message.PLAYERLIST_ENABLE_PING;
-                            ConfigUtil.toggleSetting(ConfigSetting.PLAYER_LIST_PING_ENABLED);
+                            ConfigSetting.PLAYER_LIST_PING_ENABLED.toggle();
                             ChatUtil.sendMessage(sender, message.toString(), 2);
                             return true;
                         }

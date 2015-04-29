@@ -161,4 +161,12 @@ public enum ConfigSetting {
         V3LD1N.getConfig(fileName).getConfig().set(name, value);
         V3LD1N.getConfig(fileName).saveConfig();
     }
+
+    public void toggle() {
+        if (!this.getBoolean()) {
+            this.setValue(true);
+        } else {
+            this.setValue(null);
+        }
+    }
 }

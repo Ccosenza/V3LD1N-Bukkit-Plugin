@@ -203,6 +203,11 @@ public final class StringUtil {
         return newString;
     }
 
+    /**
+     * Returns a location as a string
+     * @param location the location
+     * @return the location as a string
+     */
     public static String fromLocation(Location location) {
         DecimalFormat df = new DecimalFormat("##.##");
         StringBuilder sb = new StringBuilder();
@@ -215,6 +220,11 @@ public final class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * Reads JSON text from a URL
+     * @param url the URL
+     * @return the JSON element
+     */
     public static JsonElement readJsonFromUrl(String url) {
         JsonElement element = null;
         try {

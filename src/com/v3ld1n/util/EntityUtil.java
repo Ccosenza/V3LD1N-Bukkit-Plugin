@@ -115,22 +115,10 @@ public final class EntityUtil {
     }
 
     /**
-     * Strikes lightning at a location and destroys the projectile
-     * @param projectile the projectile to destroy
-     * @param location the location of the lightning strike
-     */
-    public static void detonateLightningProjectile(Projectile projectile, Location location) {
-        projectile.getWorld().strikeLightning(location);
-        projectile.remove();
-    }
-
-    /**
      * Deletes the projectile and spawns an instantly detonating firework rocket at its location
      * @param projectile the projectile
+     * @param effect the firework effect
      * @param location the location to spawn the firework
-     * @param type the firework type
-     * @param color the firework color
-     * @param fade the firework fade color
      */
     public static void detonateFireworkProjectile(Projectile projectile, FireworkEffect effect, Location location) {
         displayFireworkEffect(effect, location, 1);
@@ -138,8 +126,8 @@ public final class EntityUtil {
     }
 
     /**
-     * Makes a player "jump" away from a projectile
-     * @param entity the jumping player
+     * Makes an entity "jump" away from a projectile
+     * @param entity the jumping entity
      * @param projectile the projectile
      * @param speedX the X-axis speed
      * @param speedY the Y-axis speed

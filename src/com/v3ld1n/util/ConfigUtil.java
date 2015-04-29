@@ -30,18 +30,6 @@ public final class ConfigUtil {
     }
 
     /**
-     * Toggles a boolean config setting
-     * @param setting the setting to toggle
-     */
-    public static void toggleSetting(ConfigSetting setting) {
-        if (!setting.getBoolean()) {
-            setting.setValue(true);
-        } else {
-            setting.setValue(null);
-        }
-    }
-
-    /**
      * Returns the amount of reports a player has not read
      * @param uuid the player's UUID
      * @return the amount of unread reports

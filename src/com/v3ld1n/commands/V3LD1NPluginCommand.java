@@ -11,7 +11,6 @@ import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigAccessor;
-import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.PlayerUtil;
 
 public class V3LD1NPluginCommand extends V3LD1NCommand {
@@ -32,7 +31,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
             if (args[0].equalsIgnoreCase("debug") && args.length == 1) {
                 boolean debug = ConfigSetting.DEBUG.getBoolean();
                 Message message = debug ? Message.V3LD1NPLUGIN_DISABLE_DEBUG : Message.V3LD1NPLUGIN_ENABLE_DEBUG;
-                ConfigUtil.toggleSetting(ConfigSetting.DEBUG);
+                ConfigSetting.DEBUG.toggle();
                 ChatUtil.sendMessage(sender, message.toString(), 2);
                 return true;
             } else if (args[0].equalsIgnoreCase("help") && args.length == 1) {

@@ -25,7 +25,7 @@ public final class PlayerUtil {
     }
 
     /**
-     * Returns a player from a name
+     * Returns an online player from a name
      * @param name the player's name
      * @return the player
      */
@@ -39,7 +39,7 @@ public final class PlayerUtil {
     }
 
     /**
-     * Returns a player from a name
+     * Returns an offline player from a name
      * @param name the player's name
      * @return the player
      */
@@ -142,6 +142,11 @@ public final class PlayerUtil {
         return 0;
     }
 
+    /**
+     * Returns a map of player variables
+     * @param player the player
+     * @return the player info
+     */
     public static HashMap<String, Object> getInfo(Player player) {
         Player p = player.getPlayer();
         HashMap<String, Object> info = new HashMap<>();
@@ -164,8 +169,14 @@ public final class PlayerUtil {
         return info;
     }
 
-    public static String getUuid(String playerName, boolean dashes) {
-        String url = "https://api.mojang.com/users/profiles/minecraft/" + playerName + "?at=1422921600";
+    /**
+     * Returns an account's UUID
+     * @param playerName the username
+     * @param dashes whether to add dashes to the UUID
+     * @return the UUID
+     */
+    public static String getUuid(String username, boolean dashes) {
+        String url = "https://api.mojang.com/users/profiles/minecraft/" + username + "?at=1422921600";
         JsonElement element = StringUtil.readJsonFromUrl(url);
         if (element != null) {
             String uuid = element.getAsJsonObject().get("id").toString().replaceAll("\"", "");
@@ -177,27 +188,57 @@ public final class PlayerUtil {
         return null;
     }
 
-    public static int getTicksPlayed(Player p) {
-        return p.getStatistic(Statistic.PLAY_ONE_TICK);
+    /**
+     * Returns the number of ticks a player has been on the server
+     * @param player the player
+     * @return the number of ticks
+     */
+    public static int getTicksPlayed(Player player) {
+        return player.getStatistic(Statistic.PLAY_ONE_TICK);
     }
 
-    public static int getSecondsPlayed(Player p) {
-        return getTicksPlayed(p) / 20;
+    /**
+     * Returns the number of seconds a player has been on the server
+     * @param player the player
+     * @return the number of seconds
+     */
+    public static int getSecondsPlayed(Player player) {
+        return getTicksPlayed(player) / 20;
     }
 
-    public static int getMinutesPlayed(Player p) {
-        return getSecondsPlayed(p) / 60;
+    /**
+     * Returns the number of minutes a player has been on the server
+     * @param player the player
+     * @return the number of minutes
+     */
+    public static int getMinutesPlayed(Player player) {
+        return getSecondsPlayed(player) / 60;
     }
 
-    public static int getHoursPlayed(Player p) {
-        return getMinutesPlayed(p) / 60;
+    /**
+     * Returns the number of hours a player has been on the server
+     * @param player the player
+     * @return the number of hours
+     */
+    public static int getHoursPlayed(Player player) {
+        return getMinutesPlayed(player) / 60;
     }
 
-    public static int getDaysPlayed(Player p) {
-        return getHoursPlayed(p) / 24;
+    /**
+     * Returns the number of days a player has been on the server
+     * @param player the player
+     * @return the number of days
+     */
+    public static int getDaysPlayed(Player player) {
+        return getHoursPlayed(player) / 24;
     }
 
-    public static int getWeeksPlayed(Player p) {
-        return getDaysPlayed(p) / 7;
+    /**
+     * Returns the number of weeks a player has been on the server
+     * @param player the player
+     * @return the number of weeks
+     */
+    public static int getWeeksPlayed(Player player) {
+        return getDaysPlayed(player) / 7;
     }
 }
