@@ -147,10 +147,10 @@ public final class StringUtil {
     public static String upperCaseFirst(String string) {
         String[] words = string.split(" ");
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < words.length; i++) {
+        for (int i = 0; i < words.length; i++) {
             sb.append(Character.toUpperCase(words[i].charAt(0)));
             sb.append(words[i].substring(1));
-            if(i < words.length - 1) {
+            if (i < words.length - 1) {
                 sb.append(' ');
             }
         }

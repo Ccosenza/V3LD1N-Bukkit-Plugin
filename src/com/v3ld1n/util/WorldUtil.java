@@ -27,7 +27,7 @@ public final class WorldUtil {
         for (Entity e : entity.getWorld().getEntities()) {
             if (entity != e) {
                 double distance = entity.getLocation().distance(e.getLocation());
-                if(distance < nearestDistance) {
+                if (distance < nearestDistance) {
                     nearestDistance = distance;
                     nearestEntity = e;
                 }
@@ -47,7 +47,7 @@ public final class WorldUtil {
         for (Player p : player.getWorld().getPlayers()) {
             if (player.getUniqueId() != p.getUniqueId()) {
                 double distance = player.getLocation().distance(p.getLocation());
-                if(distance < nearestDistance) {
+                if (distance < nearestDistance) {
                     nearestDistance = distance;
                     nearestPlayer = p;
                 }
