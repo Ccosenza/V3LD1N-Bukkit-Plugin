@@ -30,8 +30,8 @@ public class FAQCommand extends V3LD1NCommand {
                     + "color:" + faq.getQuestionColor() + ","
                     + "clickEvent:{"
                     + "action:\"run_command\","
-                    + "value:\"/" + label + " " + faq.getId() + "\"}}]}"
-                    , 0);
+                    + "value:\"/" + label + " " + faq.getId() + "\"}}]}",
+                    0);
                 }
                 Message.FAQ_HELP.send(p);
                 Message.FAQ_BORDER_BOTTOM.send(p);

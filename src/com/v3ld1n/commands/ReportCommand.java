@@ -179,8 +179,8 @@ public class ReportCommand extends V3LD1NCommand {
                                 + "color:" + titleColor + ","
                                 + "clickEvent:{"
                                 + "action:\"run_command\","
-                                + "value:\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}"
-                                , 0);
+                                + "value:\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}",
+                                0);
                             }
                             Message.REPORT_LIST_HELP.send(p);
                         }
