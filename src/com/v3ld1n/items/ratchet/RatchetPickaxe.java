@@ -8,7 +8,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
@@ -35,9 +34,7 @@ public class RatchetPickaxe extends V3LD1NItem {
                     for (Entity entity : WorldUtil.getNearbyEntities(loc, getDoubleSetting("radius"))) {
                         if (entity.getType() == EntityType.DROPPED_ITEM) {
                             Item item = (Item) entity;
-                            ItemStack smeltedStack = ItemUtil.smelt(item.getItemStack());
-                            item.remove();
-                            loc.getWorld().dropItemNaturally(loc, smeltedStack);
+                            ItemUtil.smelt(item.getItemStack());
                         }
                     }
                 }
