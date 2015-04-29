@@ -46,8 +46,7 @@ public class RatchetFirework extends V3LD1NItem {
                                     getParticleSetting("water-particle").display(p.getLocation());
                                 } else if (p.getLocation().getBlock().getType() == Material.LAVA || p.getLocation().getBlock().getType() == Material.STATIONARY_LAVA) {
                                     getParticleSetting("lava-particle").display(p.getLocation());
-                                }
-                                else {
+                                } else {
                                     getParticleSetting("particle").display(p.getLocation());
                                 }
                             }
