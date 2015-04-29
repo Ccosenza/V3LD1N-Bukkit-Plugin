@@ -101,7 +101,7 @@ public class PlayerListener implements Listener {
                     DecimalFormat df = new DecimalFormat("0.##");
                     amountString = df.format(amount);
                     Message.VELDS_ADDED.sendF(p, amountString);
-                    V3LD1N.econ.depositPlayer(p, amount);
+                    V3LD1N.getEconomy().depositPlayer(p, amount);
                 }
             } else if (i.getType() == Material.ENDER_PEARL && p.getGameMode() == GameMode.CREATIVE) {
                 p.launchProjectile(EnderPearl.class);

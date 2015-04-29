@@ -733,4 +733,8 @@ public class V3LD1N extends JavaPlugin {
     public static WorldGuardPlugin getWorldGuard() {
         return worldGuard;
     }
+
+    public static Economy getEconomy() {
+        return econ;
+    }
 }
