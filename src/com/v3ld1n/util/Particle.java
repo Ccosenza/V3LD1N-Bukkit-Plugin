@@ -153,7 +153,14 @@ public class Particle {
                 particle = enumparticle;
             }
         }
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, force, (float) location.getX(), (float) location.getY(), (float) location.getZ(), this.offsetX, this.offsetY, this.offsetZ, this.speed, this.count);
+        float x = (float) location.getX();
+        float y = (float) location.getY();
+        float z = (float) location.getZ();
+        float ox = this.offsetX;
+        float oy = this.offsetY;
+        float oz = this.offsetZ;
+        PacketPlayOutWorldParticles packet;
+        packet = new PacketPlayOutWorldParticles(particle, force, x, y, z, oz, oy, oz, speed, count);
         return packet;
     }
 
