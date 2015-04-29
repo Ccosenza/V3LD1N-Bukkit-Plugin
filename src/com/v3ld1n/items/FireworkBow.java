@@ -24,7 +24,7 @@ public class FireworkBow extends V3LD1NItem {
 
     @EventHandler
     public void onShoot(final EntityShootBowEvent event) {
-        if (event.getEntity() instanceof Player) {
+        if (event.getEntityType() == EntityType.PLAYER) {
             final Player p = (Player) event.getEntity();
             if (this.equalsItem(p.getItemInHand())) {
                 event.getProjectile().setFireTicks(Integer.MAX_VALUE);
