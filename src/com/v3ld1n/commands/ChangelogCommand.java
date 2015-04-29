@@ -1,7 +1,6 @@
 package com.v3ld1n.commands;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +51,6 @@ public class ChangelogCommand extends V3LD1NCommand {
         for (ChangelogDay cld : V3LD1N.getChangelogDays()) {
             List<Change> c = cld.getChanges();
             SimpleDateFormat df = ChangelogDay.getDateFormat();
-            List<String> changeChanges = new ArrayList<>();
             try {
                 Date date = df.parse(cld.getDay());
                 String format = TimeUtil.format(date.getTime(), "MMMM dd, yyyy");
@@ -65,7 +63,6 @@ public class ChangelogCommand extends V3LD1NCommand {
                 sb.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), format) + "\n");
                 for (Change change : c) {
                     String changed = change.getChange();
-                    changeChanges.add(change.getChange());
                     String time = TimeUtil.formatTime(change.getTime());
                     sb.append(String.format(Message.CHANGELOG_LIST_ITEM.toString().replaceAll("%newline%", "\n"), time, changed));
                 }
