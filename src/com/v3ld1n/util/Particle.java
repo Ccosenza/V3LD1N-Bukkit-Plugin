@@ -160,7 +160,7 @@ public class Particle {
         float oy = this.offsetY;
         float oz = this.offsetZ;
         PacketPlayOutWorldParticles packet;
-        packet = new PacketPlayOutWorldParticles(particle, force, x, y, z, oz, oy, oz, speed, count);
+        packet = new PacketPlayOutWorldParticles(particle, force, x, y, z, ox, oy, oz, speed, count);
         return packet;
     }
 
