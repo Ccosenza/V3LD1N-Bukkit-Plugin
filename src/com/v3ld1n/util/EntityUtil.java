@@ -40,9 +40,9 @@ public final class EntityUtil {
             loc = ((LivingEntity) entity).getEyeLocation();
         }
         Vector direction = loc.toVector().subtract(to.toVector()).normalize();
-        direction.setX(direction.getX()*-(speedX))
-                .setY(direction.getY()*-(speedY))
-                .setZ(direction.getZ()*-(speedZ));
+        direction.setX(direction.getX() * -(speedX))
+                .setY(direction.getY() * -(speedY))
+                .setZ(direction.getZ() * -(speedZ));
         entity.setVelocity(direction);
         if (entity instanceof Fireball) {
             ((Fireball) entity).setDirection(direction);
