@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -45,6 +46,12 @@ public class ItemUtil {
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<String>();
         lore.remove(line);
         meta.setLore(lore);
+        item.setItemMeta(meta);
+    }
+
+    public static void addEnchantment(ItemStack item, Enchantment ench, int level) {
+        ItemMeta meta = item.getItemMeta();
+        meta.addEnchant(ench, level, true);
         item.setItemMeta(meta);
     }
 

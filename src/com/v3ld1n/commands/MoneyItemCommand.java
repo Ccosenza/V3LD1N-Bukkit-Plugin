@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ItemUtil;
@@ -34,9 +33,7 @@ public class MoneyItemCommand extends V3LD1NCommand {
                 DecimalFormat df = new DecimalFormat("0.##");
                 ItemUtil.setName(item, "§r§e" + df.format(amount) + " §6Velds");
                 ItemUtil.addLore(item, Message.VELDS_LORE.toString());
-                ItemMeta meta = item.getItemMeta();
-                meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 10, false);
-                item.setItemMeta(meta);
+                ItemUtil.addEnchantment(item, Enchantment.PROTECTION_ENVIRONMENTAL, 10);
                 p.getInventory().addItem(item);
                 return true;
             }
