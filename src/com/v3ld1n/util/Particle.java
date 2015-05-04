@@ -4,7 +4,6 @@ import net.minecraft.server.v1_8_R2.EnumParticle;
 import net.minecraft.server.v1_8_R2.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class Particle {
@@ -143,7 +142,7 @@ public class Particle {
 
     public void display(Location location, Player player) {
         PacketPlayOutWorldParticles packet = createPacket(location);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        PlayerUtil.sendPacket(packet, player);
     }
 
     private PacketPlayOutWorldParticles createPacket(Location location) {

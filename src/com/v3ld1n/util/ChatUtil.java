@@ -9,7 +9,6 @@ import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Config;
@@ -30,7 +29,7 @@ public final class ChatUtil {
             String jsonMessage = "{\"text\":\"" + message.replaceAll("\"", "\\\\\"") + "\"}";
             IChatBaseComponent chat = ChatSerializer.a(jsonMessage);
             PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
-            ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
+            PlayerUtil.sendPacket(packet, (Player) to);
         } else {
             to.sendMessage(message);
         }
@@ -46,7 +45,7 @@ public final class ChatUtil {
         if (to instanceof Player) {
             IChatBaseComponent chat = ChatSerializer.a(message);
             PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
-            ((CraftPlayer) to).getHandle().playerConnection.sendPacket(packet);
+            PlayerUtil.sendPacket(packet, (Player) to);
         } else {
             to.sendMessage(message);
         }

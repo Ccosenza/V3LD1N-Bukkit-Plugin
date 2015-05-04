@@ -3,7 +3,6 @@ package com.v3ld1n.util;
 import net.minecraft.server.v1_8_R2.PacketPlayOutNamedSoundEffect;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class Sound {
@@ -73,13 +72,13 @@ public class Sound {
     public void play(Location location) {
         PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(name, location.getX(), location.getY(), location.getZ(), volume, pitch);
         for (Player p : location.getWorld().getPlayers()) {
-            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+            PlayerUtil.sendPacket(packet, p);
         }
     }
 
     public void play(Location location, Player player) {
         PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(name, location.getX(), location.getY(), location.getZ(), volume, pitch);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        PlayerUtil.sendPacket(packet, player);
     }
 
     public static Sound fromString(String sound) {

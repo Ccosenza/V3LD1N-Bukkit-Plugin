@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.Packet;
 import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R2.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
@@ -84,7 +85,7 @@ public final class PlayerUtil {
     public static void displayTitle(Player player, String title, int fadeIn, int stay, int fadeOut) {
         IChatBaseComponent json = ChatSerializer.a(title);
         PacketPlayOutTitle packet = new PacketPlayOutTitle(EnumTitleAction.TITLE, json, fadeIn, stay, fadeOut);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        sendPacket(packet, player);
     }
 
     /**
@@ -102,7 +103,7 @@ public final class PlayerUtil {
             displayTitle(player, "{text:\"\"}", fadeIn, stay, fadeOut);
         }
         PacketPlayOutTitle packet = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, json, fadeIn, stay, fadeOut);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        sendPacket(packet, player);
     }
 
     /**
@@ -127,7 +128,7 @@ public final class PlayerUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        sendPacket(packet, player);
     }
 
     /**
@@ -240,5 +241,9 @@ public final class PlayerUtil {
      */
     public static int getWeeksPlayed(Player player) {
         return getDaysPlayed(player) / 7;
+    }
+
+    public static void sendPacket(Packet<?> packet, Player player) {
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 }

@@ -34,11 +34,11 @@ public enum PlayerAnimation {
      */
     public void play(Player player, double radius) {
         PacketPlayOutAnimation packet = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), id);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        PlayerUtil.sendPacket(packet, player);
         for (Entity e : player.getNearbyEntities(radius, radius, radius)) {
             if (e != null && e instanceof Player) {
                 Player p = (Player) e;
-                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+                PlayerUtil.sendPacket(packet, p);
             }
         }
     }
@@ -49,6 +49,6 @@ public enum PlayerAnimation {
      */
     public void playTo(Player player) {
         PacketPlayOutAnimation packet = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), id);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        PlayerUtil.sendPacket(packet, player);
     }
 }
