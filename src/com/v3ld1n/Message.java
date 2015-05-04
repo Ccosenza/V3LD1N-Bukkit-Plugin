@@ -19,6 +19,7 @@ public enum Message {
 
     VELDS_ADDED("velds.added"),
     VELDS_LORE("velds.lore"),
+    VELDS_INVALID_AMOUNT("velds.invalid-amount"),
 
     SHORT_LIST_ITEM("lists.short-item"),
     LONG_LIST_ITEM("lists.long-item"),

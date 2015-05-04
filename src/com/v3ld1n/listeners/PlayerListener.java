@@ -3,6 +3,7 @@ package com.v3ld1n.listeners;
 import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
 
 import com.v3ld1n.*;
 import com.v3ld1n.util.*;
@@ -89,7 +90,7 @@ public class PlayerListener implements Listener {
             if (i.getType() == Material.EMERALD && i.hasItemMeta()) {
                 ItemMeta meta = i.getItemMeta();
                 String name = meta.getDisplayName();
-                if (name.contains(ChatColor.GOLD + "Velds") && meta.hasLore() && meta.getLore().get(0).equals(Message.VELDS_LORE.toString())) {
+                if (name.contains(ChatColor.GOLD + "Veld") && meta.hasLore() && meta.getLore().get(0).equals(Message.VELDS_LORE.toString())) {
                     event.setCancelled(true);
                     if (i.getAmount() > 1) {
                         i.setAmount(i.getAmount() - 1);
@@ -97,11 +98,15 @@ public class PlayerListener implements Listener {
                         p.getInventory().remove(i);
                     }
                     String amountString = name.substring(4, name.indexOf(" "));
-                    double amount = Double.parseDouble(amountString);
-                    DecimalFormat df = new DecimalFormat("0.##");
-                    amountString = df.format(amount);
-                    Message.VELDS_ADDED.sendF(p, amountString);
-                    V3LD1N.getEconomy().depositPlayer(p, amount);
+                    try {
+                        double amount = Double.parseDouble(amountString);
+                        DecimalFormat df = new DecimalFormat("0.##");
+                        amountString = df.format(amount);
+                        Message.VELDS_ADDED.sendF(p, amountString);
+                        V3LD1N.getEconomy().depositPlayer(p, amount);
+                    } catch (Exception e) {
+                        Message.VELDS_INVALID_AMOUNT.logF(Level.WARNING, p.getName(), amountString);
+                    }
                 }
             } else if (i.getType() == Material.ENDER_PEARL && p.getGameMode() == GameMode.CREATIVE) {
                 p.launchProjectile(EnderPearl.class);

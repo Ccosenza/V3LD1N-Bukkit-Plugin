@@ -31,7 +31,9 @@ public class MoneyItemCommand extends V3LD1NCommand {
                 }
                 ItemStack item = new ItemStack(Material.EMERALD);
                 DecimalFormat df = new DecimalFormat("0.##");
-                ItemUtil.setName(item, "§r§e" + df.format(amount) + " §6Velds");
+                String moneyName = "§6Veld";
+                moneyName = moneyName + (amount == 1 ? "" : "s");
+                ItemUtil.setName(item, "§e" + df.format(amount) + " " + moneyName);
                 ItemUtil.addLore(item, Message.VELDS_LORE.toString());
                 ItemUtil.addEnchantment(item, Enchantment.PROTECTION_ENVIRONMENTAL, 10);
                 p.getInventory().addItem(item);
