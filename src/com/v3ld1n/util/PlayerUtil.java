@@ -243,6 +243,11 @@ public final class PlayerUtil {
         return getDaysPlayed(player) / 7;
     }
 
+    /**
+     * Sends a packet to a player
+     * @param packet the packet
+     * @param player the player
+     */
     public static void sendPacket(Packet<?> packet, Player player) {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
