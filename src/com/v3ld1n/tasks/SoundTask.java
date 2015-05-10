@@ -36,7 +36,7 @@ public class SoundTask extends Task {
         nextTime = TimeUtil.getTime() + TimeUtil.ticksToMillis(this.getLongSetting("ticks"));
 
         List<String> soundList = this.getStringListSetting("sounds");
-        if (soundList.size() > 1 && soundList.contains(currentSound)) {    
+        if (soundList.size() > 1 && soundList.contains(currentSound)) {
             soundList.remove(currentSound);
         }
 
