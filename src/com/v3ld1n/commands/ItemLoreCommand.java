@@ -54,7 +54,7 @@ public class ItemLoreCommand extends V3LD1NCommand {
                                 Message.ITEMLORE_ADD.sendF(p, lore);
                             }
                             if (args.length >= 3) {
-                                lore = StringUtil.fromArray(args, 2);
+                                lore = StringUtil.formatText(StringUtil.fromArray(args, 2));
                                 if (args[0].equalsIgnoreCase("set")) {
                                     int line;
                                     try {
