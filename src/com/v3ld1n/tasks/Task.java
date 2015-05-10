@@ -41,6 +41,10 @@ public abstract class Task {
         return config.getConfig().getInt(name + "." + settingName);
     }
 
+    public long getLongSetting(String settingName) {
+        return config.getConfig().getLong(name + "." + settingName);
+    }
+
     public double getDoubleSetting(String settingName) {
         return config.getConfig().getDouble(name + "." + settingName);
     }

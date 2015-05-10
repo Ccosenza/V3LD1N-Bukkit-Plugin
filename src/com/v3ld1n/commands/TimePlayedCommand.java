@@ -52,7 +52,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
                 name = name.substring(0, 16);
             }
             final Objective objective = board.registerNewObjective(name, "dummy");
-            objective.setDisplayName(ChatColor.AQUA + p.getName() + ChatColor.GOLD + "'s Time Played");
+            objective.setDisplayName(ChatColor.GOLD + "Total Times (" + ChatColor.AQUA + p.getName() + ChatColor.GOLD + ")");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
             RepeatableRunnable updateSidebarTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 5, 5, SECONDS * 4) {
                 @Override

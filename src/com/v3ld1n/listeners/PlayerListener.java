@@ -6,11 +6,11 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import com.v3ld1n.*;
+import com.v3ld1n.tasks.SoundTask;
 import com.v3ld1n.util.*;
 
-import net.md_5.bungee.api.ChatColor;
-
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -79,6 +79,14 @@ public class PlayerListener implements Listener {
                         }
                         for (Sound sound : sign.getSounds()) {
                             sound.play(loc);
+                        }
+                    }
+                }
+                for (SoundTask task : V3LD1N.getSoundTasks()) {
+                    for (Sign sign : task.getSigns()) {
+                        if (signState.equals(sign)) {
+                            String time = TimeUtil.fromSeconds((task.getNextTime() / 1000) - (TimeUtil.getTime() / 1000));
+                            Message.TASK_SOUND_TIME.sendF(p, task.getName().toUpperCase(), time);
                         }
                     }
                 }

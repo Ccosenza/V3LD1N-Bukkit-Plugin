@@ -65,6 +65,8 @@ public enum Message {
 
     RATCHETS_SHOVEL_DAMAGE("items.ratchets-shovel.damage"),
 
+    TASK_SOUND_TIME("tasks.sound.time"),
+
     COMMAND_NOT_PLAYER("commands.player"),
     COMMAND_NO_PERMISSION("commands.permission"),
     COMMAND_INVALID_PLAYER("commands.invalid-player"),
