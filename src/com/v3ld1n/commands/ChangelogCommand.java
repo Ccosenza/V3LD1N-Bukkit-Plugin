@@ -33,6 +33,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                     changed = changed.replaceAll("[\"\\\\]", "");
                     Change change = new Change(TimeUtil.getTime(), p.getUniqueId().toString(), changed);
                     V3LD1N.addChange(change, ChangelogDay.today());
+                    displayChangelog(p);
                     Message.CHANGELOG_LOG.send(p);
                 } else {
                     Message.CHANGELOG_NO_PERMISSION.send(p);

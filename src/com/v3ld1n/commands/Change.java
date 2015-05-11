@@ -4,6 +4,7 @@ public class Change {
     private long time;
     private String player;
     private String change;
+    private ChangelogDay day;
 
     public Change(long time, String player, String change) {
         this.time = time;
@@ -21,5 +22,13 @@ public class Change {
 
     public String getChange() {
         return change;
+    }
+
+    public ChangelogDay getDay() {
+        return day;
+    }
+
+    public void setDay(ChangelogDay day) {
+        this.day = day;
     }
 }

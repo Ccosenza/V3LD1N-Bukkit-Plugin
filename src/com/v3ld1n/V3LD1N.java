@@ -547,13 +547,15 @@ public class V3LD1N extends JavaPlugin {
 
     public static void addChange(Change change, String day) {
         ChangelogDay compare = new ChangelogDay(day, new ArrayList<Change>());
+        ChangelogDay add;
         if (changelogDays.contains(compare)) {
-            changelogDays.get(changelogDays.indexOf(compare)).addChange(change);
+            add = changelogDays.get(changelogDays.indexOf(compare));
         } else {
-            ChangelogDay cld = compare;
-            cld.addChange(change);
-            changelogDays.add(cld);
+            add = compare;
+            changelogDays.add(add);
         }
+        add.addChange(change);
+        change.setDay(add);
     }
 
     private static void loadResourcePacks() {
