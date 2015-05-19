@@ -137,10 +137,10 @@ commands:
     aliases: [change, changes]
     usage: /<command> [log <change>]
   itemname:
-    description: Sets the name of the item you're holding.
+    description: Sets the name of the item you are holding.
     aliases: [iname, in, nameitem, namei]
     usage: /<command> <name> OR /<command> remove
   itemlore:
-    description: Sets the lore of the item you're holding.
+    description: Sets the lore of the item you are holding.
     aliases: [description, desc, lore, itemdesc]
     usage: /<command> set|remove <line> <lore ...> OR /<command> add <lore ...>
