@@ -30,7 +30,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            final Player player = (Player) sender;
             final Player p;
             if (args.length == 0) {
                 p = player;
@@ -57,7 +57,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
             RepeatableRunnable updateSidebarTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 5, 5, SECONDS * 4) {
                 @Override
                 public void onRun() {
-                    updateTime(objective, p);
+                    updateTime(objective, p, player);
                 }
             };
             updateSidebarTask.run();
@@ -78,14 +78,14 @@ public class TimePlayedCommand extends V3LD1NCommand {
         return true;
     }
 
-    private void updateTime(Objective objective, Player player) {
+    private void updateTime(Objective objective, Player player, Player to) {
         int ticks = PlayerUtil.getTicksPlayed(player);
         int seconds = PlayerUtil.getSecondsPlayed(player);
         int minutes = PlayerUtil.getMinutesPlayed(player);
         int hours = PlayerUtil.getHoursPlayed(player);
         int days = PlayerUtil.getDaysPlayed(player);
         int weeks = PlayerUtil.getWeeksPlayed(player);
-        ChatUtil.sendMessage(player, Message.TIMEPLAYED_TIME.toString() + TimeUtil.fromSeconds(seconds), 2);
+        ChatUtil.sendMessage(to, Message.TIMEPLAYED_TIME.toString() + TimeUtil.fromSeconds(seconds), 2);
         objective.getScore("Ticks").setScore(ticks);
         if (seconds > 0) {
             objective.getScore("Seconds").setScore(seconds);
