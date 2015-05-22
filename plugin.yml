@@ -144,3 +144,6 @@ commands:
     description: Sets the lore of the item you are holding.
     aliases: [description, desc, lore, itemdesc]
     usage: /<command> set|remove <line> <lore ...> OR /<command> add <lore ...>
+  unbreakable:
+    description: Makes the item you are holding unbreakable.
+    usage: /<command>

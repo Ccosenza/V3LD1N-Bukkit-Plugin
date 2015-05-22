@@ -11,6 +11,7 @@ import com.v3ld1n.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -168,6 +169,10 @@ public class PlayerListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         String msg = StringUtil.replacePlayerVariables(event.getMessage(), event.getPlayer());
         event.setMessage(msg);
+        if (msg.equals("?LOTTO #&")) {
+            Location loc = event.getPlayer().getLocation();
+            loc.getWorld().playEffect(loc, Effect.ENDER_SIGNAL, 0);
+        }
     }
 
     @EventHandler

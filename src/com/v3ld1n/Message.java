@@ -70,6 +70,7 @@ public enum Message {
     COMMAND_NOT_PLAYER("commands.player"),
     COMMAND_NO_PERMISSION("commands.permission"),
     COMMAND_INVALID_PLAYER("commands.invalid-player"),
+    COMMAND_NO_ITEM("commands.no-item"),
     COMMAND_USAGE_TITLE("commands.usage-title"),
     COMMAND_USAGE_DESCRIPTION("commands.usage-description"),
 
@@ -112,20 +113,17 @@ public enum Message {
     FIREWORKARROWS_LIST_TITLE("commands.fireworkarrows.list-title"),
 
     GIVEALL_GIVE("commands.giveall.give"),
-    GIVEALL_NO_ITEM("commands.giveall.no-item"),
 
     ITEMLORE_SET("commands.itemlore.set"),
     ITEMLORE_ADD("commands.itemlore.add"),
     ITEMLORE_REMOVE("commands.itemlore.remove"),
     ITEMLORE_REMOVE_LINE("commands.itemlore.remove-line"),
     ITEMLORE_NO_LORE("commands.itemlore.no-lore"),
-    ITEMLORE_NO_ITEM("commands.itemlore.no-item"),
     ITEMLORE_INVALID_LINE("commands.itemlore.invalid-line"),
 
     ITEMNAME_SET("commands.itemname.set"),
     ITEMNAME_REMOVE("commands.itemname.remove"),
     ITEMNAME_NOT_NAMED("commands.itemname.not-named"),
-    ITEMNAME_NO_ITEM("commands.itemname.no-item"),
 
     MOTD_SHOWING("commands.motd.show"),
     MOTD_NO_PERMISSION_OTHERS("commands.motd.others-permission"),
@@ -222,6 +220,8 @@ public enum Message {
     TRAIL_REMOVE_OTHER("commands.trail.remove-other"),
     TRAIL_NO_PERMISSION_OTHERS("commands.trail.others-permission"),
     TRAIL_INVALID("commands.trail.invalid"),
+
+    UNBREAKABLE_SET("commands.unbreakable.set"),
 
     UUID_HOVER("commands.uuid.hover"),
 
