@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
+import com.v3ld1n.util.ItemUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.Sound;
@@ -30,6 +31,7 @@ public class RatchetFireworkStar extends V3LD1NItem {
         if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
             if (this.equalsItem(p.getItemInHand())) {
                 event.setCancelled(true);
+                p.setItemInHand(ItemUtil.hideFlags(p.getItemInHand()));
                 PlayerAnimation.SWING_ARM.play(p, 25);
                 new ProjectileBuilder()
                     .withType(Snowball.class)
