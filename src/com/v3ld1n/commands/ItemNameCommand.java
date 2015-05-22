@@ -36,7 +36,7 @@ public class ItemNameCommand extends V3LD1NCommand {
                         ItemUtil.setName(i, name);
                         return true;
                     }
-                    Message.ITEMNAME_NO_ITEM.send(p);
+                    Message.COMMAND_NO_ITEM.send(p);
                     return true;
                 }
                 this.sendUsage(p, label, command);

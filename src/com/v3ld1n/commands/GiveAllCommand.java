@@ -26,7 +26,7 @@ public class GiveAllCommand extends V3LD1NCommand {
                     Message.GIVEALL_GIVE.aSendF(p, amount, itemString);
                     return true;
                 }
-                Message.GIVEALL_NO_ITEM.aSend(p);
+                Message.COMMAND_NO_ITEM.send(p);
                 return true;
             }
             sendPermissionMessage(sender);

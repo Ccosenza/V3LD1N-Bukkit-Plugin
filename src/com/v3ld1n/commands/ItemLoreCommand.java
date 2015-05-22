@@ -72,7 +72,7 @@ public class ItemLoreCommand extends V3LD1NCommand {
                         this.sendUsage(p, label, command);
                         return true;
                     }
-                    Message.ITEMLORE_NO_ITEM.send(p);
+                    Message.COMMAND_NO_ITEM.send(p);
                     return true;
                 }
                 this.sendUsage(p, label, command);
