@@ -36,6 +36,7 @@ public class MoneyItemCommand extends V3LD1NCommand {
                 ItemUtil.setName(item, "§e" + df.format(amount) + " " + moneyName);
                 ItemUtil.addLore(item, Message.VELDS_LORE.toString());
                 ItemUtil.addEnchantment(item, Enchantment.PROTECTION_ENVIRONMENTAL, 10);
+                item = ItemUtil.hideFlags(item);
                 p.getInventory().addItem(item);
                 return true;
             }
