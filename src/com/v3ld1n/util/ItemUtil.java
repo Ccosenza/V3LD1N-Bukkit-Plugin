@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.minecraft.server.v1_8_R2.NBTBase;
+import net.minecraft.server.v1_8_R2.NBTTagByte;
+import net.minecraft.server.v1_8_R2.NBTTagCompound;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -92,21 +97,119 @@ public class ItemUtil {
     }
 
     /**
+     * Hides item descriptions
+     * @param item the item
+     * @param enchantments whether to hide enchantments
+     * @param attributes whether to hide attributes
+     * @param unbreakable whether to hide unbreakable
+     * @param canDestroy whether to hide can destroy blocks
+     * @param canPlaceOn whether to hide can place on blocks
+     * @param other whether to hide other descriptions (banner patterns, firework effects, etc.)
+     */
+    public static ItemStack hideFlags(ItemStack item, boolean enchantments, boolean attributes, boolean unbreakable, boolean canDestroy, boolean canPlaceOn, boolean other) {
+        byte hide = 0;
+        if (enchantments) hide += 1;
+        if (attributes) hide += 2;
+        if (unbreakable) hide += 4;
+        if (canDestroy) hide += 8;
+        if (canPlaceOn) hide += 16;
+        if (other) hide += 32;
+        return setTag(item, "HideFlags", new NBTTagByte(hide));
+    }
+
+    /**
+     * Hides all item descriptions
+     * @param item the item
+     */
+    public static ItemStack hideFlags(ItemStack item) {
+        return setTag(item, "HideFlags", new NBTTagByte((byte) 63));
+    }
+
+    /**
+     * Sets an NBT tag on an item
+     * @param item the item
+     * @param tagName the tag name
+     * @param value the tag value
+     * @return the item with the new tag
+     */
+    public static ItemStack setTag(ItemStack item, String tagName, NBTBase value) {
+        net.minecraft.server.v1_8_R2.ItemStack stack = CraftItemStack.asNMSCopy(item);
+        NBTTagCompound tag = stack.hasTag() ? stack.getTag() : new NBTTagCompound();
+        tag.set(tagName, value);
+        stack.setTag(tag);
+        return CraftItemStack.asBukkitCopy(stack);
+    }
+
+    /**
+     * Returns all crafting recipes
+     * @return a list of recipes
+     */
+    public static List<Recipe> getAllRecipes() {
+        List<Recipe> recipes = new ArrayList<>();
+        Iterator<Recipe> iter = Bukkit.recipeIterator();
+        while (iter.hasNext()) {
+            recipes.add(iter.next());
+        }
+        return recipes;
+    }
+
+    /**
+     * Returns all crafting recipes
+     * @return a list of recipes
+     */
+    public static List<Recipe> getCraftingRecipes() {
+        List<Recipe> recipes = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            if (!(recipe instanceof FurnaceRecipe)) {
+                recipes.add(recipe);
+            }
+        }
+        return recipes;
+    }
+
+    /**
+     * Returns all furnace recipes
+     * @return a list of recipes
+     */
+    public static List<FurnaceRecipe> getFurnaceRecipes() {
+        List<FurnaceRecipe> recipes = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            if (recipe instanceof FurnaceRecipe) {
+                recipes.add((FurnaceRecipe) recipe);
+            }
+        }
+        return recipes;
+    }
+
+    /**
+     * Returns all crafting recipes for an item
+     * @param item the item
+     * @return a list of recipes
+     */
+    public static List<Recipe> getCraftingRecipes(ItemStack item) {
+        List<Recipe> recipes = new ArrayList<>();
+        for (Recipe recipe : getAllRecipes()) {
+            if (!(recipe instanceof FurnaceRecipe)) {
+                if (recipe.getResult().getType() == item.getType()) {
+                    recipes.add(recipe);
+                }
+            }
+        }
+        return recipes;
+    }
+
+    /**
      * Smelts an item
      * @param item the item
      */
     public static void smelt(ItemStack item) {
         Material type = item.getType();
         short data = item.getDurability();
-        Iterator<Recipe> iter = Bukkit.recipeIterator();
-        while (iter.hasNext()) {
-           Recipe recipe = iter.next();
-           if (recipe instanceof FurnaceRecipe) {
-               if (((FurnaceRecipe) recipe).getInput().getType() == item.getType()) {
-                   type = recipe.getResult().getType();
-                   data = recipe.getResult().getDurability();
-                   break;
-               }
+        for (FurnaceRecipe recipe : getFurnaceRecipes()) {
+           if ((recipe).getInput().getType() == item.getType()) {
+               type = recipe.getResult().getType();
+               data = recipe.getResult().getDurability();
+               break;
            }
         }
         item.setType(type);
