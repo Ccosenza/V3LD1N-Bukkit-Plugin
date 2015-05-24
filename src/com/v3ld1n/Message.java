@@ -189,7 +189,9 @@ public enum Message {
 
     RIDE_USE("commands.ride.use"),
     RIDE_RIDE("commands.ride.ride"),
+    RIDE_HOLD("commands.ride.hold"),
     RIDE_NO_TIME("commands.ride.no-time"),
+    RIDE_INVALID_TYPE("commands.ride.invalid-type"),
 
     SETFULLTIME_SET("commands.setfulltime.set"),
 

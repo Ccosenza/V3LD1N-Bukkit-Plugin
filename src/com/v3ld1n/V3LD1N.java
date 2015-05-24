@@ -61,7 +61,7 @@ public class V3LD1N extends JavaPlugin {
     private final Random random = new Random();
 
     private static RideCommand rideCommand = new RideCommand();
-    public static HashMap<UUID, Boolean> usingRideCommand;
+    public static HashMap<UUID, RideType> usingRideCommand;
 
     @Override
     public void onEnable() {

@@ -109,9 +109,9 @@ commands:
     aliases: [vwarp]
     usage: /<command> add|remove <warp> OR /<command> list
   ride:
-    description: Right-click on an entity to ride it.
+    description: Right-click on an entity to ride/hold it.
     aliases: [rideentity, entityride]
-    usage: /<command>
+    usage: /<command> [hold]
   names:
     description: Displays information about player names.
     aliases: [name]

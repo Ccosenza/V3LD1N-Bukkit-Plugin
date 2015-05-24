@@ -1,5 +1,8 @@
 package com.v3ld1n.commands;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,6 +21,11 @@ import com.v3ld1n.util.StringUtil;
 public class RideCommand extends V3LD1NCommand implements Listener {
     private BukkitTask task;
 
+    public RideCommand() {
+        this.addUsage("", "Ride an entity");
+        this.addUsage("hold", "Hold an entity");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.ride")) {
@@ -26,16 +34,28 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                 if (task != null) {
                     task.cancel();
                 }
-                V3LD1N.usingRideCommand.put(p.getUniqueId(), true);
+                RideType type = null;
+                if (args.length == 0) {
+                    type = RideType.RIDE;
+                } else if (args.length == 1) {
+                    try {
+                        type = RideType.valueOf(args[0].toUpperCase());
+                    } catch (Exception e) {
+                        Message.RIDE_INVALID_TYPE.send(p);
+                        return true;
+                    }
+                } else {
+                    this.sendUsage(p, label, command);
+                    return true;
+                }
+                V3LD1N.usingRideCommand.put(p.getUniqueId(), type);
                 Message.RIDE_USE.aSend(p);
                 task = Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
                     @Override
                     public void run() {
                         if (V3LD1N.usingRideCommand.get(p.getUniqueId()) != null) {
-                            if (V3LD1N.usingRideCommand.get(p.getUniqueId()) == true) {
-                                V3LD1N.usingRideCommand.remove(p.getUniqueId());
-                                Message.RIDE_NO_TIME.aSend(p);
-                            }
+                            V3LD1N.usingRideCommand.remove(p.getUniqueId());
+                            Message.RIDE_NO_TIME.aSend(p);
                         }
                     }
                 }, 200L);
@@ -51,13 +71,27 @@ public class RideCommand extends V3LD1NCommand implements Listener {
     @EventHandler
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         Player p = event.getPlayer();
-        if (V3LD1N.usingRideCommand.containsKey(p.getUniqueId()) && V3LD1N.usingRideCommand.get(p.getUniqueId())) {
+        HashMap<UUID, RideType> using = V3LD1N.usingRideCommand;
+        if (using.containsKey(p.getUniqueId())) {
             PlayerAnimation.SWING_ARM.play(p, 64);
             Entity entity = event.getRightClicked();
-            entity.setPassenger(p);
+            RideType type = using.get(p.getUniqueId());
+            Message message = null;
+            switch (type) {
+            case RIDE:
+                entity.setPassenger(p);
+                message = Message.RIDE_RIDE;
+                break;
+            case HOLD:
+                p.setPassenger(entity);
+                message = Message.RIDE_HOLD;
+                break;
+            default:
+                break;
+            }
             V3LD1N.usingRideCommand.remove(p.getUniqueId());
             task.cancel();
-            Message.RIDE_RIDE.aSendF(p, StringUtil.getEntityName(entity));
+            message.aSendF(p, StringUtil.getEntityName(entity));
         }
     }
 }
