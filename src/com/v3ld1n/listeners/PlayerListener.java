@@ -53,12 +53,13 @@ public class PlayerListener implements Listener {
             if (p.getItemInHand().getType() == Material.MONSTER_EGG && p.getItemInHand().getDurability() == ConfigSetting.ENDER_CRYSTAL_EGG_DATA.getInt()) {
                 event.setCancelled(true);
                 Location loc = p.getTargetBlock((Set<Material>) null, 5).getLocation();
-                if (V3LD1N.getWorldGuard().canBuild(p, loc) && V3LD1N.getWorldGuard().canBuild(p, loc.add(0, 1, 0))) {
+                loc = loc.add(0, 2, 0);
+                if (V3LD1N.getWorldGuard().canBuild(p, loc) && V3LD1N.getWorldGuard().canBuild(p, loc)) {
                     if (p.getGameMode() != GameMode.CREATIVE) {
                         p.getInventory().remove(p.getItemInHand());
                     }
                     p.getWorld().spawnEntity(loc, EntityType.ENDER_CRYSTAL);
-                    Location particleLoc = loc.add(0, 1.6, 0);
+                    Location particleLoc = loc.add(0, 0.6, 0);
                     Particle.fromString(ConfigSetting.PARTICLE_SPAWN_ENDER_CRYSTAL.getString()).display(particleLoc);
                 } else {
                     Message.WORLDGUARD_PERMISSION.send(p);
