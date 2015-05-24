@@ -1,8 +1,8 @@
 package com.v3ld1n.util;
 
-import net.minecraft.server.v1_8_R2.PacketPlayOutAnimation;
+import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

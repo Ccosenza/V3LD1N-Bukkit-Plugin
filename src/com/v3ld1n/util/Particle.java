@@ -1,7 +1,7 @@
 package com.v3ld1n.util;
 
-import net.minecraft.server.v1_8_R2.EnumParticle;
-import net.minecraft.server.v1_8_R2.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

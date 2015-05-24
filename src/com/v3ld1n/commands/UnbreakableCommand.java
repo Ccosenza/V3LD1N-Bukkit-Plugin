@@ -1,6 +1,6 @@
 package com.v3ld1n.commands;
 
-import net.minecraft.server.v1_8_R2.NBTTagInt;
+import net.minecraft.server.v1_8_R3.NBTTagInt;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
