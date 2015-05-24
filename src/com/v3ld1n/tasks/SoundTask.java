@@ -30,9 +30,6 @@ public class SoundTask extends Task {
     public void run() {
         Location location = this.getLocationSetting("location");
         double distance = this.getDoubleSetting("distance");
-        signs = this.getStringListSetting("signs");
-        int signLine = this.getIntSetting("sign-line");
-        ChatColor signColor = ChatColor.valueOf(this.getStringSetting("sign-color"));
         nextTime = TimeUtil.getTime() + TimeUtil.ticksToMillis(this.getLongSetting("ticks"));
 
         List<String> soundList = this.getStringListSetting("sounds");
@@ -42,8 +39,13 @@ public class SoundTask extends Task {
 
         currentSound = soundList.get(random.nextInt(soundList.size()));
         String soundName = nameOf(currentSound);
-        for (String sign : signs) {
-            BlockUtil.editSign(ConfigUtil.locationFromString(sign).getBlock(), signLine, signColor + soundName);
+        signs = this.getStringListSetting("signs");
+        if (this.getStringSetting("sign-line") != null && this.getStringSetting("sign-color") != null) {
+            int signLine = this.getIntSetting("sign-line");
+            ChatColor signColor = ChatColor.valueOf(this.getStringSetting("sign-color"));
+            for (String sign : signs) {
+                BlockUtil.editSign(ConfigUtil.locationFromString(sign).getBlock(), signLine, signColor + soundName);
+            }
         }
         for (Player p : location.getWorld().getPlayers()) {
             if (distance < 0) {
