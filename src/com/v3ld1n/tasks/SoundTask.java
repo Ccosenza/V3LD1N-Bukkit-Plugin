@@ -47,10 +47,10 @@ public class SoundTask extends Task {
                 BlockUtil.editSign(ConfigUtil.locationFromString(sign).getBlock(), signLine, signColor + soundName);
             }
         }
-        for (Player p : location.getWorld().getPlayers()) {
-            if (distance < 0) {
-                Sound.fromString(currentSound).play(location);
-            } else {
+        if (distance < 0) {
+            Sound.fromString(currentSound).play(location);
+        } else {
+            for (Player p : location.getWorld().getPlayers()) {
                 if (p.getLocation().distance(location) <= distance) {
                     Sound.fromString(currentSound).play(location, p);
                 }
