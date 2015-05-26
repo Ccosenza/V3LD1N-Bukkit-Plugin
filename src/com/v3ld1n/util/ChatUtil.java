@@ -89,6 +89,22 @@ public final class ChatUtil {
     }
 
     /**
+     * Returns a section of a list
+     * @param list the list
+     * @param page the page
+     * @param pageSize the size of the pages
+     * @return the objects on that page
+     */
+    public static <T>List<T> getPage(List<T> list, int page, int pageSize) {
+        List<List<T>> pages = new ArrayList<>();
+        final int ls = list.size();
+        for (int i = 0; i < ls; i += pageSize) {
+            pages.add(new ArrayList<>(list.subList(i, Math.min(ls, i + pageSize))));
+        }
+        return pages.get(page - 1);
+    }
+
+    /**
      * Sends a list to a user
      * @param user the CommandSender to send the message to
      * @param title the list title
