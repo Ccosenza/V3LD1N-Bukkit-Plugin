@@ -243,6 +243,11 @@ public final class StringUtil {
         return element;
     }
 
+    /**
+     * Adds dashes to a UUID
+     * @param uuid the UUID
+     * @return the UUID with dashes
+     */
     public static String dashUUID(String uuid) {
         StringBuffer sb = new StringBuffer(uuid);
         sb.insert(8, "-");
@@ -253,5 +258,14 @@ public final class StringUtil {
         sb = new StringBuffer(sb.toString());
         sb.insert(23, "-");
         return sb.toString();
+    }
+
+    /**
+     * Returns whether a string only contains integers
+     * @param string the string
+     * @return whether a string is an integer
+     */
+    public static boolean isInteger(String string) {
+        return string.matches("^\\d+$");
     }
 }

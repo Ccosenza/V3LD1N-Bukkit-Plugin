@@ -95,13 +95,29 @@ public final class ChatUtil {
      * @param pageSize the size of the pages
      * @return the objects on that page
      */
-    public static <T>List<T> getPage(List<T> list, int page, int pageSize) {
+    public static <T> List<T> getPage(List<T> list, int pageNumber, int pageSize) {
         List<List<T>> pages = new ArrayList<>();
         final int ls = list.size();
         for (int i = 0; i < ls; i += pageSize) {
             pages.add(new ArrayList<>(list.subList(i, Math.min(ls, i + pageSize))));
         }
-        return pages.get(page - 1);
+        List<T> page = pageNumber > pages.size() ? pages.get(pages.size() - 1) : pages.get(pageNumber - 1);
+        return page;
+    }
+
+    /**
+     * Returns the number of pages in a list
+     * @param list the list
+     * @param pageSize the size of the pages
+     * @return the number of pages
+     */
+    public static <T> int getNumberOfPages(List<T> list, int pageSize) {
+        List<List<T>> pages = new ArrayList<>();
+        final int ls = list.size();
+        for (int i = 0; i < ls; i += pageSize) {
+            pages.add(new ArrayList<>(list.subList(i, Math.min(ls, i + pageSize))));
+        }
+        return pages.size();
     }
 
     /**

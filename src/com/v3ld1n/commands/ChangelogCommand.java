@@ -1,6 +1,7 @@
 package com.v3ld1n.commands;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +16,11 @@ import com.v3ld1n.util.StringUtil;
 import com.v3ld1n.util.TimeUtil;
 
 public class ChangelogCommand extends V3LD1NCommand {
+    private final int PAGE_SIZE = 7;
+
     public ChangelogCommand() {
-        this.addUsage("", "Display the changelog");
+        this.addUsage("", "Display the last " + PAGE_SIZE + " changelogs");
+        this.addUsage("<page>", "Display older changelogs");
         this.addUsage("log <change>", "Log a change", "v3ld1n.owner");
     }
 
@@ -25,7 +29,10 @@ public class ChangelogCommand extends V3LD1NCommand {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length == 0) {
-                displayChangelog(p);
+                displayChangelog(p, 1);
+                return true;
+            } else if (args.length == 1 && StringUtil.isInteger(args[0])) {
+                displayChangelog(p, Integer.parseInt(args[0]));
                 return true;
             } else if (args.length >= 2 && args[0].equalsIgnoreCase("log")) {
                 if (p.hasPermission("v3ld1n.owner")) {
@@ -33,7 +40,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                     changed = changed.replaceAll("[\"\\\\]", "");
                     Change change = new Change(TimeUtil.getTime(), p.getUniqueId().toString(), changed);
                     V3LD1N.addChange(change, ChangelogDay.today());
-                    displayChangelog(p);
+                    displayChangelog(p, 1);
                     Message.CHANGELOG_LOG.send(p);
                 } else {
                     Message.CHANGELOG_NO_PERMISSION.send(p);
@@ -47,9 +54,12 @@ public class ChangelogCommand extends V3LD1NCommand {
         return true;
     }
 
-    private void displayChangelog(Player p) {
-        Message.CHANGELOG_BORDER_TOP.send(p);
-        for (ChangelogDay cld : V3LD1N.getChangelogDays()) {
+    private void displayChangelog(Player p, int page) {
+        List<ChangelogDay> clds = V3LD1N.getChangelogDays();
+        Collections.reverse(clds);
+        Message.CHANGELOG_BORDER_TOP.sendF(p, page, ChatUtil.getNumberOfPages(clds, PAGE_SIZE));
+        List<ChangelogDay> pg = ChatUtil.getPage(clds, page, PAGE_SIZE);
+        for (ChangelogDay cld : pg) {
             List<Change> c = cld.getChanges();
             SimpleDateFormat df = ChangelogDay.getDateFormat();
             try {
@@ -63,9 +73,8 @@ public class ChangelogCommand extends V3LD1NCommand {
                 StringBuilder sb = new StringBuilder();
                 sb.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), format) + "\n");
                 for (Change change : c) {
-                    String changed = change.getChange();
                     String time = TimeUtil.formatTime(change.getTime());
-                    sb.append(String.format(Message.CHANGELOG_LIST_ITEM.toString().replaceAll("%newline%", "\n"), time, changed));
+                    sb.append(String.format(Message.CHANGELOG_LIST_ITEM.toString().replaceAll("%newline%", "\n"), time, change.getChange()));
                 }
                 String sbs = sb.toString();
                 sbs = sbs.substring(0, sbs.length() - 1);
