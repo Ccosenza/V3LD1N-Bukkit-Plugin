@@ -1,6 +1,7 @@
 package com.v3ld1n.commands;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                 displayChangelog(p, 1);
                 return true;
             } else if (args.length == 1 && StringUtil.isInteger(args[0])) {
-                displayChangelog(p, Integer.parseInt(args[0]));
+                displayChangelog(p, StringUtil.toInteger(args[0], 1));
                 return true;
             } else if (args.length >= 2 && args[0].equalsIgnoreCase("log")) {
                 if (p.hasPermission("v3ld1n.owner")) {
@@ -55,7 +56,7 @@ public class ChangelogCommand extends V3LD1NCommand {
     }
 
     private void displayChangelog(Player p, int page) {
-        List<ChangelogDay> clds = V3LD1N.getChangelogDays();
+        List<ChangelogDay> clds = new ArrayList<>(V3LD1N.getChangelogDays());
         Collections.reverse(clds);
         Message.CHANGELOG_BORDER_TOP.sendF(p, page, ChatUtil.getNumberOfPages(clds, PAGE_SIZE));
         List<ChangelogDay> pg = ChatUtil.getPage(clds, page, PAGE_SIZE);

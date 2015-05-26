@@ -268,4 +268,39 @@ public final class StringUtil {
     public static boolean isInteger(String string) {
         return string.matches("^\\d+$");
     }
+
+    /**
+     * Returns a string as an integer
+     * @param string the string
+     * @return the string as an integer
+     */
+    public static int toInteger(String string) {
+        int integer = 0;
+        if (isInteger(string)) {
+            try {
+                integer = Integer.parseInt(string);
+            } catch (Exception e) {
+                integer = 0;
+            }
+        }
+        return integer;
+    }
+
+    /**
+     * Returns a string as an integer
+     * @param string the string
+     * @param defaultInt what to return if the string is not an integer
+     * @return the string as an integer
+     */
+    public static int toInteger(String string, int defaultInt) {
+        int integer = defaultInt;
+        if (isInteger(string)) {
+            try {
+                integer = Integer.parseInt(string);
+            } catch (Exception e) {
+                integer = 0;
+            }
+        }
+        return integer;
+    }
 }

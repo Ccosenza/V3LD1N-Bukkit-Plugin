@@ -101,7 +101,10 @@ public final class ChatUtil {
         for (int i = 0; i < ls; i += pageSize) {
             pages.add(new ArrayList<>(list.subList(i, Math.min(ls, i + pageSize))));
         }
-        List<T> page = pageNumber > pages.size() ? pages.get(pages.size() - 1) : pages.get(pageNumber - 1);
+        List<T> page = new ArrayList<>();
+        if (pages.size() > 0) {
+            page = pageNumber > pages.size() || pageNumber <= 0 ? pages.get(0) : pages.get(pageNumber - 1);
+        }
         return page;
     }
 
