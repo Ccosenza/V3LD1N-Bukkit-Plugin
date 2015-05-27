@@ -86,6 +86,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                 e.printStackTrace();
             }
         }
+        Message.CHANGELOG_HELP.send(p);
         Message.CHANGELOG_BORDER_BOTTOM.send(p);
     }
 }

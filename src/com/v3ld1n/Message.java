@@ -84,6 +84,7 @@ public enum Message {
     CHANGELOG_BORDER_BOTTOM("commands.changelog.border-bottom"),
     CHANGELOG_HOVER_TOP("commands.changelog.hover-top"),
     CHANGELOG_LIST_ITEM("commands.changelog.list-item"),
+    CHANGELOG_HELP("commands.changelog.help"),
     CHANGELOG_LOG("commands.changelog.log"),
     CHANGELOG_NO_PERMISSION("commands.changelog.no-permission"),
     CHANGELOG_ERROR("commands.changelog.error"),
