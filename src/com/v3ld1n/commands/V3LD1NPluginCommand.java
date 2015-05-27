@@ -1,5 +1,9 @@
 package com.v3ld1n.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,8 +16,11 @@ import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigAccessor;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NPluginCommand extends V3LD1NCommand {
+    private final static int HELP_PAGE_SIZE = 9;
+
     public V3LD1NPluginCommand() {
         this.addUsage("debug", "Toggle debug mode");
         this.addUsage("help", "Show a list of all plugin commands");
@@ -34,10 +41,13 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 ConfigSetting.DEBUG.toggle();
                 ChatUtil.sendMessage(sender, message.toString(), 2);
                 return true;
-            } else if (args[0].equalsIgnoreCase("help") && args.length == 1) {
-                Message.V3LD1NPLUGIN_HELP.send(sender);
-                for (String v3ld1ncommand : V3LD1N.getCommands().keySet()) {
-                    V3LD1N.getCommands().get(v3ld1ncommand).sendUsageNoTitle(sender, v3ld1ncommand);
+            } else if (args[0].equalsIgnoreCase("help")) {
+                if (args.length == 1) {
+                    displayHelp(sender, 1);
+                } else if (args.length == 2 && StringUtil.isInteger(args[1])) {
+                    displayHelp(sender, StringUtil.toInteger(args[1], 1));
+                } else {
+                    this.sendUsage(sender, label, command);
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
@@ -62,5 +72,24 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
         }
         this.sendUsage(sender, label, command);
         return true;
+    }
+
+    private static void displayHelp(CommandSender user, int page) {
+        List<String> commands = new ArrayList<>(V3LD1N.getCommands().keySet());
+        Collections.sort(commands);
+        List<CommandUsage> allUsages = new ArrayList<>();
+        for (String command : commands) {
+            allUsages.addAll(V3LD1N.getCommands().get(command).getUsages());
+        }
+        List<CommandUsage> usagePage = ChatUtil.getPage(allUsages, page, HELP_PAGE_SIZE);
+        Message.V3LD1NPLUGIN_HELP_BORDER_TOP.sendF(user, page, ChatUtil.getNumberOfPages(allUsages, HELP_PAGE_SIZE));
+        for (CommandUsage usage : usagePage) {
+            for (String commandName : commands) {
+                if (V3LD1N.getCommands().get(commandName).equals(usage.getCommand())) {
+                    usage.send(user, commandName);
+                }
+            }
+        }
+        Message.V3LD1NPLUGIN_HELP_BORDER_BOTTOM.send(user);
     }
 }

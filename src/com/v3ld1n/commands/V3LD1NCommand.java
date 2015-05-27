@@ -17,11 +17,11 @@ public abstract class V3LD1NCommand implements CommandExecutor {
     }
 
     public void addUsage(String command, String description) {
-        this.usages.add(new CommandUsage(command, description));
+        this.usages.add(new CommandUsage(this, command, description));
     }
 
     public void addUsage(String command, String description, String permission) {
-        this.usages.add(new CommandUsage(command, description, permission));
+        this.usages.add(new CommandUsage(this, command, description, permission));
     }
 
     public void sendUsage(CommandSender user, String commandLabel, Command command) {
@@ -32,9 +32,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
 
     public void sendUsageNoTitle(CommandSender user, String commandLabel) {
         for (CommandUsage usage : usages) {
-            if (usage.getPermission() == null || user.hasPermission(usage.getPermission())) {
-                user.sendMessage(" - /" + commandLabel + " " + usage.toString());
-            }
+            usage.send(user, commandLabel);
         }
     }
 
@@ -42,7 +40,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
         Message.COMMAND_USAGE_TITLE.sendF(user, "/" + command.getName());
         for (CommandUsage usage : usages) {
             if (usage.getPermission() == null || user.hasPermission(usage.getPermission())) {
-                if (usage.getCommand().equalsIgnoreCase(argument)) {
+                if (usage.getArguments().equalsIgnoreCase(argument)) {
                     user.sendMessage(" - /" + commandLabel + " " + usage.toString());
                 }
             }
