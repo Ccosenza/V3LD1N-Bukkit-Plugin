@@ -14,6 +14,7 @@ public class Particle {
     private float offsetZ = 0;
     private float speed = 0;
     private int count = 1;
+    private int[] data = new int[2];
     
     public static Builder builder() {
         return new Builder();
@@ -27,6 +28,7 @@ public class Particle {
         private float offsetZ = 0;
         private float speed = 0;
         private int count = 1;
+        private int[] data = {0, 0};
 
         public Builder setName(String name) {
             this.name = name;
@@ -63,6 +65,12 @@ public class Particle {
             return this;
         }
 
+        public Builder setData(int itemId, int itemData) {
+            this.data[0] = itemId;
+            this.data[1] = itemData;
+            return this;
+        }
+
         public Particle build() {
             return new Particle(this);
         }
@@ -76,6 +84,7 @@ public class Particle {
         this.offsetZ = builder.offsetZ;
         this.speed = builder.speed;
         this.count = builder.count;
+        this.data = builder.data;
     }
 
     public String getName() {
@@ -134,6 +143,15 @@ public class Particle {
         this.count = count;
     }
 
+    public void setData(int itemId, int itemData) {
+        this.data[0] = itemId;
+        this.data[1] = itemData;
+    }
+
+    public int[] getData() {
+        return this.data;
+    }
+
     public void display(Location location) {
         for (Player p : location.getWorld().getPlayers()) {
             display(location, p);
@@ -147,8 +165,19 @@ public class Particle {
 
     private PacketPlayOutWorldParticles createPacket(Location location) {
         EnumParticle particle = EnumParticle.BARRIER;
+        String newName = this.name;
+        String[] names = {"blockcrack_", "blockdust_", "iconcrack_"};
+        for (String n : names) {
+            if (this.name.startsWith(n)) {
+                newName = n;
+                String[] split = this.name.split("_");
+                this.data[0] = StringUtil.toInteger(split[1]);
+                if (split.length == 3) this.data[1] = StringUtil.toInteger(split[2]);
+                break;
+            }
+        }
         for (EnumParticle enumparticle : EnumParticle.values()) {
-            if (this.name.equals(enumparticle.b())) {
+            if (newName.equals(enumparticle.b())) {
                 particle = enumparticle;
             }
         }
@@ -159,7 +188,7 @@ public class Particle {
         float oy = this.offsetY;
         float oz = this.offsetZ;
         PacketPlayOutWorldParticles packet;
-        packet = new PacketPlayOutWorldParticles(particle, force, x, y, z, ox, oy, oz, speed, count);
+        packet = new PacketPlayOutWorldParticles(particle, force, x, y, z, ox, oy, oz, speed, count, data);
         return packet;
     }
 
