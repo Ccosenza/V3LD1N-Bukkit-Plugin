@@ -38,6 +38,9 @@ public class RatchetShovel extends V3LD1NItem {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         if (event.getDamager().getType() == EntityType.SNOWBALL) {
             Snowball snowball = (Snowball) event.getDamager();
             if (snowball.getShooter() instanceof Player) {
