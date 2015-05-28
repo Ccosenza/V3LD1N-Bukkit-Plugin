@@ -187,7 +187,7 @@ public class RatchetBow extends V3LD1NItem {
                     RepeatableRunnable teleportTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 6, 4, 2) {
                         @Override
                         public void onRun() {
-                            getParticleSetting("teleport-hit-particle").display(location);
+                            Particle.displayList(location, getStringListSetting("teleport-hit-particles"));
                             if (getBooleanSetting("teleport-lightning")) {
                                 location.getWorld().strikeLightning(location);
                             }
