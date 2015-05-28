@@ -24,6 +24,7 @@ public class V3LD1NItem implements Listener {
     protected List<String> particles = new ArrayList<>();
     protected static final Random random = new Random();
     protected List<Action> useActions = new ArrayList<>();
+    protected List<Action> useActionsLeft = new ArrayList<>();
 
     public V3LD1NItem(String id) {
         this.id = id;
@@ -34,6 +35,8 @@ public class V3LD1NItem implements Listener {
         }
         useActions.add(Action.RIGHT_CLICK_AIR);
         useActions.add(Action.RIGHT_CLICK_BLOCK);
+        useActionsLeft.add(Action.LEFT_CLICK_AIR);
+        useActionsLeft.add(Action.LEFT_CLICK_BLOCK);
     }
 
     public String getId() {

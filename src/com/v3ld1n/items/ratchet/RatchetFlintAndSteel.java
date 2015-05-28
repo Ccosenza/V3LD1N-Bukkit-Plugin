@@ -29,7 +29,7 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         Action a = event.getAction();
-        if (useActions.contains(a)) {
+        if (useActionsLeft.contains(a)) {
             if (this.equalsItem(p.getItemInHand())) {
                 event.setCancelled(true);
                 final Projectile pr = new ProjectileBuilder()
