@@ -28,7 +28,7 @@ public class RatchetFireworkStar extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         Action a = event.getAction();
-        if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
+        if (useActions.contains(a)) {
             if (this.equalsItem(p.getItemInHand())) {
                 event.setCancelled(true);
                 p.setItemInHand(ItemUtil.hideFlags(p.getItemInHand()));
@@ -44,17 +44,18 @@ public class RatchetFireworkStar extends V3LD1NItem {
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
         Projectile pr = event.getEntity();
-        if (event.getEntityType() == EntityType.SNOWBALL && event.getEntity().getShooter() instanceof Player) {
+        boolean shooterIsPlayer = event.getEntity().getShooter() instanceof Player;
+        if (event.getEntityType() == EntityType.SNOWBALL && shooterIsPlayer) {
             Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
                 int red = random.nextInt(this.getIntSetting("color-max-red"));
                 int green = random.nextInt(this.getIntSetting("color-max-green"));
                 int blue = random.nextInt(this.getIntSetting("color-max-blue"));
-                int fadeRed = random.nextInt(this.getIntSetting("color-max-red"));
-                int fadeGreen = random.nextInt(this.getIntSetting("color-max-green"));
-                int fadeBlue = random.nextInt(this.getIntSetting("color-max-blue"));
+                int fadeR = random.nextInt(this.getIntSetting("color-max-red"));
+                int fadeG = random.nextInt(this.getIntSetting("color-max-green"));
+                int fadeB = random.nextInt(this.getIntSetting("color-max-blue"));
                 Color color = Color.fromRGB(red, green, blue);
-                Color fade = this.getBooleanSetting("color-fade") ? Color.fromRGB(fadeRed, fadeGreen, fadeBlue) : color;
+                Color fade = this.getBooleanSetting("color-fade") ? Color.fromRGB(fadeR, fadeG, fadeB) : color;
                 Type type = Type.valueOf(this.getStringSetting("firework-type"));
                 FireworkEffect effect = FireworkEffect.builder()
                         .with(type)

@@ -57,14 +57,25 @@ public final class EntityUtil {
     public static void randomDirection(Entity entity, double distance) {
         Vector direction = entity.getLocation().getDirection();
         Vector newDirection;
-        direction.add(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
-        newDirection = direction.subtract(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
+        direction.add(randomVector(distance));
+        newDirection = direction.subtract(randomVector(distance));
         entity.getLocation().setDirection(newDirection);
         Vector velocity = entity.getVelocity();
         Vector newVelocity;
-        velocity.add(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
-        newVelocity = velocity.subtract(new Vector(random.nextDouble() * distance, random.nextDouble() * distance, random.nextDouble() * distance));
+        velocity.add(randomVector(distance));
+        newVelocity = velocity.subtract(randomVector(distance));
         entity.setVelocity(newVelocity);
+    }
+
+    /**
+     * Returns a random vector
+     * @param multiplier the multiplier
+     * @return the vector
+     */
+    public static Vector randomVector(double multiplier) {
+        Vector rv = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble());
+        rv = rv.multiply(multiplier);
+        return rv;
     }
     
     /**

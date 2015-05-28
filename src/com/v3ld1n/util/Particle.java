@@ -1,5 +1,8 @@
 package com.v3ld1n.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
@@ -163,6 +166,18 @@ public class Particle {
         PlayerUtil.sendPacket(packet, player);
     }
 
+    public static void displayList(Location location, List<String> particles) {
+        for (Player p : location.getWorld().getPlayers()) {
+            displayList(location, p, particles);
+        }
+    }
+
+    public static void displayList(Location location, Player player, List<String> particles) {
+        for (Particle particle : fromList(particles)) {
+            particle.display(location, player);
+        }
+    }
+
     private PacketPlayOutWorldParticles createPacket(Location location) {
         EnumParticle particle = EnumParticle.BARRIER;
         String newName = this.name;
@@ -220,6 +235,14 @@ public class Particle {
             builder.setForced(Boolean.parseBoolean(split[5]));
         }
         return builder.build();
+    }
+
+    public static List<Particle> fromList(List<String> particleList) {
+        List<Particle> particles = new ArrayList<>();
+        for (String particle : particleList) {
+            particles.add(fromString(particle));
+        }
+        return particles;
     }
 
     @Override

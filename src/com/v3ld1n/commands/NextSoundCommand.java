@@ -1,5 +1,8 @@
 package com.v3ld1n.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,37 +20,43 @@ public class NextSoundCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.owner")) {
+            List<SoundTask> tasks = new ArrayList<>();
             if (args.length == 0) {
-                for (final SoundTask task : V3LD1N.getSoundTasks()) {
-                    task.run();
-                    Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-                        @Override
-                        public void run() {
-                            Message.NEXTSOUND_NOW_PLAYING.sendF(sender, task.getName().toUpperCase(), task.getCurrentSoundName());
-                        }
-                    }, 1L);
-                }
-                return true;
+                tasks = V3LD1N.getSoundTasks();
             } else if (args.length == 1) {
-                for (final SoundTask task : V3LD1N.getSoundTasks()) {
-                    if (task.getName().contains(args[0])) {
-                        task.run();
-                        Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-                            @Override
-                            public void run() {
-                                Message.NEXTSOUND_NOW_PLAYING.aSendF(sender, task.getName().toUpperCase(), task.getCurrentSoundName());
-                            }
-                        }, 1L);
-                        return true;
+                boolean containsArg = false;
+                for (SoundTask task : V3LD1N.getSoundTasks()) {
+                    if (task.getName().startsWith(args[0])) {
+                        tasks.add(task);
+                        containsArg = true;
                     }
                 }
-                Message.NEXTSOUND_NO_SOUND_TASKS.sendF(sender, args[0]);
+                if (!containsArg) {
+                    Message.NEXTSOUND_NO_SOUND_TASKS.sendF(sender, args[0]);
+                    return true;
+                }
+            } else {
+                this.sendUsage(sender, label, command);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            runTasks(tasks, sender);
             return true;
         }
         sendPermissionMessage(sender);
         return true;
+    }
+
+    private void runTasks(List<SoundTask> tasks, final CommandSender user) {
+        for (final SoundTask task : tasks) {
+            task.run();
+            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+                @Override
+                public void run() {
+                    String current = task.getCurrentSoundName();
+                    String upper = task.getName().toUpperCase();
+                    Message.NEXTSOUND_NOW_PLAYING.sendF(user, upper, current);
+                }
+            }, 1L);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Effect;
@@ -18,16 +20,17 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.PlayerData;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
+import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.RepeatableRunnable;
@@ -43,13 +46,14 @@ public class RatchetBow extends V3LD1NItem {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
-        if (this.equalsItem(p.getItemInHand()) && (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+        ItemStack hand = p.getItemInHand();
+        if (this.equalsItem(hand) && useActions.contains(event.getAction())) {
             if (PlayerData.RATCHETS_BOW.getString(p.getUniqueId()) != null) {
                 String projectileString = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
-                RatchetBowType projectile = RatchetBowType.valueOf(projectileString);
-                if (projectile != RatchetBowType.ARROW && projectile != RatchetBowType.TRIPLE_ARROWS && projectile != RatchetBowType.FIREWORK_ARROW) {
+                RatchetBowType pr = RatchetBowType.valueOf(projectileString);
+                if (pr != RatchetBowType.ARROW && pr != RatchetBowType.TRIPLE_ARROWS && pr != RatchetBowType.FIREWORK_ARROW) {
                     event.setCancelled(true);
-                    switch (projectile) {
+                    switch (pr) {
                         case SNOWBALL:
                             new ProjectileBuilder()
                                 .withType(Snowball.class)
@@ -155,7 +159,7 @@ public class RatchetBow extends V3LD1NItem {
                                 Player p = (Player) e;
                                 EntityUtil.projectileJump(p, fireball, playerSpeed, playerSpeed, playerSpeed);
                                 if (p.getName().equals(shooter.getName())) {
-                                    this.getParticleSetting("jump-particle").display(p.getLocation());
+                                    Particle.displayList(p.getLocation(), this.getStringListSetting("jump-particles"));
                                 }
                             } else {
                                 EntityUtil.projectileJump((LivingEntity) e, fireball, mobSpeed, mobSpeed, mobSpeed);
@@ -169,7 +173,7 @@ public class RatchetBow extends V3LD1NItem {
             final Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
                 final Location location = pr.getLocation();
-                this.getParticleSetting("particle").display(pr.getLocation());
+                this.displayParticles(pr.getLocation());
                 Location hitLocMin = this.getLocationSetting("teleport-hit-location-min");
                 Location hitLocMax = this.getLocationSetting("teleport-hit-location-max");
                 if (location.getWorld().getName().equals(hitLocMin.getWorld().getName())
@@ -213,7 +217,8 @@ public class RatchetBow extends V3LD1NItem {
             Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
                 if (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()) != null) {
-                    RatchetBowType projectile = RatchetBowType.fromString(PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()));
+                    UUID uuid = shooter.getUniqueId();
+                    RatchetBowType projectile = RatchetBowType.fromString(PlayerData.RATCHETS_BOW.getString(uuid));
                     switch (projectile) {
                     case FIREWORK_ARROW:
                         Type type = Type.BALL;

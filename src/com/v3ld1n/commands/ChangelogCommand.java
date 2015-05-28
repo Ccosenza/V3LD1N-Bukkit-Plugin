@@ -37,9 +37,10 @@ public class ChangelogCommand extends V3LD1NCommand {
                 return true;
             } else if (args.length >= 2 && args[0].equalsIgnoreCase("log")) {
                 if (p.hasPermission("v3ld1n.owner")) {
+                    String uuid = p.getUniqueId().toString();
                     String changed = StringUtil.fromArray(args, 1);
                     changed = changed.replaceAll("[\"\\\\]", "");
-                    Change change = new Change(TimeUtil.getTime(), p.getUniqueId().toString(), changed);
+                    Change change = new Change(TimeUtil.getTime(), uuid, changed);
                     V3LD1N.addChange(change, ChangelogDay.today());
                     displayChangelog(p, 1);
                     Message.CHANGELOG_LOG.send(p);
@@ -75,7 +76,9 @@ public class ChangelogCommand extends V3LD1NCommand {
                 sb.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), format) + "\n");
                 for (Change change : c) {
                     String time = TimeUtil.formatTime(change.getTime());
-                    sb.append(String.format(Message.CHANGELOG_LIST_ITEM.toString().replaceAll("%newline%", "\n"), time, change.getChange()));
+                    String listItem = Message.CHANGELOG_LIST_ITEM.toString();
+                    listItem = listItem.replaceAll("%newline%", "\n");
+                    sb.append(String.format(listItem, time, change.getChange()));
                 }
                 String sbs = sb.toString();
                 sbs = sbs.substring(0, sbs.length() - 1);

@@ -70,14 +70,16 @@ public class Sound {
     }
 
     public void play(Location location) {
-        PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(name, location.getX(), location.getY(), location.getZ(), volume, pitch);
         for (Player p : location.getWorld().getPlayers()) {
-            PlayerUtil.sendPacket(packet, p);
+            play(location, p);
         }
     }
 
     public void play(Location location, Player player) {
-        PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(name, location.getX(), location.getY(), location.getZ(), volume, pitch);
+        double x = location.getX();
+        double y = location.getY();
+        double z = location.getZ();
+        PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(name, x, y, z, volume, pitch);
         PlayerUtil.sendPacket(packet, player);
     }
 

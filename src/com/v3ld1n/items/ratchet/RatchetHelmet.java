@@ -30,7 +30,9 @@ public class RatchetHelmet extends V3LD1NItem {
         if (event.getEntityType() == EntityType.PLAYER) {
             Player p = (Player) event.getEntity();
             if (this.equalsItem(p.getInventory().getHelmet())) {
-                event.setAmount(event.getAmount() * this.getDoubleSetting("health-multiplier"));
+                double amount = event.getAmount();
+                double multiplier = this.getDoubleSetting("health-multiplier");
+                event.setAmount(amount * multiplier);
             }
         }
     }

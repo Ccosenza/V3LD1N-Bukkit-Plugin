@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -22,14 +24,6 @@ public class RatchetHoe extends V3LD1NItem {
     public RatchetHoe() {
         super("ratchets-hoe");
     }
-    
-    private void use(Player p, Block block) {
-        PlayerAnimation.SWING_ARM.play(p, 50);
-        block.setType(Material.SOIL);
-        Location loc = new Location(block.getWorld(), block.getLocation().getX() + 0.5, block.getLocation().getY() + 1, block.getLocation().getZ() + 0.5);
-        this.getParticleSetting("particle").display(loc);
-        Sound.fromString(this.getStringSetting("sound")).play(loc);
-    }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
@@ -38,7 +32,12 @@ public class RatchetHoe extends V3LD1NItem {
         if (a == Action.RIGHT_CLICK_AIR) {
             if (this.equalsItem(p.getItemInHand())) {
                 Block target = p.getTargetBlock((Set<Material>) null, this.getIntSetting("range"));
-                if ((target.getType() == Material.GRASS || target.getType() == Material.MYCEL || target.getType() == Material.DIRT) && target.getRelative(BlockFace.UP, 1).getType() == Material.AIR) {
+                List<Material> types = new ArrayList<>();
+                types.add(Material.GRASS);
+                types.add(Material.MYCEL);
+                types.add(Material.DIRT);
+                Block up = target.getRelative(BlockFace.UP, 1);
+                if (types.contains(target.getType()) && up.getType() == Material.AIR) {
                     boolean playerCanBuild;
                     if (V3LD1N.getWorldGuard() != null) {
                         WorldGuardPlugin wg = V3LD1N.getWorldGuard();
@@ -54,5 +53,17 @@ public class RatchetHoe extends V3LD1NItem {
                 }
             }
         }
+    }
+    
+    private void use(Player p, Block block) {
+        PlayerAnimation.SWING_ARM.play(p, 50);
+        block.setType(Material.SOIL);
+        Location bl = block.getLocation();
+        double x = bl.getX() + 0.5;
+        double y = bl.getY() + 1;
+        double z = bl.getZ() + 0.5;
+        Location loc = new Location(block.getWorld(), x, y, z);
+        this.displayParticles(loc);
+        Sound.fromString(this.getStringSetting("sound")).play(loc);
     }
 }

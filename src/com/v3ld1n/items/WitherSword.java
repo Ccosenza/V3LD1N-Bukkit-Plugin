@@ -1,5 +1,6 @@
 package com.v3ld1n.items;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -7,7 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
 
-import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.Sound;
 
 public class WitherSword extends V3LD1NItem {
@@ -23,10 +23,17 @@ public class WitherSword extends V3LD1NItem {
             Player p = (Player) event.getDamager();
             Creature e = (Creature) event.getEntity();
             if (this.equalsItem(p.getItemInHand())) {
-                e.addPotionEffect(effect.createEffect(this.getIntSetting("effect-duration"), this.getIntSetting("effect-level")));
-                Particle.fromString(this.getStringSetting("particle")).display(e.getEyeLocation());
-                Sound.fromString(this.getStringSetting("sound")).play(e.getEyeLocation());
+                effect(e);
             }
         }
+    }
+
+    private void effect(Creature e) {
+        int duration = this.getIntSetting("effect-duration");
+        int level = this.getIntSetting("effect-level");
+        e.addPotionEffect(effect.createEffect(duration, level));
+        Location loc = e.getEyeLocation();
+        this.displayParticles(loc);
+        Sound.fromString(this.getStringSetting("sound")).play(loc);
     }
 }

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -24,11 +25,12 @@ public class PlayerSayCommand extends V3LD1NCommand {
             if (args.length >= 2) {
                 String message = StringUtil.fromArray(args, 1);
                 String namePrefix = "";
+                PluginManager pm = Bukkit.getPluginManager();
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
                     p.chat(message);
                     return true;
-                } else if (Bukkit.getPluginManager().getPlugin("PermissionsEx") != null && PlayerUtil.getOfflinePlayer(args[0]) != null) {
+                } else if (pm.getPlugin("PermissionsEx") != null && PlayerUtil.getOfflinePlayer(args[0]) != null) {
                     String name = PlayerUtil.getOfflinePlayer(args[0]).getName();
                     PermissionUser user = PermissionsEx.getUser(name);
                     String prefix = user.getPrefix();

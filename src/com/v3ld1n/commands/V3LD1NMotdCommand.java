@@ -55,7 +55,8 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
-                    ChatUtil.sendList(sender, Message.V3LD1NMOTD_LIST_TITLE.toString(), motds, ListType.LONG);
+                    String title = Message.V3LD1NMOTD_LIST_TITLE.toString();
+                    ChatUtil.sendList(sender, title, motds, ListType.LONG);
                     return true;
                 }
             }

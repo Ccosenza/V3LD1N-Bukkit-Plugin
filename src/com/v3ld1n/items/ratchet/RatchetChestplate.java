@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,9 +23,12 @@ public class RatchetChestplate extends V3LD1NItem {
             loc.setY(loc.getY() - 0.3);
             if (this.equalsItem(p.getInventory().getChestplate())) {
                 event.setCancelled(true);
-                Particle particle = this.getParticleSetting("particle");
-                particle.setSpeed(particle.getSpeed() + random.nextFloat());
-                particle.display(loc);
+                List<String> setting = this.getStringListSetting("particles");
+                List<Particle> particles = Particle.fromList(setting);
+                for (Particle particle : particles) {
+                    particle.setSpeed(particle.getSpeed() + random.nextFloat());
+                    particle.display(loc);
+                }
             }
         }
     }

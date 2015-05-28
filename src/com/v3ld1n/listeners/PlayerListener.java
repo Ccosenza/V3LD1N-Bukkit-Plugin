@@ -16,6 +16,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -50,7 +51,10 @@ public class PlayerListener implements Listener {
         
         if (a == Action.RIGHT_CLICK_BLOCK) {
             //Ender Crystal spawn egg
-            if (p.getItemInHand().getType() == Material.MONSTER_EGG && p.getItemInHand().getDurability() == ConfigSetting.ENDER_CRYSTAL_EGG_DATA.getInt()) {
+            short durability = p.getItemInHand().getDurability();
+            int crystalData = ConfigSetting.ENDER_CRYSTAL_EGG_DATA.getInt();
+            Material clicked = event.getClickedBlock().getType();
+            if (p.getItemInHand().getType() == Material.MONSTER_EGG && durability == crystalData) {
                 event.setCancelled(true);
                 Location loc = p.getTargetBlock((Set<Material>) null, 5).getLocation();
                 loc = loc.add(0, 2, 0);
@@ -65,7 +69,7 @@ public class PlayerListener implements Listener {
                     Message.WORLDGUARD_PERMISSION.send(p);
                 }
             //Signs
-            } else if (event.getClickedBlock().getType() == Material.WALL_SIGN || event.getClickedBlock().getType() == Material.SIGN_POST) {
+            } else if (clicked == Material.WALL_SIGN || clicked == Material.SIGN_POST) {
                 Sign signState = (Sign) event.getClickedBlock().getState();
                 for (com.v3ld1n.blocks.Sign sign : V3LD1N.getSigns()) {
                     if (signState.getLine(0).equals(StringUtil.formatText(sign.getText()))) {
@@ -74,7 +78,8 @@ public class PlayerListener implements Listener {
                             Bukkit.dispatchCommand(p, StringUtil.replaceSignVariables(command, signState, p));
                         }
                         for (String command : sign.getConsoleCommands()) {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), StringUtil.replaceSignVariables(command, signState, p));
+                            ConsoleCommandSender sender = Bukkit.getConsoleSender();
+                            Bukkit.dispatchCommand(sender, StringUtil.replaceSignVariables(command, signState, p));
                         }
                         for (Particle particle : sign.getParticles()) {
                             particle.display(loc);
@@ -100,7 +105,9 @@ public class PlayerListener implements Listener {
             if (i.getType() == Material.EMERALD && i.hasItemMeta()) {
                 ItemMeta meta = i.getItemMeta();
                 String name = meta.getDisplayName();
-                if (name.contains(ChatColor.GOLD + "Veld") && meta.hasLore() && meta.getLore().get(0).equals(Message.VELDS_LORE.toString())) {
+                String veldsName = ChatColor.GOLD + "Veld";
+                String veldsLore = Message.VELDS_LORE.toString();
+                if (name.contains(veldsName) && meta.hasLore() && meta.getLore().get(0).equals(veldsLore)) {
                     event.setCancelled(true);
                     if (i.getAmount() > 1) {
                         i.setAmount(i.getAmount() - 1);
@@ -147,7 +154,9 @@ public class PlayerListener implements Listener {
         }
         ChatUtil.sendMotd(p);
         if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-            PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());
+            String header = ConfigSetting.PLAYER_LIST_HEADER.getString();
+            String footer = ConfigSetting.PLAYER_LIST_FOOTER.getString();
+            PlayerUtil.sendPlayerListHeaderFooter(p, header, footer);
         }
         if (PlayerData.AUTO_RESOURCE_PACK.getString(p.getUniqueId()) != null) {
             final String pack = PlayerData.AUTO_RESOURCE_PACK.getString(p.getUniqueId());
@@ -205,12 +214,14 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onBookEdit(PlayerEditBookEvent event) {
         BookMeta newBookMeta = event.getNewBookMeta();
+        Player p = event.getPlayer();
         for (String page : newBookMeta.getPages()) {
-            String newPage = StringUtil.formatText(StringUtil.replacePlayerVariables(page, event.getPlayer()));
+            String newPage = StringUtil.formatText(StringUtil.replacePlayerVariables(page, p));
             newBookMeta.setPage(newBookMeta.getPages().indexOf(page) + 1, newPage);
         }
         if (newBookMeta.hasTitle()) {
-            String newTitle = StringUtil.formatText(StringUtil.replacePlayerVariables(newBookMeta.getTitle(), event.getPlayer()));
+            String title = newBookMeta.getTitle();
+            String newTitle = StringUtil.formatText(StringUtil.replacePlayerVariables(title, p));
             newBookMeta.setTitle(newTitle);
         }
         event.setNewBookMeta(newBookMeta);

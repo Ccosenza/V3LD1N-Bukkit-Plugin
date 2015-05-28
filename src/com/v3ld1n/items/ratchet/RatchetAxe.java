@@ -31,35 +31,42 @@ public class RatchetAxe extends V3LD1NItem {
                 if (e.getLastDamageCause().getCause() == DamageCause.ENTITY_ATTACK) {
                     final Player p = e.getKiller();
                     if (this.equalsItem(p.getItemInHand())) {
-                        EntityUtil.heal(p, p.getMaxHealth());
-                        this.getParticleSetting("particle1").display(e.getEyeLocation());
-                        final Particle particle = this.getParticleSetting("particle2");
-                        final int effectDuration = this.getIntSetting("effect-duration");
-                        final int amplifierLimit = this.getIntSetting("effect-level-limit") - 1;
-                        for (final PotionEffect pe : p.getActivePotionEffects()) {
-                            if (pe.getType().equals(effect) && pe.getAmplifier() < amplifierLimit) {
-                                p.removePotionEffect(effect);
-                                Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        int newAmplifier;
-                                        if (pe.getAmplifier() < amplifierLimit) {
-                                            newAmplifier = pe.getAmplifier() + 1;
-                                        } else {
-                                            newAmplifier = amplifierLimit - 1;
-                                        }
-                                        p.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
-                                        particle.setCount(25 * (pe.getAmplifier() + 1));
-                                        particle.display(e.getEyeLocation());
-                                    }
-                                }, 1L);
-                                return;
-                            }
-                        }
-                        p.addPotionEffect(effect.createEffect(effectDuration, 0));
-                        particle.display(e.getEyeLocation());
+                        effect(p, e);
                     }
                 }
+            }
+        }
+    }
+
+    private void effect(final Player p, final LivingEntity e) {
+        EntityUtil.heal(p, p.getMaxHealth());
+        this.displayParticles(e.getEyeLocation());
+        increaseLevel(p, e);
+    }
+
+    private void increaseLevel(final Player p, final LivingEntity e) {
+        final int effectDuration = this.getIntSetting("effect-duration");
+        final int amplifierLimit = this.getIntSetting("effect-level-limit") - 1;
+        for (final PotionEffect pe : p.getActivePotionEffects()) {
+            if (pe.getType().equals(effect) && pe.getAmplifier() < amplifierLimit) {
+                p.removePotionEffect(effect);
+                p.addPotionEffect(effect.createEffect(effectDuration, 0));
+                Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+                    @Override
+                    public void run() {
+                        int newAmplifier;
+                        if (pe.getAmplifier() < amplifierLimit) {
+                            newAmplifier = pe.getAmplifier() + 1;
+                        } else {
+                            newAmplifier = amplifierLimit - 1;
+                        }
+                        p.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
+                        Particle effectParticle = getParticleSetting("effect-particle");
+                        effectParticle.setCount(25 * (pe.getAmplifier() + 1));
+                        effectParticle.display(e.getEyeLocation());
+                    }
+                }, 1L);
+                return;
             }
         }
     }

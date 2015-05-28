@@ -32,7 +32,8 @@ public class SidebarMessageCommand extends V3LD1NCommand {
                         time = Integer.parseInt(timeArg);
                     }
                 } catch (Exception IllegalArgumentException) {
-                    sender.sendMessage(String.format(Message.SIDEBARMESSAGE_INVALID_TIME.toString(), DEFAULT_TIME, DEFAULT_TIME / 20));
+                    String invalidTime = Message.SIDEBARMESSAGE_INVALID_TIME.toString();
+                    sender.sendMessage(String.format(invalidTime, DEFAULT_TIME, DEFAULT_TIME / 20));
                     time = DEFAULT_TIME;
                 }
                 SidebarMessage sbm = new SidebarMessage(args[1]);
@@ -44,7 +45,8 @@ public class SidebarMessageCommand extends V3LD1NCommand {
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     sbm.display(p, time);
                 }
-                String message = String.format(Message.SIDEBARMESSAGE_DISPLAY.toString(), StringUtil.formatText(sbm.getTitle().replaceAll("_", " ")));
+                String replaced = StringUtil.formatText(sbm.getTitle().replaceAll("_", " "));
+                String message = String.format(Message.SIDEBARMESSAGE_DISPLAY.toString(), replaced);
                 ChatUtil.sendMessage(sender, message, 2);
                 return true;
             }

@@ -1,5 +1,6 @@
 package com.v3ld1n.commands;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.command.Command;
@@ -122,7 +123,9 @@ public class ReportCommand extends V3LD1NCommand {
                                 Report report = V3LD1N.getReports().get(arg - 1);
                                 Message.REPORT_READBY_LIST_TITLE.sendF(sender, report.getTitle());
                                 if (!report.getReadPlayers().isEmpty()) {
-                                    ChatUtil.sendList(sender, Message.REPORT_READBY_LIST_TITLE.toString(), report.getReadPlayers(), ListType.LONG);
+                                    String title = Message.REPORT_READBY_LIST_TITLE.toString();
+                                    List<UUID> readBy = report.getReadPlayers();
+                                    ChatUtil.sendList(sender, title, readBy, ListType.LONG);
                                 } else {
                                     Message.NONE.send(sender);
                                 }

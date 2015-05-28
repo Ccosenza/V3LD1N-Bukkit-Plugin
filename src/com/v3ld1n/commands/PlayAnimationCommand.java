@@ -1,6 +1,7 @@
 package com.v3ld1n.commands;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -58,7 +59,9 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                 return true;
             }
             this.sendUsage(sender, label, command);
-            ChatUtil.sendList(sender, Message.PLAYANIMATION_LIST_TITLE.toString(), Arrays.asList(PlayerAnimation.values()), ListType.SHORT);
+            String title = Message.PLAYANIMATION_LIST_TITLE.toString();
+            List<PlayerAnimation> animations = Arrays.asList(PlayerAnimation.values());
+            ChatUtil.sendList(sender, title, animations, ListType.SHORT);
             return true;
         }
         sendPermissionMessage(sender);

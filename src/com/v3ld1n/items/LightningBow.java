@@ -19,8 +19,13 @@ public class LightningBow extends V3LD1NItem {
         if (pr.getType() == EntityType.ARROW && pr.getShooter() instanceof Player) {
             Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
-                EntityUtil.detonateLightningProjectile(pr, pr.getLocation(), this.getBooleanSetting("lightning-damage"));
+                detonate(pr);
             }
         }
+    }
+
+    private void detonate(Projectile pr) {
+        boolean damage = this.getBooleanSetting("lightning-damage");
+        EntityUtil.detonateLightningProjectile(pr, pr.getLocation(), damage);
     }
 }

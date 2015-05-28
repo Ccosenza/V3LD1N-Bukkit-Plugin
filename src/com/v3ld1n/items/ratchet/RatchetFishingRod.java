@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,40 +32,17 @@ public class RatchetFishingRod extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         final Player p = event.getPlayer();
         Action a = event.getAction();
-        if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
-            if (this.equalsItem(p.getItemInHand())) {
-                double radius = this.getDoubleSetting("radius");
-                for (final Entity e : p.getNearbyEntities(radius, radius, radius)) {
-                    if (e.getType() == EntityType.FISHING_HOOK && ((Player) ((FishHook) e).getShooter()).getUniqueId().equals(p.getUniqueId())) {
-                        for (Block block : WorldUtil.getNearbyBlocks(e.getLocation(), 1)) {
+        if (useActions.contains(a) && this.equalsItem(p.getItemInHand())) {
+            double r = this.getDoubleSetting("radius");
+            for (final Entity e : p.getNearbyEntities(r, r, r)) {
+                if (e.getType() == EntityType.FISHING_HOOK) {
+                    FishHook hook = (FishHook) e;
+                    Player shooter = (Player) hook.getShooter();
+                    if (shooter.getUniqueId().equals(p.getUniqueId())) {
+                        List<Block> near = WorldUtil.getNearbyBlocks(hook.getLocation(), 1);
+                        for (Block block : near) {
                             if (block.getType().isSolid()) {
-                                final double distance = p.getLocation().distance(e.getLocation());
-                                RepeatableRunnable grappleTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, this.getIntSetting("ticks"), (long) (distance * this.getDoubleSetting("distance-multiplier"))) {
-                                    @Override
-                                    public void onRun() {
-                                        Location pLoc = p.getLocation();
-                                        Location eLoc = e.getLocation();
-                                        double speedX = getDoubleSetting("speed-x");
-                                        double speedY = getDoubleSetting("speed-y");
-                                        double speedZ = getDoubleSetting("speed-z");
-                                        if (distance < getDoubleSetting("close-distance") && pLoc.getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
-                                            speedX /= getDoubleSetting("close-divide-speed");
-                                            speedY /= getDoubleSetting("close-divide-speed");
-                                            speedZ /= getDoubleSetting("close-divide-speed");
-                                        }
-                                        if (pLoc.getY() > eLoc.getY()) {
-                                            speedY *= ((pLoc.getY() - eLoc.getY()) / 5);
-                                        }
-                                        if (pLoc.getBlockY() == eLoc.getBlockY()) {
-                                            speedY = 0;
-                                            p.setVelocity(p.getVelocity().add(new Vector(0, 0.1, 0)));
-                                        }
-                                        EntityUtil.pushToward(p, eLoc, speedX, speedY, speedZ, false);
-                                        p.setFallDistance(0);
-                                        getParticleSetting("particle").display(p.getLocation());
-                                    }
-                                };
-                                grappleTask.run();
+                                grapple(p, hook);
                                 break;
                             }
                         }
@@ -80,9 +59,46 @@ public class RatchetFishingRod extends V3LD1NItem {
             if (hook.getShooter() instanceof Player) {
                 Player p = (Player) hook.getShooter();
                 if (this.equalsItem(p.getItemInHand())) {
-                    hook.setVelocity(hook.getVelocity().multiply(this.getDoubleSetting("speed-multiplier")));
+                    double speedMultiplier = this.getDoubleSetting("speed-multiplier");
+                    hook.setVelocity(hook.getVelocity().multiply(speedMultiplier));
                 }
             }
         }
+    }
+
+    public void grapple(final Player p, final FishHook hook) {
+        final double distance = p.getLocation().distance(hook.getLocation());
+        double multiplier = this.getDoubleSetting("distance-multiplier");
+        long ticks = this.getIntSetting("ticks");
+        long times = (long) (distance * multiplier);
+        RepeatableRunnable task = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, ticks, times) {
+            @Override
+            public void onRun() {
+                Location pLoc = p.getLocation();
+                Location eLoc = hook.getLocation();
+                double speedX = getDoubleSetting("speed-x");
+                double speedY = getDoubleSetting("speed-y");
+                double speedZ = getDoubleSetting("speed-z");
+                Block pBlock = pLoc.getBlock();
+                Block down = pBlock.getRelative(BlockFace.DOWN);
+                Material downType = down.getType();
+                if (distance < getDoubleSetting("close-distance") && downType != Material.AIR) {
+                    speedX /= getDoubleSetting("close-divide-speed");
+                    speedY /= getDoubleSetting("close-divide-speed");
+                    speedZ /= getDoubleSetting("close-divide-speed");
+                }
+                if (pLoc.getY() > eLoc.getY()) {
+                    speedY *= ((pLoc.getY() - eLoc.getY()) / 5);
+                }
+                if (pLoc.getBlockY() == eLoc.getBlockY()) {
+                    speedY = 0;
+                    p.setVelocity(p.getVelocity().add(new Vector(0, 0.1, 0)));
+                }
+                EntityUtil.pushToward(p, eLoc, speedX, speedY, speedZ, false);
+                p.setFallDistance(0);
+                displayParticles(p.getLocation());
+            }
+        };
+        task.run();
     }
 }

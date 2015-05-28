@@ -1,5 +1,6 @@
 package com.v3ld1n.commands;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.v3ld1n.util.ChatUtil;
@@ -35,7 +36,8 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
                     Message.AUTORESOURCEPACK_SET.sendF(p, args[0]);
                     Message.AUTORESOURCEPACK_REMOVE_COMMAND.send(p);
                 } else {
-                    ChatUtil.sendList(p, Message.RESOURCEPACK_LIST_TITLE.toString(), V3LD1N.getResourcePackNames(), ListType.LONG);
+                    List<String> names = V3LD1N.getResourcePackNames();
+                    ChatUtil.sendList(p, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
                     Message.AUTORESOURCEPACK_ERROR.sendF(p, args[0]);
                 }
                 return true;

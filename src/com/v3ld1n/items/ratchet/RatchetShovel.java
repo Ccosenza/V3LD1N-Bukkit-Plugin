@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.items.V3LD1NItem;
+import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.Sound;
@@ -21,7 +22,8 @@ public class RatchetShovel extends V3LD1NItem {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        Action a = event.getAction();
+        if (useActions.contains(a)) {
             Player p = event.getPlayer();
             if (this.equalsItem(p.getItemInHand())) {
                 event.setCancelled(true);
@@ -46,7 +48,7 @@ public class RatchetShovel extends V3LD1NItem {
                         event.setDamage(damage);
                         Message.RATCHETS_SHOVEL_DAMAGE.aSendF(p, (int) damage);
                     }
-                    this.getParticleSetting("hit-particle").display(snowball.getLocation());
+                    Particle.displayList(snowball.getLocation(), this.getStringListSetting("hit-particles"));
                 }
             }
         }

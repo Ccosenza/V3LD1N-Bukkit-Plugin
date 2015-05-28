@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -27,7 +29,7 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         Action a = event.getAction();
-        if (a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK) {
+        if (useActions.contains(a)) {
             if (this.equalsItem(p.getItemInHand())) {
                 event.setCancelled(true);
                 final Projectile pr = new ProjectileBuilder()
@@ -39,9 +41,12 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
                     @Override
                     public void onRun() {
                         if (pr != null && !pr.isDead()) {
-                            Particle trail = getParticleSetting("trail-particle");
-                            trail.setSpeed(trail.getSpeed() - (random.nextFloat() / 10));
-                            trail.display(pr.getLocation());
+                            List<String> setting = getStringListSetting("trail-particles");
+                            List<Particle> trails = Particle.fromList(setting);
+                            for (Particle trail : trails) {
+                                trail.setSpeed(trail.getSpeed() - (random.nextFloat() / 10));
+                                trail.display(pr.getLocation());
+                            }
                         }
                     }
                 };
@@ -56,8 +61,7 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
         if (pr.getType() == EntityType.FIREBALL && pr.getShooter() instanceof Player) {
             Player shooter = (Player) pr.getShooter();
             if (this.equalsItem(shooter.getItemInHand())) {
-                Particle.fromString(this.getStringSetting("particle1")).display(pr.getLocation());
-                Particle.fromString(this.getStringSetting("particle2")).display(pr.getLocation());
+                this.displayParticles(pr.getLocation());
                 EntityUtil.detonateLightningProjectile(pr, pr.getLocation(), true);
             }
         }

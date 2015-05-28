@@ -39,31 +39,36 @@ public class FireworkBow extends V3LD1NItem {
         if (pr.getType() == EntityType.ARROW && source instanceof Player) {
             Player shooter = (Player) source;
             if (this.equalsItem(shooter.getItemInHand())) {
-                Type type = Type.BALL;
-                if (PlayerData.FIREWORK_ARROWS.get(shooter.getUniqueId()) != null) {
-                   type = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()));
-                }
-                int minRed = this.getIntSetting("color-min.red");
-                int minGreen = this.getIntSetting("color-min.green");
-                int minBlue = this.getIntSetting("color-min.blue");
-                int maxRed = this.getIntSetting("color-max.red");
-                int maxGreen = this.getIntSetting("color-max.green");
-                int maxBlue = this.getIntSetting("color-max.blue");
-                int red = (int) RandomUtil.getRandomDouble(minRed, maxRed);
-                int green = (int) RandomUtil.getRandomDouble(minGreen, maxGreen);
-                int blue = (int) RandomUtil.getRandomDouble(minBlue, maxBlue);
-                color = color.setRed(red);
-                color = color.setGreen(green);
-                color = color.setBlue(blue);
-                FireworkEffect effect = FireworkEffect.builder()
-                        .with(type)
-                        .withColor(color)
-                        .withFade(color)
-                        .withFlicker()
-                        .withTrail()
-                        .build();
-                EntityUtil.detonateFireworkProjectile(pr, effect, pr.getLocation());
+                firework(pr, shooter);
             }
         }
+    }
+
+    private void firework(Projectile pr, Player p) {
+        Type type = Type.BALL;
+        PlayerData data = PlayerData.FIREWORK_ARROWS;
+        if (data.get(p.getUniqueId()) != null) {
+           type = Type.valueOf(data.getString(p.getUniqueId()));
+        }
+        int minR = this.getIntSetting("color-min.red");
+        int minG = this.getIntSetting("color-min.green");
+        int minB = this.getIntSetting("color-min.blue");
+        int maxR = this.getIntSetting("color-max.red");
+        int maxG = this.getIntSetting("color-max.green");
+        int maxB = this.getIntSetting("color-max.blue");
+        int r = (int) RandomUtil.getRandomDouble(minR, maxR);
+        int g = (int) RandomUtil.getRandomDouble(minG, maxG);
+        int b = (int) RandomUtil.getRandomDouble(minB, maxB);
+        color = color.setRed(r);
+        color = color.setGreen(g);
+        color = color.setBlue(b);
+        FireworkEffect effect = FireworkEffect.builder()
+                .with(type)
+                .withColor(color)
+                .withFade(color)
+                .withFlicker()
+                .withTrail()
+                .build();
+        EntityUtil.detonateFireworkProjectile(pr, effect, pr.getLocation());
     }
 }

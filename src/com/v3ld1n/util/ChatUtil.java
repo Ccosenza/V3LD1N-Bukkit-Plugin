@@ -83,7 +83,8 @@ public final class ChatUtil {
      * @param player the player to send the message to
      */
     public static void sendUnreadReports(Player player) {
-        String message = "{text:\"" + String.format(Message.REPORT_UNREAD.toString(), ConfigUtil.getUnreadReports(player.getUniqueId())) + "\","
+        int unread = ConfigUtil.getUnreadReports(player.getUniqueId());
+        String message = "{text:\"" + String.format(Message.REPORT_UNREAD.toString(), unread) + "\","
                 + "clickEvent:{action:run_command,value:\"/report list\"}}";
         ChatUtil.sendJsonMessage(player, message, 0);
     }

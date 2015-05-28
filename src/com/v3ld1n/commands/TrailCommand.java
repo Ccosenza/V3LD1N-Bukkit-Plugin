@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.PlayerData;
-import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerUtil;
 
 public class TrailCommand extends V3LD1NCommand {
@@ -27,7 +26,7 @@ public class TrailCommand extends V3LD1NCommand {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             PlayerData.TRAILS.set(p.getUniqueId(), null);
-                            ChatUtil.sendMessage(sender, Message.TRAIL_REMOVE_OWN.toString(), 2);
+                            Message.TRAIL_REMOVE_OWN.aSend(sender);
                             return true;
                         }
                     } else if (args.length == 2) {
@@ -35,13 +34,14 @@ public class TrailCommand extends V3LD1NCommand {
                             if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
                                 Player p = PlayerUtil.getOnlinePlayer(args[1]);
                                 PlayerData.TRAILS.set(p.getUniqueId(), null);
-                                ChatUtil.sendMessage(sender, String.format(Message.TRAIL_REMOVE_OTHER.toString(), p.getName()), 2);
+                                Message removeOther = Message.TRAIL_REMOVE_OTHER;
+                                removeOther.aSendF(sender, p.getName());
                                 return true;
                             }
-                            sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                            sendInvalidPlayerMessage(sender);
                             return true;
                         }
-                        sender.sendMessage(Message.TRAIL_NO_PERMISSION_OTHERS.toString());
+                        Message.TRAIL_NO_PERMISSION_OTHERS.send(sender);
                         return true;
                     }
                     this.sendUsage(sender, label, command);
@@ -52,7 +52,7 @@ public class TrailCommand extends V3LD1NCommand {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
                     PlayerData.TRAILS.set(p.getUniqueId(), args[0]);
-                    ChatUtil.sendMessage(sender, String.format(Message.TRAIL_SET_OWN.toString(), args[0]), 2);
+                    Message.TRAIL_SET_OWN.aSendF(sender, args[0]);
                     return true;
                 }
             } else if (args.length == 2) {
@@ -60,20 +60,21 @@ public class TrailCommand extends V3LD1NCommand {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                         if (p.getName().equals(args[1])) {
                             PlayerData.TRAILS.set(p.getUniqueId(), args[0]);
-                            ChatUtil.sendMessage(sender, String.format(Message.TRAIL_SET_OTHER.toString(), p.getName(), args[0], p.getName()), 2);
+                            Message setOther = Message.TRAIL_SET_OTHER;
+                            setOther.aSendF(sender, p.getName(), args[0], p.getName());
                             return true;
                         }
-                        sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                        sendInvalidPlayerMessage(sender);
                         return true;
                     }
                 }
-                sender.sendMessage(Message.TRAIL_NO_PERMISSION_OTHERS.toString());
+                Message.TRAIL_NO_PERMISSION_OTHERS.send(sender);
                 return true;
             }
             this.sendUsage(sender, label, command);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sendPermissionMessage(sender);
         return true;
     }
 }

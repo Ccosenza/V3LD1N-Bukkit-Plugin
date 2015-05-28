@@ -122,7 +122,7 @@ public class ItemUtil {
      * @param item the item
      */
     public static ItemStack hideFlags(ItemStack item) {
-        return setTag(item, "HideFlags", new NBTTagByte((byte) 63));
+        return hideFlags(item, true, true, true, true, true, true);
     }
 
     /**

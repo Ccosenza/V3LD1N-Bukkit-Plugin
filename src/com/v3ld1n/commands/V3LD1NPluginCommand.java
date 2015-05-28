@@ -55,8 +55,10 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                     accessor.reloadConfig();
                 }
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                    if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
-                        PlayerUtil.sendPlayerListHeaderFooter(p, ConfigSetting.PLAYER_LIST_HEADER.getString(), ConfigSetting.PLAYER_LIST_FOOTER.getString());
+                    String header = ConfigSetting.PLAYER_LIST_HEADER.getString();
+                    String footer = ConfigSetting.PLAYER_LIST_FOOTER.getString();
+                    if (header != null && footer != null) {
+                        PlayerUtil.sendPlayerListHeaderFooter(p, header, footer);
                     }
                 }
                 Message.V3LD1NPLUGIN_RELOAD.aSend(sender);
@@ -82,7 +84,8 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
             allUsages.addAll(V3LD1N.getCommands().get(command).getUsages());
         }
         List<CommandUsage> usagePage = ChatUtil.getPage(allUsages, page, HELP_PAGE_SIZE);
-        Message.V3LD1NPLUGIN_HELP_BORDER_TOP.sendF(user, page, ChatUtil.getNumberOfPages(allUsages, HELP_PAGE_SIZE));
+        int pages = ChatUtil.getNumberOfPages(allUsages, HELP_PAGE_SIZE);
+        Message.V3LD1NPLUGIN_HELP_BORDER_TOP.sendF(user, page, pages);
         for (CommandUsage usage : usagePage) {
             for (String commandName : commands) {
                 if (V3LD1N.getCommands().get(commandName).equals(usage.getCommand())) {

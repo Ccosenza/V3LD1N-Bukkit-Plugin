@@ -18,6 +18,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -70,7 +71,8 @@ public class V3LD1N extends JavaPlugin {
         loadConfig();
         String bukkitVersion = "1.8.6-R0.1-SNAPSHOT";
         if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
-            Message.INVALID_BUKKIT_VERSION.logF(Level.WARNING, plugin.getDescription().getName(), plugin.getDescription().getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
+            PluginDescriptionFile d = plugin.getDescription();
+            Message.INVALID_BUKKIT_VERSION.logF(Level.WARNING, d.getName(), d.getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
         }
         items = new ArrayList<>();
         questions = new ArrayList<>();
@@ -150,7 +152,8 @@ public class V3LD1N extends JavaPlugin {
                         Player player = PlayerUtil.getRandomPlayer();
                         if (ConfigSetting.PLAYER_EFFECTS_PLAYERS.getStringList().contains(player.getName())) {
                             player.getWorld().strikeLightningEffect(player.getLocation());
-                            Particle.fromString(ConfigSetting.PARTICLE_PLAYER_EFFECTS_LIGHTNING.getString()).display(player.getLocation());
+                            String particle = ConfigSetting.PARTICLE_PLAYER_EFFECTS_LIGHTNING.getString();
+                            Particle.fromString(particle).display(player.getLocation());
                         }
                     }
                 }

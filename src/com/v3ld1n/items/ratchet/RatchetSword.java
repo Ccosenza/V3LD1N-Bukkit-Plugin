@@ -33,42 +33,60 @@ public class RatchetSword extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         Action a = event.getAction();
-        boolean entitiesContainsEnemy = false;
-        if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
+        if (useActions.contains(a)) {
             if (this.equalsItem(p.getItemInHand())) {
-                List<Entity> entities = p.getNearbyEntities(5,5,5);
-                List<Entity> pushEntities = new ArrayList<>();
-                for (Entity entity : entities) {
-                    if (entity instanceof Monster || entity instanceof Projectile) {
-                        pushEntities.add(entity);
-                        entitiesContainsEnemy = true;
-                        Location location;
-                        if (entity instanceof Monster) {
-                            location = ((Monster) entity).getEyeLocation();
-                        } else {
-                            location = entity.getLocation();
-                        }
-                        double pushSpeed = this.getDoubleSetting("push-speed");
-                        double pushUpSpeed = this.getDoubleSetting("push-up-speed");
-                        EntityUtil.pushToward(entity, p.getLocation(), pushSpeed, 0, pushSpeed, true);
-                        if (!(entity instanceof Projectile)) {
-                            entity.setVelocity(entity.getVelocity().add(new Vector(0, pushUpSpeed, 0)));
-                        }
-                        Particle.fromString(this.getStringSetting("mob-particle")).display(location);
-                        Sound.fromString(this.getStringSetting("sound")).play(location);
-                    }
-                }
-                if (entitiesContainsEnemy) {
-                    Block below = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
-                    if (below.getType() != Material.AIR) {
-                        Particle particle = Particle.builder()
-                                .setName("iconcrack_" + below.getTypeId() + "_" + below.getData())
-                                .setSpeed((float) this.getDoubleSetting("player-particle-speed"))
-                                .build();
-                        WorldUtil.spawnParticleCircle(particle, p.getLocation(), this.getDoubleSetting("player-particle-radius"), pushEntities.size() * this.getIntSetting("player-particle-count-multiplier"));
-                    }
-                }
+                push(p, entitiesNear(p));
             }
+        }
+    }
+
+    private List<Entity> entitiesNear(Player p) {
+        List<Entity> entities = new ArrayList<>();
+        List<Entity> nearby = p.getNearbyEntities(5, 5, 5);
+        for (Entity entity : nearby) {
+            if (entity instanceof Monster || entity instanceof Projectile) {
+                entities.add(entity);
+            }
+        }
+        return entities;
+    }
+
+    private void push(Player p, List<Entity> es) {
+        boolean entitiesContainsEnemy = false;
+        for (Entity entity : es) {
+            entitiesContainsEnemy = entity instanceof Monster || entity instanceof Projectile;
+            Location location;
+            if (entity instanceof Monster) {
+                location = ((Monster) entity).getEyeLocation();
+            } else {
+                location = entity.getLocation();
+            }
+            boolean isMonster = entity instanceof Monster;
+            location = isMonster ? ((Monster) entity).getEyeLocation() : entity.getLocation();
+            double pushSpeed = this.getDoubleSetting("push-speed");
+            double pushUpSpeed = this.getDoubleSetting("push-up-speed");
+            EntityUtil.pushToward(entity, p.getLocation(), pushSpeed, 0, pushSpeed, true);
+            if (!(entity instanceof Projectile)) {
+                entity.setVelocity(entity.getVelocity().add(new Vector(0, pushUpSpeed, 0)));
+            }
+            Particle.displayList(location, this.getStringListSetting("mob-particles"));
+            Sound.fromString(this.getStringSetting("sound")).play(location);
+            if (entitiesContainsEnemy) {
+                particle(p.getLocation(), es.size());
+            }
+        }
+    }
+
+    private void particle(Location loc, int count) {
+        Block below = loc.getBlock().getRelative(BlockFace.DOWN);
+        if (below.getType() != Material.AIR) {
+            Particle particle = Particle.builder()
+                    .setName("iconcrack_" + below.getTypeId() + "_" + below.getData())
+                    .setSpeed((float) this.getDoubleSetting("player-particle-speed"))
+                    .build();
+            double radius = this.getDoubleSetting("player-particle-radius");
+            double multiplier = this.getIntSetting("player-particle-count-multiplier");
+            WorldUtil.spawnParticleCircle(particle, loc, radius, (int) (count * multiplier));
         }
     }
 }

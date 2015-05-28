@@ -12,10 +12,10 @@ public class Sign {
     private List<Particle> particles;
     private List<Sound> sounds;
 
-    public Sign(String text, List<String> playerCommands, List<String> consoleCommands, List<Particle> particles, List<Sound> sounds) {
+    public Sign(String text, List<String> playerCmds, List<String> consoleCmds, List<Particle> particles, List<Sound> sounds) {
         this.text = text;
-        this.playerCommands = playerCommands;
-        this.consoleCommands = consoleCommands;
+        this.playerCommands = playerCmds;
+        this.consoleCommands = consoleCmds;
         this.particles = particles;
         this.sounds = sounds;
     }

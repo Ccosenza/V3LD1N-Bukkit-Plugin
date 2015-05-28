@@ -1,11 +1,14 @@
 package com.v3ld1n.items;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -18,12 +21,19 @@ public class V3LD1NItem implements Listener {
     private final String id;
     private Material material;
     private String name;
+    protected List<String> particles = new ArrayList<>();
     protected static final Random random = new Random();
+    protected List<Action> useActions = new ArrayList<>();
 
     public V3LD1NItem(String id) {
         this.id = id;
         this.setName(this.getStringSetting("name"));
         this.setMaterial(Material.valueOf(this.getStringSetting("item")));
+        if (this.getStringListSetting("particles") != null) {
+            this.setParticles(this.getStringListSetting("particles"));
+        }
+        useActions.add(Action.RIGHT_CLICK_AIR);
+        useActions.add(Action.RIGHT_CLICK_BLOCK);
     }
 
     public String getId() {
@@ -42,9 +52,25 @@ public class V3LD1NItem implements Listener {
         this.name = name;
     }
 
+    public List<String> getParticles() {
+        return particles;
+    }
+
+    public void setParticles(List<String> particles) {
+        this.particles = particles;
+    }
+
+    public void displayParticles(Location location) {
+        Particle.displayList(location, this.particles);
+    }
+
+    public void displayParticles(Location location, Player player) {
+        Particle.displayList(location, player, this.particles);
+    }
+
     public boolean equalsItem(ItemStack item) {
         if (item != null && item.hasItemMeta() && item.getItemMeta().getDisplayName() != null) {
-            if (item.getType() == material && item.getItemMeta().getDisplayName().equals(StringUtil.formatText(name))) {
+            if (item.getType() == this.material && item.getItemMeta().getDisplayName().equals(StringUtil.formatText(this.name))) {
                 return true;
             }
         }
