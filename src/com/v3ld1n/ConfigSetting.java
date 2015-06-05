@@ -38,8 +38,7 @@ public enum ConfigSetting {
 
     INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
 
-    PROJECTILE_JUMP_X_Z("projectile-jump.x-z-multiplier", "items.yml", 0.6),
-    PROJECTILE_JUMP_Y("projectile-jump.y-multiplier", "items.yml", 1.1),
+    PROJECTILE_JUMP_SPEED("projectile-jump-speed", "items.yml", 1.0),
     
     PARTICLE_SPAWN_ENDER_CRYSTAL("spawn-ender-crystal", "particles.yml"),
     PARTICLE_PLAYER_EFFECTS_LIGHTNING("player-effects-lightning", "particles.yml"),

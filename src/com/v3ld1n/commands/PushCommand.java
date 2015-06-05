@@ -60,7 +60,7 @@ public class PushCommand extends V3LD1NCommand {
                     } catch (Exception e) {
                         Message.PUSH_INVALID_SPEED.sendF(sender, SPEED_DEFAULT);
                     }
-                    EntityUtil.pushToward(player, toPlayer.getLocation(), speed, speed, speed, false);
+                    EntityUtil.pushToward(player, toPlayer.getLocation(), new Vector(speed, speed, speed), false);
                     Message.PUSH_PUSH_TO_PLAYER.aSendF(sender, player.getName(), speed);
                     return true;
                 }

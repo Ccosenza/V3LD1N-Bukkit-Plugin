@@ -150,19 +150,15 @@ public class RatchetBow extends V3LD1NItem {
             if (fireball.getShooter() != null && fireball.getShooter() instanceof Player) {
                 Player shooter = (Player) fireball.getShooter();
                 double radius = this.getDoubleSetting("fireball-jump-radius");
-                double playerSpeed = this.getDoubleSetting("player-jump-speed");
-                double mobSpeed = this.getDoubleSetting("mob-jump-speed");
                 for (Entity e : fireball.getNearbyEntities(radius, radius, radius)) {
                     if (e instanceof LivingEntity) {
                         if (this.equalsItem(shooter.getItemInHand())) {
+                            EntityUtil.projectileJump((LivingEntity) e, fireball);
                             if (e.getType() == EntityType.PLAYER) {
                                 Player p = (Player) e;
-                                EntityUtil.projectileJump(p, fireball, playerSpeed, playerSpeed, playerSpeed);
                                 if (p.getName().equals(shooter.getName())) {
                                     Particle.displayList(p.getLocation(), this.getStringListSetting("jump-particles"));
                                 }
-                            } else {
-                                EntityUtil.projectileJump((LivingEntity) e, fireball, mobSpeed, mobSpeed, mobSpeed);
                             }
                         }
                     }

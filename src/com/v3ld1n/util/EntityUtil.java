@@ -5,7 +5,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -30,23 +30,30 @@ public final class EntityUtil {
      * Pushes an entity towards a location
      * @param entity the entity to push
      * @param to the location to push the entity towards
-     * @param speedX the x velocity
-     * @param speedY the y velocity
-     * @param speedZ the z velocity
+     * @param speed the speed to push the entity
+     * @param fromEyeLocation whether the entity is pushed from its eye location instead of its location
      */
-    public static void pushToward(Entity entity, Location to, double speedX, double speedY, double speedZ, boolean fromEyeLocation) {
-        Location loc = entity.getLocation();
-        if (entity instanceof LivingEntity && fromEyeLocation) {
-            loc = ((LivingEntity) entity).getEyeLocation();
-        }
+    public static void pushAway(Entity entity, Location to, Vector speed, boolean fromEyeLocation) {
+        boolean fromEye = entity instanceof LivingEntity && fromEyeLocation;
+        Location loc = fromEye ? entity.getLocation() : ((LivingEntity) entity).getEyeLocation();
         Vector direction = loc.toVector().subtract(to.toVector()).normalize();
-        direction.setX(direction.getX() * -(speedX))
-                .setY(direction.getY() * -(speedY))
-                .setZ(direction.getZ() * -(speedZ));
+        direction = direction.multiply(speed);
         entity.setVelocity(direction);
         if (entity instanceof Fireball) {
             ((Fireball) entity).setDirection(direction);
         }
+    }
+
+    /**
+     * Pushes an entity away from a location
+     * @param entity the entity to push
+     * @param from the location to push the entity from
+     * @param speed the speed to push the entity
+     * @param fromEyeLocation whether the entity is pushed from its eye location instead of its location
+     */
+    public static void pushToward(Entity entity, Location from, Vector speed, boolean fromEyeLocation) {
+        Vector nSpeed = speed.multiply(-1);
+        pushAway(entity, from, nSpeed, fromEyeLocation);
     }
 
     /**
@@ -137,38 +144,36 @@ public final class EntityUtil {
     }
 
     /**
+     * Adds to an entity's velocity
+     * @param entity the entity
+     * @param velocity the velocity to add
+     */
+    public static void addVelocity(Entity entity, Vector velocity) {
+        Vector newVelocity = entity.getVelocity().add(velocity);
+        entity.setVelocity(newVelocity);
+    }
+
+    /**
      * Makes an entity "jump" away from a projectile
      * @param entity the jumping entity
      * @param projectile the projectile
-     * @param speedX the X-axis speed
-     * @param speedY the Y-axis speed
-     * @param speedZ the Z-axis speed
      */
-    public static void projectileJump(LivingEntity entity, Projectile projectile, double speedX, double speedY, double speedZ) {
-        boolean sneaking = false;
-        if (entity.getType() == EntityType.PLAYER && ((Player) entity).isSneaking()) {
-            sneaking = true;
-        }
+    public static void projectileJump(LivingEntity entity, Projectile projectile) {
+        double speed = ConfigSetting.PROJECTILE_JUMP_SPEED.getDouble();
+        boolean isPlayer = entity.getType() == EntityType.PLAYER;
+        boolean sneaking = isPlayer ? ((Player) entity).isSneaking() : false;
         if (sneaking) {
-            double xz = ConfigSetting.PROJECTILE_JUMP_X_Z.getDouble();
-            double y = ConfigSetting.PROJECTILE_JUMP_Y.getDouble();
-            BlockFace down = BlockFace.DOWN;
+            speed *= 1.25;
             Location loc = entity.getLocation();
-            Material block = loc.getBlock().getType();
-            Material blockBelow = loc.getBlock().getRelative(down).getType();
-            Material blockTwoBelow = loc.getBlock().getRelative(down).getRelative(down).getType();
-            Material air = Material.AIR;
-            if (block == air && blockBelow != air) {
-                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz, true);
-            } else if (block == air && blockBelow == air && blockTwoBelow != air) {
-                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz, true);
-            } else if (block == air && blockBelow == air && blockTwoBelow == air) {
-                entity.setVelocity(new Vector(0, speedY * y, 0));
-            } else if (block != air) {
-                pushToward(entity, projectile.getLocation(), -speedX * xz, -speedY * y, -speedZ * xz, true);
+            BlockFace down = BlockFace.DOWN;
+            Block b = loc.getBlock();
+            Block bBelow = b.getRelative(down);
+            Block bTwoBelow = bBelow.getRelative(down);
+            if (!b.getType().isSolid() && !bBelow.getType().isSolid() && !bTwoBelow.getType().isSolid()) {
+                entity.setVelocity(new Vector(0, speed, 0));
+                return;
             }
-        } else {
-            pushToward(entity, projectile.getLocation(), -speedX, -speedY, -speedZ, true);
         }
+        pushAway(entity, projectile.getLocation(), new Vector(speed, speed, speed), false);
     }
 }
