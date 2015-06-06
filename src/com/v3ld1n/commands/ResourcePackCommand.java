@@ -13,7 +13,8 @@ import com.v3ld1n.util.ListType;
 
 public class ResourcePackCommand extends V3LD1NCommand {
     public ResourcePackCommand() {
-        this.addUsage("[resource pack]", "Download a resource pack");
+        this.addUsage("", "Download the default resource pack");
+        this.addUsage("<resource pack>", "Download a resource pack");
     }
 
     @Override
