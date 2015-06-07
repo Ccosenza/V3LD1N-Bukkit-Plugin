@@ -51,7 +51,9 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onSpawn(CreatureSpawnEvent event) {
         if (ConfigSetting.CANCEL_SPAWN_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
-            event.setCancelled(true);
+            if (event.getEntityType() != EntityType.ARMOR_STAND) {
+                event.setCancelled(true);
+            }
         }
     }
 
