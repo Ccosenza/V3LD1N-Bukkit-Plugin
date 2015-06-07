@@ -1,17 +1,21 @@
 package com.v3ld1n.commands;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.TimeUtil;
 
 public class ChangelogDay {
     private String day;
     private List<Change> changes;
+    private String link;
     
     public ChangelogDay(String day, List<Change> changes) {
         this.day = day;
         this.changes = changes;
+        this.link = "";
     }
 
     public String getDay() {
@@ -26,12 +30,40 @@ public class ChangelogDay {
         changes.add(change);
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public static SimpleDateFormat getDateFormat() {
         return new SimpleDateFormat("MM-dd-yyyy");
     }
 
-    public static String today() {
+    public static ChangelogDay today() {
+        List<ChangelogDay> clds = V3LD1N.getChangelogDays();
+        ChangelogDay compare = new ChangelogDay(todayDate(), new ArrayList<Change>());
+        ChangelogDay today = null;
+        if (clds.contains(compare)) {
+            today = clds.get(clds.indexOf(compare));
+        }
+        return today;
+    }
+
+    public static String todayDate() {
         return getDateFormat().format(TimeUtil.getTime());
+    }
+
+    public static ChangelogDay findDay(String day) {
+        List<ChangelogDay> clds = V3LD1N.getChangelogDays();
+        ChangelogDay compare = new ChangelogDay(day, new ArrayList<Change>());
+        ChangelogDay cld = null;
+        if (clds.contains(compare)) {
+            cld = clds.get(clds.indexOf(compare));
+        }
+        return cld;
     }
 
     @Override

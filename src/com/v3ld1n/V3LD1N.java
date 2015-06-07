@@ -513,11 +513,17 @@ public class V3LD1N extends JavaPlugin {
                 String section = sectionName + ".";
                 for (String dayKey : config.getConfigurationSection("changes").getKeys(false)) {
                     for (String key : config.getConfigurationSection(section + dayKey).getKeys(false)) {
-                        long time = Long.parseLong(key);
-                        String player = config.getString(section + dayKey + "." + key + ".player");
-                        String changed = config.getString(section + dayKey + "." + key + ".change");
-                        Change change = new Change(time, player, changed);
-                        addChange(change, dayKey);
+                        if (!key.equalsIgnoreCase("link")) {
+                            long time = Long.parseLong(key);
+                            String player = config.getString(section + dayKey + "." + key + ".player");
+                            String changed = config.getString(section + dayKey + "." + key + ".change");
+                            Change change = new Change(time, player, changed);
+                            addChange(change, dayKey);
+                            if (config.getString(section + dayKey + ".link") != null) {
+                                String linkSetting = config.getString(section + dayKey + ".link");
+                                change.getDay().setLink(linkSetting);
+                            }
+                        }
                     }
                 }
                 Message.LOADING_CHANGELOG.logDebugF(changelogDays.size());
@@ -534,9 +540,14 @@ public class V3LD1N extends JavaPlugin {
             String section = sectionName + ".";
             FileConfiguration config = Config.CHANGELOG.getConfig();
             for (ChangelogDay cld : changelogDays) {
+                String day = cld.getDay() + ".";
+                if (!cld.getLink().equals("")) {
+                    config.set(section + day + ".link", cld.getLink());
+                } else {
+                    config.set(section + day + ".link", null);
+                }
                 for (Change change : cld.getChanges()) {
                     long time = change.getTime();
-                    String day = cld.getDay() + ".";
                     config.set(section + day + time + ".player", change.getPlayer());
                     config.set(section + day + time + ".change", change.getChange());
                 }
@@ -550,12 +561,12 @@ public class V3LD1N extends JavaPlugin {
     }
 
     public static void addChange(Change change, String day) {
-        ChangelogDay compare = new ChangelogDay(day, new ArrayList<Change>());
+        ChangelogDay newDay = new ChangelogDay(day, new ArrayList<Change>());
         ChangelogDay add;
-        if (changelogDays.contains(compare)) {
-            add = changelogDays.get(changelogDays.indexOf(compare));
+        if (ChangelogDay.findDay(day) != null) {
+            add = ChangelogDay.findDay(day);
         } else {
-            add = compare;
+            add = newDay;
             changelogDays.add(add);
         }
         add.addChange(change);

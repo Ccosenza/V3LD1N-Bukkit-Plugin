@@ -86,6 +86,9 @@ public enum Message {
     CHANGELOG_LIST_ITEM("commands.changelog.list-item"),
     CHANGELOG_HELP("commands.changelog.help"),
     CHANGELOG_LOG("commands.changelog.log"),
+    CHANGELOG_LINK_SET("commands.changelog.link.set"),
+    CHANGELOG_LINK_REMOVE("commands.changelog.link.remove"),
+    CHANGELOG_LINK_ERROR("commands.changelog.link.error"),
     CHANGELOG_NO_PERMISSION("commands.changelog.no-permission"),
     CHANGELOG_ERROR("commands.changelog.error"),
 

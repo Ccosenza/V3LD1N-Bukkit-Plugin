@@ -37,23 +37,45 @@ public class ChangelogCommand extends V3LD1NCommand {
                 return true;
             } else if (args.length >= 2 && args[0].equalsIgnoreCase("log")) {
                 if (p.hasPermission("v3ld1n.owner")) {
-                    String uuid = p.getUniqueId().toString();
                     String changed = StringUtil.fromArray(args, 1);
-                    changed = changed.replaceAll("[\"\\\\]", "");
-                    Change change = new Change(TimeUtil.getTime(), uuid, changed);
-                    V3LD1N.addChange(change, ChangelogDay.today());
-                    displayChangelog(p, 1);
-                    Message.CHANGELOG_LOG.send(p);
+                    addChange(p, changed);
                 } else {
                     Message.CHANGELOG_NO_PERMISSION.send(p);
                 }
                 return true;
+            } else if (args.length == 2 && args[0].equalsIgnoreCase("link")) {
+                if (p.hasPermission("v3ld1n.owner")) {
+                    Message message;
+                    String link = args[1].replaceAll("[\"\\\\]", "");
+                    if (args[1].equalsIgnoreCase("remove")) {
+                        link = "";
+                        message = Message.CHANGELOG_LINK_REMOVE;
+                    } else {
+                        message = Message.CHANGELOG_LINK_SET;
+                    }
+                    if (ChangelogDay.today() != null) {
+                        ChangelogDay.today().setLink(link);
+                        message.sendF(p, link);
+                    } else {
+                        Message.CHANGELOG_LINK_ERROR.send(p);
+                    }
+                    return true;
+                }
             }
             this.sendUsage(p, label, command);
             return true;
         }
         sendPlayerMessage(sender);
         return true;
+    }
+
+    private void addChange(Player p, String changed) {
+        String uuid = p.getUniqueId().toString();
+        String replaced = changed.replaceAll("[\"\\\\]", "");
+        Change change = new Change(TimeUtil.getTime(), uuid, replaced);
+        V3LD1N.addChange(change, ChangelogDay.todayDate());
+        displayChangelog(p, 1);
+        Message.CHANGELOG_LOG.send(p);
     }
 
     private void displayChangelog(Player p, int page) {
@@ -71,6 +93,9 @@ public class ChangelogCommand extends V3LD1NCommand {
                         + "\"color\":\"gold\","
                         + "\"hoverEvent\":{"
                         + "\"action\":\"show_text\","
+                        + "\"value\":\"%s\"},"
+                        + "\"clickEvent\":{"
+                        + "\"action\":\"open_url\","
                         + "\"value\":\"%s\"}}";
                 StringBuilder sb = new StringBuilder();
                 sb.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), format) + "\n");
@@ -82,7 +107,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                 }
                 String sbs = sb.toString();
                 sbs = sbs.substring(0, sbs.length() - 1);
-                message = String.format(message, sbs);
+                message = String.format(message, sbs, cld.getLink());
                 ChatUtil.sendJsonMessage(p, message, 0);
             } catch (Exception e) {
                 Message.CHANGELOG_ERROR.send(p);
