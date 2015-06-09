@@ -13,7 +13,6 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
-import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.RepeatableRunnable;
 import com.v3ld1n.util.TimeUtil;
@@ -52,7 +51,11 @@ public class TimePlayedCommand extends V3LD1NCommand {
                 name = name.substring(0, 16);
             }
             final Objective objective = board.registerNewObjective(name, "dummy");
-            objective.setDisplayName(ChatColor.GOLD + "Total Times (" + ChatColor.AQUA + p.getName() + ChatColor.GOLD + ")");
+            String displayName = String.format(Message.TIMEPLAYED_SIDEBAR_NAME.toString(), p.getName());
+            if (ChatColor.stripColor(displayName).length() > 16) {
+                displayName = displayName.substring(0, 20);
+            }
+            objective.setDisplayName(displayName);
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
             RepeatableRunnable updateTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 5, 5, SECONDS * 4) {
                 @Override
@@ -86,7 +89,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
         int days = PlayerUtil.getDaysPlayed(player);
         int weeks = PlayerUtil.getWeeksPlayed(player);
         String time = TimeUtil.fromSeconds(seconds);
-        ChatUtil.sendMessage(to, Message.TIMEPLAYED_TIME.toString() + time, 2);
+        Message.TIMEPLAYED_TIME.aSendF(to, time);
         objective.getScore("Ticks").setScore(ticks);
         if (seconds > 0) {
             objective.getScore("Seconds").setScore(seconds);

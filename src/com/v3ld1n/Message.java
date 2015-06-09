@@ -219,6 +219,7 @@ public enum Message {
     SIDEBARMESSAGE_INVALID_TIME("commands.sidebarmessage.invalid-time"),
 
     TIMEPLAYED_TIME("commands.timeplayed.time"),
+    TIMEPLAYED_SIDEBAR_NAME("commands.timeplayed.sidebar-name"),
 
     TRAIL_SET_OWN("commands.trail.set-own"),
     TRAIL_SET_OTHER("commands.trail.set-other"),
