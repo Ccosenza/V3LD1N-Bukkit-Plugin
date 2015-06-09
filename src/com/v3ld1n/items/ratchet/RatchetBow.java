@@ -151,7 +151,7 @@ public class RatchetBow extends V3LD1NItem {
                 Player shooter = (Player) fireball.getShooter();
                 double radius = this.getDoubleSetting("fireball-jump-radius");
                 for (Entity e : fireball.getNearbyEntities(radius, radius, radius)) {
-                    if (e instanceof LivingEntity) {
+                    if (e instanceof LivingEntity && e.getType() != EntityType.ARMOR_STAND) {
                         if (this.equalsItem(shooter.getItemInHand())) {
                             EntityUtil.projectileJump((LivingEntity) e, fireball);
                             if (e.getType() == EntityType.PLAYER) {
