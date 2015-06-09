@@ -69,7 +69,7 @@ public class V3LD1N extends JavaPlugin {
         plugin = this;
         configs = new ArrayList<>();
         loadConfig();
-        String bukkitVersion = "1.8.6-R0.1-SNAPSHOT";
+        String bukkitVersion = "1.8.7-R0.1-SNAPSHOT";
         if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
             PluginDescriptionFile d = plugin.getDescription();
             Message.INVALID_BUKKIT_VERSION.logF(Level.WARNING, d.getName(), d.getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
