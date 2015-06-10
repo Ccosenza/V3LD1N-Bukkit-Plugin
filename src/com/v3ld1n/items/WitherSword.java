@@ -8,8 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
 
-import com.v3ld1n.util.Sound;
-
 public class WitherSword extends V3LD1NItem {
     private final PotionEffectType effect = PotionEffectType.WITHER;
 
@@ -34,6 +32,6 @@ public class WitherSword extends V3LD1NItem {
         e.addPotionEffect(effect.createEffect(duration, level));
         Location loc = e.getEyeLocation();
         this.displayParticles(loc);
-        Sound.fromString(this.getStringSetting("sound")).play(loc);
+        this.getSoundSetting("sound").play(loc);
     }
 }

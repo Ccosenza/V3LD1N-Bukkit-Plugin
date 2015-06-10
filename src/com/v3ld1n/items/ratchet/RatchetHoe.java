@@ -18,7 +18,6 @@ import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.PlayerAnimation;
-import com.v3ld1n.util.Sound;
 
 public class RatchetHoe extends V3LD1NItem {
     public RatchetHoe() {
@@ -64,6 +63,6 @@ public class RatchetHoe extends V3LD1NItem {
         double z = bl.getZ() + 0.5;
         Location loc = new Location(block.getWorld(), x, y, z);
         this.displayParticles(loc);
-        Sound.fromString(this.getStringSetting("sound")).play(loc);
+        this.getSoundSetting("sound").play(loc);
     }
 }

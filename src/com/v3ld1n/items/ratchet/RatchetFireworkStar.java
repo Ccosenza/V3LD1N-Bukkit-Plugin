@@ -17,7 +17,6 @@ import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.ItemUtil;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
-import com.v3ld1n.util.Sound;
 
 public class RatchetFireworkStar extends V3LD1NItem {
     public RatchetFireworkStar() {
@@ -35,7 +34,7 @@ public class RatchetFireworkStar extends V3LD1NItem {
                 PlayerAnimation.SWING_ARM.play(p, 25);
                 new ProjectileBuilder()
                     .withType(Snowball.class)
-                    .withLaunchSound(Sound.fromString(this.getStringSetting("sound")))
+                    .withLaunchSound(this.getSoundSetting("sound"))
                     .launch(p, 1.5);
             }
         }

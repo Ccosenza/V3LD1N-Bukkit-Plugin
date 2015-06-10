@@ -21,7 +21,6 @@ import org.bukkit.util.Vector;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.Particle;
-import com.v3ld1n.util.Sound;
 
 @SuppressWarnings("deprecation")
 public class RatchetSword extends V3LD1NItem {
@@ -70,7 +69,7 @@ public class RatchetSword extends V3LD1NItem {
                 entity.setVelocity(entity.getVelocity().add(new Vector(0, pushUpSpeed, 0)));
             }
             Particle.displayList(location, this.getStringListSetting("mob-particles"));
-            Sound.fromString(this.getStringSetting("sound")).play(location);
+            this.getSoundSetting("sound").play(location);
             if (entitiesContainsEnemy) {
                 particle(p.getLocation(), es.size());
             }
