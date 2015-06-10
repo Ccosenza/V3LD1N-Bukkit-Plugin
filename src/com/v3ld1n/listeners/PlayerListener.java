@@ -150,7 +150,8 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player p = event.getPlayer();
         if (p.hasPlayedBefore()) {
-            event.setJoinMessage(String.format(Message.NEW_PLAYER_JOIN.toString(), p.getName(), Bukkit.getOfflinePlayers().length));
+            int offline = Bukkit.getOfflinePlayers().length;
+            event.setJoinMessage(String.format(Message.NEW_PLAYER_JOIN.toString(), p.getName(), offline));
         }
         ChatUtil.sendMotd(p);
         if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
