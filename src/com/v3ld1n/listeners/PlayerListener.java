@@ -149,8 +149,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player p = event.getPlayer();
-        if (!p.hasPlayedBefore()) {
-            event.setJoinMessage(ChatColor.YELLOW + p.getName() + " joined the game (new player)");
+        if (p.hasPlayedBefore()) {
+            event.setJoinMessage(String.format(Message.NEW_PLAYER_JOIN.toString(), p.getName(), Bukkit.getOfflinePlayers().length));
         }
         ChatUtil.sendMotd(p);
         if (ConfigSetting.PLAYER_LIST_HEADER.getString() != null && ConfigSetting.PLAYER_LIST_FOOTER.getString() != null) {
