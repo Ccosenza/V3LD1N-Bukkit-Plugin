@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.StringUtil;
 import com.v3ld1n.util.TimeUtil;
 
@@ -110,7 +111,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                 String sbs = sb.toString();
                 sbs = sbs.substring(0, sbs.length() - 1);
                 message = String.format(message, sbs, cld.getLink());
-                ChatUtil.sendJsonMessage(p, message, 0);
+                ChatUtil.sendJsonMessage(p, message, MessageType.CHAT);
             } catch (Exception e) {
                 Message.CHANGELOG_ERROR.send(p);
                 e.printStackTrace();

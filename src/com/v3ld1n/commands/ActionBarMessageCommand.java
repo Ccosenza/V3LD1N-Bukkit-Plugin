@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
@@ -24,11 +25,11 @@ public class ActionBarMessageCommand extends V3LD1NCommand {
                 message = message.replaceAll("[\"\\\\]", "");
                 if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("a")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                        ChatUtil.sendMessage(p, message, 2);
+                        ChatUtil.sendMessage(p, message, MessageType.ACTION_BAR);
                     }
                 } else {
                     if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
-                        ChatUtil.sendMessage(PlayerUtil.getOnlinePlayer(args[0]), message, 2);
+                        ChatUtil.sendMessage(PlayerUtil.getOnlinePlayer(args[0]), message, MessageType.ACTION_BAR);
                     } else {
                         sendInvalidPlayerMessage(sender);
                     }

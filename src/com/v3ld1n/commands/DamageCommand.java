@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
 
 public class DamageCommand extends V3LD1NCommand {
@@ -45,7 +46,7 @@ public class DamageCommand extends V3LD1NCommand {
                     } else {
                         message = String.format(Message.DAMAGE_DAMAGE.toString(), args[0], p.getName());
                     }
-                    ChatUtil.sendMessage(sender, message, 2);
+                    ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                     return true;
                 }
                 Message.DAMAGE_INVULNERABLE.send(sender);

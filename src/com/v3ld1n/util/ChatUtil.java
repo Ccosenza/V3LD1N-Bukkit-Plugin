@@ -24,11 +24,11 @@ public final class ChatUtil {
      * @param message the message
      * @param type the message type
      */
-    public static void sendMessage(CommandSender to, String message, int type) {
+    public static void sendMessage(CommandSender to, String message, MessageType type) {
         if (to instanceof Player) {
             String jsonMessage = "{\"text\":\"" + message.replaceAll("\"", "\\\\\"") + "\"}";
             IChatBaseComponent chat = ChatSerializer.a(jsonMessage);
-            PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
+            PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
             PlayerUtil.sendPacket(packet, (Player) to);
         } else {
             to.sendMessage(message);
@@ -41,10 +41,10 @@ public final class ChatUtil {
      * @param message the message
      * @param type the message type
      */
-    public static void sendJsonMessage(CommandSender to, String message, int type) {
+    public static void sendJsonMessage(CommandSender to, String message, MessageType type) {
         if (to instanceof Player) {
             IChatBaseComponent chat = ChatSerializer.a(message);
-            PacketPlayOutChat packet = new PacketPlayOutChat(chat, (byte) type);
+            PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
             PlayerUtil.sendPacket(packet, (Player) to);
         } else {
             to.sendMessage(message);
@@ -63,7 +63,7 @@ public final class ChatUtil {
         for (String jsonText : Config.MOTD.getConfig().getStringList(listName)) {
             String message = StringUtil.formatText(jsonText);
             message = StringUtil.replacePlayerVariables(message, player);
-            ChatUtil.sendJsonMessage(player, message, 0);
+            ChatUtil.sendJsonMessage(player, message, MessageType.CHAT);
         }
     }
 
@@ -86,7 +86,7 @@ public final class ChatUtil {
         int unread = ConfigUtil.getUnreadReports(player.getUniqueId());
         String message = "{text:\"" + String.format(Message.REPORT_UNREAD.toString(), unread) + "\","
                 + "clickEvent:{action:run_command,value:\"/report list\"}}";
-        ChatUtil.sendJsonMessage(player, message, 0);
+        ChatUtil.sendJsonMessage(player, message, MessageType.CHAT);
     }
 
     /**

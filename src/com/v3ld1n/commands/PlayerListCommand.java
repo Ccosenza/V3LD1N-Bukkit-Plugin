@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.StringUtil;
 
@@ -47,7 +46,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                             boolean pingEnabled = ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean();
                             Message message = pingEnabled ? Message.PLAYERLIST_DISABLE_PING : Message.PLAYERLIST_ENABLE_PING;
                             ConfigSetting.PLAYER_LIST_PING_ENABLED.toggle();
-                            ChatUtil.sendMessage(sender, message.toString(), 2);
+                            message.aSend(sender);
                             return true;
                         }
                     } else if (l == 3) {
