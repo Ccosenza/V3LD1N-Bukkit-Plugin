@@ -7,8 +7,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import com.v3ld1n.util.Sound;
-
 public class FlightFeather extends V3LD1NItem {
     public FlightFeather() {
         super("flight-feather");
@@ -33,6 +31,6 @@ public class FlightFeather extends V3LD1NItem {
         p.setFallDistance(0);
         Location loc = p.getLocation();
         this.displayParticles(loc);
-        Sound.fromString(this.getStringSetting("sound")).play(p.getLocation());
+        this.getSoundSetting("sound").play(p.getLocation());
     }
 }

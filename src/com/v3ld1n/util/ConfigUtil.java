@@ -72,6 +72,9 @@ public final class ConfigUtil {
         double x = Double.parseDouble(split[1]);
         double y = Double.parseDouble(split[2]);
         double z = Double.parseDouble(split[3]);
+        if (Bukkit.getWorld(world) == null) {
+            world = Bukkit.getWorlds().get(0).getName();
+        }
         Location location = new Location(Bukkit.getServer().getWorld(world), x, y, z);
         if (split.length >= 5) {
             location.setYaw(Float.parseFloat(split[4]));

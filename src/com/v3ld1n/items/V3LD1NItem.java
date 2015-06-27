@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -15,9 +16,11 @@ import org.bukkit.util.Vector;
 import com.v3ld1n.Config;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.Particle;
+import com.v3ld1n.util.Sound;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NItem implements Listener {
+    private final FileConfiguration config = Config.ITEMS.getConfig();
     private final String id;
     private Material material;
     private String name;
@@ -81,36 +84,40 @@ public class V3LD1NItem implements Listener {
     }
 
     public String getStringSetting(String settingName) {
-        return Config.ITEMS.getConfig().getString(id + "." + settingName);
+        return config.getString(id + "." + settingName);
     }
 
     public int getIntSetting(String settingName) {
-        return Config.ITEMS.getConfig().getInt(id + "." + settingName);
+        return config.getInt(id + "." + settingName);
     }
 
     public double getDoubleSetting(String settingName) {
-        return Config.ITEMS.getConfig().getDouble(id + "." + settingName);
+        return config.getDouble(id + "." + settingName);
     }
 
     public boolean getBooleanSetting(String settingName) {
-        return Config.ITEMS.getConfig().getBoolean(id + "." + settingName);
+        return config.getBoolean(id + "." + settingName);
     }
 
     public List<String> getStringListSetting(String settingName) {
-        return Config.ITEMS.getConfig().getStringList(id + "." + settingName);
+        return config.getStringList(id + "." + settingName);
     }
 
     public Location getLocationSetting(String settingName) {
-        String setting = Config.ITEMS.getConfig().getString(id + "." + settingName);
+        String setting = config.getString(id + "." + settingName);
         return ConfigUtil.locationFromString(setting);
     }
 
     public Vector getVectorSetting(String settingName) {
-        return Config.ITEMS.getConfig().getVector(id + "." + settingName);
+        return config.getVector(id + "." + settingName);
     }
 
     public Particle getParticleSetting(String settingName) {
-        return Particle.fromString(Config.ITEMS.getConfig().getString(id + "." + settingName));
+        return Particle.fromString(config.getString(id + "." + settingName));
+    }
+
+    public Sound getSoundSetting(String settingName) {
+        return Sound.fromString(config.getString(id + "." + settingName));
     }
 
     @Override

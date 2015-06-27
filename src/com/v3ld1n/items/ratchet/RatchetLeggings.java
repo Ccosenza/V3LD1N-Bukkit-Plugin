@@ -14,7 +14,6 @@ import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.RepeatableRunnable;
-import com.v3ld1n.util.Sound;
 
 public class RatchetLeggings extends V3LD1NItem {
     public RatchetLeggings() {
@@ -27,7 +26,7 @@ public class RatchetLeggings extends V3LD1NItem {
         if (this.equalsItem(p.getInventory().getLeggings())) {
             event.setAmount((int) (event.getAmount() * this.getDoubleSetting("xp-multiplier")));
             this.getParticleSetting("xp-particle").display(p.getLocation());
-            Sound.fromString(this.getStringSetting("xp-sound")).play(p.getLocation());
+            this.getSoundSetting("xp-sound").play(p.getLocation());
         }
     }
 
@@ -54,7 +53,7 @@ public class RatchetLeggings extends V3LD1NItem {
         Vector divide = this.getVectorSetting(a + ".divide-velocity");
         Vector velocity = this.getVectorSetting(a + ".velocity");
         p.setVelocity(p.getLocation().getDirection().divide(divide).add(velocity));
-        Sound.fromString(this.getStringSetting("sound")).play(p.getLocation());
+        this.getSoundSetting("sound").play(p.getLocation());
         long ticks = this.getIntSetting("trail-ticks");
         int times = this.getIntSetting("trail-times");
         RepeatableRunnable task = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, ticks, times) {

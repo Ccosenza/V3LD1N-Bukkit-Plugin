@@ -15,7 +15,6 @@ import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.RepeatableRunnable;
-import com.v3ld1n.util.Sound;
 
 public class RatchetFirework extends V3LD1NItem {
     public RatchetFirework() {
@@ -31,7 +30,7 @@ public class RatchetFirework extends V3LD1NItem {
                 event.setCancelled(true);
                 if (p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
                     PlayerAnimation.SWING_ARM.play(p, 25);
-                    Sound.fromString(this.getStringSetting("sound")).play(p.getLocation());
+                    this.getSoundSetting("sound").play(p.getLocation());
                     RepeatableRunnable fwTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, 2, 50) {
                         @Override
                         public void onRun() {
