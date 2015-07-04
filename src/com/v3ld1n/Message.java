@@ -199,6 +199,8 @@ public enum Message {
     RIDE_NO_TIME("commands.ride.no-time"),
     RIDE_INVALID_TYPE("commands.ride.invalid-type"),
 
+    SENDMESSAGE_INVALID_TYPE("commands.sendmessage.invalid-type"),
+
     SETFULLTIME_SET("commands.setfulltime.set"),
 
     SETHEALTH_SET("commands.sethealth.set"),

@@ -257,7 +257,7 @@ public class V3LD1N extends JavaPlugin {
         commands.put("push", new PushCommand());
         commands.put("sethotbarslot", new SetHotbarSlotCommand());
         commands.put("v3ld1nmotd", new V3LD1NMotdCommand());
-        commands.put("actionbarmessage", new ActionBarMessageCommand());
+        commands.put("sendmessage", new SendMessageCommand());
         commands.put("timeplayed", new TimePlayedCommand());
         commands.put("playerlist", new PlayerListCommand());
         commands.put("giveall", new GiveAllCommand());

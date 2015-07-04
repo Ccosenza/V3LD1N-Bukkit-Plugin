@@ -82,10 +82,10 @@ commands:
     description: Adds, removes, and lists MOTDs.
     aliases: [vmotd]
     usage: /<command> add|remove|list <motd ...>
-  actionbarmessage:
-    description: Displays a message above the action bar.
+  sendmessage:
+    description: Sends a message to a player.
     aliases: [abmessage, abm, abbroadcast]
-    usage: /<command> all|<player> <message ...>
+    usage: /<command> <player>|all <type> <message ...>
   report:
     description: Sends a report to the admins.
     aliases: [reports]
