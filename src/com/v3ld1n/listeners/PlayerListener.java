@@ -149,7 +149,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player p = event.getPlayer();
-        if (p.hasPlayedBefore()) {
+        if (!p.hasPlayedBefore()) {
             int offline = Bukkit.getOfflinePlayers().length;
             event.setJoinMessage(String.format(Message.NEW_PLAYER_JOIN.toString(), p.getName(), offline));
         }
