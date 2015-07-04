@@ -30,6 +30,7 @@ import com.v3ld1n.PlayerData;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
+import com.v3ld1n.util.LocationUtil;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.ProjectileBuilder;
@@ -171,13 +172,7 @@ public class RatchetBow extends V3LD1NItem {
                 this.displayParticles(pr.getLocation());
                 Location hitLocMin = this.getLocationSetting("teleport-hit-location-min");
                 Location hitLocMax = this.getLocationSetting("teleport-hit-location-max");
-                if (location.getWorld().getName().equals(hitLocMin.getWorld().getName())
-                        && location.getX() >= hitLocMin.getX()
-                        && location.getY() >= hitLocMin.getY()
-                        && location.getZ() >= hitLocMin.getZ()
-                        && location.getX() <= hitLocMax.getX()
-                        && location.getY() <= hitLocMax.getY()
-                        && location.getZ() <= hitLocMax.getZ()) {
+                if (LocationUtil.isInArea(location, hitLocMin, hitLocMax)) {
                     displayTeleportParticles(shooter.getLocation());
                     RepeatableRunnable teleportTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 6, 4, 2) {
                         @Override
