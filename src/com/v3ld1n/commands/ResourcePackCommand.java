@@ -31,8 +31,6 @@ public class ResourcePackCommand extends V3LD1NCommand {
                         pack = args[0];
                     } else {
                         this.sendUsage(p, label, command);
-                        List<String> names = V3LD1N.getResourcePackNames();
-                        ChatUtil.sendList(p, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
                         return true;
                     }
                 }
@@ -44,5 +42,12 @@ public class ResourcePackCommand extends V3LD1NCommand {
         }
         sendPlayerMessage(sender);
         return true;
+    }
+
+    @Override
+    public void sendUsage(CommandSender user, String commandLabel, Command command) {
+        super.sendUsage(user, commandLabel, command);
+        List<String> names = V3LD1N.getResourcePackNames();
+        ChatUtil.sendList(user, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
     }
 }
