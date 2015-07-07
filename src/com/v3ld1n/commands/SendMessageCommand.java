@@ -1,5 +1,8 @@
 package com.v3ld1n.commands;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -7,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
@@ -28,8 +32,9 @@ public class SendMessageCommand extends V3LD1NCommand {
                 try {
                     type = MessageType.valueOf(args[1].toUpperCase());
                 } catch (Exception e) {
-                    type = MessageType.CHAT;
-                    Message.SENDMESSAGE_INVALID_TYPE.sendF(sender, type.toString().toLowerCase());
+                    Message.SENDMESSAGE_INVALID_TYPE.send(sender);
+                    sendTypeList(sender);
+                    return true;
                 }
                 String arg = args[0];
                 if (arg.equalsIgnoreCase("all") || arg.equalsIgnoreCase("a")) {
@@ -50,5 +55,16 @@ public class SendMessageCommand extends V3LD1NCommand {
         }
         sendPermissionMessage(sender);
         return true;
+    }
+
+    @Override
+    public void sendUsage(CommandSender user, String commandLabel, Command command) {
+        super.sendUsage(user, commandLabel, command);
+        sendTypeList(user);
+    }
+
+    private void sendTypeList(CommandSender user) {
+        List<MessageType> types = Arrays.asList(MessageType.values());
+        ChatUtil.sendList(user, Message.SENDMESSAGE_LIST_TITLE.toString(), types, ListType.SHORT);
     }
 }

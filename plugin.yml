@@ -29,11 +29,11 @@ commands:
   ratchetsbow:
     description: Sets your projectile for Ratchet's Bow.
     aliases: [rbow, rb]
-    usage: /<command> arrow|triplearrows|fireworkarrow|fireball|snowball|enderpearl|egg|witherskull|bluewitherskull
+    usage: /<command> <projectile>
   fireworkarrows:
     description: Sets your firework shape for firework arrows.
     aliases: [fireworkarrow, rbfw, fwa, fwas]
-    usage: /<command> ball|ball_large|star|creeper|burst
+    usage: /<command> <firework shape>
   resourcepack:
     description: Downloads the server's resource packs.
     aliases: [pack, rp]
@@ -84,7 +84,7 @@ commands:
     usage: /<command> add|remove|list <motd ...>
   sendmessage:
     description: Sends a message to a player.
-    aliases: [abmessage, abm, abbroadcast]
+    aliases: [sendmsg, smsg, sm]
     usage: /<command> <player>|all <type> <message ...>
   report:
     description: Sends a report to the admins.
@@ -123,7 +123,7 @@ commands:
   sethunger:
     description: Sets a player's hunger, exhaustion, or saturation level.
     aliases: [hunger, sethungerlevel, setfood, setfoodlevel, foodlevel]
-    usage: /<command> <hunger> hunger|exhaustion|saturation [player]
+    usage: /<command> <value> hunger|exhaustion|saturation [player]
   damage:
     description: Damages a player.
     aliases: [hurt, dmg, removehealth]

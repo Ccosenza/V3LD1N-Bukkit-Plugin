@@ -43,14 +43,22 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
                 return true;
             }
             this.sendUsage(p, label, command);
-            String currentPack = Message.NONE.toString();
-            if (PlayerData.AUTO_RESOURCE_PACK.get(uuid) != null) {
-                currentPack = PlayerData.AUTO_RESOURCE_PACK.getString(uuid);
-            }
-            Message.AUTORESOURCEPACK_INFO.sendF(p, currentPack);
             return true;
         }
         sendPlayerMessage(sender);
         return true;
+    }
+
+    @Override
+    public void sendUsage(CommandSender user, String commandLabel, Command command) {
+        super.sendUsage(user, commandLabel, command);
+        if (!(user instanceof Player)) {
+            return;
+        }
+        UUID uuid = ((Player) user).getUniqueId();
+        if (PlayerData.AUTO_RESOURCE_PACK.get(uuid) != null) {
+            String currentPack = PlayerData.AUTO_RESOURCE_PACK.getString(uuid);
+            Message.AUTORESOURCEPACK_INFO.sendF(user, currentPack);
+        }
     }
 }

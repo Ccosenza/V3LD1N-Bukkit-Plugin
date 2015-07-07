@@ -6,9 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class DamageCommand extends V3LD1NCommand {
     public DamageCommand() {
@@ -21,9 +20,9 @@ public class DamageCommand extends V3LD1NCommand {
         if (sender.hasPermission("v3ld1n.damage")) {
             int l = args.length;
             if (l == 1 || l == 2) {
-                double amount;
+                double damageAmount;
                 try {
-                    amount = Double.parseDouble(args[0]);
+                    damageAmount = Double.parseDouble(args[0]);
                 } catch (IllegalArgumentException e) {
                     this.sendUsage(sender, label, command);
                     return true;
@@ -39,17 +38,13 @@ public class DamageCommand extends V3LD1NCommand {
                 }
                 GameMode gm = p.getGameMode();
                 if (gm != GameMode.CREATIVE && gm != GameMode.SPECTATOR) {
-                    p.damage(amount);
-                    String message;
-                    if (p.getName().equals(sender.getName())) {
-                        message = String.format(Message.DAMAGE_DAMAGE_SELF.toString(), args[0]);
-                    } else {
-                        message = String.format(Message.DAMAGE_DAMAGE.toString(), args[0], p.getName());
-                    }
-                    ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
+                    p.damage(damageAmount);
+                    boolean damagedSelf = p.getName().equals(sender.getName());
+                    Message message = damagedSelf ? Message.DAMAGE_DAMAGE_SELF : Message.DAMAGE_DAMAGE;
+                    message.aSendF(sender, args[0], p.getName());
                     return true;
                 }
-                Message.DAMAGE_INVULNERABLE.send(sender);
+                Message.DAMAGE_INVULNERABLE.sendF(sender, StringUtil.fromEnum(gm, true));
                 return true;
             }
             this.sendUsage(sender, label, command);
