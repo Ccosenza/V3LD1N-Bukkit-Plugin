@@ -3,7 +3,7 @@ description: A custom plugin for the V3LD1N server.
 author: Ccosenza
 main: com.v3ld1n.V3LD1N
 softdepend: [WorldGuard, PermissionsEx, Essentials]
-version: "3.7.3"
+version: "4.0"
 
 commands:
   v3ld1nplugin:
