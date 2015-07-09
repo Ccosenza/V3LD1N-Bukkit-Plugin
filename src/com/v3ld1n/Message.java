@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.StringUtil;
 
 public enum Message {
@@ -198,6 +199,9 @@ public enum Message {
     RIDE_NO_TIME("commands.ride.no-time"),
     RIDE_INVALID_TYPE("commands.ride.invalid-type"),
 
+    SENDMESSAGE_LIST_TITLE("commands.sendmessage.list-title"),
+    SENDMESSAGE_INVALID_TYPE("commands.sendmessage.invalid-type"),
+
     SETFULLTIME_SET("commands.setfulltime.set"),
 
     SETHEALTH_SET("commands.sethealth.set"),
@@ -295,7 +299,7 @@ public enum Message {
      * @param user the user
      */
     public void aSend(CommandSender user) {
-        ChatUtil.sendMessage(user, this.toString(), 2);
+        ChatUtil.sendMessage(user, this.toString(), MessageType.ACTION_BAR);
     }
 
     /**
@@ -304,7 +308,7 @@ public enum Message {
      * @param format the strings to format the message with
      */
     public void aSendF(CommandSender user, Object... format) {
-        ChatUtil.sendMessage(user, String.format(this.toString(), format), 2);
+        ChatUtil.sendMessage(user, String.format(this.toString(), format), MessageType.ACTION_BAR);
     }
 
     /**

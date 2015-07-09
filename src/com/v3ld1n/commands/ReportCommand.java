@@ -13,6 +13,7 @@ import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ListType;
+import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.StringUtil;
 import com.v3ld1n.util.TimeUtil;
 
@@ -75,11 +76,11 @@ public class ReportCommand extends V3LD1NCommand {
                                     + "action:\"run_command\","
                                     + "value:\"/" + label + " list\"}}";
                             Message.REPORT_BORDER_TOP.send(p);
-                            ChatUtil.sendJsonMessage(p, title, 0);
-                            ChatUtil.sendJsonMessage(p, senderName, 0);
-                            ChatUtil.sendJsonMessage(p, reason, 0);
-                            ChatUtil.sendJsonMessage(p, time, 0);
-                            ChatUtil.sendJsonMessage(p, back, 0);
+                            ChatUtil.sendJsonMessage(p, title, MessageType.CHAT);
+                            ChatUtil.sendJsonMessage(p, senderName, MessageType.CHAT);
+                            ChatUtil.sendJsonMessage(p, reason, MessageType.CHAT);
+                            ChatUtil.sendJsonMessage(p, time, MessageType.CHAT);
+                            ChatUtil.sendJsonMessage(p, back, MessageType.CHAT);
                             Message.REPORT_BORDER_BOTTOM.send(p);
                             if (!report.isReadBy(playerUuid)) {
                                 report.setReadBy(playerUuid);
@@ -183,7 +184,7 @@ public class ReportCommand extends V3LD1NCommand {
                                 + "clickEvent:{"
                                 + "action:\"run_command\","
                                 + "value:\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}",
-                                0);
+                                MessageType.CHAT);
                             }
                             Message.REPORT_LIST_HELP.send(p);
                         }

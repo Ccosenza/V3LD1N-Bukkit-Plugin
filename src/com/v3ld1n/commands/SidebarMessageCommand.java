@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.SidebarMessage;
 import com.v3ld1n.util.StringUtil;
 
@@ -47,7 +48,7 @@ public class SidebarMessageCommand extends V3LD1NCommand {
                 }
                 String replaced = StringUtil.formatText(sbm.getTitle().replaceAll("_", " "));
                 String message = String.format(Message.SIDEBARMESSAGE_DISPLAY.toString(), replaced);
-                ChatUtil.sendMessage(sender, message, 2);
+                ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                 return true;
             }
             this.sendUsage(sender, label, command);

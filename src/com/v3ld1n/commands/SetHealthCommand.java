@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
 
 public class SetHealthCommand extends V3LD1NCommand {
@@ -41,7 +42,7 @@ public class SetHealthCommand extends V3LD1NCommand {
                     String ownMessage = String.format(Message.SETHEALTH_SET_OWN.toString(), args[0]);
                     String otherMessage = String.format(Message.SETHEALTH_SET.toString(), p.getName(), args[0]);
                     String message = pIsSender ? ownMessage : otherMessage;
-                    ChatUtil.sendMessage(sender, message, 2);
+                    ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                     return true;
                 }
                 Message.SETHEALTH_LIMIT.send(sender);

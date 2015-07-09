@@ -8,6 +8,7 @@ import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.MessageType;
 
 public class FAQCommand extends V3LD1NCommand {
     public FAQCommand() {
@@ -31,7 +32,7 @@ public class FAQCommand extends V3LD1NCommand {
                     + "clickEvent:{"
                     + "action:\"run_command\","
                     + "value:\"/" + label + " " + faq.getId() + "\"}}]}",
-                    0);
+                    MessageType.CHAT);
                 }
                 Message.FAQ_HELP.send(p);
                 Message.FAQ_BORDER_BOTTOM.send(p);
@@ -61,9 +62,9 @@ public class FAQCommand extends V3LD1NCommand {
                             + "action:\"run_command\","
                             + "value:\"/" + label + "\"}}";
                     Message.FAQ_BORDER_TOP.send(p);
-                    ChatUtil.sendJsonMessage(p, question, 0);
-                    ChatUtil.sendJsonMessage(p, answer, 0);
-                    ChatUtil.sendJsonMessage(p, back, 0);
+                    ChatUtil.sendJsonMessage(p, question, MessageType.CHAT);
+                    ChatUtil.sendJsonMessage(p, answer, MessageType.CHAT);
+                    ChatUtil.sendJsonMessage(p, back, MessageType.CHAT);
                     Message.FAQ_BORDER_BOTTOM.send(p);
                     return true;
                 }

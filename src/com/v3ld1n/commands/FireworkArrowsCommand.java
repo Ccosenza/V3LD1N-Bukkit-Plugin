@@ -28,35 +28,26 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length == 1) {
-                String typeString = args[0].toUpperCase();
-                List<Type> types = Arrays.asList(Type.values());
-                boolean contains = false;
-                for (Type type : types) {
-                    if (type.name().equalsIgnoreCase(typeString)) {
-                        contains = true;
-                    }
-                }
-                if (contains) {
-                    Type type = Type.valueOf(typeString);
-                    if (type == Type.BALL) {
-                        PlayerData.FIREWORK_ARROWS.set(p.getUniqueId(), null);
-                    } else {
-                        PlayerData.FIREWORK_ARROWS.set(p.getUniqueId(), args[0].toUpperCase());
-                    }
-                    FireworkEffect effect = FireworkEffect.builder()
-                            .with(type)
-                            .withColor(Color.WHITE)
-                            .withFlicker()
-                            .withTrail()
-                            .build();
-                    Location loc = p.getLocation();
-                    loc.add(0, 5, 0);
-                    EntityUtil.displayFireworkEffect(effect, loc, 2);
-                    Message.FIREWORKARROWS_SET.sendF(p, StringUtil.fromEnum(type, true));
+                Type type;
+                try {
+                    type = Type.valueOf(args[0].toUpperCase());
+                } catch (Exception e) {
+                    Message.FIREWORKARROWS_INVALID_SHAPE.send(sender);
+                    sendTypeList(sender);
                     return true;
                 }
-                Message.FIREWORKARROWS_INVALID_SHAPE.send(p);
-                ChatUtil.sendList(p, Message.FIREWORKARROWS_LIST_TITLE.toString(), types, ListType.SHORT);
+                Object newType = type == Type.BALL ? null : args[0].toUpperCase();
+                PlayerData.FIREWORK_ARROWS.set(p.getUniqueId(), newType);
+                FireworkEffect effect = FireworkEffect.builder()
+                        .with(type)
+                        .withColor(Color.WHITE)
+                        .withFlicker()
+                        .withTrail()
+                        .build();
+                Location loc = p.getLocation();
+                loc.add(0, 5, 0);
+                EntityUtil.displayFireworkEffect(effect, loc, 2);
+                Message.FIREWORKARROWS_SET.sendF(p, StringUtil.fromEnum(type, true));
                 return true;
             }
             this.sendUsage(sender, label, command);
@@ -64,5 +55,16 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
         }
         sendPlayerMessage(sender);
         return true;
+    }
+
+    @Override
+    public void sendUsage(CommandSender user, String commandLabel, Command command) {
+        super.sendUsage(user, commandLabel, command);
+        sendTypeList(user);
+    }
+
+    private void sendTypeList(CommandSender user) {
+        List<Type> types = Arrays.asList(Type.values());
+        ChatUtil.sendList(user, Message.FIREWORKARROWS_LIST_TITLE.toString(), types, ListType.SHORT);
     }
 }

@@ -40,23 +40,27 @@ public class EditSignCommand extends V3LD1NCommand {
                     Block target = p.getTargetBlock((Set<Material>) null, 100);
                     if (target.getState() instanceof Sign) {
                         String text = StringUtil.fromArray(args, 2);
-                        switch (args[0].toLowerCase()) {
-                        case "set":
-                            BlockUtil.editSign(target, line, StringUtil.formatText(text));
-                            Message.EDITSIGN_SET.aSendF(p, line, text);
-                            return true;
-                        case "add":
-                            BlockUtil.addToSign(target, line, StringUtil.formatText(text));
-                            Message.EDITSIGN_ADD.aSendF(p, text, line);
-                            return true;
-                        case "remove":
-                            BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
-                            Message.EDITSIGN_REMOVE.aSendF(p, text, line);
-                            return true;
-                        default:
-                            this.sendUsage(sender, label, command);
+                        if (EditSignType.valueOf(args[0].toUpperCase()) != null) {
+                            EditSignType type = EditSignType.valueOf(args[0].toUpperCase());
+                            switch (type) {
+                            case SET:
+                                BlockUtil.editSign(target, line, StringUtil.formatText(text));
+                                break;
+                            case ADD:
+                                BlockUtil.addToSign(target, line, StringUtil.formatText(text));
+                                break;
+                            case REMOVE:
+                                BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
+                                break;
+                            default:
+                                this.sendUsage(sender, label, command);
+                                return true;
+                            }
+                            type.getMessage().aSendF(p, text, line);
                             return true;
                         }
+                        this.sendUsage(sender, label, command);
+                        return true;
                     }
                     Message.EDITSIGN_INVALID_BLOCK.send(p);
                     return true;

@@ -11,7 +11,6 @@ import com.v3ld1n.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -149,7 +148,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player p = event.getPlayer();
-        if (p.hasPlayedBefore()) {
+        if (!p.hasPlayedBefore()) {
             int offline = Bukkit.getOfflinePlayers().length;
             event.setJoinMessage(String.format(Message.NEW_PLAYER_JOIN.toString(), p.getName(), offline));
         }
@@ -178,11 +177,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
-        String msg = StringUtil.replacePlayerVariables(event.getMessage(), event.getPlayer());
-        event.setMessage(msg);
+        Player p = event.getPlayer();
+        String msg = event.getMessage();
+        String replaced = StringUtil.replacePlayerVariables(event.getMessage(), p);
+        event.setMessage(replaced);
         if (msg.equals("?LOTTO #&")) {
-            Location loc = event.getPlayer().getLocation();
-            loc.getWorld().playEffect(loc, Effect.ENDER_SIGNAL, 0);
+            event.setMessage(ChatColor.BOLD + msg);
         }
     }
 

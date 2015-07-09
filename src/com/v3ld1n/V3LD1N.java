@@ -39,6 +39,10 @@ import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.Sound;
 
 public class V3LD1N extends JavaPlugin {
+    private final Random random = new Random();
+    private final String bukkitVersion = "1.8.7-R0.1-SNAPSHOT";
+    private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
+
     private static V3LD1N plugin;
     private static List<ConfigAccessor> configs;
     private static WorldGuardPlugin worldGuard;
@@ -58,9 +62,6 @@ public class V3LD1N extends JavaPlugin {
     private static Economy econ = null;
     private static Permission perms = null;
     private static Chat chat = null;
-    private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
-    private final Random random = new Random();
-
     private static RideCommand rideCommand = new RideCommand();
     public static HashMap<UUID, RideType> usingRideCommand;
 
@@ -69,7 +70,6 @@ public class V3LD1N extends JavaPlugin {
         plugin = this;
         configs = new ArrayList<>();
         loadConfig();
-        String bukkitVersion = "1.8.7-R0.1-SNAPSHOT";
         if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
             PluginDescriptionFile d = plugin.getDescription();
             Message.INVALID_BUKKIT_VERSION.logF(Level.WARNING, d.getName(), d.getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
@@ -257,7 +257,7 @@ public class V3LD1N extends JavaPlugin {
         commands.put("push", new PushCommand());
         commands.put("sethotbarslot", new SetHotbarSlotCommand());
         commands.put("v3ld1nmotd", new V3LD1NMotdCommand());
-        commands.put("actionbarmessage", new ActionBarMessageCommand());
+        commands.put("sendmessage", new SendMessageCommand());
         commands.put("timeplayed", new TimePlayedCommand());
         commands.put("playerlist", new PlayerListCommand());
         commands.put("giveall", new GiveAllCommand());
