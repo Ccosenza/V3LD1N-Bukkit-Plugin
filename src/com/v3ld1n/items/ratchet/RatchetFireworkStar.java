@@ -32,10 +32,10 @@ public class RatchetFireworkStar extends V3LD1NItem {
                 event.setCancelled(true);
                 p.setItemInHand(ItemUtil.hideFlags(p.getItemInHand()));
                 PlayerAnimation.SWING_ARM.play(p, 25);
-                new ProjectileBuilder()
-                    .withType(Snowball.class)
-                    .withLaunchSound(this.getSoundSetting("sound"))
-                    .launch(p, 1.5);
+                new ProjectileBuilder(Snowball.class)
+                    .setLaunchSound(this.getSoundSetting("sound"))
+                    .setSpeed(1.5)
+                    .launch(p);
             }
         }
     }

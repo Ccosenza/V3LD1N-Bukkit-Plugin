@@ -9,15 +9,12 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Egg;
-import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -46,58 +43,31 @@ public class RatchetBow extends V3LD1NItem {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
+        UUID uuid = p.getUniqueId();
         ItemStack hand = p.getItemInHand();
-        if (this.equalsItem(hand) && useActions.contains(event.getAction())) {
-            if (PlayerData.RATCHETS_BOW.getString(p.getUniqueId()) != null) {
-                String projectileString = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
-                RatchetBowType pr = RatchetBowType.valueOf(projectileString);
-                if (pr != RatchetBowType.ARROW && pr != RatchetBowType.TRIPLE_ARROWS && pr != RatchetBowType.FIREWORK_ARROW) {
-                    event.setCancelled(true);
-                    switch (pr) {
-                        case SNOWBALL:
-                            new ProjectileBuilder()
-                                .withType(Snowball.class)
-                                .withLaunchSound(this.getSoundSetting("snowball-sound"))
-                                .launch(p, 1.5);
-                            break;
-                        case ENDER_PEARL:
-                            new ProjectileBuilder()
-                            .withType(EnderPearl.class)
-                            .withLaunchSound(this.getSoundSetting("ender-pearl-sound"))
-                            .withRandomDirection(this.getDoubleSetting("ender-pearl-direction"))
-                            .launch(p, 1.5);
-                            break;
-                        case EGG:
-                            new ProjectileBuilder()
-                            .withType(Egg.class)
-                            .withLaunchSound(this.getSoundSetting("egg-sound"))
-                            .launch(p, 1.5);
-                            break;
-                        case WITHER_SKULL:
-                            new ProjectileBuilder()
-                            .withType(WitherSkull.class)
-                            .withLaunchSound(this.getSoundSetting("wither-skull-sound"))
-                            .launch(p, 1.5);
-                            break;
-                        case BLUE_WITHER_SKULL:
-                            WitherSkull blueSkull = (WitherSkull) new ProjectileBuilder()
-                                .withType(WitherSkull.class)
-                                .withLaunchSound(this.getSoundSetting("blue-wither-skull-sound"))
-                                .launch(p, 1.5);
-                            blueSkull.setCharged(true);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            } else {
-                event.setCancelled(true);
-                new ProjectileBuilder()
-                    .withType(Fireball.class)
-                    .withLaunchSound(this.getSoundSetting("fireball-sound"))
-                    .withLaunchParticle(this.getParticleSetting("launch-particle"))
-                    .launch(p, 1.5);
-            }
+        if (!(this.equalsItem(hand) && useActions.contains(event.getAction()))) {
+            return;
+        }
+
+        RatchetBowType type;
+        RatchetBowType fb = RatchetBowType.FIREBALL;
+        PlayerData cfg = PlayerData.RATCHETS_BOW;
+        type = cfg.getString(uuid) == null ? fb : RatchetBowType.valueOf(cfg.getString(uuid));
+        if (type.getProjectile() == Arrow.class) {
+            return;
+        }
+        event.setCancelled(true);
+
+        ProjectileBuilder b = new ProjectileBuilder(type.getProjectile())
+            .setLaunchSound(this.getSoundSetting(type.getSound()))
+            .setSpeed(1.5);
+        if (type == fb) {
+            b.setLaunchParticle(this.getParticleSetting("launch-particle"));
+        }
+
+        Projectile launched = b.launch(p);
+        if (launched.getType() == EntityType.WITHER_SKULL && type == RatchetBowType.BLUE_WITHER_SKULL) {
+            ((WitherSkull) launched).setCharged(true);
         }
     }
 
@@ -108,17 +78,17 @@ public class RatchetBow extends V3LD1NItem {
             if (this.equalsItem(p.getItemInHand())) {
                 if (PlayerData.RATCHETS_BOW.getString(p.getUniqueId()) != null) {
                     String option = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
-                    if (RatchetBowType.fromString(option) == RatchetBowType.TRIPLE_ARROWS) {
+                    if (RatchetBowType.valueOf(option.toUpperCase()) == RatchetBowType.TRIPLE_ARROWS) {
                         Entity pr = event.getProjectile();
                         double direction = this.getDoubleSetting("triple-arrows-direction");
                         EntityUtil.randomDirection(pr, direction);
                         for (int i = 0; i < 2; i++) {
-                            new ProjectileBuilder()
-                                .withType(Arrow.class)
-                                .withRandomDirection(direction)
-                                .launch(p, event.getForce() * 4);
+                            new ProjectileBuilder(Arrow.class)
+                                .setRandomDirection(direction)
+                                .setSpeed(event.getForce() * 4)
+                                .launch(p);
                         }
-                    } else if (RatchetBowType.fromString(option) == RatchetBowType.FIREWORK_ARROW) {
+                    } else if (RatchetBowType.valueOf(option.toUpperCase()) == RatchetBowType.FIREWORK_ARROW) {
                         event.getProjectile().setFireTicks(Integer.MAX_VALUE);
                     }
                 }
@@ -206,7 +176,7 @@ public class RatchetBow extends V3LD1NItem {
             if (this.equalsItem(shooter.getItemInHand())) {
                 if (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()) != null) {
                     UUID uuid = shooter.getUniqueId();
-                    RatchetBowType projectile = RatchetBowType.fromString(PlayerData.RATCHETS_BOW.getString(uuid));
+                    RatchetBowType projectile = RatchetBowType.valueOf(PlayerData.RATCHETS_BOW.getString(uuid).toUpperCase());
                     switch (projectile) {
                     case FIREWORK_ARROW:
                         Type type = Type.BALL;

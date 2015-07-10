@@ -1,42 +1,46 @@
 package com.v3ld1n.items.ratchet;
 
-import java.util.Arrays;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Egg;
+import org.bukkit.entity.EnderPearl;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
+import org.bukkit.entity.WitherSkull;
 
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.util.Particle;
 
 public enum RatchetBowType {
-    FIREBALL(ConfigSetting.PARTICLE_RATCHETSBOW_FIREBALL),
-    ARROW(ConfigSetting.PARTICLE_RATCHETSBOW_ARROW),
-    TRIPLE_ARROWS(ConfigSetting.PARTICLE_RATCHETSBOW_TRIPLE_ARROWS),
-    FIREWORK_ARROW(ConfigSetting.PARTICLE_RATCHETSBOW_FIREWORK),
-    SNOWBALL(ConfigSetting.PARTICLE_RATCHETSBOW_SNOWBALL),
-    ENDER_PEARL(ConfigSetting.PARTICLE_RATCHETSBOW_ENDER_PEARL),
-    EGG(ConfigSetting.PARTICLE_RATCHETSBOW_EGG),
-    WITHER_SKULL(ConfigSetting.PARTICLE_RATCHETSBOW_SKULL),
-    BLUE_WITHER_SKULL(ConfigSetting.PARTICLE_RATCHETSBOW_BLUE_SKULL);
+    FIREBALL(Fireball.class, ConfigSetting.PARTICLE_RATCHETSBOW_FIREBALL, "fireball-sound"),
+    ARROW(Arrow.class, ConfigSetting.PARTICLE_RATCHETSBOW_ARROW, null),
+    TRIPLE_ARROWS(Arrow.class, ConfigSetting.PARTICLE_RATCHETSBOW_TRIPLE_ARROWS, null),
+    FIREWORK_ARROW(Arrow.class, ConfigSetting.PARTICLE_RATCHETSBOW_FIREWORK, null),
+    SNOWBALL(Snowball.class, ConfigSetting.PARTICLE_RATCHETSBOW_SNOWBALL, "snowball-sound"),
+    ENDER_PEARL(EnderPearl.class, ConfigSetting.PARTICLE_RATCHETSBOW_ENDER_PEARL, "ender-pearl-sound"),
+    EGG(Egg.class, ConfigSetting.PARTICLE_RATCHETSBOW_EGG, "egg-sound"),
+    WITHER_SKULL(WitherSkull.class, ConfigSetting.PARTICLE_RATCHETSBOW_SKULL, "wither-skull-sound"),
+    BLUE_WITHER_SKULL(WitherSkull.class, ConfigSetting.PARTICLE_RATCHETSBOW_BLUE_SKULL, "blue-wither-skull-sound");
 
+    private final Class<? extends Projectile> projectile;
     private final Particle particle;
+    private final String sound;
 
-    private RatchetBowType(ConfigSetting particle) {
+    private RatchetBowType(Class<? extends Projectile> projectile, ConfigSetting particle, String sound) {
+        this.projectile = projectile;
         this.particle = Particle.fromString(particle.getString());
+        this.sound = sound;
+    }
+
+    public Class<? extends Projectile> getProjectile() {
+        return projectile;
     }
 
     public Particle getParticle() {
         return particle;
     }
 
-    public static RatchetBowType fromString(String string) {
-        boolean contains = false;
-        for (RatchetBowType type : Arrays.asList(values())) {
-            if (type.name().equalsIgnoreCase(string)) {
-                contains = true;
-            }
-        }
-        if (contains) {
-            RatchetBowType type = RatchetBowType.valueOf(string);
-            return type;
-        }
-        return null;
+    public String getSound() {
+        return sound;
     }
 }

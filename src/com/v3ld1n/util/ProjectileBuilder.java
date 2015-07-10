@@ -5,17 +5,27 @@ import org.bukkit.entity.Projectile;
 
 public class ProjectileBuilder {
     private Class<? extends Projectile> projectile;
+    private double speed = 1;
     private Particle launchParticle;
     private Sound launchSound;
     private double randomDirection;
+
+    public ProjectileBuilder(Class<? extends Projectile> type) {
+        this.projectile = type;
+    }
 
     /**
      * Set the type of the projectile
      * @param type the projectile class
      * @return this object
      */
-    public ProjectileBuilder withType(Class<? extends Projectile> type) {
+    public ProjectileBuilder setType(Class<? extends Projectile> type) {
         this.projectile = type;
+        return this;
+    }
+
+    public ProjectileBuilder setSpeed(double speed) {
+        this.speed = speed;
         return this;
     }
 
@@ -24,7 +34,7 @@ public class ProjectileBuilder {
      * @param particle the particle
      * @return this object
      */
-    public ProjectileBuilder withLaunchParticle(Particle particle) {
+    public ProjectileBuilder setLaunchParticle(Particle particle) {
         this.launchParticle = particle;
         return this;
     }
@@ -34,7 +44,7 @@ public class ProjectileBuilder {
      * @param sound the sound
      * @return this object
      */
-    public ProjectileBuilder withLaunchSound(Sound sound) {
+    public ProjectileBuilder setLaunchSound(Sound sound) {
         this.launchSound = sound;
         return this;
     }
@@ -44,7 +54,7 @@ public class ProjectileBuilder {
      * @param distance the distance from the starting direction
      * @return this object
      */
-    public ProjectileBuilder withRandomDirection(double distance) {
+    public ProjectileBuilder setRandomDirection(double distance) {
         this.randomDirection = distance;
         return this;
     }
@@ -55,7 +65,7 @@ public class ProjectileBuilder {
      * @param speed the speed of the projectile
      * @return the projectile
      */
-    public Projectile launch(LivingEntity shooter, double speed) {
+    public Projectile launch(LivingEntity shooter) {
         Projectile pr = shooter.launchProjectile(projectile);
         pr.setVelocity(shooter.getLocation().getDirection().multiply(speed));
         if (launchParticle != null) {

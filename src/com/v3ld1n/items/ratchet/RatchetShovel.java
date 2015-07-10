@@ -26,10 +26,10 @@ public class RatchetShovel extends V3LD1NItem {
             Player p = event.getPlayer();
             if (this.equalsItem(p.getItemInHand())) {
                 event.setCancelled(true);
-                new ProjectileBuilder()
-                    .withType(Snowball.class)
-                    .withLaunchSound(this.getSoundSetting("throw-sound"))
-                    .launch(p, 1.5);
+                new ProjectileBuilder(Snowball.class)
+                    .setLaunchSound(this.getSoundSetting("throw-sound"))
+                    .setSpeed(1.5)
+                    .launch(p);
                 PlayerAnimation.SWING_ARM.play(p, 64);
             }
         }
