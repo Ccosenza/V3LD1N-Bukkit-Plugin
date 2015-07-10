@@ -58,7 +58,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                 Message.PLAYANIMATION_NO_PERMISSION_OTHERS.send(sender);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             String title = Message.PLAYANIMATION_LIST_TITLE.toString();
             List<PlayerAnimation> animations = Arrays.asList(PlayerAnimation.values());
             ChatUtil.sendList(sender, title, animations, ListType.SHORT);

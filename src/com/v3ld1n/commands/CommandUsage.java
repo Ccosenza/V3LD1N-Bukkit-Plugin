@@ -38,9 +38,9 @@ public class CommandUsage {
         return permission;
     }
 
-    public void send(CommandSender user, String label) {
+    public void send(CommandSender user) {
         if (this.permission == null || user.hasPermission(this.permission)) {
-            user.sendMessage(" - /" + label + " " + this.toString());
+            user.sendMessage(" - /" + command.getBukkitCommand().getName() + " " + this.toString());
         }
     }
 

@@ -39,7 +39,7 @@ public class ItemNameCommand extends V3LD1NCommand {
                     Message.COMMAND_NO_ITEM.send(p);
                     return true;
                 }
-                this.sendUsage(p, label, command);
+                this.sendUsage(p);
                 return true;
             }
             sendPlayerMessage(sender);

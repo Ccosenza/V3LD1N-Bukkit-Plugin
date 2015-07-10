@@ -24,7 +24,7 @@ public class SetHealthCommand extends V3LD1NCommand {
                 try {
                     health = Double.parseDouble(args[0]);
                 } catch (IllegalArgumentException e) {
-                    this.sendUsage(sender, label, command);
+                    this.sendUsage(sender);
                     return true;
                 }
                 Player p;
@@ -48,7 +48,7 @@ public class SetHealthCommand extends V3LD1NCommand {
                 Message.SETHEALTH_LIMIT.send(sender);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

@@ -44,7 +44,7 @@ public class ReportCommand extends V3LD1NCommand {
                         try {
                             arg = Integer.parseInt(args[1]);
                         } catch (IllegalArgumentException e) {
-                            this.sendArgumentUsage(sender, label, command, usageRead);
+                            this.sendArgumentUsage(sender, usageRead);
                             return true;
                         }
                         if (arg <= V3LD1N.getReports().size() && arg > 0) {
@@ -95,7 +95,7 @@ public class ReportCommand extends V3LD1NCommand {
                             try {
                                 arg = Integer.parseInt(args[1]);
                             } catch (IllegalArgumentException e) {
-                                this.sendArgumentUsage(sender, label, command, usageDelete);
+                                this.sendArgumentUsage(sender, usageDelete);
                                 return true;
                             }
                             if (arg <= V3LD1N.getReports().size() && arg > 0) {
@@ -117,7 +117,7 @@ public class ReportCommand extends V3LD1NCommand {
                             try {
                                 arg = Integer.parseInt(args[1]);
                             } catch (IllegalArgumentException e) {
-                                this.sendArgumentUsage(sender, label, command, usageReadBy);
+                                this.sendArgumentUsage(sender, usageReadBy);
                                 return true;
                             }
                             if (arg <= V3LD1N.getReports().size() && arg > 0) {
@@ -194,7 +194,7 @@ public class ReportCommand extends V3LD1NCommand {
                     return true;
                 }
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPlayerMessage(sender);

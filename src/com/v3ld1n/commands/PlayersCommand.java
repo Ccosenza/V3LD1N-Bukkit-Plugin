@@ -41,7 +41,7 @@ public class PlayersCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.players")) {
             if (args.length == 0) {
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             }
             if (args[0].equalsIgnoreCase("info") && args.length == 2) {
@@ -110,7 +110,7 @@ public class PlayersCommand extends V3LD1NCommand {
             sendPermissionMessage(sender);
             return true;
         }
-        this.sendUsage(sender, label, command);
+        this.sendUsage(sender);
         return true;
     }
 

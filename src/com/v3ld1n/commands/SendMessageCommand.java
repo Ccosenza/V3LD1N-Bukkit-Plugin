@@ -50,7 +50,7 @@ public class SendMessageCommand extends V3LD1NCommand {
                 }
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);
@@ -58,8 +58,8 @@ public class SendMessageCommand extends V3LD1NCommand {
     }
 
     @Override
-    public void sendUsage(CommandSender user, String commandLabel, Command command) {
-        super.sendUsage(user, commandLabel, command);
+    public void sendUsage(CommandSender user) {
+        super.sendUsage(user);
         sendTypeList(user);
     }
 

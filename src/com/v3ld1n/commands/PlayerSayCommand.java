@@ -45,7 +45,7 @@ public class PlayerSayCommand extends V3LD1NCommand {
                 Bukkit.broadcastMessage("<" + namePrefix + "> " + message);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

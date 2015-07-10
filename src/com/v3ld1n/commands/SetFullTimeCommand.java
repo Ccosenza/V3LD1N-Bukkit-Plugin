@@ -23,7 +23,7 @@ public class SetFullTimeCommand extends V3LD1NCommand {
                     Message.SETFULLTIME_SET.sendF(sender, time, newTime);
                     return true;
                 }
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             }
             sendPermissionMessage(sender);

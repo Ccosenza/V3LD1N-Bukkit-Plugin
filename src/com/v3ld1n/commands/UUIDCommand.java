@@ -37,7 +37,7 @@ public class UUIDCommand extends V3LD1NCommand {
                 return true;
             }
         } else {
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         if (sender instanceof Player) {

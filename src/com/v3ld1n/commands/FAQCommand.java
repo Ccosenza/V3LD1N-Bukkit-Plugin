@@ -71,7 +71,7 @@ public class FAQCommand extends V3LD1NCommand {
                 Message.FAQ_INVALID_QUESTION.send(p);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPlayerMessage(sender);

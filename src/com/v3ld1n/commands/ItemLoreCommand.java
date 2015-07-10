@@ -69,13 +69,13 @@ public class ItemLoreCommand extends V3LD1NCommand {
                             }
                             return true;
                         }
-                        this.sendUsage(p, label, command);
+                        this.sendUsage(p);
                         return true;
                     }
                     Message.COMMAND_NO_ITEM.send(p);
                     return true;
                 }
-                this.sendUsage(p, label, command);
+                this.sendUsage(p);
                 return true;
             }
             sendPlayerMessage(sender);

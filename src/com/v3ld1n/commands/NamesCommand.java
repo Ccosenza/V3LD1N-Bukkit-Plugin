@@ -58,7 +58,7 @@ public class NamesCommand extends V3LD1NCommand {
             }
             Message.NAMES_BORDER.send(sender);
         } else {
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
         }
         return true;
     }

@@ -41,7 +41,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
                     return true;
                 }
             } else {
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             }
             ScoreboardManager manager = Bukkit.getScoreboardManager();

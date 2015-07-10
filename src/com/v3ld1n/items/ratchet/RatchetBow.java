@@ -112,14 +112,12 @@ public class RatchetBow extends V3LD1NItem {
                         Entity pr = event.getProjectile();
                         double direction = this.getDoubleSetting("triple-arrows-direction");
                         EntityUtil.randomDirection(pr, direction);
-                        new ProjectileBuilder()
-                            .withType(Arrow.class)
-                            .withRandomDirection(direction)
-                            .launch(p, event.getForce() * 4);
-                        new ProjectileBuilder()
-                            .withType(Arrow.class)
-                            .withRandomDirection(direction)
-                            .launch(p, event.getForce() * 4);
+                        for (int i = 0; i < 2; i++) {
+                            new ProjectileBuilder()
+                                .withType(Arrow.class)
+                                .withRandomDirection(direction)
+                                .launch(p, event.getForce() * 4);
+                        }
                     } else if (RatchetBowType.fromString(option) == RatchetBowType.FIREWORK_ARROW) {
                         event.getProjectile().setFireTicks(Integer.MAX_VALUE);
                     }

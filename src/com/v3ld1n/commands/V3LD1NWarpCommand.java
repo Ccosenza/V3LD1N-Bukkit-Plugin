@@ -51,7 +51,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                     Message.V3LD1NWARP_INVALID.sendF(sender, warpString);
                     return true;
                 }
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
@@ -63,7 +63,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                     return true;
                 }
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

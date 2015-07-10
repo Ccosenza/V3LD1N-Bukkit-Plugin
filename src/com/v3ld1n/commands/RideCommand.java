@@ -45,7 +45,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                         return true;
                     }
                 } else {
-                    this.sendUsage(p, label, command);
+                    this.sendUsage(p);
                     return true;
                 }
                 V3LD1N.usingRideCommand.put(p.getUniqueId(), type);

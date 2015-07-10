@@ -44,7 +44,7 @@ public class TrailCommand extends V3LD1NCommand {
                         Message.TRAIL_NO_PERMISSION_OTHERS.send(sender);
                         return true;
                     }
-                    this.sendUsage(sender, label, command);
+                    this.sendUsage(sender);
                     return true;
                 }
             }
@@ -71,7 +71,7 @@ public class TrailCommand extends V3LD1NCommand {
                 Message.TRAIL_NO_PERMISSION_OTHERS.send(sender);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

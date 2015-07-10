@@ -41,7 +41,7 @@ public class RatchetsBowCommand extends V3LD1NCommand {
                 ChatUtil.sendList(p, Message.RATCHETSBOW_LIST_TITLE.toString(), types, ListType.SHORT);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPlayerMessage(sender);

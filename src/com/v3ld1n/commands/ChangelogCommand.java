@@ -65,7 +65,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                     return true;
                 }
             }
-            this.sendUsage(p, label, command);
+            this.sendUsage(p);
             return true;
         }
         sendPlayerMessage(sender);
