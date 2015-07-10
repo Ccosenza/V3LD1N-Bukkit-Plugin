@@ -16,7 +16,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -124,8 +123,6 @@ public class PlayerListener implements Listener {
                         Message.VELDS_INVALID_AMOUNT.logF(Level.WARNING, p.getName(), amountString);
                     }
                 }
-            } else if (i.getType() == Material.ENDER_PEARL && p.getGameMode() == GameMode.CREATIVE) {
-                p.launchProjectile(EnderPearl.class);
             }
         }
     }
