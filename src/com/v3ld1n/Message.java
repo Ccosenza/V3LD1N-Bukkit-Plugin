@@ -73,8 +73,9 @@ public enum Message {
     COMMAND_NO_PERMISSION("commands.permission"),
     COMMAND_INVALID_PLAYER("commands.invalid-player"),
     COMMAND_NO_ITEM("commands.no-item"),
-    COMMAND_USAGE_TITLE("commands.usage-title"),
-    COMMAND_USAGE_DESCRIPTION("commands.usage-description"),
+    COMMAND_USAGE_TITLE("commands.usage.title"),
+    COMMAND_USAGE_ALIASES("commands.usage.aliases"),
+    COMMAND_USAGE_DESCRIPTION("commands.usage.description"),
 
     AUTORESOURCEPACK_SET("commands.autoresourcepack.set"),
     AUTORESOURCEPACK_REMOVE_COMMAND("commands.autoresourcepack.remove-command"),

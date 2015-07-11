@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 
 import com.v3ld1n.Message;
+import com.v3ld1n.util.ChatUtil;
+import com.v3ld1n.util.ListType;
 
 public abstract class V3LD1NCommand implements CommandExecutor {
     private PluginCommand bukkitCmd;
@@ -61,7 +63,10 @@ public abstract class V3LD1NCommand implements CommandExecutor {
      * @param user the user
      */
     public void sendUsage(CommandSender user) {
+        user.sendMessage("");
         Message.COMMAND_USAGE_TITLE.sendF(user, "/" + bukkitCmd.getName());
+        List<String> aliases = getAliasesWithSlash(bukkitCmd);
+        ChatUtil.sendList(user, Message.COMMAND_USAGE_ALIASES.toString(), aliases, ListType.SHORT);
         Message.COMMAND_USAGE_DESCRIPTION.sendF(user, bukkitCmd.getDescription());
         sendUsageNoTitle(user);
     }
@@ -88,6 +93,19 @@ public abstract class V3LD1NCommand implements CommandExecutor {
                 usage.send(user);
             }
         }
+    }
+
+    /**
+     * Returns a command's aliases with a slash at the beginning
+     * @param cmd the command
+     * @return the command's aliases
+     */
+    private List<String> getAliasesWithSlash(PluginCommand cmd) {
+        List<String> aliases = new ArrayList<>();
+        for (String alias : cmd.getAliases()) {
+            aliases.add("/" + alias);
+        }
+        return aliases;
     }
 
     /**
