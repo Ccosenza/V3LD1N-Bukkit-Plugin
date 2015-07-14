@@ -1,13 +1,16 @@
 package com.v3ld1n.items;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -26,8 +29,8 @@ public class V3LD1NItem implements Listener {
     private String name;
     protected List<String> particles = new ArrayList<>();
     protected static final Random random = new Random();
-    protected List<Action> useActions = new ArrayList<>();
-    protected List<Action> useActionsLeft = new ArrayList<>();
+    protected List<Action> leftClickActions = new ArrayList<>();
+    protected List<Action> rightClickActions = new ArrayList<>();
 
     public V3LD1NItem(String id) {
         this.id = id;
@@ -36,10 +39,10 @@ public class V3LD1NItem implements Listener {
         if (this.getStringListSetting("particles") != null) {
             this.setParticles(this.getStringListSetting("particles"));
         }
-        useActions.add(Action.RIGHT_CLICK_AIR);
-        useActions.add(Action.RIGHT_CLICK_BLOCK);
-        useActionsLeft.add(Action.LEFT_CLICK_AIR);
-        useActionsLeft.add(Action.LEFT_CLICK_BLOCK);
+        leftClickActions.add(Action.LEFT_CLICK_AIR);
+        leftClickActions.add(Action.LEFT_CLICK_BLOCK);
+        rightClickActions.add(Action.RIGHT_CLICK_AIR);
+        rightClickActions.add(Action.RIGHT_CLICK_BLOCK);
     }
 
     public String getId() {
@@ -74,6 +77,14 @@ public class V3LD1NItem implements Listener {
         Particle.displayList(location, player, this.particles);
     }
 
+    public boolean isLeftClick(Action action) {
+        return leftClickActions.contains(action);
+    }
+
+    public boolean isRightClick(Action action) {
+        return rightClickActions.contains(action);
+    }
+
     public boolean equalsItem(ItemStack item) {
         if (item != null && item.hasItemMeta() && item.getItemMeta().getDisplayName() != null) {
             if (item.getType() == this.material && item.getItemMeta().getDisplayName().equals(StringUtil.formatText(this.name))) {
@@ -81,6 +92,25 @@ public class V3LD1NItem implements Listener {
             }
         }
         return false;
+    }
+
+
+    /**
+     * Checks if the projectile is a specific type, its shooter is a player, and the shooter is holding Ratchet's Bow
+     * @param pr the projectile
+     * @param types the list of valid types
+     * @return whether the projectile is valid
+     */
+    public boolean projectileIsValid(Projectile pr, EntityType... types) {
+        List<EntityType> typeList = Arrays.asList(types);
+        boolean typeIsValid = typeList.contains(pr.getType());
+
+        boolean shooterIsPlayer = pr.getShooter() != null && pr.getShooter() instanceof Player;
+
+        Player shooter = (Player) pr.getShooter();
+        boolean holdingItem = this.equalsItem(shooter.getItemInHand());
+
+        return typeIsValid && shooterIsPlayer && holdingItem;
     }
 
     public String getStringSetting(String settingName) {
