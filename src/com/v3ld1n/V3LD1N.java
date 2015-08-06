@@ -101,8 +101,6 @@ public class V3LD1N extends JavaPlugin {
         loadParticleTasks();
         loadSoundTasks();
         loadTeleportTasks();
-        int totalTasks = itemTasks.size() + particleTasks.size() + soundTasks.size() + teleportTasks.size();
-        Message.LOADING_TASKS.logDebugF(totalTasks);
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
         pluginManager.registerEvents(new WarpCommand(), plugin);
@@ -622,6 +620,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_ITEM_TASKS.logDebugF(itemTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_ITEM_ERROR.log(Level.WARNING);
@@ -644,6 +643,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_PARTICLE_TASKS.logDebugF(particleTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_PARTICLE_ERROR.log(Level.WARNING);
@@ -666,6 +666,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_SOUND_TASKS.logDebugF(soundTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_SOUND_ERROR.log(Level.WARNING);
@@ -688,6 +689,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_TELEPORT_TASKS.logDebugF(teleportTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_TELEPORT_ERROR.log(Level.WARNING);

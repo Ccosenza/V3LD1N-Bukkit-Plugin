@@ -52,7 +52,10 @@ public enum Message {
     CHAT_ERROR("errors.chat.failed"),
 
     LOADING_ITEMS("debug.loading.items"),
-    LOADING_TASKS("debug.loading.tasks"),
+    LOADING_ITEM_TASKS("debug.loading.tasks.item"),
+    LOADING_PARTICLE_TASKS("debug.loading.tasks.particle"),
+    LOADING_SOUND_TASKS("debug.loading.tasks.sound"),
+    LOADING_TELEPORT_TASKS("debug.loading.tasks.teleport"),
     LOADING_QUESTIONS("debug.loading.questions"),
     LOADING_REPORTS("debug.loading.reports"),
     LOADING_WARPS("debug.loading.warps"),
