@@ -101,6 +101,8 @@ public class V3LD1N extends JavaPlugin {
         loadParticleTasks();
         loadSoundTasks();
         loadTeleportTasks();
+        int totalTasks = itemTasks.size() + particleTasks.size() + soundTasks.size() + teleportTasks.size();
+        Message.LOADING_TASKS.logDebugF(totalTasks);
         pluginManager.registerEvents(new PlayerListener(), plugin);
         pluginManager.registerEvents(new EntityListener(), plugin);
         pluginManager.registerEvents(new WarpCommand(), plugin);
@@ -304,8 +306,8 @@ public class V3LD1N extends JavaPlugin {
         items.add(new RatchetSword());
         for (V3LD1NItem item : items) {
             pluginManager.registerEvents(item, plugin);
-            Message.LOADING_ITEM.logDebugF(item.getId());
         }
+        Message.LOADING_ITEMS.logDebugF(items.size());
     }
 
     private static void loadQuestions() {

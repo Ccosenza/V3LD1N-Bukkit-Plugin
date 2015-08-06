@@ -51,8 +51,8 @@ public enum Message {
 
     CHAT_ERROR("errors.chat.failed"),
 
-    LOADING_ITEM("debug.loading.item"),
-    LOADING_TASK("debug.loading.task"),
+    LOADING_ITEMS("debug.loading.items"),
+    LOADING_TASKS("debug.loading.tasks"),
     LOADING_QUESTIONS("debug.loading.questions"),
     LOADING_REPORTS("debug.loading.reports"),
     LOADING_WARPS("debug.loading.warps"),
