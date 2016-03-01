@@ -24,7 +24,7 @@ public class ItemLoreCommand extends V3LD1NCommand {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 if (args.length >= 1) {
-                    ItemStack i = p.getItemInHand();
+                    ItemStack i = p.getInventory().getItemInMainHand();
                     if (i.getType() != Material.AIR) {
                         if (args[0].equalsIgnoreCase("remove")) {
                             if (args.length == 1) {

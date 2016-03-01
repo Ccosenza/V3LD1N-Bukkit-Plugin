@@ -3,8 +3,6 @@ package com.v3ld1n.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedSoundEffect;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -12,7 +10,7 @@ public class Sound {
     private String name;
     private float volume;
     private float pitch;
-    
+
     public static Builder builder() {
         return new Builder();
     }
@@ -79,11 +77,7 @@ public class Sound {
     }
 
     public void playToPlayer(Location location, Player player) {
-        double x = location.getX();
-        double y = location.getY();
-        double z = location.getZ();
-        PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(name, x, y, z, volume, pitch);
-        PlayerUtil.sendPacket(packet, player);
+        player.playSound(location, this.name, volume, pitch);
     }
 
     public static Sound fromString(String sound) {

@@ -42,7 +42,7 @@ public class PlayerListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Action action = event.getAction();
-        ItemStack itemInHand = player.getItemInHand();
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
         
         if (action == Action.RIGHT_CLICK_BLOCK) {
             Material blockType = event.getClickedBlock().getType();

@@ -22,7 +22,7 @@ public class ItemNameCommand extends V3LD1NCommand {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 if (args.length >= 1) {
-                    ItemStack i = p.getItemInHand();
+                    ItemStack i = p.getInventory().getItemInMainHand();
                     if (i.getType() != Material.AIR) {
                         String name = null;
                         if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {

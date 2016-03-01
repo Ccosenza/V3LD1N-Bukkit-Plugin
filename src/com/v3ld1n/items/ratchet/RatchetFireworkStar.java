@@ -31,7 +31,7 @@ public class RatchetFireworkStar extends V3LD1NItem {
         event.setCancelled(true);
 
         // Hides the item's description
-        player.setItemInHand(ItemUtil.hideFlags(player.getItemInHand()));
+        player.getInventory().setItemInMainHand(ItemUtil.hideFlags(player.getInventory().getItemInMainHand()));
 
         PlayerAnimation.SWING_ARM.play(player);
         new ProjectileBuilder(Snowball.class)

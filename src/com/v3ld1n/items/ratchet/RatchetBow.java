@@ -93,7 +93,7 @@ public class RatchetBow extends V3LD1NItem {
                     .setRandomDirection(direction)
                     .setSpeed(event.getForce() * 4)
                     .launch(player);
-                    ItemMeta meta = player.getItemInHand().getItemMeta();
+                    ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
                     if (meta.hasEnchant(Enchantment.ARROW_FIRE)) {
                         EntityUtil.infiniteFire(arrow);
                     }
