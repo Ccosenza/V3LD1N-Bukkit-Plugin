@@ -56,7 +56,7 @@ public class NextSoundCommand extends V3LD1NCommand {
                     String upper = task.getName().toUpperCase();
                     Message.NEXTSOUND_NOW_PLAYING.sendF(user, upper, current);
                 }
-            }, 1L);
+            }, 1);
         }
     }
 }

@@ -29,9 +29,9 @@ public class RatchetsBowCommand extends V3LD1NCommand {
                 if (RatchetBowType.valueOf(projectile) != null) {
                     RatchetBowType type = RatchetBowType.valueOf(projectile);
                     if (type == RatchetBowType.FIREBALL) {
-                        PlayerData.RATCHETS_BOW.set(p.getUniqueId(), null);
+                        PlayerData.RATCHETS_BOW.set(p, null);
                     } else {
-                        PlayerData.RATCHETS_BOW.set(p.getUniqueId(), args[0].toUpperCase());
+                        PlayerData.RATCHETS_BOW.set(p, args[0].toUpperCase());
                     }
                     type.getParticle().display(p.getEyeLocation());
                     Message.RATCHETSBOW_SET.sendF(p, StringUtil.fromEnum(type, true));

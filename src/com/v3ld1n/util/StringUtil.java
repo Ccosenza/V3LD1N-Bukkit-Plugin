@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -121,13 +122,13 @@ public final class StringUtil {
      * @param player the player
      * @return the string with variables replaced
      */
-    public static String replaceSignVariables(String string, Sign sign, Player player) {
+    public static String replaceSignVariables(String string, Sign sign, CommandSender user) {
         return string
                 .replaceAll("%line1%", sign.getLine(0))
                 .replaceAll("%line2%", sign.getLine(1))
                 .replaceAll("%line3%", sign.getLine(2))
                 .replaceAll("%line4%", sign.getLine(3))
-                .replaceAll("%player%", player.getName());
+                .replaceAll("%player%", user.getName());
     }
     
     /**

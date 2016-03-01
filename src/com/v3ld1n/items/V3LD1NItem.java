@@ -8,6 +8,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -27,131 +28,150 @@ public class V3LD1NItem implements Listener {
     private final String id;
     private Material material;
     private String name;
-    protected List<String> particles = new ArrayList<>();
+    protected Settings settings = this.new Settings();
+    protected List<Particle> particles = new ArrayList<>();
+    protected List<Sound> sounds = new ArrayList<>();
     protected static final Random random = new Random();
-    protected List<Action> leftClickActions = new ArrayList<>();
-    protected List<Action> rightClickActions = new ArrayList<>();
 
     public V3LD1NItem(String id) {
         this.id = id;
-        this.setName(this.getStringSetting("name"));
-        this.setMaterial(Material.valueOf(this.getStringSetting("item")));
-        if (this.getStringListSetting("particles") != null) {
-            this.setParticles(this.getStringListSetting("particles"));
+        this.name = this.settings.getString("name");
+        this.material = Material.valueOf(this.settings.getString("item"));
+
+        if (this.settings.getStringList("particles") != null) {
+            this.particles = this.settings.getParticles("particles");
         }
-        leftClickActions.add(Action.LEFT_CLICK_AIR);
-        leftClickActions.add(Action.LEFT_CLICK_BLOCK);
-        rightClickActions.add(Action.RIGHT_CLICK_AIR);
-        rightClickActions.add(Action.RIGHT_CLICK_BLOCK);
+        if (this.settings.getStringList("sounds") != null) {
+            this.sounds = this.settings.getSounds("sounds");
+        }
     }
 
     public String getId() {
         return id;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getParticles() {
-        return particles;
-    }
-
-    public void setParticles(List<String> particles) {
-        this.particles = particles;
-    }
-
     public void displayParticles(Location location) {
-        Particle.displayList(location, this.particles);
+        Particle.displayList(particles, location);
     }
 
-    public void displayParticles(Location location, Player player) {
-        Particle.displayList(location, player, this.particles);
+    public void displayParticlesToPlayer(Location location, Player player) {
+        Particle.displayListToPlayer(particles, location, player);
+    }
+
+    public void playSounds(Location location) {
+        Sound.playList(sounds, location);
+    }
+
+    public void playSoundsToPlayer(Location location, Player player) {
+        Sound.playListToPlayer(sounds, location, player);
     }
 
     public boolean isLeftClick(Action action) {
-        return leftClickActions.contains(action);
+        return action.name().startsWith("LEFT_CLICK");
     }
 
     public boolean isRightClick(Action action) {
-        return rightClickActions.contains(action);
+        return action.name().startsWith("RIGHT_CLICK");
     }
-
-    public boolean equalsItem(ItemStack item) {
-        if (item != null && item.hasItemMeta() && item.getItemMeta().getDisplayName() != null) {
-            if (item.getType() == this.material && item.getItemMeta().getDisplayName().equals(StringUtil.formatText(this.name))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
-     * Checks if the projectile is a specific type, its shooter is a player, and the shooter is holding Ratchet's Bow
-     * @param pr the projectile
+     * Checks if an item has this item's name and material
+     * @param item the item to compare with
+     * @return whether the item is equal
+     */
+    public boolean equalsItem(ItemStack item) {
+        if (item == null) return false;
+        if (!item.hasItemMeta()) return false;
+        if (item.getItemMeta().getDisplayName() == null) return false;
+
+        String formattedName = StringUtil.formatText(this.name);
+        boolean nameEqual = item.getItemMeta().getDisplayName().equals(formattedName);
+        boolean materialEqual = item.getType() == this.material;
+        return nameEqual && materialEqual;
+    }
+
+    /**
+     * Checks if the entity is a player holding this item
+     * @param entity the entity
+     * @return whether the entity is a player holding this item
+     */
+    public boolean entityIsHoldingItem(Entity entity) {
+        if (entity == null) return false;
+        if (entity.getType() != EntityType.PLAYER) return false;
+
+        Player player = (Player) entity;
+        boolean isHoldingItem = this.equalsItem(player.getItemInHand());
+        return isHoldingItem;
+    }
+
+    /**
+     * Checks if an entity is a projectile and a specific type, its shooter is a player, and the shooter is holding this item
+     * @param entity the projectile
      * @param types the list of valid types
      * @return whether the projectile is valid
      */
-    public boolean projectileIsValid(Projectile pr, EntityType... types) {
+    public boolean projectileIsValid(Entity entity, EntityType... types) {
+        if (!(entity instanceof Projectile)) return false;
+        Projectile projectile = (Projectile) entity;
+
         List<EntityType> typeList = Arrays.asList(types);
-        boolean typeIsValid = typeList.contains(pr.getType());
+        boolean typeIsValid = typeList.contains(projectile.getType());
+        if (!typeIsValid) return false;
 
-        boolean shooterIsPlayer = pr.getShooter() != null && pr.getShooter() instanceof Player;
+        boolean shooterIsPlayer = projectile.getShooter() != null && projectile.getShooter() instanceof Player;
+        if (!shooterIsPlayer) return false;
 
-        Player shooter = (Player) pr.getShooter();
-        boolean holdingItem = this.equalsItem(shooter.getItemInHand());
+        Player shooter = (Player) projectile.getShooter();
+        boolean isHoldingItem = this.equalsItem(shooter.getItemInHand());
 
-        return typeIsValid && shooterIsPlayer && holdingItem;
-    }
-
-    public String getStringSetting(String settingName) {
-        return config.getString(id + "." + settingName);
-    }
-
-    public int getIntSetting(String settingName) {
-        return config.getInt(id + "." + settingName);
-    }
-
-    public double getDoubleSetting(String settingName) {
-        return config.getDouble(id + "." + settingName);
-    }
-
-    public boolean getBooleanSetting(String settingName) {
-        return config.getBoolean(id + "." + settingName);
-    }
-
-    public List<String> getStringListSetting(String settingName) {
-        return config.getStringList(id + "." + settingName);
-    }
-
-    public Location getLocationSetting(String settingName) {
-        String setting = config.getString(id + "." + settingName);
-        return ConfigUtil.locationFromString(setting);
-    }
-
-    public Vector getVectorSetting(String settingName) {
-        return config.getVector(id + "." + settingName);
-    }
-
-    public Particle getParticleSetting(String settingName) {
-        return Particle.fromString(config.getString(id + "." + settingName));
-    }
-
-    public Sound getSoundSetting(String settingName) {
-        return Sound.fromString(config.getString(id + "." + settingName));
+        return typeIsValid && shooterIsPlayer && isHoldingItem;
     }
 
     @Override
     public String toString() {
         return id + "(" + material + ", " + name + ")";
+    }
+
+    public class Settings {
+        public String getString(String settingName) {
+            return config.getString(id + "." + settingName);
+        }
+
+        public int getInt(String settingName) {
+            return config.getInt(id + "." + settingName);
+        }
+
+        public double getDouble(String settingName) {
+            return config.getDouble(id + "." + settingName);
+        }
+
+        public boolean getBoolean(String settingName) {
+            return config.getBoolean(id + "." + settingName);
+        }
+
+        public List<String> getStringList(String settingName) {
+            return config.getStringList(id + "." + settingName);
+        }
+
+        public Location getLocation(String settingName) {
+            String setting = config.getString(id + "." + settingName);
+            return ConfigUtil.locationFromString(setting);
+        }
+
+        public Vector getVector(String settingName) {
+            return config.getVector(id + "." + settingName);
+        }
+
+        public List<Particle> getParticles(String settingName) {
+            return Particle.fromList(config.getStringList(id + "." + settingName));
+        }
+
+        public List<Sound> getSounds(String settingName) {
+            return Sound.fromList(config.getStringList(id + "." + settingName));
+        }
     }
 }

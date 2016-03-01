@@ -14,7 +14,6 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
@@ -30,19 +29,17 @@ public class RatchetSword extends V3LD1NItem {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        Action a = event.getAction();
-        if (useActions.contains(a)) {
-            if (this.equalsItem(p.getItemInHand())) {
-                push(p, entitiesNear(p));
-            }
-        }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isRightClick(event.getAction())) return;
+
+        push(player, entitiesNear(player));
     }
 
     private List<Entity> entitiesNear(Player p) {
         List<Entity> entities = new ArrayList<>();
-        List<Entity> nearby = p.getNearbyEntities(5, 5, 5);
-        for (Entity entity : nearby) {
+        List<Entity> nearbyEntities = p.getNearbyEntities(5, 5, 5);
+        for (Entity entity : nearbyEntities) {
             if (entity instanceof Monster || entity instanceof Projectile) {
                 entities.add(entity);
             }
@@ -50,28 +47,33 @@ public class RatchetSword extends V3LD1NItem {
         return entities;
     }
 
-    private void push(Player p, List<Entity> es) {
-        boolean entitiesContainsEnemy = false;
-        for (Entity entity : es) {
-            entitiesContainsEnemy = entity instanceof Monster || entity instanceof Projectile;
-            Location location;
+    private void push(Player p, List<Entity> entities) {
+        boolean pushingEnemy = false;
+        for (Entity entity : entities) {
+            pushingEnemy = entity instanceof Monster || entity instanceof Projectile;
+
+            Location effectLocation;
             if (entity instanceof Monster) {
-                location = ((Monster) entity).getEyeLocation();
+                effectLocation = ((Monster) entity).getEyeLocation();
             } else {
-                location = entity.getLocation();
+                effectLocation = entity.getLocation();
             }
+
             boolean isMonster = entity instanceof Monster;
-            location = isMonster ? ((Monster) entity).getEyeLocation() : entity.getLocation();
-            double pushSpeed = this.getDoubleSetting("push-speed");
-            double pushUpSpeed = this.getDoubleSetting("push-up-speed");
+            effectLocation = isMonster ? ((Monster) entity).getEyeLocation() : entity.getLocation();
+
+            double pushSpeed = settings.getDouble("push-speed");
+            double pushUpSpeed = settings.getDouble("push-up-speed");
             EntityUtil.pushToward(entity, p.getLocation(), new Vector(pushSpeed, 0, pushSpeed), true);
+
             if (!(entity instanceof Projectile)) {
                 entity.setVelocity(entity.getVelocity().add(new Vector(0, pushUpSpeed, 0)));
             }
-            Particle.displayList(location, this.getStringListSetting("mob-particles"));
-            this.getSoundSetting("sound").play(location);
-            if (entitiesContainsEnemy) {
-                particle(p.getLocation(), es.size());
+
+            Particle.displayList(settings.getParticles("mob-particles"), effectLocation);
+            playSounds(effectLocation);
+            if (pushingEnemy) {
+                particle(p.getLocation(), entities.size());
             }
         }
     }
@@ -81,10 +83,10 @@ public class RatchetSword extends V3LD1NItem {
         if (below.getType() != Material.AIR) {
             Particle particle = Particle.builder()
                     .setName("iconcrack_" + below.getTypeId() + "_" + below.getData())
-                    .setSpeed((float) this.getDoubleSetting("player-particle-speed"))
+                    .setSpeed((float) settings.getDouble("player-particle-speed"))
                     .build();
-            double radius = this.getDoubleSetting("player-particle-radius");
-            double multiplier = this.getIntSetting("player-particle-count-multiplier");
+            double radius = settings.getDouble("player-particle-radius");
+            double multiplier = settings.getInt("player-particle-count-multiplier");
             WorldUtil.spawnParticleCircle(particle, loc, radius, (int) (count * multiplier));
         }
     }

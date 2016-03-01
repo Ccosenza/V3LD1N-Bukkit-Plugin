@@ -25,7 +25,7 @@ public class TrailCommand extends V3LD1NCommand {
                     if (args.length == 1) {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
-                            PlayerData.TRAILS.set(p.getUniqueId(), null);
+                            PlayerData.TRAILS.set(p, null);
                             Message.TRAIL_REMOVE_OWN.aSend(sender);
                             return true;
                         }
@@ -33,7 +33,7 @@ public class TrailCommand extends V3LD1NCommand {
                         if (sender.hasPermission("v3ld1n.trail.others")) {
                             if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
                                 Player p = PlayerUtil.getOnlinePlayer(args[1]);
-                                PlayerData.TRAILS.set(p.getUniqueId(), null);
+                                PlayerData.TRAILS.set(p, null);
                                 Message removeOther = Message.TRAIL_REMOVE_OTHER;
                                 removeOther.aSendF(sender, p.getName());
                                 return true;
@@ -51,7 +51,7 @@ public class TrailCommand extends V3LD1NCommand {
             if (args.length == 1) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
-                    PlayerData.TRAILS.set(p.getUniqueId(), args[0]);
+                    PlayerData.TRAILS.set(p, args[0]);
                     Message.TRAIL_SET_OWN.aSendF(sender, args[0]);
                     return true;
                 }
@@ -59,7 +59,7 @@ public class TrailCommand extends V3LD1NCommand {
                 if (sender.hasPermission("v3ld1n.trails.others")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                         if (p.getName().equals(args[1])) {
-                            PlayerData.TRAILS.set(p.getUniqueId(), args[0]);
+                            PlayerData.TRAILS.set(p, args[0]);
                             Message setOther = Message.TRAIL_SET_OTHER;
                             setOther.aSendF(sender, p.getName(), args[0], p.getName());
                             return true;

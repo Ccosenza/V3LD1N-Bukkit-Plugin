@@ -28,7 +28,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                     Player p = (Player) sender;
                     try {
                         PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
-                        animation.play(p, 50);
+                        animation.play(p);
                         Message.PLAYANIMATION_PLAY.aSendF(sender, StringUtil.fromEnum(animation, true));
                         return true;
                     } catch (Exception e) {
@@ -44,7 +44,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
                         Player p = PlayerUtil.getOnlinePlayer(args[1]);
                         try {
                             PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
-                            animation.play(p, 50);
+                            animation.play(p);
                             Message.PLAYANIMATION_PLAY.sendF(sender, StringUtil.fromEnum(animation, true));
                             return true;
                         } catch (Exception e) {

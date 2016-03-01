@@ -1,7 +1,6 @@
 package com.v3ld1n.items.ratchet;
 
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
@@ -14,26 +13,28 @@ public class RatchetHelmet extends V3LD1NItem {
         super("ratchets-helmet");
     }
 
+    // Prevents hunger loss
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
-        HumanEntity p = event.getEntity();
-        Player player = (Player) p;
-        if (this.equalsItem(p.getInventory().getHelmet())) {
-            if (event.getFoodLevel() < player.getFoodLevel()) {
-                event.setCancelled(true);
-            }
-        }
+        if (event.getEntityType() != EntityType.PLAYER) return;
+        Player player = (Player) event.getEntity();
+        if (!equalsItem(player.getInventory().getHelmet())) return;
+
+        boolean hungerIsIncreasing = event.getFoodLevel() >= player.getFoodLevel();
+        if (hungerIsIncreasing) return;
+
+        event.setCancelled(true);
     }
 
+    // Multiplies health regeneration
     @EventHandler
     public void onHealthRegen(EntityRegainHealthEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER) {
-            Player p = (Player) event.getEntity();
-            if (this.equalsItem(p.getInventory().getHelmet())) {
-                double amount = event.getAmount();
-                double multiplier = this.getDoubleSetting("health-multiplier");
-                event.setAmount(amount * multiplier);
-            }
-        }
+        if (event.getEntityType() != EntityType.PLAYER) return;
+        Player player = (Player) event.getEntity();
+        if (!equalsItem(player.getInventory().getHelmet())) return;
+
+        double amount = event.getAmount();
+        double multiplier = settings.getDouble("health-multiplier");
+        event.setAmount(amount * multiplier);
     }
 }

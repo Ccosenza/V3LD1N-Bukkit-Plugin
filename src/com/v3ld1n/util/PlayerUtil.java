@@ -12,14 +12,18 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonElement;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.v3ld1n.PlayerData;
+import com.v3ld1n.V3LD1N;
 
 public final class PlayerUtil {
     private PlayerUtil() {
@@ -71,7 +75,7 @@ public final class PlayerUtil {
      * @return whether the player has a trail
      */
     public static boolean hasTrail(Player player) {
-        return PlayerData.TRAILS.get(player.getUniqueId()) != null;
+        return PlayerData.TRAILS.get(player) != null;
     }
 
     /**
@@ -250,5 +254,32 @@ public final class PlayerUtil {
      */
     public static void sendPacket(Packet<?> packet, Player player) {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    /**
+     * Returns whether a player can build in a WorldGuard region
+     * @param player the player
+     * @param location the location to check if the player can build at
+     * @return
+     */
+    public static boolean canBuild(Player player, Location location) {
+        if (V3LD1N.getWorldGuard() == null) return true;
+
+        WorldGuardPlugin wg = V3LD1N.getWorldGuard();
+        return wg.canBuild(player, location);
+    }
+
+    /**
+     * Takes an item from a player, or removes the item stack if there is only one item
+     * @param player the player to take the item from
+     * @param item the item to take from
+     * @param takeAmount the amount of items to take
+     */
+    public static void takeItem(Player player, ItemStack item, int takeAmount) {
+        if (item.getAmount() > takeAmount) {
+            item.setAmount(item.getAmount() - takeAmount);
+        } else {
+            player.getInventory().remove(item);
+        }
     }
 }

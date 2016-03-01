@@ -35,7 +35,7 @@ public final class EntityUtil {
      */
     public static void pushAway(Entity entity, Location to, Vector speed, boolean fromEyeLocation) {
         boolean fromEye = entity instanceof LivingEntity && fromEyeLocation;
-        Location loc = fromEye ? entity.getLocation() : ((LivingEntity) entity).getEyeLocation();
+        Location loc = fromEye ? ((LivingEntity) entity).getEyeLocation() : entity.getLocation();
         Vector direction = loc.toVector().subtract(to.toVector()).normalize();
         direction = direction.multiply(speed);
         entity.setVelocity(direction);
@@ -175,5 +175,13 @@ public final class EntityUtil {
             }
         }
         pushAway(entity, projectile.getLocation(), new Vector(speed, speed, speed), false);
+    }
+
+    /**
+     * Sets an entity on fire for 2,147,483,647 ticks
+     * @param entity the entity
+     */
+    public static void infiniteFire(Entity entity) {
+        entity.setFireTicks(Integer.MAX_VALUE);
     }
 }

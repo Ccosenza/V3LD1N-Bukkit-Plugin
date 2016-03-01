@@ -3,7 +3,6 @@ package com.v3ld1n.util;
 import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public enum PlayerAnimation {
@@ -32,14 +31,11 @@ public enum PlayerAnimation {
      * @param player the player to play the animation on
      * @param radius the radius to show the animation in
      */
-    public void play(Player player, double radius) {
+    public void play(Player player) {
         PacketPlayOutAnimation packet = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), id);
         PlayerUtil.sendPacket(packet, player);
-        for (Entity e : player.getNearbyEntities(radius, radius, radius)) {
-            if (e != null && e instanceof Player) {
-                Player p = (Player) e;
-                PlayerUtil.sendPacket(packet, p);
-            }
+        for (Player p : player.getWorld().getPlayers()) {
+            PlayerUtil.sendPacket(packet, p);
         }
     }
 
@@ -47,7 +43,7 @@ public enum PlayerAnimation {
      * Plays the animation to a player
      * @param player the player
      */
-    public void playTo(Player player) {
+    public void playToPlayer(Player player) {
         PacketPlayOutAnimation packet = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), id);
         PlayerUtil.sendPacket(packet, player);
     }

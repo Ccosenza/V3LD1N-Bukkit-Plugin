@@ -2,8 +2,14 @@ package com.v3ld1n.blocks;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.Sound;
+import com.v3ld1n.util.StringUtil;
 
 public class Sign {
     private String text;
@@ -38,5 +44,22 @@ public class Sign {
 
     public List<Sound> getSounds() {
         return sounds;
+    }
+
+    private void runCommand(String command, CommandSender sender, org.bukkit.block.Sign signState) {
+        String newCommand = StringUtil.replaceSignVariables(command, signState, sender);
+        Bukkit.dispatchCommand(sender, newCommand);
+    }
+
+    public void use(Player player, org.bukkit.block.Sign signState) {
+        Location center = signState.getLocation().add(0.5, 0.5, 0.5);
+        for (String command : playerCommands) {
+            runCommand(command, player, signState);
+        }
+        for (String command : consoleCommands) {
+            runCommand(command, Bukkit.getConsoleSender(), signState);
+        }
+        Particle.displayList(particles, center);
+        Sound.playList(sounds, center);
     }
 }

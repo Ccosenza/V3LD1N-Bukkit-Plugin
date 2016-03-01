@@ -1,5 +1,8 @@
 package com.v3ld1n.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedSoundEffect;
 
 import org.bukkit.Location;
@@ -71,11 +74,11 @@ public class Sound {
 
     public void play(Location location) {
         for (Player p : location.getWorld().getPlayers()) {
-            play(location, p);
+            playToPlayer(location, p);
         }
     }
 
-    public void play(Location location, Player player) {
+    public void playToPlayer(Location location, Player player) {
         double x = location.getX();
         double y = location.getY();
         double z = location.getZ();
@@ -96,6 +99,26 @@ public class Sound {
             }
         }
         return builder.build();
+    }
+
+    public static List<Sound> fromList(List<String> soundList) {
+        List<Sound> sounds = new ArrayList<>();
+        for (String sound : soundList) {
+            sounds.add(fromString(sound));
+        }
+        return sounds;
+    }
+
+    public static void playList(List<Sound> sounds, Location location) {
+        for (Player p : location.getWorld().getPlayers()) {
+            playListToPlayer(sounds, location, p);
+        }
+    }
+
+    public static void playListToPlayer(List<Sound> sounds, Location location, Player player) {
+        for (Sound sound : sounds) {
+            sound.playToPlayer(location, player);
+        }
     }
 
     @Override

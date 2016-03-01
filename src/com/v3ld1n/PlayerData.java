@@ -1,8 +1,8 @@
 package com.v3ld1n;
 
 import java.util.List;
-import java.util.UUID;
 
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public enum PlayerData {
@@ -11,46 +11,42 @@ public enum PlayerData {
     RATCHETS_BOW("ratchets-bow"),
     FIREWORK_ARROWS("firework-arrows");
 
-    private final String name;
+    private final String configName;
 
-    private PlayerData(String name) {
-        this.name = name;
+    private PlayerData(String configName) {
+        this.configName = configName;
     }
 
-    public String getName() {
-        return name;
+    public Object get(Player player) {
+        return Config.PLAYER_DATA.getConfig().get(configName + "." + player.getUniqueId());
     }
 
-    public Object get(UUID uuid) {
-        return Config.PLAYER_DATA.getConfig().get(name + "." + uuid);
+    public String getString(Player player) {
+        return Config.PLAYER_DATA.getConfig().getString(configName + "." + player.getUniqueId());
     }
 
-    public String getString(UUID uuid) {
-        return Config.PLAYER_DATA.getConfig().getString(name + "." + uuid);
+    public int getInt(Player player) {
+        return Config.PLAYER_DATA.getConfig().getInt(configName + "." + player.getUniqueId());
     }
 
-    public int getInt(UUID uuid) {
-        return Config.PLAYER_DATA.getConfig().getInt(name + "." + uuid);
+    public double getDouble(Player player) {
+        return Config.PLAYER_DATA.getConfig().getDouble(configName + "." + player.getUniqueId());
     }
 
-    public double getDouble(UUID uuid) {
-        return Config.PLAYER_DATA.getConfig().getDouble(name + "." + uuid);
+    public boolean getBoolean(Player player) {
+        return Config.PLAYER_DATA.getConfig().getBoolean(configName + "." + player.getUniqueId());
     }
 
-    public boolean getBoolean(UUID uuid) {
-        return Config.PLAYER_DATA.getConfig().getBoolean(name + "." + uuid);
+    public List<?> getList(Player player) {
+        return Config.PLAYER_DATA.getConfig().getList(configName + "." + player.getUniqueId());
     }
 
-    public List getList(UUID uuid) {
-        return Config.PLAYER_DATA.getConfig().getList(name + "." + uuid);
+    public Vector getVector(Player player) {
+        return Config.PLAYER_DATA.getConfig().getVector(configName + "." + player.getUniqueId());
     }
 
-    public Vector getVector(UUID uuid) {
-        return Config.PLAYER_DATA.getConfig().getVector(name + "." + uuid);
-    }
-
-    public void set(UUID uuid, Object value) {
-        V3LD1N.getConfig("player-data.yml").getConfig().set(name + "." + uuid, value);
+    public void set(Player player, Object value) {
+        V3LD1N.getConfig("player-data.yml").getConfig().set(configName + "." + player.getUniqueId(), value);
         V3LD1N.getConfig("player-data.yml").saveConfig();
     }
 }

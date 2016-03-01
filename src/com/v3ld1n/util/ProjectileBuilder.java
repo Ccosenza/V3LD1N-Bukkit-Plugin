@@ -1,13 +1,15 @@
 package com.v3ld1n.util;
 
+import java.util.List;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 
 public class ProjectileBuilder {
     private Class<? extends Projectile> projectile;
     private double speed = 1;
-    private Particle launchParticle;
-    private Sound launchSound;
+    private List<Particle> launchParticles;
+    private List<Sound> launchSounds;
     private double randomDirection;
 
     public ProjectileBuilder(Class<? extends Projectile> type) {
@@ -34,8 +36,8 @@ public class ProjectileBuilder {
      * @param particle the particle
      * @return this object
      */
-    public ProjectileBuilder setLaunchParticle(Particle particle) {
-        this.launchParticle = particle;
+    public ProjectileBuilder setLaunchParticles(List<Particle> particles) {
+        this.launchParticles = particles;
         return this;
     }
 
@@ -44,8 +46,8 @@ public class ProjectileBuilder {
      * @param sound the sound
      * @return this object
      */
-    public ProjectileBuilder setLaunchSound(Sound sound) {
-        this.launchSound = sound;
+    public ProjectileBuilder setLaunchSounds(List<Sound> sounds) {
+        this.launchSounds = sounds;
         return this;
     }
 
@@ -68,11 +70,11 @@ public class ProjectileBuilder {
     public Projectile launch(LivingEntity shooter) {
         Projectile pr = shooter.launchProjectile(projectile);
         pr.setVelocity(shooter.getLocation().getDirection().multiply(speed));
-        if (launchParticle != null) {
-            launchParticle.display(pr.getLocation());
+        if (launchParticles != null) {
+            Particle.displayList(launchParticles, pr.getLocation());
         }
-        if (launchSound != null) {
-            launchSound.play(shooter.getEyeLocation());
+        if (launchSounds != null) {
+            Sound.playList(launchSounds, shooter.getEyeLocation());
         }
         if (randomDirection > 0) {
             EntityUtil.randomDirection(pr, randomDirection);

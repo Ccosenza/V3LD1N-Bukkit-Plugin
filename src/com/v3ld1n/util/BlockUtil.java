@@ -61,4 +61,24 @@ public final class BlockUtil {
             }
         }
     }
+
+    /**
+     * Returns whether a block is water
+     * @param block the block
+     * @return whether the block is water
+     */
+    public static boolean isWater(Block block) {
+        Material type = block.getType();
+        return type == Material.WATER || type == Material.STATIONARY_WATER;
+    }
+
+    /**
+     * Returns whether a block is lava
+     * @param block the block
+     * @return whether the block is lava
+     */
+    public static boolean isLava(Block block) {
+        Material type = block.getType();
+        return type == Material.LAVA || type == Material.STATIONARY_LAVA;
+    }
 }

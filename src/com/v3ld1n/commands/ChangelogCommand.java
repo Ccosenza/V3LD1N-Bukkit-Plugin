@@ -91,7 +91,7 @@ public class ChangelogCommand extends V3LD1NCommand {
             SimpleDateFormat df = ChangelogDay.getDateFormat();
             try {
                 Date date = df.parse(cld.getDay());
-                String format = TimeUtil.format(date.getTime(), "MMMM dd, yyyy");
+                String format = TimeUtil.format(date.getTime(), "MMMM d, yyyy");
                 String message = "{\"text\":\"[" + format + "]\","
                         + "\"color\":\"gold\","
                         + "\"hoverEvent\":{"

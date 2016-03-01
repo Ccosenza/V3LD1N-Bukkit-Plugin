@@ -26,10 +26,10 @@ public class WarpCommand implements Listener {
             event.setCancelled(true);
             Bukkit.getServer().dispatchCommand(p, "warp " + warpName);
             for (Particle particle : warp.getParticles()) {
-                particle.display(p.getLocation(), p);
+                particle.displayToPlayer(p.getLocation(), p);
             }
             for (Sound sound : warp.getSounds()) {
-                sound.play(p.getLocation(), p);
+                sound.playToPlayer(p.getLocation(), p);
             }
         }
     }

@@ -37,7 +37,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
                     return true;
                 }
                 Object newType = type == Type.BALL ? null : args[0].toUpperCase();
-                PlayerData.FIREWORK_ARROWS.set(p.getUniqueId(), newType);
+                PlayerData.FIREWORK_ARROWS.set(p, newType);
                 FireworkEffect effect = FireworkEffect.builder()
                         .with(type)
                         .withColor(Color.WHITE)

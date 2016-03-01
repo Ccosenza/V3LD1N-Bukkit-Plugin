@@ -3,7 +3,6 @@ package com.v3ld1n.items;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
@@ -14,23 +13,27 @@ public class FlightFeather extends V3LD1NItem {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        final Player p = event.getPlayer();
-        Action a = event.getAction();
-        if (useActions.contains(a)) {
-            if (this.equalsItem(p.getItemInHand())) {
-                event.setCancelled(true);
-                use(p);
-            }
-        }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isRightClick(event.getAction())) return;
+
+        event.setCancelled(true);
+        use(player);
     }
 
-    private void use(Player p) {
-        Vector setting = this.getVectorSetting("velocity");
-        Vector velocity = p.getLocation().getDirection().divide(new Vector(2, 2, 2)).add(setting);
-        p.setVelocity(velocity);
-        p.setFallDistance(0);
-        Location loc = p.getLocation();
-        this.displayParticles(loc);
-        this.getSoundSetting("sound").play(p.getLocation());
+    /**
+     * Pushes the player forward
+     * @param player the player
+     */
+    private void use(Player player) {
+        Location playerLocation = player.getLocation();
+        Vector setting = settings.getVector("velocity");
+        Vector playerDirection = playerLocation.getDirection();
+        Vector velocity = playerDirection.divide(new Vector(2, 2, 2)).add(setting);
+
+        player.setVelocity(velocity);
+        player.setFallDistance(0);
+        displayParticles(playerLocation);
+        playSounds(playerLocation);
     }
 }

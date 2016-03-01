@@ -20,26 +20,27 @@ public class RatchetShears extends V3LD1NItem {
 
     @EventHandler
     public void onShear(PlayerShearEntityEvent event) {
-        Player p = event.getPlayer();
-        if (event.getEntity().getType() == EntityType.SHEEP) {
-            Sheep sheep = (Sheep) event.getEntity();
-            if (this.equalsItem(p.getItemInHand())) {
-                shear(sheep);
-            }
-        }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (event.getEntity().getType() != EntityType.SHEEP) return;
+
+        Sheep sheep = (Sheep) event.getEntity();
+        shear(sheep);
     }
 
     private void shear(final Sheep sheep) {
         DyeColor color = sheep.getColor();
         Wool wool = new Wool(color);
-        ItemStack drops = wool.toItemStack(this.getIntSetting("drop-count"));
+        ItemStack drops = wool.toItemStack(settings.getInt("drop-count"));
+
         sheep.getWorld().dropItemNaturally(sheep.getLocation(), drops);
         this.displayParticles(sheep.getEyeLocation());
+
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
             public void run() {
                 sheep.setSheared(false);
             }
-        }, 1200L);
+        }, 1200);
     }
 }

@@ -38,7 +38,7 @@ public class TeleportTask extends Task {
         for (Player player : players) {
             player.teleport(teleportLoc);
             if (playAnimation) {
-                PlayerAnimation.BED_LEAVE.playTo(player);
+                PlayerAnimation.BED_LEAVE.playToPlayer(player);
             }
             for (String particle : this.getStringListSetting("particles")) {
                 Particle.fromString(particle).display(particleLocation);

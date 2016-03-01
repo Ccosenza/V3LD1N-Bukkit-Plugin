@@ -1,7 +1,5 @@
 package com.v3ld1n.items.ratchet;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Effect;
@@ -22,7 +20,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.v3ld1n.PlayerData;
@@ -46,36 +43,24 @@ public class RatchetBow extends V3LD1NItem {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        UUID uuid = player.getUniqueId();
-        ItemStack itemInHand = player.getItemInHand();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isRightClick(event.getAction())) return;
 
-        if (!this.equalsItem(itemInHand) && isRightClick(event.getAction())) {
-            return;
-        }
-
-        RatchetBowType fireball = RatchetBowType.FIREBALL;
-        PlayerData setting = PlayerData.RATCHETS_BOW;
-        RatchetBowType type;
-        try {
-            type = RatchetBowType.valueOf(setting.getString(uuid));
-        } catch (Exception e) {
-            type = fireball;
-        }
-
+        RatchetBowType type = getBowType(player);
         Class<? extends Projectile> projectile = type.getProjectile();
-        if (projectile == Arrow.class) {
-            return;
-        }
-        event.setCancelled(true);
+        if (projectile == Arrow.class) return;
 
+        // Launches the projectile
+        event.setCancelled(true);
         ProjectileBuilder builder = new ProjectileBuilder(projectile)
-            .setLaunchSound(this.getSoundSetting(type.getSound()))
+            .setLaunchSounds(settings.getSounds(type.getSound()))
             .setSpeed(1.5);
-        if (type == fireball) {
-            builder.setLaunchParticle(this.getParticleSetting("launch-particle"));
+        if (type == RatchetBowType.FIREBALL) {
+            builder.setLaunchParticles(settings.getParticles("launch-particles"));
         }
 
         Projectile launched = builder.launch(player);
+        // Sets wither skull to charged
         if (launched.getType() == EntityType.WITHER_SKULL && type == RatchetBowType.BLUE_WITHER_SKULL) {
             ((WitherSkull) launched).setCharged(true);
         }
@@ -84,27 +69,24 @@ public class RatchetBow extends V3LD1NItem {
     // Arrows
     @EventHandler
     public void onShoot(final EntityShootBowEvent event) {
-        if (!(event.getProjectile() instanceof Projectile)) {
-            return;
-        }
+        if (!(event.getProjectile() instanceof Projectile)) return;
         Projectile projectile = (Projectile) event.getProjectile();
-        if (!projectileIsValid(projectile, EntityType.ARROW)) {
-            return;
-        }
+        if (!projectileIsValid(projectile, EntityType.ARROW)) return;
 
         Player player = (Player) event.getEntity();
-        UUID uuid = player.getUniqueId();
 
+        // Gets the player's projectile setting
         PlayerData setting = PlayerData.RATCHETS_BOW;
         RatchetBowType type;
         try {
-            type = RatchetBowType.valueOf(setting.getString(uuid));
+            type = RatchetBowType.valueOf(setting.getString(player));
         } catch (Exception e) {
             return;
         }
 
+        // Arrow types
         if (type == RatchetBowType.TRIPLE_ARROWS) {
-            double direction = this.getDoubleSetting("triple-arrows-direction");
+            double direction = settings.getDouble("triple-arrows-direction");
             EntityUtil.randomDirection(projectile, direction);
             for (int i = 0; i < 2; i++) {
                 Projectile arrow = new ProjectileBuilder(Arrow.class)
@@ -138,20 +120,33 @@ public class RatchetBow extends V3LD1NItem {
         Player shooter = (Player) projectile.getShooter();
         boolean damagedPlayerIsShooter = damagedPlayer.getUniqueId().equals(shooter.getUniqueId());
         if (damagedPlayerIsShooter) {
-            event.setDamage(this.getDoubleSetting("fireball-jump-damage"));
+            event.setDamage(settings.getDouble("fireball-jump-damage"));
         }
     }
 
-    // Projectile hit
+    // Projectile hit / fireball particles
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
         Projectile projectile = event.getEntity();
         if (projectileIsValid(projectile, EntityType.FIREBALL)) {
-            this.displayParticles(projectile.getLocation());
+            displayParticles(projectile.getLocation());
         }
         projectileJump(projectile);
         teleport(projectile);
         fireworkArrows(projectile);
+    }
+
+    // Gets the player's projectile setting, or uses a fireball if it is not set
+    private RatchetBowType getBowType(Player player) {
+        RatchetBowType fireball = RatchetBowType.FIREBALL;
+        PlayerData setting = PlayerData.RATCHETS_BOW;
+        RatchetBowType type;
+        try {
+            type = RatchetBowType.valueOf(setting.getString(player));
+        } catch (Exception e) {
+            type = fireball;
+        }
+        return type;
     }
 
     /**
@@ -164,14 +159,14 @@ public class RatchetBow extends V3LD1NItem {
         }
         Player shooter = (Player) projectile.getShooter();
         Fireball fireball = (Fireball) projectile;
-        double radius = this.getDoubleSetting("fireball-jump-radius");
+        double radius = settings.getDouble("fireball-jump-radius");
         for (Entity entity : fireball.getNearbyEntities(radius, radius, radius)) {
             if (!(entity instanceof LivingEntity) || entity.getType() == EntityType.ARMOR_STAND) {
                 continue;
             }
             EntityUtil.projectileJump((LivingEntity) entity, fireball);
             if (entity.equals(shooter)) {
-                Particle.displayList(entity.getLocation(), this.getStringListSetting("jump-particles"));
+                Particle.displayList(settings.getParticles("jump-particles"), entity.getLocation());
             }
         }
     }
@@ -181,28 +176,25 @@ public class RatchetBow extends V3LD1NItem {
      * @param projectile the projectile
      */
     private void teleport(Projectile projectile) {
-        if (!projectileIsValid(projectile, EntityType.FIREBALL)) {
-            return;
-        }
+        if (!projectileIsValid(projectile, EntityType.FIREBALL)) return;
         final Player shooter = (Player) projectile.getShooter();
         final Location location = projectile.getLocation();
-        Location hitLocationMin = this.getLocationSetting("teleport-hit-location-min");
-        Location hitLocationMax = this.getLocationSetting("teleport-hit-location-max");
-        if (!LocationUtil.isInArea(location, hitLocationMin, hitLocationMax)) {
-            return;
-        }
-        displayTeleportParticles(shooter.getLocation());
-        RepeatableRunnable effects = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 6, 4, 2) {
+        Location hitLocationMin = settings.getLocation("teleport-hit-location-min");
+        Location hitLocationMax = settings.getLocation("teleport-hit-location-max");
+        if (!LocationUtil.isInArea(location, hitLocationMin, hitLocationMax)) return;
+
+        RepeatableRunnable effects = new RepeatableRunnable(6, 4, 2) {
             @Override
             public void onRun() {
-                Particle.displayList(location, getStringListSetting("teleport-hit-particles"));
-                if (getBooleanSetting("teleport-lightning")) {
+                Particle.displayList(settings.getParticles("teleport-hit-particles"), location);
+                if (settings.getBoolean("teleport-lightning")) {
                     location.getWorld().strikeLightning(location);
                 }
             }
         };
         effects.run();
-        if (this.getBooleanSetting("teleport-lightning")) {
+
+        if (settings.getBoolean("teleport-lightning")) {
             Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
                 @Override
                 public void run() {
@@ -210,15 +202,16 @@ public class RatchetBow extends V3LD1NItem {
                 }
             }, 24);
         }
-        final Location teleportLocation = this.getLocationSetting("teleport-location");
+
+        final Location teleportLocation = settings.getLocation("teleport-location");
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
             public void run() {
                 shooter.teleport(teleportLocation);
-                PlayerAnimation.BED_LEAVE.playTo(shooter);
+                PlayerAnimation.BED_LEAVE.playToPlayer(shooter);
                 displayTeleportParticles(teleportLocation);
             }
-        }, this.getIntSetting("teleport-delay"));
+        }, settings.getInt("teleport-delay"));
     }
 
     /**
@@ -226,7 +219,7 @@ public class RatchetBow extends V3LD1NItem {
      * @param location the location to display the particles at
      */
     private void displayTeleportParticles(final Location location) {
-        RepeatableRunnable particleTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 2, 3, 10) {
+        RepeatableRunnable particleTask = new RepeatableRunnable(2, 3, 10) {
             @Override
             public void onRun() {
                 location.getWorld().playEffect(location, Effect.ENDER_SIGNAL, 0);
@@ -241,25 +234,21 @@ public class RatchetBow extends V3LD1NItem {
      * @param projectile the projectile
      */
     private void fireworkArrows(Projectile projectile) {
-        if (!projectileIsValid(projectile, EntityType.ARROW)) {
-            return;
-        }
+        if (!projectileIsValid(projectile, EntityType.ARROW)) return;
         Player shooter = (Player) projectile.getShooter();
-        if (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()) == null) {
-            return;
-        }
-        UUID uuid = shooter.getUniqueId();
-        String setting = PlayerData.RATCHETS_BOW.getString(uuid);
-        RatchetBowType type = RatchetBowType.valueOf(setting);
-        if (type != RatchetBowType.FIREWORK_ARROW) {
-            return;
-        }
+        if (PlayerData.RATCHETS_BOW.getString(shooter) == null) return;
+
+        String setting = PlayerData.RATCHETS_BOW.getString(shooter);
+        RatchetBowType bowType = RatchetBowType.valueOf(setting);
+        if (bowType != RatchetBowType.FIREWORK_ARROW) return;
+
         Type fireworkType;
         try {
-            fireworkType = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(uuid));
+            fireworkType = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter));
         } catch (Exception e) {
             fireworkType = Type.BALL;
         }
+
         Color fadeColor = Color.fromRGB(216, 205, 17);
         FireworkEffect effect = FireworkEffect.builder()
                 .with(fireworkType)

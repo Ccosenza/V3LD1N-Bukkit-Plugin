@@ -157,25 +157,13 @@ public class Particle {
 
     public void display(Location location) {
         for (Player p : location.getWorld().getPlayers()) {
-            display(location, p);
+            displayToPlayer(location, p);
         }
     }
 
-    public void display(Location location, Player player) {
+    public void displayToPlayer(Location location, Player player) {
         PacketPlayOutWorldParticles packet = createPacket(location);
         PlayerUtil.sendPacket(packet, player);
-    }
-
-    public static void displayList(Location location, List<String> particles) {
-        for (Player p : location.getWorld().getPlayers()) {
-            displayList(location, p, particles);
-        }
-    }
-
-    public static void displayList(Location location, Player player, List<String> particles) {
-        for (Particle particle : fromList(particles)) {
-            particle.display(location, player);
-        }
     }
 
     private PacketPlayOutWorldParticles createPacket(Location location) {
@@ -243,6 +231,18 @@ public class Particle {
             particles.add(fromString(particle));
         }
         return particles;
+    }
+
+    public static void displayList(List<Particle> particles, Location location) {
+        for (Player p : location.getWorld().getPlayers()) {
+            displayListToPlayer(particles, location, p);
+        }
+    }
+
+    public static void displayListToPlayer(List<Particle> particles, Location location, Player player) {
+        for (Particle particle : particles) {
+            particle.displayToPlayer(location, player);
+        }
     }
 
     @Override

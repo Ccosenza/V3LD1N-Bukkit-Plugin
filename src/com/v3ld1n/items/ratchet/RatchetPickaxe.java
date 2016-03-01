@@ -1,11 +1,14 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 
@@ -21,25 +24,33 @@ public class RatchetPickaxe extends V3LD1NItem {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (this.equalsItem(event.getPlayer().getItemInHand())) {
-            Block block = event.getBlock();
-            Location bl = block.getLocation();
-            double x = bl.getX() + 0.5;
-            double y = bl.getY() + 0.5;
-            double z = bl.getZ() + 0.5;
-            final Location loc = new Location(block.getWorld(), x, y, z);
-            this.displayParticles(loc);
-            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    for (Entity entity : WorldUtil.getNearbyEntities(loc, getDoubleSetting("radius"))) {
-                        if (entity.getType() == EntityType.DROPPED_ITEM) {
-                            Item item = (Item) entity;
-                            ItemUtil.smelt(item.getItemStack());
-                        }
-                    }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+
+        Block block = event.getBlock();
+        smeltDrops(block);
+    }
+
+    private void smeltDrops(Block block) {
+        Location blockLocation = block.getLocation();
+        double x = blockLocation.getX() + 0.5;
+        double y = blockLocation.getY() + 0.5;
+        double z = blockLocation.getZ() + 0.5;
+        final Location blockCenter = new Location(block.getWorld(), x, y, z);
+
+        this.displayParticles(blockCenter);
+
+        Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                double radius = settings.getDouble("radius");
+                List<Entity> nearbyEntities = WorldUtil.getNearbyEntities(blockCenter, radius);
+                for (Entity entity : nearbyEntities) {
+                    if (entity.getType() != EntityType.DROPPED_ITEM) return;
+                    Item item = (Item) entity;
+                    ItemUtil.smelt(item.getItemStack());
                 }
-            }, 1);
-        }
+            }
+        }, 1);
     }
 }
