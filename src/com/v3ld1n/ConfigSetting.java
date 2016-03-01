@@ -14,6 +14,7 @@ public enum ConfigSetting {
     DEBUG("debug", "config.yml", false),
     BLOG_POST("blog-post", "config.yml"),
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
+    RESOURCE_PACKS_OUTDATED("resource-packs-outdated", "config.yml", false),
 
     AUTO_SAVE_ENABLED("auto-save.enabled", "config.yml", true),
     AUTO_SAVE_TICKS("auto-save.ticks", "config.yml", 12000),

@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
@@ -35,6 +36,9 @@ public class ResourcePackCommand extends V3LD1NCommand {
                     }
                 }
                 p.setResourcePack(V3LD1N.getResourcePack(pack).getUrl());
+                if (ConfigSetting.RESOURCE_PACKS_OUTDATED.getBoolean()) {
+                    Message.RESOURCEPACK_OUTDATED.send(p);
+                }
                 return true;
             }
             Message.RESOURCEPACK_ERROR.send(p);

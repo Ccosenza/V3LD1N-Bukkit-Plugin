@@ -195,6 +195,7 @@ public enum Message {
     REPORT_READBY_NO_PERMISSION("commands.report.readby.no-permission"),
 
     RESOURCEPACK_LIST_TITLE("commands.resourcepack.list-title"),
+    RESOURCEPACK_OUTDATED("commands.resourcepack.outdated"),
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 
     RIDE_USE("commands.ride.use"),
