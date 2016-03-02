@@ -87,8 +87,8 @@ public class PlayersCommand extends V3LD1NCommand {
                     String upper = StringUtil.upperCaseFirst(args[0]);
                     String title = String.format(Message.PLAYERS_AMOUNT_TITLE.toString(), upper);
                     String subtitle = String.format(Message.PLAYERS_AMOUNT_SUBTITLE.toString(), players);
-                    PlayerUtil.displayTitle(p, "{text:\"" + title + "\"}", 2, 2, 2);
-                    PlayerUtil.displaySubtitle(p, "{text:\"" + subtitle + "\"}", 2, 2, 2, false);
+                    PlayerUtil.displayTitle(p, "{\"text\":\"" + title + "\"}", 2, 2, 2);
+                    PlayerUtil.displaySubtitle(p, "{\"text\":\"" + subtitle + "\"}", 2, 2, 2, false);
                     return true;
                 }
                 Message.PLAYERS_AMOUNT_NOT_PLAYER.aSendF(sender, players);

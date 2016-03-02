@@ -104,7 +104,7 @@ public final class PlayerUtil {
     public static void displaySubtitle(Player player, String subtitle, int fadeIn, int stay, int fadeOut, boolean emptyTitle) {
         IChatBaseComponent json = ChatSerializer.a(subtitle);
         if (emptyTitle) {
-            displayTitle(player, "{text:\"\"}", fadeIn, stay, fadeOut);
+            displayTitle(player, "{\"text\":\"\"}", fadeIn, stay, fadeOut);
         }
         PacketPlayOutTitle packet = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, json, fadeIn, stay, fadeOut);
         sendPacket(packet, player);
