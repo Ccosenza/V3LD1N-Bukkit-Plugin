@@ -1,7 +1,7 @@
 package com.v3ld1n.items;
 
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -15,17 +15,19 @@ public class LightningBow extends V3LD1NItem {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        Projectile pr = event.getEntity();
-        if (pr.getType() == EntityType.ARROW && pr.getShooter() instanceof Player) {
-            Player shooter = (Player) pr.getShooter();
-            if (this.equalsItem(shooter.getItemInHand())) {
-                detonate(pr);
-            }
-        }
+        Projectile projectile = event.getEntity();
+        if (!projectileIsValid(projectile, EntityType.ARROW)) return;
+
+        strikeLightning(projectile);
     }
 
-    private void detonate(Projectile pr) {
-        boolean damage = this.getBooleanSetting("lightning-damage");
-        EntityUtil.detonateLightningProjectile(pr, pr.getLocation(), damage);
+    /**
+     * Creates lightning where the projectile hits
+     * @param projectile the projectile
+     */
+    private void strikeLightning(Projectile projectile) {
+        boolean damage = settings.getBoolean("lightning-damage");
+        Location location = projectile.getLocation();
+        EntityUtil.detonateLightningProjectile(projectile, location, damage);
     }
 }

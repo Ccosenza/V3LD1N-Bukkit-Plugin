@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
@@ -30,11 +31,14 @@ public class ResourcePackCommand extends V3LD1NCommand {
                     if (V3LD1N.getResourcePack(args[0]) != null) {
                         pack = args[0];
                     } else {
-                        this.sendUsage(p, label, command);
+                        this.sendUsage(p);
                         return true;
                     }
                 }
                 p.setResourcePack(V3LD1N.getResourcePack(pack).getUrl());
+                if (ConfigSetting.RESOURCE_PACKS_OUTDATED.getBoolean()) {
+                    Message.RESOURCEPACK_OUTDATED.send(p);
+                }
                 return true;
             }
             Message.RESOURCEPACK_ERROR.send(p);
@@ -45,8 +49,8 @@ public class ResourcePackCommand extends V3LD1NCommand {
     }
 
     @Override
-    public void sendUsage(CommandSender user, String commandLabel, Command command) {
-        super.sendUsage(user, commandLabel, command);
+    public void sendUsage(CommandSender user) {
+        super.sendUsage(user);
         List<String> names = V3LD1N.getResourcePackNames();
         ChatUtil.sendList(user, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
     }

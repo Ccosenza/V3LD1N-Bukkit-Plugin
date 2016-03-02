@@ -28,7 +28,7 @@ public class SetHungerCommand extends V3LD1NCommand {
                 try {
                     foodLevel = Integer.parseInt(args[0]);
                 } catch (IllegalArgumentException e) {
-                    this.sendUsage(sender, label, command);
+                    this.sendUsage(sender);
                     return true;
                 }
                 Player p;
@@ -52,7 +52,7 @@ public class SetHungerCommand extends V3LD1NCommand {
                         p.setSaturation(foodLevel);
                         break;
                     default:
-                        this.sendUsage(sender, label, command);
+                        this.sendUsage(sender);
                         return true;
                     }
                     boolean pIsSender = p.getName().equals(sender.getName());
@@ -65,7 +65,7 @@ public class SetHungerCommand extends V3LD1NCommand {
                 Message.SETHUNGER_LIMIT.send(sender);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

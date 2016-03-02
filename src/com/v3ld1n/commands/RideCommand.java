@@ -45,7 +45,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                         return true;
                     }
                 } else {
-                    this.sendUsage(p, label, command);
+                    this.sendUsage(p);
                     return true;
                 }
                 V3LD1N.usingRideCommand.put(p.getUniqueId(), type);
@@ -58,7 +58,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                             Message.RIDE_NO_TIME.aSend(p);
                         }
                     }
-                }, 200L);
+                }, 200);
                 return true;
             }
             sendPlayerMessage(sender);
@@ -73,7 +73,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
         Player p = event.getPlayer();
         HashMap<UUID, RideType> using = V3LD1N.usingRideCommand;
         if (using.containsKey(p.getUniqueId())) {
-            PlayerAnimation.SWING_ARM.play(p, 64);
+            PlayerAnimation.SWING_ARM.play(p);
             Entity entity = event.getRightClicked();
             RideType type = using.get(p.getUniqueId());
             Message message = null;

@@ -3,8 +3,8 @@ package com.v3ld1n.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_9_R1.EnumParticle;
+import net.minecraft.server.v1_9_R1.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -157,31 +157,19 @@ public class Particle {
 
     public void display(Location location) {
         for (Player p : location.getWorld().getPlayers()) {
-            display(location, p);
+            displayToPlayer(location, p);
         }
     }
 
-    public void display(Location location, Player player) {
+    public void displayToPlayer(Location location, Player player) {
         PacketPlayOutWorldParticles packet = createPacket(location);
         PlayerUtil.sendPacket(packet, player);
-    }
-
-    public static void displayList(Location location, List<String> particles) {
-        for (Player p : location.getWorld().getPlayers()) {
-            displayList(location, p, particles);
-        }
-    }
-
-    public static void displayList(Location location, Player player, List<String> particles) {
-        for (Particle particle : fromList(particles)) {
-            particle.display(location, player);
-        }
     }
 
     private PacketPlayOutWorldParticles createPacket(Location location) {
         EnumParticle particle = EnumParticle.BARRIER;
         String newName = this.name;
-        String[] names = {"blockcrack_", "blockdust_", "iconcrack_"};
+        String[] names = {"blockcrack", "blockdust", "iconcrack"};
         for (String n : names) {
             if (this.name.startsWith(n)) {
                 newName = n;
@@ -243,6 +231,18 @@ public class Particle {
             particles.add(fromString(particle));
         }
         return particles;
+    }
+
+    public static void displayList(List<Particle> particles, Location location) {
+        for (Player p : location.getWorld().getPlayers()) {
+            displayListToPlayer(particles, location, p);
+        }
+    }
+
+    public static void displayListToPlayer(List<Particle> particles, Location location, Player player) {
+        for (Particle particle : particles) {
+            particle.displayToPlayer(location, player);
+        }
     }
 
     @Override

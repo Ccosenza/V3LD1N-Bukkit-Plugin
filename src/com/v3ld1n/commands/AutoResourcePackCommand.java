@@ -1,7 +1,6 @@
 package com.v3ld1n.commands;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ListType;
@@ -24,15 +23,14 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            UUID uuid = p.getUniqueId();
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("remove")) {
-                    PlayerData.AUTO_RESOURCE_PACK.set(uuid, null);
+                    PlayerData.AUTO_RESOURCE_PACK.set(p, null);
                     Message.AUTORESOURCEPACK_REMOVE.aSend(p);
                     return true;
                 }
                 if (V3LD1N.getResourcePack(args[0]) != null) {
-                    PlayerData.AUTO_RESOURCE_PACK.set(uuid, args[0]);
+                    PlayerData.AUTO_RESOURCE_PACK.set(p, args[0]);
                     Message.AUTORESOURCEPACK_SET.sendF(p, args[0]);
                     Message.AUTORESOURCEPACK_REMOVE_COMMAND.send(p);
                 } else {
@@ -42,7 +40,7 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
                 }
                 return true;
             }
-            this.sendUsage(p, label, command);
+            this.sendUsage(p);
             return true;
         }
         sendPlayerMessage(sender);
@@ -50,14 +48,14 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
     }
 
     @Override
-    public void sendUsage(CommandSender user, String commandLabel, Command command) {
-        super.sendUsage(user, commandLabel, command);
+    public void sendUsage(CommandSender user) {
+        super.sendUsage(user);
         if (!(user instanceof Player)) {
             return;
         }
-        UUID uuid = ((Player) user).getUniqueId();
-        if (PlayerData.AUTO_RESOURCE_PACK.get(uuid) != null) {
-            String currentPack = PlayerData.AUTO_RESOURCE_PACK.getString(uuid);
+        Player player = (Player) user;
+        if (PlayerData.AUTO_RESOURCE_PACK.get(player) != null) {
+            String currentPack = PlayerData.AUTO_RESOURCE_PACK.getString(player);
             Message.AUTORESOURCEPACK_INFO.sendF(user, currentPack);
         }
     }

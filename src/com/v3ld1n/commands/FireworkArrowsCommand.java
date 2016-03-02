@@ -37,7 +37,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
                     return true;
                 }
                 Object newType = type == Type.BALL ? null : args[0].toUpperCase();
-                PlayerData.FIREWORK_ARROWS.set(p.getUniqueId(), newType);
+                PlayerData.FIREWORK_ARROWS.set(p, newType);
                 FireworkEffect effect = FireworkEffect.builder()
                         .with(type)
                         .withColor(Color.WHITE)
@@ -50,7 +50,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
                 Message.FIREWORKARROWS_SET.sendF(p, StringUtil.fromEnum(type, true));
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPlayerMessage(sender);
@@ -58,8 +58,8 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
     }
 
     @Override
-    public void sendUsage(CommandSender user, String commandLabel, Command command) {
-        super.sendUsage(user, commandLabel, command);
+    public void sendUsage(CommandSender user) {
+        super.sendUsage(user);
         sendTypeList(user);
     }
 

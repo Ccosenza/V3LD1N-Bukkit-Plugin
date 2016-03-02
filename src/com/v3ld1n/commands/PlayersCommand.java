@@ -41,7 +41,7 @@ public class PlayersCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.players")) {
             if (args.length == 0) {
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             }
             if (args[0].equalsIgnoreCase("info") && args.length == 2) {
@@ -87,8 +87,8 @@ public class PlayersCommand extends V3LD1NCommand {
                     String upper = StringUtil.upperCaseFirst(args[0]);
                     String title = String.format(Message.PLAYERS_AMOUNT_TITLE.toString(), upper);
                     String subtitle = String.format(Message.PLAYERS_AMOUNT_SUBTITLE.toString(), players);
-                    PlayerUtil.displayTitle(p, "{text:\"" + title + "\"}", 2, 2, 2);
-                    PlayerUtil.displaySubtitle(p, "{text:\"" + subtitle + "\"}", 2, 2, 2, false);
+                    PlayerUtil.displayTitle(p, "{\"text\":\"" + title + "\"}", 2, 2, 2);
+                    PlayerUtil.displaySubtitle(p, "{\"text\":\"" + subtitle + "\"}", 2, 2, 2, false);
                     return true;
                 }
                 Message.PLAYERS_AMOUNT_NOT_PLAYER.aSendF(sender, players);
@@ -110,7 +110,7 @@ public class PlayersCommand extends V3LD1NCommand {
             sendPermissionMessage(sender);
             return true;
         }
-        this.sendUsage(sender, label, command);
+        this.sendUsage(sender);
         return true;
     }
 

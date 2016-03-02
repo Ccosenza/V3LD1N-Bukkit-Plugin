@@ -3,7 +3,7 @@ description: A custom plugin for the V3LD1N server.
 author: Ccosenza
 main: com.v3ld1n.V3LD1N
 softdepend: [WorldGuard, PermissionsEx, Essentials]
-version: "3.7.3"
+version: "3.8"
 
 commands:
   v3ld1nplugin:
@@ -98,7 +98,7 @@ commands:
     description: Sets the player list header and footer.
     usage: /<command> set <header> <footer> OR /<command> reset OR /<command> ping
   giveall:
-    description: Gives the item you are holding to all players.
+    description: Gives the item in your main hand to all players.
     usage: /<command>
   players:
     description: Player information command.
@@ -137,13 +137,13 @@ commands:
     aliases: [change, changes]
     usage: /<command> [log <change>]
   itemname:
-    description: Sets the name of the item you are holding.
+    description: Sets the name of the item in your main hand.
     aliases: [iname, in, nameitem, namei]
     usage: /<command> <name> OR /<command> remove
   itemlore:
-    description: Sets the lore of the item you are holding.
+    description: Sets the lore of the item in your main hand.
     aliases: [description, desc, lore, itemdesc]
     usage: /<command> set|remove <line> <lore ...> OR /<command> add <lore ...>
   unbreakable:
-    description: Makes the item you are holding unbreakable.
+    description: Makes the item in your main hand unbreakable.
     usage: /<command>

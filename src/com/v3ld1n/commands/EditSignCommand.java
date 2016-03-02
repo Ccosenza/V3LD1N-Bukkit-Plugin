@@ -53,19 +53,19 @@ public class EditSignCommand extends V3LD1NCommand {
                                 BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
                                 break;
                             default:
-                                this.sendUsage(sender, label, command);
+                                this.sendUsage(sender);
                                 return true;
                             }
                             type.getMessage().aSendF(p, text, line);
                             return true;
                         }
-                        this.sendUsage(sender, label, command);
+                        this.sendUsage(sender);
                         return true;
                     }
                     Message.EDITSIGN_INVALID_BLOCK.send(p);
                     return true;
                 }
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             }
             sendPermissionMessage(sender);

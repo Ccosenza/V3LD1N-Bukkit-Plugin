@@ -16,7 +16,7 @@ public class GiveAllCommand extends V3LD1NCommand {
         if (sender instanceof Player) {
             if (sender.hasPermission("v3ld1n.owner")) {
                 Player p = (Player) sender;
-                ItemStack item = p.getItemInHand();
+                ItemStack item = p.getInventory().getItemInMainHand();
                 if (item.getType() != Material.AIR) {
                     int amount = item.getAmount();
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {

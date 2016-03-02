@@ -37,16 +37,16 @@ public class UUIDCommand extends V3LD1NCommand {
                 return true;
             }
         } else {
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         if (sender instanceof Player) {
-            String message = "{text:\"" + uuid + "\","
-                    + "color:yellow,"
-                    + "hoverEvent:{"
-                    + "action:\"show_text\","
-                    + "value:\"" + String.format(Message.UUID_HOVER.toString(), name) + "\"},"
-                    + "insertion:\"" + uuid + "\"}";
+            String message = "{\"text\":\"" + uuid + "\","
+                    + "\"color\":\"yellow\","
+                    + "\"hoverEvent\":{"
+                    + "\"action\":\"show_text\","
+                    + "\"value\":\"" + String.format(Message.UUID_HOVER.toString(), name) + "\"},"
+                    + "\"insertion\":\"" + uuid + "\"}";
             ChatUtil.sendJsonMessage(sender, message, MessageType.CHAT);
             return true;
         }

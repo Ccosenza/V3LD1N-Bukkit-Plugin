@@ -14,6 +14,7 @@ import com.v3ld1n.util.BlockUtil;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.Sound;
 import com.v3ld1n.util.TimeUtil;
+import com.v3ld1n.util.WorldUtil;
 
 public class SoundTask extends Task {
     private String currentSound;
@@ -50,10 +51,8 @@ public class SoundTask extends Task {
         if (distance < 0) {
             Sound.fromString(currentSound).play(location);
         } else {
-            for (Player p : location.getWorld().getPlayers()) {
-                if (p.getLocation().distance(location) <= distance) {
-                    Sound.fromString(currentSound).play(location, p);
-                }
+            for (Player p : WorldUtil.getNearbyPlayers(location, distance)) {
+                Sound.fromString(currentSound).playToPlayer(location, p);
             }
         }
     }

@@ -1,21 +1,33 @@
 package com.v3ld1n.util;
 
+import java.util.List;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 
 public class ProjectileBuilder {
     private Class<? extends Projectile> projectile;
-    private Particle launchParticle;
-    private Sound launchSound;
+    private double speed = 1;
+    private List<Particle> launchParticles;
+    private List<Sound> launchSounds;
     private double randomDirection;
+
+    public ProjectileBuilder(Class<? extends Projectile> type) {
+        this.projectile = type;
+    }
 
     /**
      * Set the type of the projectile
      * @param type the projectile class
      * @return this object
      */
-    public ProjectileBuilder withType(Class<? extends Projectile> type) {
+    public ProjectileBuilder setType(Class<? extends Projectile> type) {
         this.projectile = type;
+        return this;
+    }
+
+    public ProjectileBuilder setSpeed(double speed) {
+        this.speed = speed;
         return this;
     }
 
@@ -24,8 +36,8 @@ public class ProjectileBuilder {
      * @param particle the particle
      * @return this object
      */
-    public ProjectileBuilder withLaunchParticle(Particle particle) {
-        this.launchParticle = particle;
+    public ProjectileBuilder setLaunchParticles(List<Particle> particles) {
+        this.launchParticles = particles;
         return this;
     }
 
@@ -34,8 +46,8 @@ public class ProjectileBuilder {
      * @param sound the sound
      * @return this object
      */
-    public ProjectileBuilder withLaunchSound(Sound sound) {
-        this.launchSound = sound;
+    public ProjectileBuilder setLaunchSounds(List<Sound> sounds) {
+        this.launchSounds = sounds;
         return this;
     }
 
@@ -44,7 +56,7 @@ public class ProjectileBuilder {
      * @param distance the distance from the starting direction
      * @return this object
      */
-    public ProjectileBuilder withRandomDirection(double distance) {
+    public ProjectileBuilder setRandomDirection(double distance) {
         this.randomDirection = distance;
         return this;
     }
@@ -55,14 +67,14 @@ public class ProjectileBuilder {
      * @param speed the speed of the projectile
      * @return the projectile
      */
-    public Projectile launch(LivingEntity shooter, double speed) {
+    public Projectile launch(LivingEntity shooter) {
         Projectile pr = shooter.launchProjectile(projectile);
         pr.setVelocity(shooter.getLocation().getDirection().multiply(speed));
-        if (launchParticle != null) {
-            launchParticle.display(pr.getLocation());
+        if (launchParticles != null) {
+            Particle.displayList(launchParticles, pr.getLocation());
         }
-        if (launchSound != null) {
-            launchSound.play(shooter.getEyeLocation());
+        if (launchSounds != null) {
+            Sound.playList(launchSounds, shooter.getEyeLocation());
         }
         if (randomDirection > 0) {
             EntityUtil.randomDirection(pr, randomDirection);

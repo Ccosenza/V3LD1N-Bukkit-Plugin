@@ -7,12 +7,14 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 import com.v3ld1n.util.ConfigUtil;
+import com.v3ld1n.util.Particle;
+import com.v3ld1n.util.Sound;
 
 public enum ConfigSetting {
     DEBUG("debug", "config.yml", false),
     BLOG_POST("blog-post", "config.yml"),
-    ENDER_CRYSTAL_EGG_DATA("ender-crystal-spawn-egg-data", "config.yml", 200),
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
+    RESOURCE_PACKS_OUTDATED("resource-packs-outdated", "config.yml", false),
 
     AUTO_SAVE_ENABLED("auto-save.enabled", "config.yml", true),
     AUTO_SAVE_TICKS("auto-save.ticks", "config.yml", 12000),
@@ -39,8 +41,7 @@ public enum ConfigSetting {
     INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
 
     PROJECTILE_JUMP_SPEED("projectile-jump-speed", "items.yml", 1.0),
-    
-    PARTICLE_SPAWN_ENDER_CRYSTAL("spawn-ender-crystal", "particles.yml"),
+
     PARTICLE_PLAYER_EFFECTS_LIGHTNING("player-effects-lightning", "particles.yml"),
     PARTICLE_TRAILS("trails.normal", "particles.yml"),
     PARTICLE_TRAILS_PLAYER_EFFECTS("trails.player-effects", "particles.yml"),
@@ -138,6 +139,22 @@ public enum ConfigSetting {
         }
         List<String> defaultList = new ArrayList<>();
         defaultList.add(defaultValue.toString());
+        return defaultList;
+    }
+
+    public List<Particle> getParticles() {
+        if (V3LD1N.getConfig(fileName).getConfig().get(name) != null) {
+            return Particle.fromList(V3LD1N.getConfig(fileName).getConfig().getStringList(name));
+        }
+        List<Particle> defaultList = new ArrayList<>();
+        return defaultList;
+    }
+
+    public List<Sound> getSounds() {
+        if (V3LD1N.getConfig(fileName).getConfig().get(name) != null) {
+            return Sound.fromList(V3LD1N.getConfig(fileName).getConfig().getStringList(name));
+        }
+        List<Sound> defaultList = new ArrayList<>();
         return defaultList;
     }
 

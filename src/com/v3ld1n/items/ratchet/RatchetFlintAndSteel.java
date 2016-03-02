@@ -2,17 +2,14 @@ package com.v3ld1n.items.ratchet;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.Particle;
@@ -26,43 +23,46 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        Action a = event.getAction();
-        if (useActionsLeft.contains(a)) {
-            if (this.equalsItem(p.getItemInHand())) {
-                event.setCancelled(true);
-                final Projectile pr = new ProjectileBuilder()
-                    .withType(Fireball.class)
-                    .withLaunchSound(this.getSoundSetting("sound"))
-                    .withLaunchParticle(this.getParticleSetting("launch-particle"))
-                    .launch(p, 0.8);
-                RepeatableRunnable trailTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, this.getIntSetting("trail-ticks"), this.getIntSetting("trail-times")) {
-                    @Override
-                    public void onRun() {
-                        if (pr != null && !pr.isDead()) {
-                            List<String> setting = getStringListSetting("trail-particles");
-                            List<Particle> trails = Particle.fromList(setting);
-                            for (Particle trail : trails) {
-                                trail.setSpeed(trail.getSpeed() - (random.nextFloat() / 10));
-                                trail.display(pr.getLocation());
-                            }
-                        }
-                    }
-                };
-                trailTask.run();
-            }
-        }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isLeftClick(event.getAction())) return;
+
+        event.setCancelled(true);
+        Projectile projectile = new ProjectileBuilder(Fireball.class)
+            .setLaunchSounds(sounds)
+            .setLaunchParticles(settings.getParticles("launch-particles"))
+            .setSpeed(0.8)
+            .launch(player);
+        displayTrail(projectile);
     }
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        Projectile pr = event.getEntity();
-        if (pr.getType() == EntityType.FIREBALL && pr.getShooter() instanceof Player) {
-            Player shooter = (Player) pr.getShooter();
-            if (this.equalsItem(shooter.getItemInHand())) {
-                this.displayParticles(pr.getLocation());
-                EntityUtil.detonateLightningProjectile(pr, pr.getLocation(), true);
+        Projectile projectile = event.getEntity();
+        if (!projectileIsValid(projectile, EntityType.FIREBALL)) return;
+
+        displayParticles(projectile.getLocation());
+        EntityUtil.detonateLightningProjectile(projectile, projectile.getLocation(), true);
+    }
+
+    private void displayTrail(final Projectile projectile) {
+        int ticks = settings.getInt("trail-ticks");
+        int times = settings.getInt("trail-times");
+        RepeatableRunnable trail = new RepeatableRunnable(0, ticks, times) {
+            @Override
+            public void onRun() {
+                if (projectile == null || projectile.isDead()) return;
+
+                List<String> particleSetting = settings.getStringList("trail-particles");
+                List<Particle> particles = Particle.fromList(particleSetting);
+
+                // Adds a random speed to the particles
+                for (Particle particle : particles) {
+                    particle.setSpeed(particle.getSpeed() - (random.nextFloat() / 10));
+                    particle.display(projectile.getLocation());
+                }
             }
-        }
+        };
+        trail.run();
     }
 }

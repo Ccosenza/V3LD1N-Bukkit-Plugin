@@ -26,7 +26,7 @@ public class MoneyItemCommand extends V3LD1NCommand {
                 try {
                     amount = Double.parseDouble(args[0]);
                 } catch (IllegalArgumentException e) {
-                    this.sendUsage(sender, label, command);
+                    this.sendUsage(sender);
                     return true;
                 }
                 ItemStack item = new ItemStack(Material.EMERALD);
@@ -40,7 +40,7 @@ public class MoneyItemCommand extends V3LD1NCommand {
                 p.getInventory().addItem(item);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPlayerMessage(sender);

@@ -13,4 +13,14 @@ public final class RandomUtil {
     public static double getRandomDouble(double start, double end) {
         return start + Math.random() * (end - start);  
     }
+
+    /**
+     * Returns a random integer in a range
+     * @param start the minimum value
+     * @param end the maximum value
+     * @return a random double in the range
+     */
+    public static int getRandomInt(double start, double end) {
+        return (int) getRandomDouble(start, end);
+    }
 }

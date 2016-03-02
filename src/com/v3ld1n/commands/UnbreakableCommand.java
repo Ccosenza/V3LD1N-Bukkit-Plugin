@@ -1,6 +1,6 @@
 package com.v3ld1n.commands;
 
-import net.minecraft.server.v1_8_R3.NBTTagInt;
+import net.minecraft.server.v1_9_R1.NBTTagInt;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -17,10 +17,10 @@ public class UnbreakableCommand extends V3LD1NCommand {
         if (sender instanceof Player) {
             if (sender.hasPermission("v3ld1n.owner")) {
                 Player p = (Player) sender;
-                ItemStack item = p.getItemInHand();
+                ItemStack item = p.getInventory().getItemInMainHand();
                 if (item.getType() != Material.AIR) {
                     ItemStack i = ItemUtil.setTag(item, "Unbreakable", new NBTTagInt(1));
-                    p.setItemInHand(i);
+                    p.getInventory().setItemInMainHand(i);
                     Message.UNBREAKABLE_SET.send(p);
                     return true;
                 }

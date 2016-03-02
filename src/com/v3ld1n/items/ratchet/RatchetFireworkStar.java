@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -25,46 +24,52 @@ public class RatchetFireworkStar extends V3LD1NItem {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        Action a = event.getAction();
-        if (useActions.contains(a)) {
-            if (this.equalsItem(p.getItemInHand())) {
-                event.setCancelled(true);
-                p.setItemInHand(ItemUtil.hideFlags(p.getItemInHand()));
-                PlayerAnimation.SWING_ARM.play(p, 25);
-                new ProjectileBuilder()
-                    .withType(Snowball.class)
-                    .withLaunchSound(this.getSoundSetting("sound"))
-                    .launch(p, 1.5);
-            }
-        }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isRightClick(event.getAction())) return;
+
+        event.setCancelled(true);
+
+        // Hides the item's description
+        player.getInventory().setItemInMainHand(ItemUtil.hideFlags(player.getInventory().getItemInMainHand()));
+
+        PlayerAnimation.SWING_ARM.play(player);
+        new ProjectileBuilder(Snowball.class)
+            .setLaunchSounds(sounds)
+            .setSpeed(1.5)
+            .launch(player);
     }
 
+    // Creates the firework effect
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        Projectile pr = event.getEntity();
-        boolean shooterIsPlayer = event.getEntity().getShooter() instanceof Player;
-        if (event.getEntityType() == EntityType.SNOWBALL && shooterIsPlayer) {
-            Player shooter = (Player) pr.getShooter();
-            if (this.equalsItem(shooter.getItemInHand())) {
-                int red = random.nextInt(this.getIntSetting("color-max-red"));
-                int green = random.nextInt(this.getIntSetting("color-max-green"));
-                int blue = random.nextInt(this.getIntSetting("color-max-blue"));
-                int fadeR = random.nextInt(this.getIntSetting("color-max-red"));
-                int fadeG = random.nextInt(this.getIntSetting("color-max-green"));
-                int fadeB = random.nextInt(this.getIntSetting("color-max-blue"));
-                Color color = Color.fromRGB(red, green, blue);
-                Color fade = this.getBooleanSetting("color-fade") ? Color.fromRGB(fadeR, fadeG, fadeB) : color;
-                Type type = Type.valueOf(this.getStringSetting("firework-type"));
-                FireworkEffect effect = FireworkEffect.builder()
-                        .with(type)
-                        .withColor(color)
-                        .withFade(fade)
-                        .withFlicker()
-                        .withTrail()
-                        .build();
-                EntityUtil.displayFireworkEffect(effect, pr.getLocation(), 1);
-            }
-        }
+        Projectile projectile = event.getEntity();
+        if (!projectileIsValid(projectile, EntityType.SNOWBALL)) return;
+
+        int maxRed = settings.getInt("color-max-red");
+        int maxGreen = settings.getInt("color-max-green");
+        int maxBlue = settings.getInt("color-max-blue");
+
+        int red = random.nextInt(maxRed);
+        int green = random.nextInt(maxGreen);
+        int blue = random.nextInt(maxBlue);
+
+        int fadeRed = random.nextInt(maxRed);
+        int fadeGreen = random.nextInt(maxGreen);
+        int fadeBlue = random.nextInt(maxBlue);
+
+        Color fireworkColor = Color.fromRGB(red, green, blue);
+        boolean fade = settings.getBoolean("color-fade");
+        Color fadeColor = fade ? Color.fromRGB(fadeRed, fadeGreen, fadeBlue) : fireworkColor;
+
+        Type fireworkType = Type.valueOf(settings.getString("firework-type"));
+        FireworkEffect effect = FireworkEffect.builder()
+                .with(fireworkType)
+                .withColor(fireworkColor)
+                .withFade(fadeColor)
+                .withFlicker()
+                .withTrail()
+                .build();
+        EntityUtil.displayFireworkEffect(effect, projectile.getLocation(), 1);
     }
 }

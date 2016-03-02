@@ -24,14 +24,14 @@ public class FAQCommand extends V3LD1NCommand {
                 Message.FAQ_BORDER_TOP.send(p);
                 for (FAQ faq : V3LD1N.getQuestions()) {
                     ChatUtil.sendJsonMessage(p,
-                    "{text:\"" + faq.getName() + "\","
-                    + "color:" + faq.getNameColor() + ","
-                    + "extra:["
-                    + "{text:\"" + faq.getQuestion() + "\","
-                    + "color:" + faq.getQuestionColor() + ","
-                    + "clickEvent:{"
-                    + "action:\"run_command\","
-                    + "value:\"/" + label + " " + faq.getId() + "\"}}]}",
+                    "{\"text\":\"" + faq.getName() + "\","
+                    + "\"color\":\"" + faq.getNameColor() + "\","
+                    + "\"extra\":["
+                    + "{\"text\":\"" + faq.getQuestion() + "\","
+                    + "\"color\":\"" + faq.getQuestionColor() + "\","
+                    + "\"clickEvent\":{"
+                    + "\"action\":\"run_command\","
+                    + "\"value\":\"/" + label + " " + faq.getId() + "\"}}]}",
                     MessageType.CHAT);
                 }
                 Message.FAQ_HELP.send(p);
@@ -46,21 +46,21 @@ public class FAQCommand extends V3LD1NCommand {
                 }
                 if (arg <= V3LD1N.getQuestions().size() && arg > 0) {
                     FAQ faq = V3LD1N.getQuestions().get(arg - 1);
-                    String question = "{text:\"" + Message.FAQ_QUESTION + "\","
-                            + "color:gold,"
-                            + "extra:["
-                            + "{text:\"" + faq.getQuestion() + "\","
-                            + "color:" + faq.getQuestionColor() + "}]}";
-                    String answer = "{text:\"" + Message.FAQ_ANSWER + "\","
-                            + "color:yellow,"
-                            + "extra:["
-                            + "{text:\"" + faq.getAnswer() + "\","
-                            + "color:" + faq.getAnswerColor() + "}]}";
-                    String back = "{text:\"" + Message.FAQ_BACK + "\","
-                            + "color:" + ConfigSetting.FAQ_BACK_COLOR.getString() + ","
-                            + "clickEvent:{"
-                            + "action:\"run_command\","
-                            + "value:\"/" + label + "\"}}";
+                    String question = "{\"text\":\"" + Message.FAQ_QUESTION + "\","
+                            + "\"color\":\"gold\","
+                            + "\"extra\":["
+                            + "{\"text\":\"" + faq.getQuestion() + "\","
+                            + "\"color\":\"" + faq.getQuestionColor() + "\"}]}";
+                    String answer = "{\"text\":\"" + Message.FAQ_ANSWER + "\","
+                            + "\"color\":\"yellow\","
+                            + "\"extra\":["
+                            + "{\"text\":\"" + faq.getAnswer() + "\","
+                            + "\"color\":\"" + faq.getAnswerColor() + "\"}]}";
+                    String back = "{\"text\":\"" + Message.FAQ_BACK + "\","
+                            + "\"color\":\"" + ConfigSetting.FAQ_BACK_COLOR.getString() + "\","
+                            + "\"clickEvent\":{"
+                            + "\"action\":\"run_command\","
+                            + "\"value\":\"/" + label + "\"}}";
                     Message.FAQ_BORDER_TOP.send(p);
                     ChatUtil.sendJsonMessage(p, question, MessageType.CHAT);
                     ChatUtil.sendJsonMessage(p, answer, MessageType.CHAT);
@@ -71,7 +71,7 @@ public class FAQCommand extends V3LD1NCommand {
                 Message.FAQ_INVALID_QUESTION.send(p);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPlayerMessage(sender);

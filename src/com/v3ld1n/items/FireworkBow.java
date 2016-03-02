@@ -9,66 +9,70 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.projectiles.ProjectileSource;
 
 import com.v3ld1n.PlayerData;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.RandomUtil;
 
 public class FireworkBow extends V3LD1NItem {
-    private Color color = Color.AQUA;
+    Color fireworkColor = Color.AQUA;
 
     public FireworkBow() {
         super("firework-bow");
     }
 
+    // Sets the arrow on fire
     @EventHandler
     public void onShoot(final EntityShootBowEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER) {
-            final Player p = (Player) event.getEntity();
-            if (this.equalsItem(p.getItemInHand())) {
-                event.getProjectile().setFireTicks(Integer.MAX_VALUE);
-            }
-        }
+        if (!entityIsHoldingItem(event.getEntity())) return;
+
+        EntityUtil.infiniteFire(event.getProjectile());
     }
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        Projectile pr = event.getEntity();
-        ProjectileSource source = pr.getShooter();
-        if (pr.getType() == EntityType.ARROW && source instanceof Player) {
-            Player shooter = (Player) source;
-            if (this.equalsItem(shooter.getItemInHand())) {
-                firework(pr, shooter);
-            }
-        }
+        Projectile projectile = event.getEntity();
+        if (!projectileIsValid(projectile, EntityType.ARROW)) return;
+        createFireworkEffect(projectile);
     }
 
-    private void firework(Projectile pr, Player p) {
-        Type type = Type.BALL;
-        PlayerData data = PlayerData.FIREWORK_ARROWS;
-        if (data.get(p.getUniqueId()) != null) {
-           type = Type.valueOf(data.getString(p.getUniqueId()));
+    /**
+     * Creates the firework effect
+     * @param projectile the projectile
+     */
+    private void createFireworkEffect(Projectile projectile) {
+        Player player = (Player) projectile.getShooter();
+        PlayerData setting = PlayerData.FIREWORK_ARROWS;
+        Type fireworkType;
+        try {
+            fireworkType = Type.valueOf(setting.getString(player));
+        } catch (Exception e) {
+            fireworkType = Type.BALL;
         }
-        int minR = this.getIntSetting("color-min.red");
-        int minG = this.getIntSetting("color-min.green");
-        int minB = this.getIntSetting("color-min.blue");
-        int maxR = this.getIntSetting("color-max.red");
-        int maxG = this.getIntSetting("color-max.green");
-        int maxB = this.getIntSetting("color-max.blue");
-        int r = (int) RandomUtil.getRandomDouble(minR, maxR);
-        int g = (int) RandomUtil.getRandomDouble(minG, maxG);
-        int b = (int) RandomUtil.getRandomDouble(minB, maxB);
-        color = color.setRed(r);
-        color = color.setGreen(g);
-        color = color.setBlue(b);
+
+        int minRed = settings.getInt("color-min.red");
+        int minGreen = settings.getInt("color-min.green");
+        int minBlue = settings.getInt("color-min.blue");
+
+        int maxRed = settings.getInt("color-max.red");
+        int maxGreen = settings.getInt("color-max.green");
+        int maxBlue = settings.getInt("color-max.blue");
+
+        int red = RandomUtil.getRandomInt(minRed, maxRed);
+        int green = RandomUtil.getRandomInt(minGreen, maxGreen);
+        int blue = RandomUtil.getRandomInt(minBlue, maxBlue);
+
+        fireworkColor = fireworkColor.setRed(red);
+        fireworkColor = fireworkColor.setGreen(green);
+        fireworkColor = fireworkColor.setBlue(blue);
+
         FireworkEffect effect = FireworkEffect.builder()
-                .with(type)
-                .withColor(color)
-                .withFade(color)
+                .with(fireworkType)
+                .withColor(fireworkColor)
+                .withFade(fireworkColor)
                 .withFlicker()
                 .withTrail()
                 .build();
-        EntityUtil.detonateFireworkProjectile(pr, effect, pr.getLocation());
+        EntityUtil.detonateFireworkProjectile(projectile, effect, projectile.getLocation());
     }
 }

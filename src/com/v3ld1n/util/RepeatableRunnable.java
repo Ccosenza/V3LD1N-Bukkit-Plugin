@@ -1,9 +1,9 @@
 package com.v3ld1n.util;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
+
+import com.v3ld1n.V3LD1N;
 
 /**
  * This class is provided as an easy way to handle repeating scheduled tasks. Do not use scheduleSyncRepeatingTask as when a new instance of this class is created, it automatically schedules one. Just create a new intstance.
@@ -18,15 +18,13 @@ public abstract class RepeatableRunnable extends BukkitRunnable {
     /**
      * Create a new Repeatable Runnable that runs until the maximum amount of repeats. This will automatically schedule a repeating task.
      * 
-     * @param scheduler - The Scheduler of the server.
-     * @param yourPlugin - Your plugin object.
      * @param delay - Delay in server ticks before executing first repeat.
      * @param period - Period in server ticks of the task.
      * @param amountOfTimes - The amount of times to call the onRun method.
      */
     @SuppressWarnings("deprecation")
-    public RepeatableRunnable(BukkitScheduler scheduler, Plugin yourPlugin, long delay, long period, long amountOfTimes) {
-        this.repeatableTaskID = scheduler.scheduleSyncRepeatingTask(yourPlugin, this, delay, period);
+    public RepeatableRunnable(long delay, long period, long amountOfTimes) {
+        this.repeatableTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(V3LD1N.getPlugin(), this, delay, period);
         this.maxRepeats = amountOfTimes > 0 ? amountOfTimes : 1;
     }
 

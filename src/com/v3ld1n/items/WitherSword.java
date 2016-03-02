@@ -2,8 +2,6 @@ package com.v3ld1n.items;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
@@ -17,21 +15,24 @@ public class WitherSword extends V3LD1NItem {
 
     @EventHandler
     public void onDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getDamager().getType() == EntityType.PLAYER && event.getEntity() instanceof Creature) {
-            Player p = (Player) event.getDamager();
-            Creature e = (Creature) event.getEntity();
-            if (this.equalsItem(p.getItemInHand())) {
-                effect(e);
-            }
-        }
+        if (!entityIsHoldingItem(event.getDamager())) return;
+        if (!(event.getEntity() instanceof Creature)) return;
+
+        Creature creature = (Creature) event.getEntity();
+        addEffect(creature);
     }
 
-    private void effect(Creature e) {
-        int duration = this.getIntSetting("effect-duration");
-        int level = this.getIntSetting("effect-level");
-        e.addPotionEffect(effect.createEffect(duration, level));
-        Location loc = e.getEyeLocation();
-        this.displayParticles(loc);
-        this.getSoundSetting("sound").play(loc);
+    /**
+     * Adds the effect to the creature
+     * @param creature the creature
+     */
+    private void addEffect(Creature creature) {
+        int duration = settings.getInt("effect-duration");
+        int level = settings.getInt("effect-level");
+
+        creature.addPotionEffect(effect.createEffect(duration, level));
+        Location eyeLocation = creature.getEyeLocation();
+        displayParticles(eyeLocation);
+        playSounds(eyeLocation);
     }
 }

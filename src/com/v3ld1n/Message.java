@@ -51,8 +51,11 @@ public enum Message {
 
     CHAT_ERROR("errors.chat.failed"),
 
-    LOADING_ITEM("debug.loading.item"),
-    LOADING_TASK("debug.loading.task"),
+    LOADING_ITEMS("debug.loading.items"),
+    LOADING_ITEM_TASKS("debug.loading.tasks.item"),
+    LOADING_PARTICLE_TASKS("debug.loading.tasks.particle"),
+    LOADING_SOUND_TASKS("debug.loading.tasks.sound"),
+    LOADING_TELEPORT_TASKS("debug.loading.tasks.teleport"),
     LOADING_QUESTIONS("debug.loading.questions"),
     LOADING_REPORTS("debug.loading.reports"),
     LOADING_WARPS("debug.loading.warps"),
@@ -73,8 +76,9 @@ public enum Message {
     COMMAND_NO_PERMISSION("commands.permission"),
     COMMAND_INVALID_PLAYER("commands.invalid-player"),
     COMMAND_NO_ITEM("commands.no-item"),
-    COMMAND_USAGE_TITLE("commands.usage-title"),
-    COMMAND_USAGE_DESCRIPTION("commands.usage-description"),
+    COMMAND_USAGE_TITLE("commands.usage.title"),
+    COMMAND_USAGE_ALIASES("commands.usage.aliases"),
+    COMMAND_USAGE_DESCRIPTION("commands.usage.description"),
 
     AUTORESOURCEPACK_SET("commands.autoresourcepack.set"),
     AUTORESOURCEPACK_REMOVE_COMMAND("commands.autoresourcepack.remove-command"),
@@ -191,6 +195,7 @@ public enum Message {
     REPORT_READBY_NO_PERMISSION("commands.report.readby.no-permission"),
 
     RESOURCEPACK_LIST_TITLE("commands.resourcepack.list-title"),
+    RESOURCEPACK_OUTDATED("commands.resourcepack.outdated"),
     RESOURCEPACK_ERROR("commands.resourcepack.error"),
 
     RIDE_USE("commands.ride.use"),

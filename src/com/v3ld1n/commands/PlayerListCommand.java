@@ -55,7 +55,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                             try {
                                 arg = Integer.parseInt(args[2]);
                             } catch (IllegalArgumentException e) {
-                                this.sendArgumentUsage(sender, label, command, usagePingTime);
+                                this.sendArgumentUsage(sender, usagePingTime);
                                 return true;
                             }
                             ConfigSetting.PLAYER_LIST_PING_TICKS.setValue(arg);
@@ -64,10 +64,8 @@ public class PlayerListCommand extends V3LD1NCommand {
                         }
                     }
                 }
-                this.sendUsage(sender, label, command);
-                return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

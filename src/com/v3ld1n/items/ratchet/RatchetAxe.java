@@ -1,7 +1,8 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -25,32 +26,37 @@ public class RatchetAxe extends V3LD1NItem {
 
     @EventHandler
     public void onEntityDeath(final EntityDeathEvent event) {
-        final LivingEntity e = event.getEntity();
-        if (e.getKiller() != null) {
-            if (e.getKiller().getType() == EntityType.PLAYER && e instanceof Monster) {
-                if (e.getLastDamageCause().getCause() == DamageCause.ENTITY_ATTACK) {
-                    final Player p = e.getKiller();
-                    if (this.equalsItem(p.getItemInHand())) {
-                        effect(p, e);
-                    }
-                }
-            }
-        }
+        final LivingEntity entity = event.getEntity();
+        if (!(entity instanceof Monster)) return;
+        if (!entityIsHoldingItem(entity.getKiller())) return;
+        if (entity.getLastDamageCause().getCause() != DamageCause.ENTITY_ATTACK) return;
+
+        final Player killer = entity.getKiller();
+        addEffect(killer, entity);
     }
 
-    private void effect(final Player p, final LivingEntity e) {
-        EntityUtil.heal(p, p.getMaxHealth());
-        this.displayParticles(e.getEyeLocation());
-        increaseLevel(p, e);
+    /**
+     * Heals the player and spawns particles at the enemy's location
+     * @param player the player
+     * @param enemy the enemy
+     */
+    private void addEffect(final Player player, final LivingEntity enemy) {
+        EntityUtil.heal(player, player.getMaxHealth());
+        displayParticles(enemy.getEyeLocation());
+        increaseEffectLevel(player, enemy);
     }
-
-    private void increaseLevel(final Player p, final LivingEntity e) {
-        final int effectDuration = this.getIntSetting("effect-duration");
-        final int amplifierLimit = this.getIntSetting("effect-level-limit") - 1;
-        for (final PotionEffect pe : p.getActivePotionEffects()) {
+    
+    /**
+     * Increases the level of the player's potion effect
+     * @param player the player
+     * @param enemy the enemy
+     */
+    private void increaseEffectLevel(final Player player, final LivingEntity enemy) {
+        final int effectDuration = settings.getInt("effect-duration");
+        final int amplifierLimit = settings.getInt("effect-level-limit") - 1;
+        for (final PotionEffect pe : player.getActivePotionEffects()) {
             if (pe.getType().equals(effect) && pe.getAmplifier() < amplifierLimit) {
-                p.removePotionEffect(effect);
-                p.addPotionEffect(effect.createEffect(effectDuration, 0));
+                player.removePotionEffect(effect);
                 Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                     @Override
                     public void run() {
@@ -58,16 +64,19 @@ public class RatchetAxe extends V3LD1NItem {
                         if (pe.getAmplifier() < amplifierLimit) {
                             newAmplifier = pe.getAmplifier() + 1;
                         } else {
-                            newAmplifier = amplifierLimit - 1;
+                            newAmplifier = amplifierLimit;
                         }
-                        p.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
-                        Particle effectParticle = getParticleSetting("effect-particle");
-                        effectParticle.setCount(25 * (pe.getAmplifier() + 1));
-                        effectParticle.display(e.getEyeLocation());
+                        player.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
+                        List<Particle> particles = Particle.fromList(settings.getStringList("effect-particles"));
+                        for (Particle particle : particles) {
+                            particle.setCount(25 * (pe.getAmplifier() + 1));
+                            particle.display(enemy.getEyeLocation());
+                        }
                     }
                 }, 1L);
                 return;
             }
         }
+        player.addPotionEffect(effect.createEffect(effectDuration, 0));
     }
 }

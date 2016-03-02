@@ -4,7 +4,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -21,38 +20,29 @@ public class RatchetShovel extends V3LD1NItem {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        Action a = event.getAction();
-        if (useActions.contains(a)) {
-            Player p = event.getPlayer();
-            if (this.equalsItem(p.getItemInHand())) {
-                event.setCancelled(true);
-                new ProjectileBuilder()
-                    .withType(Snowball.class)
-                    .withLaunchSound(this.getSoundSetting("throw-sound"))
-                    .launch(p, 1.5);
-                PlayerAnimation.SWING_ARM.play(p, 64);
-            }
-        }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isRightClick(event.getAction())) return;
+
+        event.setCancelled(true);
+        new ProjectileBuilder(Snowball.class)
+            .setLaunchSounds(settings.getSounds("throw-sounds"))
+            .setSpeed(1.5)
+            .launch(player);
+        PlayerAnimation.SWING_ARM.play(player);
     }
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.isCancelled()) {
-            return;
-        }
-        if (event.getDamager().getType() == EntityType.SNOWBALL) {
-            Snowball snowball = (Snowball) event.getDamager();
-            if (snowball.getShooter() instanceof Player) {
-                Player p = (Player) snowball.getShooter();
-                if (this.equalsItem(p.getItemInHand())) {
-                    if (event.getEntityType() != EntityType.PLAYER) {
-                        double damage = snowball.getTicksLived() * this.getIntSetting("damage-multiplier");
-                        event.setDamage(damage);
-                        Message.RATCHETS_SHOVEL_DAMAGE.aSendF(p, (int) damage);
-                    }
-                    Particle.displayList(snowball.getLocation(), this.getStringListSetting("hit-particles"));
-                }
-            }
-        }
+        if (event.isCancelled()) return;
+        if (!projectileIsValid(event.getDamager(), EntityType.SNOWBALL)) return;
+        if (event.getEntityType() == EntityType.PLAYER) return;
+
+        Snowball snowball = (Snowball) event.getDamager();
+        Player player = (Player) snowball.getShooter();
+        double damage = snowball.getTicksLived() * settings.getInt("damage-multiplier");
+        event.setDamage(damage);
+        Message.RATCHETS_SHOVEL_DAMAGE.aSendF(player, (int) damage);
+        Particle.displayList(settings.getParticles("hit-particles"), snowball.getLocation());
     }
 }

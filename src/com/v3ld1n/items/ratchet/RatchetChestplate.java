@@ -3,6 +3,7 @@ package com.v3ld1n.items.ratchet;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityCombustEvent;
@@ -17,19 +18,20 @@ public class RatchetChestplate extends V3LD1NItem {
 
     @EventHandler
     public void onCombust(EntityCombustEvent event) {
-        if (event.getEntity() instanceof Player) {
-            Player p = (Player) event.getEntity();
-            Location loc = p.getEyeLocation();
-            loc.setY(loc.getY() - 0.3);
-            if (this.equalsItem(p.getInventory().getChestplate())) {
-                event.setCancelled(true);
-                List<String> setting = this.getStringListSetting("particles");
-                List<Particle> particles = Particle.fromList(setting);
-                for (Particle particle : particles) {
-                    particle.setSpeed(particle.getSpeed() + random.nextFloat());
-                    particle.display(loc);
-                }
-            }
+        if (event.getEntityType() != EntityType.PLAYER) return;
+        Player player = (Player) event.getEntity();
+        if (!equalsItem(player.getInventory().getChestplate())) return;
+
+        event.setCancelled(true);
+        Location chestplateLocation = player.getEyeLocation();
+        chestplateLocation.setY(chestplateLocation.getY() - 0.3);
+
+        List<Particle> randomParticles = particles;
+
+        // Adds a random speed to the particles
+        for (Particle particle : randomParticles) {
+            particle.setSpeed(particle.getSpeed() + random.nextFloat());
+            particle.display(chestplateLocation);
         }
     }
 }

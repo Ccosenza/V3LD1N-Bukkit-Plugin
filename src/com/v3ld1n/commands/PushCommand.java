@@ -67,7 +67,7 @@ public class PushCommand extends V3LD1NCommand {
                 sendInvalidPlayerMessage(sender);
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

@@ -35,7 +35,7 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
                         return true;
                     }
                 } else {
-                    this.sendUsage(sender, label, command);
+                    this.sendUsage(sender);
                     return true;
                 }
                 try {
@@ -50,7 +50,7 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
                 }
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);

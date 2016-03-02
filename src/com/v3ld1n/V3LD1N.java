@@ -40,13 +40,13 @@ import com.v3ld1n.util.Sound;
 
 public class V3LD1N extends JavaPlugin {
     private final Random random = new Random();
-    private final String bukkitVersion = "1.8.7-R0.1-SNAPSHOT";
+    private final String bukkitVersion = "1.9-R0.1-SNAPSHOT";
     private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
     private static V3LD1N plugin;
     private static List<ConfigAccessor> configs;
     private static WorldGuardPlugin worldGuard;
-    private static HashMap<String, V3LD1NCommand> commands;
+    private static List<V3LD1NCommand> commands;
     private static List<V3LD1NItem> items;
     private static List<FAQ> questions;
     private static List<Report> reports;
@@ -74,6 +74,7 @@ public class V3LD1N extends JavaPlugin {
             PluginDescriptionFile d = plugin.getDescription();
             Message.INVALID_BUKKIT_VERSION.logF(Level.WARNING, d.getName(), d.getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
         }
+        commands = new ArrayList<>();
         items = new ArrayList<>();
         questions = new ArrayList<>();
         reports = new ArrayList<>();
@@ -87,7 +88,6 @@ public class V3LD1N extends JavaPlugin {
         soundTasks = new ArrayList<>();
         teleportTasks = new ArrayList<>();
         usingRideCommand = new HashMap<>();
-        commands = new HashMap<>();
         setupWorldGuard();
         setupVault();
         loadItems();
@@ -237,46 +237,49 @@ public class V3LD1N extends JavaPlugin {
         return perms != null;
     }
 
+    private static void addCommand(String name, V3LD1NCommand command) {
+        command.setBukkitCommand(plugin.getCommand(name));
+        plugin.getCommand(name).setExecutor(command);
+        commands.add(command);
+    }
+
     private static void loadCommands() {
-        commands.put("v3ld1nplugin", new V3LD1NPluginCommand());
-        commands.put("faq", new FAQCommand());
-        commands.put("trail", new TrailCommand());
-        commands.put("sethealth", new SetHealthCommand());
-        commands.put("setmaxhealth", new SetMaxHealthCommand());
-        commands.put("ratchetsbow", new RatchetsBowCommand());
-        commands.put("fireworkarrows", new FireworkArrowsCommand());
-        commands.put("resourcepack", new ResourcePackCommand());
-        commands.put("autoresourcepack", new AutoResourcePackCommand());
-        commands.put("motd", new MotdCommand());
-        commands.put("nextsound", new NextSoundCommand());
-        commands.put("editsign", new EditSignCommand());
-        commands.put("setfulltime", new SetFullTimeCommand());
-        commands.put("playanimation", new PlayAnimationCommand());
-        commands.put("sidebarmessage", new SidebarMessageCommand());
-        commands.put("uuid", new UUIDCommand());
-        commands.put("push", new PushCommand());
-        commands.put("sethotbarslot", new SetHotbarSlotCommand());
-        commands.put("v3ld1nmotd", new V3LD1NMotdCommand());
-        commands.put("sendmessage", new SendMessageCommand());
-        commands.put("timeplayed", new TimePlayedCommand());
-        commands.put("playerlist", new PlayerListCommand());
-        commands.put("giveall", new GiveAllCommand());
-        commands.put("report", new ReportCommand());
-        commands.put("players", new PlayersCommand());
-        commands.put("v3ld1nwarp", new V3LD1NWarpCommand());
-        commands.put("ride", rideCommand);
-        commands.put("names", new NamesCommand());
-        commands.put("playersay", new PlayerSayCommand());
-        commands.put("sethunger", new SetHungerCommand());
-        commands.put("damage", new DamageCommand());
-        commands.put("moneyitem", new MoneyItemCommand());
-        commands.put("changelog", new ChangelogCommand());
-        commands.put("itemname", new ItemNameCommand());
-        commands.put("itemlore", new ItemLoreCommand());
-        commands.put("unbreakable", new UnbreakableCommand());
-        for (String command : commands.keySet()) {
-            plugin.getCommand(command).setExecutor(commands.get(command));
-        }
+        addCommand("autoresourcepack", new AutoResourcePackCommand());
+        addCommand("changelog", new ChangelogCommand());
+        addCommand("damage", new DamageCommand());
+        addCommand("editsign", new EditSignCommand());
+        addCommand("faq", new FAQCommand());
+        addCommand("fireworkarrows", new FireworkArrowsCommand());
+        addCommand("giveall", new GiveAllCommand());
+        addCommand("itemlore", new ItemLoreCommand());
+        addCommand("itemname", new ItemNameCommand());
+        addCommand("moneyitem", new MoneyItemCommand());
+        addCommand("motd", new MotdCommand());
+        addCommand("names", new NamesCommand());
+        addCommand("nextsound", new NextSoundCommand());
+        addCommand("playanimation", new PlayAnimationCommand());
+        addCommand("playerlist", new PlayerListCommand());
+        addCommand("players", new PlayersCommand());
+        addCommand("playersay", new PlayerSayCommand());
+        addCommand("push", new PushCommand());
+        addCommand("ratchetsbow", new RatchetsBowCommand());
+        addCommand("report", new ReportCommand());
+        addCommand("resourcepack", new ResourcePackCommand());
+        addCommand("ride", rideCommand);
+        addCommand("sendmessage", new SendMessageCommand());
+        addCommand("setfulltime", new SetFullTimeCommand());
+        addCommand("sethealth", new SetHealthCommand());
+        addCommand("sethotbarslot", new SetHotbarSlotCommand());
+        addCommand("setmaxhealth", new SetMaxHealthCommand());
+        addCommand("sethunger", new SetHungerCommand());
+        addCommand("sidebarmessage", new SidebarMessageCommand());
+        addCommand("timeplayed", new TimePlayedCommand());
+        addCommand("trail", new TrailCommand());
+        addCommand("unbreakable", new UnbreakableCommand());
+        addCommand("uuid", new UUIDCommand());
+        addCommand("v3ld1nmotd", new V3LD1NMotdCommand());
+        addCommand("v3ld1nplugin", new V3LD1NPluginCommand());
+        addCommand("v3ld1nwarp", new V3LD1NWarpCommand());
     }
 
     private static void loadItems() {
@@ -301,8 +304,8 @@ public class V3LD1N extends JavaPlugin {
         items.add(new RatchetSword());
         for (V3LD1NItem item : items) {
             pluginManager.registerEvents(item, plugin);
-            Message.LOADING_ITEM.logDebugF(item.getId());
         }
+        Message.LOADING_ITEMS.logDebugF(items.size());
     }
 
     private static void loadQuestions() {
@@ -617,6 +620,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_ITEM_TASKS.logDebugF(itemTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_ITEM_ERROR.log(Level.WARNING);
@@ -639,6 +643,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_PARTICLE_TASKS.logDebugF(particleTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_PARTICLE_ERROR.log(Level.WARNING);
@@ -661,6 +666,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_SOUND_TASKS.logDebugF(soundTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_SOUND_ERROR.log(Level.WARNING);
@@ -683,6 +689,7 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
+                Message.LOADING_TELEPORT_TASKS.logDebugF(teleportTasks.size());
             }
         } catch (Exception e) {
             Message.TASK_TELEPORT_ERROR.log(Level.WARNING);
@@ -699,20 +706,32 @@ public class V3LD1N extends JavaPlugin {
     }
 
     static ConfigAccessor getConfig(String fileName) {
+        ConfigAccessor ca = null;
         for (ConfigAccessor config : configs) {
             if (config.getFileName().equals(fileName)) {
-                return config;
+                ca = config;
             }
         }
-        return null;
+        return ca;
     }
 
     public static List<ConfigAccessor> getConfigs() {
         return configs;
     }
 
-    public static HashMap<String, V3LD1NCommand> getCommands() {
+    public static List<V3LD1NCommand> getCommands() {
         return commands;
+    }
+
+    public static V3LD1NCommand getCommandFromName(String name) {
+        V3LD1NCommand vc = null;
+        for (V3LD1NCommand command : commands) {
+            String cmdName = command.getBukkitCommand().getName();
+            if (cmdName.equalsIgnoreCase(name)) {
+                vc = command;
+            }
+        }
+        return vc;
     }
 
     public static List<FAQ> getQuestions() {

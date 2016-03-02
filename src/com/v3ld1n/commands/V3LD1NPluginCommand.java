@@ -1,7 +1,6 @@
 package com.v3ld1n.commands;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -32,7 +31,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.owner")) {
             if (args.length == 0) {
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             }
             if (args[0].equalsIgnoreCase("debug") && args.length == 1) {
@@ -47,7 +46,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 } else if (args.length == 2 && StringUtil.isInteger(args[1])) {
                     displayHelp(sender, StringUtil.toInteger(args[1], 1));
                 } else {
-                    this.sendUsage(sender, label, command);
+                    this.sendUsage(sender);
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
@@ -72,26 +71,21 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
             sendPermissionMessage(sender);
             return true;
         }
-        this.sendUsage(sender, label, command);
+        this.sendUsage(sender);
         return true;
     }
 
     private static void displayHelp(CommandSender user, int page) {
-        List<String> commands = new ArrayList<>(V3LD1N.getCommands().keySet());
-        Collections.sort(commands);
+        List<V3LD1NCommand> commands = new ArrayList<>(V3LD1N.getCommands());
         List<CommandUsage> allUsages = new ArrayList<>();
-        for (String command : commands) {
-            allUsages.addAll(V3LD1N.getCommands().get(command).getUsages());
+        for (V3LD1NCommand command : commands) {
+            allUsages.addAll(command.getUsages());
         }
         List<CommandUsage> usagePage = ChatUtil.getPage(allUsages, page, HELP_PAGE_SIZE);
         int pages = ChatUtil.getNumberOfPages(allUsages, HELP_PAGE_SIZE);
         Message.V3LD1NPLUGIN_HELP_BORDER_TOP.sendF(user, page, pages);
         for (CommandUsage usage : usagePage) {
-            for (String commandName : commands) {
-                if (V3LD1N.getCommands().get(commandName).equals(usage.getCommand())) {
-                    usage.send(user, commandName);
-                }
-            }
+            usage.send(user);
         }
         Message.V3LD1NPLUGIN_HELP_BORDER_BOTTOM.send(user);
     }

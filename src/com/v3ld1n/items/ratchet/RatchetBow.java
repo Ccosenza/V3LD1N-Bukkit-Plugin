@@ -1,30 +1,26 @@
 package com.v3ld1n.items.ratchet;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Effect;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Egg;
-import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.v3ld1n.PlayerData;
 import com.v3ld1n.V3LD1N;
@@ -37,204 +33,193 @@ import com.v3ld1n.util.ProjectileBuilder;
 import com.v3ld1n.util.RepeatableRunnable;
 
 public class RatchetBow extends V3LD1NItem {
-    private final Color color = Color.ORANGE;
+    private final Color fireworkColor = Color.ORANGE;
 
     public RatchetBow() {
         super("ratchets-bow");
     }
 
+    // Launches projectiles
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        ItemStack hand = p.getItemInHand();
-        if (this.equalsItem(hand) && useActions.contains(event.getAction())) {
-            if (PlayerData.RATCHETS_BOW.getString(p.getUniqueId()) != null) {
-                String projectileString = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
-                RatchetBowType pr = RatchetBowType.valueOf(projectileString);
-                if (pr != RatchetBowType.ARROW && pr != RatchetBowType.TRIPLE_ARROWS && pr != RatchetBowType.FIREWORK_ARROW) {
-                    event.setCancelled(true);
-                    switch (pr) {
-                        case SNOWBALL:
-                            new ProjectileBuilder()
-                                .withType(Snowball.class)
-                                .withLaunchSound(this.getSoundSetting("snowball-sound"))
-                                .launch(p, 1.5);
-                            break;
-                        case ENDER_PEARL:
-                            new ProjectileBuilder()
-                            .withType(EnderPearl.class)
-                            .withLaunchSound(this.getSoundSetting("ender-pearl-sound"))
-                            .withRandomDirection(this.getDoubleSetting("ender-pearl-direction"))
-                            .launch(p, 1.5);
-                            break;
-                        case EGG:
-                            new ProjectileBuilder()
-                            .withType(Egg.class)
-                            .withLaunchSound(this.getSoundSetting("egg-sound"))
-                            .launch(p, 1.5);
-                            break;
-                        case WITHER_SKULL:
-                            new ProjectileBuilder()
-                            .withType(WitherSkull.class)
-                            .withLaunchSound(this.getSoundSetting("wither-skull-sound"))
-                            .launch(p, 1.5);
-                            break;
-                        case BLUE_WITHER_SKULL:
-                            WitherSkull blueSkull = (WitherSkull) new ProjectileBuilder()
-                                .withType(WitherSkull.class)
-                                .withLaunchSound(this.getSoundSetting("blue-wither-skull-sound"))
-                                .launch(p, 1.5);
-                            blueSkull.setCharged(true);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            } else {
-                event.setCancelled(true);
-                new ProjectileBuilder()
-                    .withType(Fireball.class)
-                    .withLaunchSound(this.getSoundSetting("fireball-sound"))
-                    .withLaunchParticle(this.getParticleSetting("launch-particle"))
-                    .launch(p, 1.5);
-            }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isRightClick(event.getAction())) return;
+
+        RatchetBowType type = getBowType(player);
+        Class<? extends Projectile> projectile = type.getProjectile();
+        if (projectile == Arrow.class) return;
+
+        // Launches the projectile
+        event.setCancelled(true);
+        ProjectileBuilder builder = new ProjectileBuilder(projectile)
+            .setLaunchSounds(settings.getSounds(type.getSound()))
+            .setSpeed(1.5);
+        if (type == RatchetBowType.FIREBALL) {
+            builder.setLaunchParticles(settings.getParticles("launch-particles"));
+        }
+
+        Projectile launched = builder.launch(player);
+        // Sets wither skull to charged
+        if (launched.getType() == EntityType.WITHER_SKULL && type == RatchetBowType.BLUE_WITHER_SKULL) {
+            ((WitherSkull) launched).setCharged(true);
         }
     }
 
+    // Arrows
     @EventHandler
     public void onShoot(final EntityShootBowEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER) {
-            final Player p = (Player) event.getEntity();
-            if (this.equalsItem(p.getItemInHand())) {
-                if (PlayerData.RATCHETS_BOW.getString(p.getUniqueId()) != null) {
-                    String option = PlayerData.RATCHETS_BOW.getString(p.getUniqueId());
-                    if (RatchetBowType.fromString(option) == RatchetBowType.TRIPLE_ARROWS) {
-                        Entity pr = event.getProjectile();
-                        double direction = this.getDoubleSetting("triple-arrows-direction");
-                        EntityUtil.randomDirection(pr, direction);
-                        new ProjectileBuilder()
-                            .withType(Arrow.class)
-                            .withRandomDirection(direction)
-                            .launch(p, event.getForce() * 4);
-                        new ProjectileBuilder()
-                            .withType(Arrow.class)
-                            .withRandomDirection(direction)
-                            .launch(p, event.getForce() * 4);
-                    } else if (RatchetBowType.fromString(option) == RatchetBowType.FIREWORK_ARROW) {
-                        event.getProjectile().setFireTicks(Integer.MAX_VALUE);
+        if (!(event.getProjectile() instanceof Projectile)) return;
+        Projectile projectile = (Projectile) event.getProjectile();
+        if (!projectileIsValid(projectile, EntityType.ARROW)) return;
+
+        Player player = (Player) event.getEntity();
+
+        // Gets the player's projectile setting
+        PlayerData setting = PlayerData.RATCHETS_BOW;
+        RatchetBowType type;
+        try {
+            type = RatchetBowType.valueOf(setting.getString(player));
+        } catch (Exception e) {
+            return;
+        }
+
+        // Arrow types
+        if (type == RatchetBowType.TRIPLE_ARROWS) {
+            double direction = settings.getDouble("triple-arrows-direction");
+            EntityUtil.randomDirection(projectile, direction);
+            for (int i = 0; i < 2; i++) {
+                Projectile arrow = new ProjectileBuilder(Arrow.class)
+                    .setRandomDirection(direction)
+                    .setSpeed(event.getForce() * 4)
+                    .launch(player);
+                    ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
+                    if (meta.hasEnchant(Enchantment.ARROW_FIRE)) {
+                        EntityUtil.infiniteFire(arrow);
                     }
-                }
             }
+        } else if (type == RatchetBowType.FIREWORK_ARROW) {
+            EntityUtil.infiniteFire(event.getProjectile());
         }
     }
 
+    // Sets the damage from projectile jumping
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && event.getDamager() instanceof Fireball) {
-            Player p = (Player) event.getEntity();
-            Fireball fireball = (Fireball) event.getDamager();
-            if (fireball.getShooter() instanceof Player) {
-                Player shooter = (Player) fireball.getShooter();
-                if (p.getUniqueId().equals(shooter.getUniqueId()) && this.equalsItem(p.getItemInHand())) {
-                    event.setDamage(this.getDoubleSetting("fireball-jump-damage"));
-                }
-            }
+        if (!(event.getDamager() instanceof Projectile)) {
+            return;
+        }
+        if (event.getEntityType() != EntityType.PLAYER) {
+            return;
+        }
+        Projectile projectile = (Projectile) event.getDamager();
+        if (!projectileIsValid(projectile, EntityType.FIREBALL, EntityType.WITHER_SKULL)) {
+            return;
+        }
+        Player damagedPlayer = (Player) event.getEntity();
+        Player shooter = (Player) projectile.getShooter();
+        boolean damagedPlayerIsShooter = damagedPlayer.getUniqueId().equals(shooter.getUniqueId());
+        if (damagedPlayerIsShooter) {
+            event.setDamage(settings.getDouble("fireball-jump-damage"));
         }
     }
 
+    // Projectile hit / fireball particles
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        Projectile pr = event.getEntity();
-        if (pr instanceof Fireball) {
-            Fireball fireball = (Fireball) pr;
-            if (fireball.getShooter() != null && fireball.getShooter() instanceof Player) {
-                Player shooter = (Player) fireball.getShooter();
-                double radius = this.getDoubleSetting("fireball-jump-radius");
-                for (Entity e : fireball.getNearbyEntities(radius, radius, radius)) {
-                    if (e instanceof LivingEntity && e.getType() != EntityType.ARMOR_STAND) {
-                        if (this.equalsItem(shooter.getItemInHand())) {
-                            EntityUtil.projectileJump((LivingEntity) e, fireball);
-                            if (e.getType() == EntityType.PLAYER) {
-                                Player p = (Player) e;
-                                if (p.getName().equals(shooter.getName())) {
-                                    Particle.displayList(p.getLocation(), this.getStringListSetting("jump-particles"));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        Projectile projectile = event.getEntity();
+        if (projectileIsValid(projectile, EntityType.FIREBALL)) {
+            displayParticles(projectile.getLocation());
         }
-        if (pr instanceof Fireball && !(pr instanceof WitherSkull) && pr.getShooter() instanceof Player) {
-            final Player shooter = (Player) pr.getShooter();
-            if (this.equalsItem(shooter.getItemInHand())) {
-                final Location location = pr.getLocation();
-                this.displayParticles(pr.getLocation());
-                Location hitLocMin = this.getLocationSetting("teleport-hit-location-min");
-                Location hitLocMax = this.getLocationSetting("teleport-hit-location-max");
-                if (LocationUtil.isInArea(location, hitLocMin, hitLocMax)) {
-                    displayTeleportParticles(shooter.getLocation());
-                    RepeatableRunnable teleportTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 6, 4, 2) {
-                        @Override
-                        public void onRun() {
-                            Particle.displayList(location, getStringListSetting("teleport-hit-particles"));
-                            if (getBooleanSetting("teleport-lightning")) {
-                                location.getWorld().strikeLightning(location);
-                            }
-                        }
-                    };
-                    teleportTask.run();
-                    if (this.getBooleanSetting("teleport-lightning")) {
-                        Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
-                            @Override
-                            public void run() {
-                                location.getWorld().strikeLightning(location);
-                            }
-                        }, 24);
-                    }
-                    final Location teleLoc = this.getLocationSetting("teleport-location");
-                    Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-                        @Override
-                        public void run() {
-                            shooter.teleport(teleLoc);
-                            PlayerAnimation.BED_LEAVE.playTo(shooter);
-                            displayTeleportParticles(teleLoc);
-                        }
-                    }, this.getIntSetting("teleport-delay"));
-                }
+        projectileJump(projectile);
+        teleport(projectile);
+        fireworkArrows(projectile);
+    }
+
+    // Gets the player's projectile setting, or uses a fireball if it is not set
+    private RatchetBowType getBowType(Player player) {
+        RatchetBowType fireball = RatchetBowType.FIREBALL;
+        PlayerData setting = PlayerData.RATCHETS_BOW;
+        RatchetBowType type;
+        try {
+            type = RatchetBowType.valueOf(setting.getString(player));
+        } catch (Exception e) {
+            type = fireball;
+        }
+        return type;
+    }
+
+    /**
+     * Makes entities near the projectile jump
+     * @param projectile the projectile
+     */
+    private void projectileJump(Projectile projectile) {
+        if (!projectileIsValid(projectile, EntityType.FIREBALL, EntityType.WITHER_SKULL)) {
+            return;
+        }
+        Player shooter = (Player) projectile.getShooter();
+        Fireball fireball = (Fireball) projectile;
+        double radius = settings.getDouble("fireball-jump-radius");
+        for (Entity entity : fireball.getNearbyEntities(radius, radius, radius)) {
+            if (!(entity instanceof LivingEntity) || entity.getType() == EntityType.ARMOR_STAND) {
+                continue;
             }
-        } else if (pr.getType() == EntityType.ARROW && pr.getShooter() instanceof Player) {
-            Player shooter = (Player) pr.getShooter();
-            if (this.equalsItem(shooter.getItemInHand())) {
-                if (PlayerData.RATCHETS_BOW.getString(shooter.getUniqueId()) != null) {
-                    UUID uuid = shooter.getUniqueId();
-                    RatchetBowType projectile = RatchetBowType.fromString(PlayerData.RATCHETS_BOW.getString(uuid));
-                    switch (projectile) {
-                    case FIREWORK_ARROW:
-                        Type type = Type.BALL;
-                        if (PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()) != null) {
-                            type = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter.getUniqueId()));
-                        }
-                        Color fade = Color.fromRGB(216, 205, 17);
-                        FireworkEffect effect = FireworkEffect.builder()
-                                .with(type)
-                                .withColor(color)
-                                .withFade(fade)
-                                .withFlicker()
-                                .withTrail()
-                                .build();
-                        EntityUtil.detonateFireworkProjectile(pr, effect, pr.getLocation());
-                        break;
-                    default:
-                        break;
-                    }
-                }
+            EntityUtil.projectileJump((LivingEntity) entity, fireball);
+            if (entity.equals(shooter)) {
+                Particle.displayList(settings.getParticles("jump-particles"), entity.getLocation());
             }
         }
     }
 
+    /**
+     * Teleports players to a secret area when hitting a location with a fireball
+     * @param projectile the projectile
+     */
+    private void teleport(Projectile projectile) {
+        if (!projectileIsValid(projectile, EntityType.FIREBALL)) return;
+        final Player shooter = (Player) projectile.getShooter();
+        final Location location = projectile.getLocation();
+        Location hitLocationMin = settings.getLocation("teleport-hit-location-min");
+        Location hitLocationMax = settings.getLocation("teleport-hit-location-max");
+        if (!LocationUtil.isInArea(location, hitLocationMin, hitLocationMax)) return;
+
+        RepeatableRunnable effects = new RepeatableRunnable(6, 4, 2) {
+            @Override
+            public void onRun() {
+                Particle.displayList(settings.getParticles("teleport-hit-particles"), location);
+                if (settings.getBoolean("teleport-lightning")) {
+                    location.getWorld().strikeLightning(location);
+                }
+            }
+        };
+        effects.run();
+
+        if (settings.getBoolean("teleport-lightning")) {
+            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
+                @Override
+                public void run() {
+                    location.getWorld().strikeLightning(location);
+                }
+            }, 24);
+        }
+
+        final Location teleportLocation = settings.getLocation("teleport-location");
+        Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                shooter.teleport(teleportLocation);
+                PlayerAnimation.BED_LEAVE.playToPlayer(shooter);
+                displayTeleportParticles(teleportLocation);
+            }
+        }, settings.getInt("teleport-delay"));
+    }
+
+    /**
+     * Displays a circle particle effect when teleporting
+     * @param location the location to display the particles at
+     */
     private void displayTeleportParticles(final Location location) {
-        RepeatableRunnable particleTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 2, 3, 10) {
+        RepeatableRunnable particleTask = new RepeatableRunnable(2, 3, 10) {
             @Override
             public void onRun() {
                 location.getWorld().playEffect(location, Effect.ENDER_SIGNAL, 0);
@@ -242,5 +227,36 @@ public class RatchetBow extends V3LD1NItem {
             }
         };
         particleTask.run();
+    }
+
+    /**
+     * Makes the projectile explode and create a firework effect
+     * @param projectile the projectile
+     */
+    private void fireworkArrows(Projectile projectile) {
+        if (!projectileIsValid(projectile, EntityType.ARROW)) return;
+        Player shooter = (Player) projectile.getShooter();
+        if (PlayerData.RATCHETS_BOW.getString(shooter) == null) return;
+
+        String setting = PlayerData.RATCHETS_BOW.getString(shooter);
+        RatchetBowType bowType = RatchetBowType.valueOf(setting);
+        if (bowType != RatchetBowType.FIREWORK_ARROW) return;
+
+        Type fireworkType;
+        try {
+            fireworkType = Type.valueOf(PlayerData.FIREWORK_ARROWS.getString(shooter));
+        } catch (Exception e) {
+            fireworkType = Type.BALL;
+        }
+
+        Color fadeColor = Color.fromRGB(216, 205, 17);
+        FireworkEffect effect = FireworkEffect.builder()
+                .with(fireworkType)
+                .withColor(fireworkColor)
+                .withFade(fadeColor)
+                .withFlicker()
+                .withTrail()
+                .build();
+        EntityUtil.detonateFireworkProjectile(projectile, effect, projectile.getLocation());
     }
 }

@@ -1,17 +1,16 @@
 package com.v3ld1n.items.ratchet;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
+import com.v3ld1n.util.BlockUtil;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.RepeatableRunnable;
@@ -23,44 +22,56 @@ public class RatchetFirework extends V3LD1NItem {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        final Player p = event.getPlayer();
-        Action a = event.getAction();
-        if (useActions.contains(a)) {
-            if (this.equalsItem(p.getItemInHand())) {
-                event.setCancelled(true);
-                if (p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
-                    PlayerAnimation.SWING_ARM.play(p, 25);
-                    this.getSoundSetting("sound").play(p.getLocation());
-                    RepeatableRunnable fwTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, 2, 50) {
-                        @Override
-                        public void onRun() {
-                            if (!p.isDead()) {
-                                Vector divide = getVectorSetting("divide-velocity");
-                                p.setVelocity(p.getLocation().getDirection().divide(divide));
-                                p.setFallDistance(0);
-                            }
-                        }
-                    };
-                    RepeatableRunnable fwParticleTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 0, 1, 110) {
-                        @Override
-                        public void onRun() {
-                            if (!p.isDead()) {
-                                Location loc = p.getLocation();
-                                Material type = loc.getBlock().getType();
-                                if (type == Material.WATER || type == Material.STATIONARY_WATER) {
-                                    Particle.displayList(loc, getStringListSetting("water-particles"));
-                                } else if (type == Material.LAVA || type == Material.STATIONARY_LAVA) {
-                                    Particle.displayList(loc, getStringListSetting("lava-particles"));
-                                } else {
-                                    displayParticles(loc);
-                                }
-                            }
-                        }
-                    };
-                    fwTask.run();
-                    fwParticleTask.run();
-                }
+        Player player = event.getPlayer();
+        if (!entityIsHoldingItem(player)) return;
+        if (!isRightClick(event.getAction())) return;
+
+        event.setCancelled(true);
+        Location location = player.getLocation();
+        Material blockBelow = location.getBlock().getRelative(BlockFace.DOWN).getType();
+        if (blockBelow == Material.AIR) return;
+
+        PlayerAnimation.SWING_ARM.play(player);
+        playSounds(player.getLocation());
+        fly(player);
+    }
+
+    /**
+     * Makes the player fly in the direction they are facing
+     * @param player the player
+     */
+    private void fly(final Player player) {
+        final String worldStartedIn = player.getWorld().getName();
+        RepeatableRunnable firework = new RepeatableRunnable(0, 2, 50) {
+            @Override
+            public void onRun() {
+                if (player.isDead()) return;
+                if (!player.getWorld().getName().equals(worldStartedIn)) return;
+                Vector divisor = settings.getVector("velocity-divisor");
+                player.setVelocity(player.getLocation().getDirection().divide(divisor));
+                player.setFallDistance(0);
             }
-        }
+        };
+        RepeatableRunnable particles = new RepeatableRunnable(0, 1, 110) {
+            @Override
+            public void onRun() {
+                if (player.isDead()) return;
+                if (!player.getWorld().getName().equals(worldStartedIn)) return;
+                Location location = player.getLocation();
+                Block block = location.getBlock();
+                String setting;
+                if (BlockUtil.isWater(block)) {
+                    setting = "water-particles";
+                } else if (BlockUtil.isLava(block)) {
+                    setting = "lava-particles";
+                } else {
+                    displayParticles(location);
+                    return;
+                }
+                Particle.displayList(settings.getParticles(setting), location);
+            }
+        };
+        firework.run();
+        particles.run();
     }
 }

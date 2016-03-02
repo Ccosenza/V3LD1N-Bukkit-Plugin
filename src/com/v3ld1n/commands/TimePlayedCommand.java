@@ -41,7 +41,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
                     return true;
                 }
             } else {
-                this.sendUsage(sender, label, command);
+                this.sendUsage(sender);
                 return true;
             }
             ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -57,7 +57,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
             }
             objective.setDisplayName(displayName);
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            RepeatableRunnable updateTask = new RepeatableRunnable(Bukkit.getScheduler(), V3LD1N.getPlugin(), 5, 5, SECONDS * 4) {
+            RepeatableRunnable updateTask = new RepeatableRunnable(5, 5, SECONDS * 4) {
                 @Override
                 public void onRun() {
                     updateTime(objective, p, player);

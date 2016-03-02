@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -98,17 +99,20 @@ public final class StringUtil {
         String none = Message.NONE.toString();
         Player np = WorldUtil.getNearestPlayer(player);
         Entity ne = WorldUtil.getNearestEntity(player);
-        ItemStack i = player.getItemInHand();
+        ItemStack mi = player.getInventory().getItemInMainHand();
+        ItemStack oi = player.getInventory().getItemInOffHand();
         Material tb = player.getTargetBlock((Set<Material>) null, 5).getType();
         Entity v = player.getVehicle();
         String nps = ic + "%player%";
         String nes = ic + "%entity%";
-        String is = ic + "%item%";
+        String mis = ic + "%mainitem%";
+        String ois = ic + "%offitem%";
         String tbs = ic + "%targetblock%";
         String vs = ic + "%vehicle%";
         vars = np != null ? vars.replaceAll(nps, np.getName()) : vars.replaceAll(nps, none);
         vars = ne != null ? vars.replaceAll(nes, getEntityName(ne)) : vars.replaceAll(nes, none);
-        vars = i.getType() != Material.AIR ? vars.replaceAll(is, getItemName(i)) : vars.replaceAll(is, none);
+        vars = mi.getType() != Material.AIR ? vars.replaceAll(mis, getItemName(mi)) : vars.replaceAll(mis, none);
+        vars = oi.getType() != Material.AIR ? vars.replaceAll(ois, getItemName(oi)) : vars.replaceAll(ois, none);
         vars = tb != Material.AIR ? vars.replaceAll(tbs, fromEnum(tb, true)) : vars.replaceAll(tbs, none);
         vars = v != null ? vars.replaceAll(vs, fromEnum(v.getType(), true)) : vars.replaceAll(vs, none);
         return vars;
@@ -121,13 +125,13 @@ public final class StringUtil {
      * @param player the player
      * @return the string with variables replaced
      */
-    public static String replaceSignVariables(String string, Sign sign, Player player) {
+    public static String replaceSignVariables(String string, Sign sign, CommandSender user) {
         return string
                 .replaceAll("%line1%", sign.getLine(0))
                 .replaceAll("%line2%", sign.getLine(1))
                 .replaceAll("%line3%", sign.getLine(2))
                 .replaceAll("%line4%", sign.getLine(3))
-                .replaceAll("%player%", player.getName());
+                .replaceAll("%player%", user.getName());
     }
     
     /**

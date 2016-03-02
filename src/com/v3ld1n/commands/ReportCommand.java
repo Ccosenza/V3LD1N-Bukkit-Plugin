@@ -44,37 +44,37 @@ public class ReportCommand extends V3LD1NCommand {
                         try {
                             arg = Integer.parseInt(args[1]);
                         } catch (IllegalArgumentException e) {
-                            this.sendArgumentUsage(sender, label, command, usageRead);
+                            this.sendArgumentUsage(sender, usageRead);
                             return true;
                         }
                         if (arg <= V3LD1N.getReports().size() && arg > 0) {
                             Report report = V3LD1N.getReports().get(arg - 1);
-                            String title = "{text:\"" + Message.REPORT_READ_TITLE + "\","
-                                    + "color:gold,"
-                                    + "extra:["
-                                    + "{text:\"" + report.getTitle() + "\","
-                                    + "color:aqua}]}";
-                            String senderName = "{text:\"" + Message.REPORT_READ_SENDER + "\","
-                                    + "color:yellow,"
-                                    + "extra:["
-                                    + "{text:\"" + report.getSenderName() + "\","
-                                    + "color:green}]}";
-                            String reason = "{text:\"" + Message.REPORT_READ_REASON + "\","
-                                    + "color:gold,"
-                                    + "extra:["
-                                    + "{text:\"" + report.getReason() + "\","
-                                    + "color:aqua}]}";
+                            String title = "{\"text\":\"" + Message.REPORT_READ_TITLE + "\","
+                                    + "\"color\":\"gold\","
+                                    + "\"extra\":["
+                                    + "{\"text\":\"" + report.getTitle() + "\","
+                                    + "\"color\":\"aqua\"}]}";
+                            String senderName = "{\"text\":\"" + Message.REPORT_READ_SENDER + "\","
+                                    + "\"color\":\"yellow\","
+                                    + "\"extra\":["
+                                    + "{\"text\":\"" + report.getSenderName() + "\","
+                                    + "\"color\":\"green\"}]}";
+                            String reason = "{\"text\":\"" + Message.REPORT_READ_REASON + "\","
+                                    + "\"color\":\"gold\","
+                                    + "\"extra\":["
+                                    + "{\"text\":\"" + report.getReason() + "\","
+                                    + "\"color\":\"aqua\"}]}";
                             long rTime = report.getTime();
-                            String time = "{text:\"" + Message.REPORT_READ_TIME + "\","
-                                    + "color:yellow,"
-                                    + "extra:["
-                                    + "{text:\"" + TimeUtil.formatDate(rTime) + " at " + TimeUtil.formatTime(rTime) + "\","
-                                    + "color:green}]}";
-                            String back = "{text:\"" + Message.REPORT_READ_BACK + "\","
-                                    + "color:" + ConfigSetting.REPORT_READ_BACK_COLOR.getString() + ","
-                                    + "clickEvent:{"
-                                    + "action:\"run_command\","
-                                    + "value:\"/" + label + " list\"}}";
+                            String time = "{\"text\":\"" + Message.REPORT_READ_TIME + "\","
+                                    + "\"color\":\"yellow\","
+                                    + "\"extra\":["
+                                    + "{\"text\":\"" + TimeUtil.formatDate(rTime) + " at " + TimeUtil.formatTime(rTime) + "\","
+                                    + "\"color\":\"green\"}]}";
+                            String back = "{\"text\":\"" + Message.REPORT_READ_BACK + "\","
+                                    + "\"color\":\"" + ConfigSetting.REPORT_READ_BACK_COLOR.getString() + "\","
+                                    + "\"clickEvent\":{"
+                                    + "\"action\":\"run_command\","
+                                    + "\"value\":\"/" + label + " list\"}}";
                             Message.REPORT_BORDER_TOP.send(p);
                             ChatUtil.sendJsonMessage(p, title, MessageType.CHAT);
                             ChatUtil.sendJsonMessage(p, senderName, MessageType.CHAT);
@@ -95,7 +95,7 @@ public class ReportCommand extends V3LD1NCommand {
                             try {
                                 arg = Integer.parseInt(args[1]);
                             } catch (IllegalArgumentException e) {
-                                this.sendArgumentUsage(sender, label, command, usageDelete);
+                                this.sendArgumentUsage(sender, usageDelete);
                                 return true;
                             }
                             if (arg <= V3LD1N.getReports().size() && arg > 0) {
@@ -117,7 +117,7 @@ public class ReportCommand extends V3LD1NCommand {
                             try {
                                 arg = Integer.parseInt(args[1]);
                             } catch (IllegalArgumentException e) {
-                                this.sendArgumentUsage(sender, label, command, usageReadBy);
+                                this.sendArgumentUsage(sender, usageReadBy);
                                 return true;
                             }
                             if (arg <= V3LD1N.getReports().size() && arg > 0) {
@@ -176,14 +176,14 @@ public class ReportCommand extends V3LD1NCommand {
                                     titleColor = ConfigSetting.REPORTS_LIST_READ_COLOR.getString();
                                 }
                                 ChatUtil.sendJsonMessage(p,
-                                "{text:\"" + (V3LD1N.getReports().indexOf(report) + 1) + ". \","
-                                + "color:" + "gold" + ","
-                                + "extra:["
-                                + "{text:\"" + report.getTitle() + "\","
-                                + "color:" + titleColor + ","
-                                + "clickEvent:{"
-                                + "action:\"run_command\","
-                                + "value:\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}",
+                                "{\"text\":\"" + (V3LD1N.getReports().indexOf(report) + 1) + ". \","
+                                + "\"color\":" + "\"gold\"" + ","
+                                + "\"extra\":["
+                                + "{\"text\":\"" + report.getTitle() + "\","
+                                + "\"color\":\"" + titleColor + "\","
+                                + "\"clickEvent\":{"
+                                + "\"action\":\"run_command\","
+                                + "\"value\":\"/" + label + " read " + (V3LD1N.getReports().indexOf(report) + 1) + "\"}}]}",
                                 MessageType.CHAT);
                             }
                             Message.REPORT_LIST_HELP.send(p);
@@ -194,7 +194,7 @@ public class ReportCommand extends V3LD1NCommand {
                     return true;
                 }
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPlayerMessage(sender);

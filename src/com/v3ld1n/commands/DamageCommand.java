@@ -24,7 +24,7 @@ public class DamageCommand extends V3LD1NCommand {
                 try {
                     damageAmount = Double.parseDouble(args[0]);
                 } catch (IllegalArgumentException e) {
-                    this.sendUsage(sender, label, command);
+                    this.sendUsage(sender);
                     return true;
                 }
                 Player p;
@@ -47,7 +47,7 @@ public class DamageCommand extends V3LD1NCommand {
                 Message.DAMAGE_INVULNERABLE.sendF(sender, StringUtil.fromEnum(gm, true));
                 return true;
             }
-            this.sendUsage(sender, label, command);
+            this.sendUsage(sender);
             return true;
         }
         sendPermissionMessage(sender);
