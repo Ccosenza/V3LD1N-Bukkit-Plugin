@@ -1,7 +1,5 @@
 package com.v3ld1n.items.ratchet;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -45,23 +43,7 @@ public class RatchetAxe extends V3LD1NItem {
         displayParticles(enemy.getEyeLocation());
         increaseEffectLevel(player, enemy);
     }
-
-    /**
-     * Returns the player's current potion effect
-     * @param player the player
-     * @param effectType the effect type
-     * @return the potion effect, if the player has it
-     */
-    private PotionEffect getEffect(Player player, PotionEffectType effectType) {
-        PotionEffect effect = null;
-        for (PotionEffect playerEffect : player.getActivePotionEffects()) {
-            if (playerEffect.getType() != effectType) {
-                effect = playerEffect;
-            }
-        }
-        return effect;
-    }
-
+    
     /**
      * Increases the level of the player's potion effect
      * @param player the player
@@ -70,28 +52,27 @@ public class RatchetAxe extends V3LD1NItem {
     private void increaseEffectLevel(final Player player, final LivingEntity enemy) {
         final int effectDuration = settings.getInt("effect-duration");
         final int amplifierLimit = settings.getInt("effect-level-limit") - 1;
-
-        if (!player.hasPotionEffect(effect)) {
-            return;
-        }
-        final PotionEffect playerEffect = getEffect(player, effect);
-        player.removePotionEffect(effect);
-
-        Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                boolean amplifierUnderLimit = playerEffect.getAmplifier() < amplifierLimit;
-                int newAmplifier = amplifierUnderLimit ? playerEffect.getAmplifier() + 1 : amplifierLimit - 1;
-
-                player.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
-
-                List<Particle> particles = settings.getParticles("effect-particles");
-                for (Particle particle : particles) {
-                    particle.setCount(25 * (playerEffect.getAmplifier() + 1));
-                    particle.display(enemy.getEyeLocation());
-                }
+        for (final PotionEffect pe : player.getActivePotionEffects()) {
+            if (pe.getType().equals(effect) && pe.getAmplifier() < amplifierLimit) {
+                player.removePotionEffect(effect);
+                Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+                    @Override
+                    public void run() {
+                        int newAmplifier;
+                        if (pe.getAmplifier() < amplifierLimit) {
+                            newAmplifier = pe.getAmplifier() + 1;
+                        } else {
+                            newAmplifier = amplifierLimit;
+                        }
+                        player.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
+                        Particle effectParticle = Particle.fromString(settings.getString("effect-particle"));
+                        effectParticle.setCount(25 * (pe.getAmplifier() + 1));
+                        effectParticle.display(enemy.getEyeLocation());
+                    }
+                }, 1L);
+                return;
             }
-        }, 1);
-        return;
+        }
+        player.addPotionEffect(effect.createEffect(effectDuration, 0));
     }
 }
