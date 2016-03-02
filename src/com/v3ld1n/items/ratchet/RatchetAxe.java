@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -65,9 +67,11 @@ public class RatchetAxe extends V3LD1NItem {
                             newAmplifier = amplifierLimit;
                         }
                         player.addPotionEffect(effect.createEffect(effectDuration, newAmplifier));
-                        Particle effectParticle = Particle.fromString(settings.getString("effect-particle"));
-                        effectParticle.setCount(25 * (pe.getAmplifier() + 1));
-                        effectParticle.display(enemy.getEyeLocation());
+                        List<Particle> particles = Particle.fromList(settings.getStringList("effect-particles"));
+                        for (Particle particle : particles) {
+                            particle.setCount(25 * (pe.getAmplifier() + 1));
+                            particle.display(enemy.getEyeLocation());
+                        }
                     }
                 }, 1L);
                 return;
