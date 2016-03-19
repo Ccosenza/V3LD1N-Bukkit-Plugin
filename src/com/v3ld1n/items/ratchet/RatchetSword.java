@@ -21,7 +21,6 @@ import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.Particle;
 
-@SuppressWarnings("deprecation")
 public class RatchetSword extends V3LD1NItem {
     public RatchetSword() {
         super("ratchets-sword");
@@ -81,13 +80,11 @@ public class RatchetSword extends V3LD1NItem {
     private void particle(Location loc, int count) {
         Block below = loc.getBlock().getRelative(BlockFace.DOWN);
         if (below.getType() != Material.AIR) {
-            Particle particle = Particle.builder()
-                    .setName("iconcrack_" + below.getTypeId() + "_" + below.getData())
-                    .setSpeed((float) settings.getDouble("player-particle-speed"))
-                    .build();
             double radius = settings.getDouble("player-particle-radius");
             double multiplier = settings.getInt("player-particle-count-multiplier");
-            WorldUtil.spawnParticleCircle(particle, loc, radius, (int) (count * multiplier));
+            for (Particle particle : this.particles) {
+                WorldUtil.spawnParticleCircle(particle, loc, radius, (int) (count * multiplier));
+            }
         }
     }
 }
