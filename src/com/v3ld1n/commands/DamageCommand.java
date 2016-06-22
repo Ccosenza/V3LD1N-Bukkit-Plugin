@@ -1,5 +1,8 @@
 package com.v3ld1n.commands;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,6 +13,8 @@ import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class DamageCommand extends V3LD1NCommand {
+    private final List<GameMode> INVINCIBLE_MODES = Arrays.asList(GameMode.CREATIVE, GameMode.ADVENTURE);
+    
     public DamageCommand() {
         this.addUsage("<amount>", "Damage yourself");
         this.addUsage("<amount> <player>", "Damage a player");
@@ -18,8 +23,7 @@ public class DamageCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission("v3ld1n.damage")) {
-            int l = args.length;
-            if (l == 1 || l == 2) {
+            if (args.length == 1 || args.length == 2) {
                 double damageAmount;
                 try {
                     damageAmount = Double.parseDouble(args[0]);
@@ -27,24 +31,17 @@ public class DamageCommand extends V3LD1NCommand {
                     this.sendUsage(sender);
                     return true;
                 }
-                Player p;
-                if (l == 1 && sender instanceof Player) {
-                    p = (Player) sender;
-                } else if (l == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                    p = PlayerUtil.getOnlinePlayer(args[1]);
+
+                Player player;
+                if (args.length == 1 && sender instanceof Player) {
+                    player = (Player) sender;
+                } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+                    player = PlayerUtil.getOnlinePlayer(args[1]);
                 } else {
                     sendInvalidPlayerMessage(sender);
                     return true;
                 }
-                GameMode gm = p.getGameMode();
-                if (gm != GameMode.CREATIVE && gm != GameMode.SPECTATOR) {
-                    p.damage(damageAmount);
-                    boolean damagedSelf = p.getName().equals(sender.getName());
-                    Message message = damagedSelf ? Message.DAMAGE_DAMAGE_SELF : Message.DAMAGE_DAMAGE;
-                    message.aSendF(sender, args[0], p.getName());
-                    return true;
-                }
-                Message.DAMAGE_INVULNERABLE.sendF(sender, StringUtil.fromEnum(gm, true));
+                damage(sender, player, damageAmount);
                 return true;
             }
             this.sendUsage(sender);
@@ -52,5 +49,17 @@ public class DamageCommand extends V3LD1NCommand {
         }
         sendPermissionMessage(sender);
         return true;
+    }
+
+    // Damages the player
+    private void damage(CommandSender sender, Player player, double damageAmount) {
+        if (INVINCIBLE_MODES.contains(player.getGameMode())) {
+            Message.DAMAGE_INVULNERABLE.sendF(sender, StringUtil.fromEnum(player.getGameMode(), true));
+            return;
+        }
+        player.damage(damageAmount);
+        boolean damagedSelf = player.getName().equals(sender.getName());
+        Message message = damagedSelf ? Message.DAMAGE_DAMAGE_SELF : Message.DAMAGE_DAMAGE;
+        message.aSendF(sender, damageAmount, player.getName());
     }
 }

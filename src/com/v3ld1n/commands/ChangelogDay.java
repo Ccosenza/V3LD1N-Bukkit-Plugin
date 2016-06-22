@@ -18,7 +18,7 @@ public class ChangelogDay {
         this.link = "";
     }
 
-    public String getDay() {
+    public String getDate() {
         return day;
     }
 

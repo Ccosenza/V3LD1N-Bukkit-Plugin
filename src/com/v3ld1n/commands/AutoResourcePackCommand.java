@@ -22,31 +22,47 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player p = (Player) sender;
+            Player player = (Player) sender;
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("remove")) {
-                    PlayerData.AUTO_RESOURCE_PACK.set(p, null);
-                    Message.AUTORESOURCEPACK_REMOVE.aSend(p);
+                    remove(player);
                     return true;
                 }
                 if (V3LD1N.getResourcePack(args[0]) != null) {
-                    PlayerData.AUTO_RESOURCE_PACK.set(p, args[0]);
-                    Message.AUTORESOURCEPACK_SET.sendF(p, args[0]);
-                    Message.AUTORESOURCEPACK_REMOVE_COMMAND.send(p);
+                    set(player, args[0]);
                 } else {
-                    List<String> names = V3LD1N.getResourcePackNames();
-                    ChatUtil.sendList(p, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
-                    Message.AUTORESOURCEPACK_ERROR.sendF(p, args[0]);
+                    error(player, args[0]);
                 }
                 return true;
             }
-            this.sendUsage(p);
+            this.sendUsage(player);
             return true;
         }
         sendPlayerMessage(sender);
         return true;
     }
 
+    // Removes a player's auto resource pack
+    public void remove(Player player) {
+        PlayerData.AUTO_RESOURCE_PACK.set(player, null);
+        Message.AUTORESOURCEPACK_REMOVE.aSend(player);
+    }
+
+    // Sets a player's auto resource pack
+    public void set(Player player, String resourcePack) {
+        PlayerData.AUTO_RESOURCE_PACK.set(player, resourcePack);
+        Message.AUTORESOURCEPACK_SET.sendF(player, resourcePack);
+        Message.AUTORESOURCEPACK_REMOVE_COMMAND.send(player);
+    }
+
+    // Displays an error if the resource pack doesn't exist
+    public void error(Player player, String enteredPack) {
+        List<String> names = V3LD1N.getResourcePackNames();
+        ChatUtil.sendList(player, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
+        Message.AUTORESOURCEPACK_ERROR.sendF(player, enteredPack);
+    }
+
+    // Displays the player's current auto resource pack when sending the command usage
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);

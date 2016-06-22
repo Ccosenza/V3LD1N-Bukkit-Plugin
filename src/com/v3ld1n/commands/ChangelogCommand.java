@@ -31,68 +31,78 @@ public class ChangelogCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player p = (Player) sender;
+            Player player = (Player) sender;
+            int page;
+
             if (args.length == 0) {
-                displayChangelog(p, 1);
+                page = 1;
+                displayChangelog(player, page);
                 return true;
+
             } else if (args.length == 1 && StringUtil.isInteger(args[0])) {
-                displayChangelog(p, StringUtil.toInteger(args[0], 1));
+                page = StringUtil.toInteger(args[0], 1);
+                displayChangelog(player, page);
                 return true;
+
             } else if (args.length >= 2 && args[0].equalsIgnoreCase("log")) {
-                if (p.hasPermission("v3ld1n.owner")) {
-                    String changed = StringUtil.fromArray(args, 1);
-                    addChange(p, changed);
-                } else {
-                    Message.CHANGELOG_NO_PERMISSION.send(p);
-                }
+                String newChange = StringUtil.fromArray(args, 1);
+                logChange(player, newChange);
                 return true;
+
             } else if (args.length == 2 && args[0].equalsIgnoreCase("link")) {
-                if (p.hasPermission("v3ld1n.owner")) {
+                if (player.hasPermission("v3ld1n.owner")) {
                     Message message;
                     String link = args[1].replaceAll("[\"\\\\]", "");
+
                     if (args[1].equalsIgnoreCase("remove")) {
                         link = "";
                         message = Message.CHANGELOG_LINK_REMOVE;
                     } else {
                         message = Message.CHANGELOG_LINK_SET;
                     }
+
                     if (ChangelogDay.today() != null) {
                         ChangelogDay.today().setLink(link);
-                        message.sendF(p, link);
+                        message.sendF(player, link);
                     } else {
-                        Message.CHANGELOG_LINK_ERROR.send(p);
+                        Message.CHANGELOG_LINK_ERROR.send(player);
                     }
                     return true;
                 }
             }
-            this.sendUsage(p);
+            this.sendUsage(player);
             return true;
         }
         sendPlayerMessage(sender);
         return true;
     }
 
-    private void addChange(Player p, String changed) {
-        String uuid = p.getUniqueId().toString();
-        String replaced = changed.replaceAll("[\"\\\\]", "");
-        Change change = new Change(TimeUtil.getTime(), uuid, replaced);
-        V3LD1N.addChange(change, ChangelogDay.todayDate());
-        displayChangelog(p, 1);
-        Message.CHANGELOG_LOG.send(p);
+    private void logChange(Player player, String newChange) {
+        if (player.hasPermission("v3ld1n.owner")) {
+            String uuid = player.getUniqueId().toString();
+            String replaced = newChange.replaceAll("[\"\\\\]", "");
+            Change change = new Change(TimeUtil.getTime(), uuid, replaced);
+            V3LD1N.addChange(change, ChangelogDay.todayDate());
+            displayChangelog(player, 1);
+            Message.CHANGELOG_LOG.send(player);
+        } else {
+            Message.CHANGELOG_NO_PERMISSION.send(player);
+        }
     }
 
     private void displayChangelog(Player p, int page) {
-        List<ChangelogDay> clds = new ArrayList<>(V3LD1N.getChangelogDays());
-        Collections.reverse(clds);
-        Message.CHANGELOG_BORDER_TOP.sendF(p, page, ChatUtil.getNumberOfPages(clds, PAGE_SIZE));
-        List<ChangelogDay> pg = ChatUtil.getPage(clds, page, PAGE_SIZE);
-        for (ChangelogDay cld : pg) {
-            List<Change> c = cld.getChanges();
-            SimpleDateFormat df = ChangelogDay.getDateFormat();
+        List<ChangelogDay> days = new ArrayList<>(V3LD1N.getChangelogDays());
+        Collections.reverse(days);
+        Message.CHANGELOG_BORDER_TOP.sendF(p, page, ChatUtil.getNumberOfPages(days, PAGE_SIZE));
+        List<ChangelogDay> daysOnPage = ChatUtil.getPage(days, page, PAGE_SIZE);
+
+        for (ChangelogDay day : daysOnPage) {
+            List<Change> changesOnDay = day.getChanges();
+            SimpleDateFormat dateFormat = ChangelogDay.getDateFormat();
             try {
-                Date date = df.parse(cld.getDay());
-                String format = TimeUtil.format(date.getTime(), "MMMM d, yyyy");
-                String message = "{\"text\":\"[" + format + "]\","
+                Date date = dateFormat.parse(day.getDate());
+                String formattedDate = TimeUtil.format(date.getTime(), "MMMM d, yyyy");
+                String message = "{\"text\":\"[" + formattedDate + "]\","
                         + "\"color\":\"gold\","
                         + "\"hoverEvent\":{"
                         + "\"action\":\"show_text\","
@@ -100,17 +110,20 @@ public class ChangelogCommand extends V3LD1NCommand {
                         + "\"clickEvent\":{"
                         + "\"action\":\"open_url\","
                         + "\"value\":\"%s\"}}";
-                StringBuilder sb = new StringBuilder();
-                sb.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), format) + "\n");
-                for (Change change : c) {
-                    String time = TimeUtil.formatTime(change.getTime());
-                    String listItem = Message.CHANGELOG_LIST_ITEM.toString();
-                    listItem = listItem.replaceAll("%newline%", "\n");
-                    sb.append(String.format(listItem, time, change.getChange()));
+
+                StringBuilder builder = new StringBuilder();
+                builder.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), formattedDate) + "\n");
+
+                for (Change change : changesOnDay) {
+                    String changeTime = TimeUtil.formatTime(change.getTime());
+                    String listItemFormat = Message.CHANGELOG_LIST_ITEM.toString();
+                    listItemFormat = listItemFormat.replaceAll("%newline%", "\n");
+                    builder.append(String.format(listItemFormat, changeTime, change.getChange()));
                 }
-                String sbs = sb.toString();
-                sbs = sbs.substring(0, sbs.length() - 1);
-                message = String.format(message, sbs, cld.getLink());
+
+                String builderString = builder.toString();
+                builderString = builderString.substring(0, builderString.length() - 1);
+                message = String.format(message, builderString, day.getLink());
                 ChatUtil.sendJsonMessage(p, message, MessageType.CHAT);
             } catch (Exception e) {
                 Message.CHANGELOG_ERROR.send(p);
