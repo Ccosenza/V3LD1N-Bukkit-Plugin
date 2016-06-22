@@ -543,7 +543,7 @@ public class V3LD1N extends JavaPlugin {
             String section = sectionName + ".";
             FileConfiguration config = Config.CHANGELOG.getConfig();
             for (ChangelogDay cld : changelogDays) {
-                String day = cld.getDay() + ".";
+                String day = cld.getDate() + ".";
                 if (!cld.getLink().equals("")) {
                     config.set(section + day + ".link", cld.getLink());
                 } else {
