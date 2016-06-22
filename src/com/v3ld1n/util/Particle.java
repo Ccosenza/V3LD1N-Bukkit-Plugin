@@ -169,7 +169,7 @@ public class Particle {
     private PacketPlayOutWorldParticles createPacket(Location location) {
         EnumParticle particle = EnumParticle.BARRIER;
         String newName = this.name;
-        String[] names = {"blockcrack", "blockdust", "iconcrack"};
+        String[] names = {"blockcrack", "blockdust", "iconcrack", "fallingdust"};
         for (String n : names) {
             if (this.name.startsWith(n)) {
                 newName = n;
