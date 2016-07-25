@@ -154,45 +154,14 @@ public class ItemUtil {
     }
 
     /**
-     * Returns all crafting recipes
-     * @return a list of recipes
-     */
-    public static List<Recipe> getCraftingRecipes() {
-        List<Recipe> recipes = new ArrayList<>();
-        for (Recipe recipe : recipes) {
-            if (!(recipe instanceof FurnaceRecipe)) {
-                recipes.add(recipe);
-            }
-        }
-        return recipes;
-    }
-
-    /**
      * Returns all furnace recipes
      * @return a list of recipes
      */
     public static List<FurnaceRecipe> getFurnaceRecipes() {
         List<FurnaceRecipe> recipes = new ArrayList<>();
-        for (Recipe recipe : recipes) {
+        for (Recipe recipe : getAllRecipes()) {
             if (recipe instanceof FurnaceRecipe) {
                 recipes.add((FurnaceRecipe) recipe);
-            }
-        }
-        return recipes;
-    }
-
-    /**
-     * Returns all crafting recipes for an item
-     * @param item the item
-     * @return a list of recipes
-     */
-    public static List<Recipe> getCraftingRecipes(ItemStack item) {
-        List<Recipe> recipes = new ArrayList<>();
-        for (Recipe recipe : getAllRecipes()) {
-            if (!(recipe instanceof FurnaceRecipe)) {
-                if (recipe.getResult().getType() == item.getType()) {
-                    recipes.add(recipe);
-                }
             }
         }
         return recipes;
@@ -202,17 +171,19 @@ public class ItemUtil {
      * Smelts an item
      * @param item the item
      */
-    public static void smelt(ItemStack item) {
+    public static ItemStack smelt(ItemStack item) {
+        ItemStack smeltedItem = new ItemStack(item);
         Material type = item.getType();
         short data = item.getDurability();
         for (FurnaceRecipe recipe : getFurnaceRecipes()) {
-           if ((recipe).getInput().getType() == item.getType()) {
+           if (recipe.getInput().getType() == type) {
                type = recipe.getResult().getType();
                data = recipe.getResult().getDurability();
                break;
            }
         }
-        item.setType(type);
-        item.setDurability(data);
+        smeltedItem.setType(type);
+        smeltedItem.setDurability(data);
+        return smeltedItem;
     }
 }
