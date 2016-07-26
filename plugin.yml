@@ -46,18 +46,10 @@ commands:
     description: Displays the login message.
     aliases: [vpmotd, loginmessage, loginmsg, joinmessage, joinmsg]
     usage: /<command> [player]
-  nextsound:
-    description: Plays the next sound for a sound task.
-    aliases: [playnextsound, soundnext, nexts, snext]
-    usage: /<command> [sound task]
   editsign:
     description: Changes the text on a sign.
     aliases: [signedit, changesign, es, se]
     usage: /<command> set|add|remove <line> <text ...>
-  setfulltime:
-    description: Sets the full time of the world you are in.
-    aliases: [setftime, sfulltime, fulltime]
-    usage: /<command> <time>
   playanimation:
     description: Plays an animation on a player.
     aliases: [animation, playanim, anim]

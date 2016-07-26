@@ -256,7 +256,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("moneyitem", new MoneyItemCommand());
         addCommand("motd", new MotdCommand());
         addCommand("names", new NamesCommand());
-        addCommand("nextsound", new NextSoundCommand());
         addCommand("playanimation", new PlayAnimationCommand());
         addCommand("playerlist", new PlayerListCommand());
         addCommand("players", new PlayersCommand());
@@ -267,7 +266,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("resourcepack", new ResourcePackCommand());
         addCommand("ride", rideCommand);
         addCommand("sendmessage", new SendMessageCommand());
-        addCommand("setfulltime", new SetFullTimeCommand());
         addCommand("sethealth", new SetHealthCommand());
         addCommand("sethotbarslot", new SetHotbarSlotCommand());
         addCommand("setmaxhealth", new SetMaxHealthCommand());
