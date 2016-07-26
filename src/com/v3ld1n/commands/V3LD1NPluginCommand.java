@@ -41,11 +41,13 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 message.aSend(sender);
                 return true;
             } else if (args[0].equalsIgnoreCase("help")) {
+                boolean pageExists = false;
                 if (args.length == 1) {
-                    displayHelp(sender, 1);
+                    pageExists = displayHelp(sender, 1);
                 } else if (args.length == 2 && StringUtil.isInteger(args[1])) {
-                    displayHelp(sender, StringUtil.toInteger(args[1], 1));
-                } else {
+                    pageExists = displayHelp(sender, StringUtil.toInteger(args[1], 1));
+                }
+                if (!pageExists) {
                     this.sendUsage(sender);
                 }
                 return true;
@@ -75,18 +77,23 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
         return true;
     }
 
-    private static void displayHelp(CommandSender user, int page) {
+    // Sends the command list to the sender, returns true if the entered page exists
+    private static boolean displayHelp(CommandSender user, int pageNumber) {
         List<V3LD1NCommand> commands = new ArrayList<>(V3LD1N.getCommands());
         List<CommandUsage> allUsages = new ArrayList<>();
         for (V3LD1NCommand command : commands) {
             allUsages.addAll(command.getUsages());
         }
-        List<CommandUsage> usagePage = ChatUtil.getPage(allUsages, page, HELP_PAGE_SIZE);
-        int pages = ChatUtil.getNumberOfPages(allUsages, HELP_PAGE_SIZE);
-        Message.V3LD1NPLUGIN_HELP_BORDER_TOP.sendF(user, page, pages);
+        List<CommandUsage> usagePage = ChatUtil.getPage(allUsages, pageNumber, HELP_PAGE_SIZE);
+        int pageCount = ChatUtil.getNumberOfPages(allUsages, HELP_PAGE_SIZE);
+        if (pageNumber > pageCount || pageNumber < 1) {
+            return false;
+        }
+        Message.V3LD1NPLUGIN_HELP_BORDER_TOP.sendF(user, pageNumber, pageCount);
         for (CommandUsage usage : usagePage) {
             usage.send(user);
         }
         Message.V3LD1NPLUGIN_HELP_BORDER_BOTTOM.send(user);
+        return true;
     }
 }
