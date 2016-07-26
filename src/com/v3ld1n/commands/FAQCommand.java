@@ -12,8 +12,8 @@ import com.v3ld1n.util.MessageType;
 
 public class FAQCommand extends V3LD1NCommand {
     public FAQCommand() {
-        this.addUsage("", "Send a list of questions");
-        this.addUsage("<question number>", "Send the answer to the question");
+        this.addUsage("", "Display the list of questions");
+        this.addUsage("<question number>", "Display the answer to a question");
     }
 
     @Override
@@ -42,7 +42,8 @@ public class FAQCommand extends V3LD1NCommand {
                 try {
                     arg = Integer.parseInt(args[0]);
                 } catch (IllegalArgumentException e) {
-                    return false;
+                    this.sendUsage(sender);
+                    return true;
                 }
                 if (arg <= V3LD1N.getQuestions().size() && arg > 0) {
                     FAQ faq = V3LD1N.getQuestions().get(arg - 1);
