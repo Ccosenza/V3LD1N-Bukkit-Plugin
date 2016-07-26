@@ -36,19 +36,19 @@ commands:
     usage: /<command> <firework shape>
   resourcepack:
     description: Downloads the server's resource packs.
-    aliases: [pack, rp]
+    aliases: [texturepack, pack, rp]
     usage: /<command> [resource pack]
   autoresourcepack:
     description: Downloads a resource pack when you join the server.
-    aliases: [autopack, autorp]
+    aliases: [autopack, autorp, arp]
     usage: /<command> [resource pack]
   motd:
     description: Displays the login message.
-    aliases: [vpmotd]
+    aliases: [vpmotd, loginmessage, loginmsg, joinmessage, joinmsg]
     usage: /<command> [player]
   nextsound:
     description: Plays the next sound for a sound task.
-    aliases: [playnextsound, soundnext, snext]
+    aliases: [playnextsound, soundnext, nexts, snext]
     usage: /<command> [sound task]
   editsign:
     description: Changes the text on a sign.
@@ -56,7 +56,7 @@ commands:
     usage: /<command> set|add|remove <line> <text ...>
   setfulltime:
     description: Sets the full time of the world you are in.
-    aliases: [setftime, sfulltime]
+    aliases: [setftime, sfulltime, fulltime]
     usage: /<command> <time>
   playanimation:
     description: Plays an animation on a player.
