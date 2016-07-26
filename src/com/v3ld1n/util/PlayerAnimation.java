@@ -34,8 +34,8 @@ public enum PlayerAnimation {
     public void play(Player player) {
         PacketPlayOutAnimation packet = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), id);
         PlayerUtil.sendPacket(packet, player);
-        for (Player p : player.getWorld().getPlayers()) {
-            PlayerUtil.sendPacket(packet, p);
+        for (Player otherPlayer : player.getWorld().getPlayers()) {
+            PlayerUtil.sendPacket(packet, otherPlayer);
         }
     }
 

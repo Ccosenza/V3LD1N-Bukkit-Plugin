@@ -156,8 +156,8 @@ public class Particle {
     }
 
     public void display(Location location) {
-        for (Player p : location.getWorld().getPlayers()) {
-            displayToPlayer(location, p);
+        for (Player player : location.getWorld().getPlayers()) {
+            displayToPlayer(location, player);
         }
     }
 
@@ -234,8 +234,8 @@ public class Particle {
     }
 
     public static void displayList(List<Particle> particles, Location location) {
-        for (Player p : location.getWorld().getPlayers()) {
-            displayListToPlayer(particles, location, p);
+        for (Player player : location.getWorld().getPlayers()) {
+            displayListToPlayer(particles, location, player);
         }
     }
 

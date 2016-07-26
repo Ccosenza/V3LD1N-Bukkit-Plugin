@@ -71,8 +71,8 @@ public class Sound {
     }
 
     public void play(Location location) {
-        for (Player p : location.getWorld().getPlayers()) {
-            playToPlayer(location, p);
+        for (Player player : location.getWorld().getPlayers()) {
+            playToPlayer(location, player);
         }
     }
 
@@ -104,8 +104,8 @@ public class Sound {
     }
 
     public static void playList(List<Sound> sounds, Location location) {
-        for (Player p : location.getWorld().getPlayers()) {
-            playListToPlayer(sounds, location, p);
+        for (Player player : location.getWorld().getPlayers()) {
+            playListToPlayer(sounds, location, player);
         }
     }
 

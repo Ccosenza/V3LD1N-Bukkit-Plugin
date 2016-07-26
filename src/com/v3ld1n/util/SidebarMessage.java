@@ -70,22 +70,22 @@ public class SidebarMessage {
         final Scoreboard board = manager.getNewScoreboard();
         String name = StringUtil.substring(PREFIX + title, 16);
         String displayName = StringUtil.formatText(title.replaceAll("_", " "));
-        Objective objective = board.registerNewObjective(name, "dummy");
-        objective.setDisplayName(displayName);
+        Objective messageObjective = board.registerNewObjective(name, "dummy");
+        messageObjective.setDisplayName(displayName);
         for (String line : lines) {
             line = StringUtil.formatText(line.replaceAll("_", " "));
-            Score score = objective.getScore(line);
+            Score score = messageObjective.getScore(line);
             score.setScore(scoreValue);
             scoreValue--;
         }
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        messageObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
         player.setScoreboard(board);
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
             public void run() {
-                for (Objective obj : board.getObjectives()) {
-                    if (obj.getName().startsWith(PREFIX)) {
-                        obj.unregister();
+                for (Objective objective : board.getObjectives()) {
+                    if (objective.getName().startsWith(PREFIX)) {
+                        objective.unregister();
                     }
                 }
             }

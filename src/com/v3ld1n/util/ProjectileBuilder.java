@@ -68,17 +68,17 @@ public class ProjectileBuilder {
      * @return the projectile
      */
     public Projectile launch(LivingEntity shooter) {
-        Projectile pr = shooter.launchProjectile(projectile);
-        pr.setVelocity(shooter.getLocation().getDirection().multiply(speed));
+        Projectile launchedProjectile = shooter.launchProjectile(projectile);
+        launchedProjectile.setVelocity(shooter.getLocation().getDirection().multiply(speed));
         if (launchParticles != null) {
-            Particle.displayList(launchParticles, pr.getLocation());
+            Particle.displayList(launchParticles, launchedProjectile.getLocation());
         }
         if (launchSounds != null) {
             Sound.playList(launchSounds, shooter.getEyeLocation());
         }
         if (randomDirection > 0) {
-            EntityUtil.randomDirection(pr, randomDirection);
+            EntityUtil.randomDirection(launchedProjectile, randomDirection);
         }
-        return pr;
+        return launchedProjectile;
     }
 }
