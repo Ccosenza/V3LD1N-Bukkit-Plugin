@@ -98,9 +98,9 @@ public final class ChatUtil {
      */
     public static <T> List<T> getPage(List<T> list, int pageNumber, int pageSize) {
         List<List<T>> pages = new ArrayList<>();
-        final int ls = list.size();
-        for (int i = 0; i < ls; i += pageSize) {
-            pages.add(new ArrayList<>(list.subList(i, Math.min(ls, i + pageSize))));
+        final int itemsInList = list.size();
+        for (int i = 0; i < itemsInList; i += pageSize) {
+            pages.add(new ArrayList<>(list.subList(i, Math.min(itemsInList, i + pageSize))));
         }
         List<T> page = new ArrayList<>();
         if (pages.size() > 0) {
