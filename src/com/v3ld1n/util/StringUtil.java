@@ -302,7 +302,7 @@ public final class StringUtil {
             try {
                 integer = Integer.parseInt(string);
             } catch (Exception e) {
-                integer = 0;
+                integer = defaultInt;
             }
         }
         return integer;
