@@ -104,7 +104,8 @@ public class V3LD1NItem implements Listener {
         if (entity.getType() != EntityType.PLAYER) return false;
 
         Player player = (Player) entity;
-        boolean isHoldingItem = this.equalsItem(player.getInventory().getItemInMainHand());
+        ItemStack mainHand = player.getInventory().getItemInMainHand();
+        boolean isHoldingItem = this.equalsItem(mainHand);
         return isHoldingItem;
     }
 
@@ -126,9 +127,8 @@ public class V3LD1NItem implements Listener {
         if (!shooterIsPlayer) return false;
 
         Player shooter = (Player) projectile.getShooter();
-        boolean isHoldingItem = this.equalsItem(shooter.getInventory().getItemInMainHand());
 
-        return typeIsValid && shooterIsPlayer && isHoldingItem;
+        return typeIsValid && shooterIsPlayer && entityIsHoldingItem(shooter);
     }
 
     @Override
