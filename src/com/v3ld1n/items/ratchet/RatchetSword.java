@@ -20,6 +20,7 @@ import org.bukkit.util.Vector;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.Particle;
+import com.v3ld1n.util.PlayerAnimation;
 
 public class RatchetSword extends V3LD1NItem {
     public RatchetSword() {
@@ -46,7 +47,7 @@ public class RatchetSword extends V3LD1NItem {
         return entities;
     }
 
-    private void push(Player p, List<Entity> entities) {
+    private void push(Player player, List<Entity> entities) {
         boolean pushingEnemy = false;
         for (Entity entity : entities) {
             pushingEnemy = entity instanceof Monster || entity instanceof Projectile;
@@ -63,7 +64,7 @@ public class RatchetSword extends V3LD1NItem {
 
             double pushSpeed = settings.getDouble("push-speed");
             double pushUpSpeed = settings.getDouble("push-up-speed");
-            EntityUtil.pushToward(entity, p.getLocation(), new Vector(pushSpeed, 0, pushSpeed), true);
+            EntityUtil.pushToward(entity, player.getLocation(), new Vector(pushSpeed, 0, pushSpeed), true);
 
             if (!(entity instanceof Projectile)) {
                 entity.setVelocity(entity.getVelocity().add(new Vector(0, pushUpSpeed, 0)));
@@ -72,7 +73,8 @@ public class RatchetSword extends V3LD1NItem {
             Particle.displayList(settings.getParticles("mob-particles"), effectLocation);
             playSounds(effectLocation);
             if (pushingEnemy) {
-                particle(p.getLocation(), entities.size());
+                PlayerAnimation.SWING_ARM.play(player);
+                particle(player.getLocation(), entities.size());
             }
         }
     }
