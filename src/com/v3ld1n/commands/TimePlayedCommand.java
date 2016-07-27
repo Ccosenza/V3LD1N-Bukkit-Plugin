@@ -57,13 +57,13 @@ public class TimePlayedCommand extends V3LD1NCommand {
             }
             objective.setDisplayName(displayName);
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            RepeatableRunnable updateTask = new RepeatableRunnable(5, 5, SECONDS * 4) {
+            RepeatableRunnable updateTask = new RepeatableRunnable() {
                 @Override
                 public void onRun() {
                     updateTime(objective, p, player);
                 }
             };
-            updateTask.run();
+            updateTask.start(5, 5, SECONDS * 4);
             player.setScoreboard(board);
             Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                 @Override

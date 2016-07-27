@@ -48,7 +48,7 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
     private void displayTrail(final Projectile projectile) {
         int ticks = settings.getInt("trail-ticks");
         int times = settings.getInt("trail-times");
-        RepeatableRunnable trail = new RepeatableRunnable(0, ticks, times) {
+        RepeatableRunnable trail = new RepeatableRunnable() {
             @Override
             public void onRun() {
                 if (projectile == null || projectile.isDead()) return;
@@ -63,6 +63,6 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
                 }
             }
         };
-        trail.run();
+        trail.start(0, ticks, times);
     }
 }

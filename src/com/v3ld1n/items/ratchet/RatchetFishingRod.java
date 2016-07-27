@@ -69,7 +69,7 @@ public class RatchetFishingRod extends V3LD1NItem {
         long ticks = settings.getInt("ticks");
         long times = (long) (distance * multiplier);
 
-        RepeatableRunnable task = new RepeatableRunnable(0, ticks, times) {
+        RepeatableRunnable task = new RepeatableRunnable() {
             @Override
             public void onRun() {
                 Location playerLocation = player.getLocation();
@@ -98,6 +98,6 @@ public class RatchetFishingRod extends V3LD1NItem {
                 displayParticles(player.getLocation());
             }
         };
-        task.run();
+        task.start(0, ticks, times);
     }
 }

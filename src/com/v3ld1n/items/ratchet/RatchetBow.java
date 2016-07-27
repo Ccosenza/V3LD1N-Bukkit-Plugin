@@ -183,7 +183,7 @@ public class RatchetBow extends V3LD1NItem {
         Location hitLocationMax = settings.getLocation("teleport-hit-location-max");
         if (!LocationUtil.isInArea(location, hitLocationMin, hitLocationMax)) return;
 
-        RepeatableRunnable effects = new RepeatableRunnable(6, 4, 2) {
+        RepeatableRunnable effects = new RepeatableRunnable() {
             @Override
             public void onRun() {
                 Particle.displayList(settings.getParticles("teleport-hit-particles"), location);
@@ -192,7 +192,7 @@ public class RatchetBow extends V3LD1NItem {
                 }
             }
         };
-        effects.run();
+        effects.start(6, 4, 2);
 
         if (settings.getBoolean("teleport-lightning")) {
             Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
@@ -219,14 +219,14 @@ public class RatchetBow extends V3LD1NItem {
      * @param location the location to display the particles at
      */
     private void displayTeleportParticles(final Location location) {
-        RepeatableRunnable particleTask = new RepeatableRunnable(2, 3, 10) {
+        RepeatableRunnable particleTask = new RepeatableRunnable() {
             @Override
             public void onRun() {
                 location.getWorld().playEffect(location, Effect.ENDER_SIGNAL, 0);
                 location.setY(location.getY() + 0.2);
             }
         };
-        particleTask.run();
+        particleTask.start(2, 3, 10);
     }
 
     /**

@@ -61,7 +61,7 @@ public class RatchetLeggings extends V3LD1NItem {
 
         long ticks = settings.getInt("trail-ticks");
         int times = settings.getInt("trail-times");
-        RepeatableRunnable trail = new RepeatableRunnable(0, ticks, times) {
+        RepeatableRunnable trail = new RepeatableRunnable() {
             @Override
             public void onRun() {
                 if (player.isDead()) return;
@@ -74,7 +74,7 @@ public class RatchetLeggings extends V3LD1NItem {
                 }
             }
         };
-        trail.run();
+        trail.start(0, ticks, times);
     }
 
     private enum Action {

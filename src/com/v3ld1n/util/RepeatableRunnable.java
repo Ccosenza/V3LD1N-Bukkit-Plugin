@@ -15,24 +15,30 @@ public abstract class RepeatableRunnable extends BukkitRunnable {
     private long repeats = 0;
     private long maxRepeats = 0;
 
+    public RepeatableRunnable() {
+    }
+
     /**
-     * Create a new Repeatable Runnable that runs until the maximum amount of repeats. This will automatically schedule a repeating task.
+     * Run the task.
      * 
      * @param delay - Delay in server ticks before executing first repeat.
      * @param period - Period in server ticks of the task.
      * @param amountOfTimes - The amount of times to call the onRun method.
      */
     @SuppressWarnings("deprecation")
-    public RepeatableRunnable(long delay, long period, long amountOfTimes) {
+    public void start(long delay, long period, long amountOfTimes) {
         this.repeatableTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(V3LD1N.getPlugin(), this, delay, period);
         this.maxRepeats = amountOfTimes > 0 ? amountOfTimes : 1;
     }
 
     @Override
     public void run() {
-        if (this.repeats < this.maxRepeats) {
+        if (this.repeats < this.maxRepeats - 1) {
             this.repeats++;
             this.onRun();
+        } else if (this.repeats == this.maxRepeats - 1) {
+            this.repeats++;
+            this.onLastRun();
         } else {
             try {
                 if (Bukkit.getScheduler().isCurrentlyRunning(this.repeatableTaskID) || Bukkit.getScheduler().isQueued(this.repeatableTaskID)) {
@@ -48,6 +54,9 @@ public abstract class RepeatableRunnable extends BukkitRunnable {
     }
 
     public abstract void onRun();
+
+    public void onLastRun() {
+    }
 
     public long getRepeats() {
         return this.repeats;

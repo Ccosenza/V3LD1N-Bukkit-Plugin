@@ -1,5 +1,7 @@
 package com.v3ld1n.items.ratchet;
 
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+import com.v3ld1n.V3LD1N;
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.BlockUtil;
 import com.v3ld1n.util.Particle;
@@ -31,8 +34,6 @@ public class RatchetFirework extends V3LD1NItem {
         Material blockBelow = location.getBlock().getRelative(BlockFace.DOWN).getType();
         if (blockBelow == Material.AIR) return;
 
-        PlayerAnimation.SWING_ARM.play(player);
-        playSounds(player.getLocation());
         fly(player);
     }
 
@@ -41,18 +42,27 @@ public class RatchetFirework extends V3LD1NItem {
      * @param player the player
      */
     private void fly(final Player player) {
+        final UUID uuid = player.getUniqueId();
         final String worldStartedIn = player.getWorld().getName();
-        RepeatableRunnable firework = new RepeatableRunnable(0, 2, 50) {
+        RepeatableRunnable firework = new RepeatableRunnable() {
             @Override
             public void onRun() {
                 if (player.isDead()) return;
                 if (!player.getWorld().getName().equals(worldStartedIn)) return;
+                V3LD1N.usingRatchetFirework.add(uuid);
                 Vector divisor = settings.getVector("velocity-divisor");
                 player.setVelocity(player.getLocation().getDirection().divide(divisor));
                 player.setFallDistance(0);
             }
+
+            @Override
+            public void onLastRun() {
+                if (V3LD1N.usingRatchetFirework.contains(uuid)) {
+                    V3LD1N.usingRatchetFirework.remove(uuid);
+                }
+            }
         };
-        RepeatableRunnable particles = new RepeatableRunnable(0, 1, 110) {
+        RepeatableRunnable particles = new RepeatableRunnable() {
             @Override
             public void onRun() {
                 if (player.isDead()) return;
@@ -71,7 +81,11 @@ public class RatchetFirework extends V3LD1NItem {
                 Particle.displayList(settings.getParticles(setting), location);
             }
         };
-        firework.run();
-        particles.run();
+        if (!V3LD1N.usingRatchetFirework.contains(uuid)) {
+            PlayerAnimation.SWING_ARM.play(player);
+            playSounds(player.getLocation());
+            firework.start(0, 2, 50);
+            particles.start(0, 1, 110);
+        }
     }
 }
