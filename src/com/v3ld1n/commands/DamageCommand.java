@@ -22,32 +22,32 @@ public class DamageCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.damage")) {
-            if (args.length == 1 || args.length == 2) {
-                double damageAmount;
-                try {
-                    damageAmount = Double.parseDouble(args[0]);
-                } catch (IllegalArgumentException e) {
-                    this.sendUsage(sender);
-                    return true;
-                }
-
-                Player player;
-                if (args.length == 1 && sender instanceof Player) {
-                    player = (Player) sender;
-                } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                    player = PlayerUtil.getOnlinePlayer(args[1]);
-                } else {
-                    sendInvalidPlayerMessage(sender);
-                    return true;
-                }
-                damage(sender, player, damageAmount);
-                return true;
-            }
+        if (!sender.hasPermission("v3ld1n.damage")) {
+            sendPermissionMessage(sender);
+            return true;
+        }
+        if (args.length != 1 && args.length != 2) {
             this.sendUsage(sender);
             return true;
         }
-        sendPermissionMessage(sender);
+        double damageAmount;
+        try {
+            damageAmount = Double.parseDouble(args[0]);
+        } catch (IllegalArgumentException e) {
+            this.sendUsage(sender);
+            return true;
+        }
+
+        Player player;
+        if (args.length == 1 && sender instanceof Player) {
+            player = (Player) sender;
+        } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+            player = PlayerUtil.getOnlinePlayer(args[1]);
+        } else {
+            sendInvalidPlayerMessage(sender);
+            return true;
+        }
+        damage(sender, player, damageAmount);
         return true;
     }
 
