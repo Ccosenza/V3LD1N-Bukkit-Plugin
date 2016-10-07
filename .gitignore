@@ -3,3 +3,10 @@
 .classpath
 .project
 changelog.txt
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+V3LD1N Plugin.iml
