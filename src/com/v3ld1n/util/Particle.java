@@ -3,8 +3,8 @@ package com.v3ld1n.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_10_R1.EnumParticle;
-import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_11_R1.EnumParticle;
+import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

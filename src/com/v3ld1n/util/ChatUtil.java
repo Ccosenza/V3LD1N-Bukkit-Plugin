@@ -3,9 +3,9 @@ package com.v3ld1n.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_10_R1.IChatBaseComponent;
-import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_11_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_11_R1.IChatBaseComponent;
+import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
