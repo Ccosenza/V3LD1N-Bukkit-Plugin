@@ -235,6 +235,7 @@ public enum Message {
     TRAIL_SET_OTHER("commands.trail.set-other"),
     TRAIL_REMOVE_OWN("commands.trail.remove-own"),
     TRAIL_REMOVE_OTHER("commands.trail.remove-other"),
+    TRAIL_BLOCKED("commands.trail.blocked"),
     TRAIL_NO_PERMISSION_OTHERS("commands.trail.others-permission"),
     TRAIL_INVALID("commands.trail.invalid"),
 

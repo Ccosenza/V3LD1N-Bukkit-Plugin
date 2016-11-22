@@ -45,6 +45,7 @@ public enum ConfigSetting {
     PARTICLE_PLAYER_EFFECTS_LIGHTNING("player-effects-lightning", "particles.yml"),
     PARTICLE_TRAILS("trails.normal", "particles.yml"),
     PARTICLE_TRAILS_PLAYER_EFFECTS("trails.player-effects", "particles.yml"),
+    PARTICLE_TRAILS_BLOCKED("trails.blocked", "particles.yml"),
     PARTICLE_RATCHETSBOW_FIREBALL("ratchetsbow.fireball", "particles.yml"),
     PARTICLE_RATCHETSBOW_ARROW("ratchetsbow.arrow", "particles.yml"),
     PARTICLE_RATCHETSBOW_TRIPLE_ARROWS("ratchetsbow.triple-arrows", "particles.yml"),

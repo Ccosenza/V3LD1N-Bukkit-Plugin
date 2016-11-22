@@ -1,10 +1,13 @@
 package com.v3ld1n.commands;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.PlayerData;
 import com.v3ld1n.util.PlayerUtil;
@@ -51,6 +54,11 @@ public class TrailCommand extends V3LD1NCommand {
             if (args.length == 1) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
+                    List<String> blockedTrails = ConfigSetting.PARTICLE_TRAILS_BLOCKED.getStringList();
+                    if (blockedTrails.contains(args[0]) && !p.hasPermission("v3ld1n.trails.useblocked")) {
+                    	Message.TRAIL_BLOCKED.aSendF(p, args[0]);
+                    	return true;
+                    }
                     PlayerData.TRAILS.set(p, args[0]);
                     Message.TRAIL_SET_OWN.aSendF(sender, args[0]);
                     return true;
