@@ -23,6 +23,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
@@ -154,6 +155,12 @@ public class PlayerListener implements Listener {
         if (ConfigUtil.getUnreadReports(player.getUniqueId()) > 0) {
             ChatUtil.sendUnreadReports(player);
         }
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        String message = StringUtil.replacePlayerVariables(event.getMessage(), event.getPlayer());
+        event.setMessage(message);
     }
 
     @EventHandler
