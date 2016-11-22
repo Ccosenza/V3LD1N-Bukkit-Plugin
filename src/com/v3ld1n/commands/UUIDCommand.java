@@ -11,8 +11,8 @@ import com.v3ld1n.util.PlayerUtil;
 
 public class UUIDCommand extends V3LD1NCommand {
     public UUIDCommand() {
-        this.addUsage("", "Send your UUID");
-        this.addUsage("<player>", "Send a player's UUID");
+        this.addUsage("", "Display your UUID");
+        this.addUsage("<player>", "Display another player's UUID");
     }
 
     @Override
