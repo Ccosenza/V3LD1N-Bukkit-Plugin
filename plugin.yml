@@ -59,7 +59,7 @@ commands:
     aliases: [sbmessage, sbm, sbbroadcast]
     usage: /<command> <time> <title> <line1> [more lines] ...
   uuid:
-    description: Sends a player's UUID in a chat message.
+    description: Displays a player's UUID in a chat message.
     aliases: [uniqueid]
     usage: /<command> [player]
   push:
