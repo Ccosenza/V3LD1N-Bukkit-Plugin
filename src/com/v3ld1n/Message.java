@@ -111,12 +111,11 @@ public enum Message {
 
     FAQ_BORDER_TOP("commands.faq.border-top"),
     FAQ_BORDER_BOTTOM("commands.faq.border-bottom"),
-    FAQ_TOP("commands.faq.top"),
     FAQ_HELP("commands.faq.help"),
     FAQ_QUESTION("commands.faq.question"),
     FAQ_ANSWER("commands.faq.answer"),
-    FAQ_BACK("commands.faq.back"),
-    FAQ_INVALID_QUESTION("commands.faq.invalid-question"),
+    FAQ_ANSWER_COLOR("commands.faq.answer-color"),
+    FAQ_ERROR("commands.faq.error"),
 
     FIREWORKARROWS_SET("commands.fireworkarrows.set"),
     FIREWORKARROWS_INVALID_SHAPE("commands.fireworkarrows.invalid-shape"),

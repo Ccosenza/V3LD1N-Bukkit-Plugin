@@ -1,21 +1,19 @@
 package com.v3ld1n.commands;
 
-public class FAQ {
-    private int id;
-    private String question;
-    private String answer;
+import java.util.List;
 
-    public FAQ(int id, String name, String question, String answer) {
+public class FAQ {
+    private String id;
+    private String question;
+    private List<String> answer;
+
+    public FAQ(String id, String question, List<String> answer) {
         this.id = id;
         this.question = question;
         this.answer = answer;
     }
 
-    public FAQ(int id, String name, String question, String answer, String nameColor, String questionColor, String answerColor) {
-        this(id, name, question, answer);
-    }
-
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -23,7 +21,7 @@ public class FAQ {
         return this.question;
     }
 
-    public String getAnswer() {
+    public List<String> getAnswer() {
         return this.answer;
     }
 
@@ -31,7 +29,7 @@ public class FAQ {
         this.question = question;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(List<String> answer) {
         this.answer = answer;
     }
 }

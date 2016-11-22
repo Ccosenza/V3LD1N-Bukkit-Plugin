@@ -13,7 +13,7 @@ commands:
   faq:
     description: Answers frequently asked questions.
     aliases: [questions]
-    usage: /<command> [question number]
+    usage: /<command> [page]
   trail:
     description: Sets a particle trail for a player.
     aliases: [trails, particletrail, particletrails]
@@ -127,7 +127,7 @@ commands:
   changelog:
     description: Shows the server changelog.
     aliases: [change, changes]
-    usage: /<command> [log <change>]
+    usage: /<command> [page] OR /<command> [log <change>]
   itemname:
     description: Sets the name of the item in your main hand.
     aliases: [iname, in, nameitem, namei]

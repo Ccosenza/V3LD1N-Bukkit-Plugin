@@ -317,13 +317,9 @@ public class V3LD1N extends JavaPlugin {
                 FileConfiguration config = Config.FAQ.getConfig();
                 String section = sectionName + ".";
                 for (String key : config.getConfigurationSection(sectionName).getKeys(false)) {
-                    String name = config.getString(section + key + ".name");
                     String question = config.getString(section + key + ".question");
-                    String answer = config.getString(section + key + ".answer");
-                    String nameColor = config.getString(section + key + ".name-color");
-                    String questionColor = config.getString(section + key + ".question-color");
-                    String answerColor = config.getString(section + key + ".answer-color");
-                    FAQ faq = new FAQ(Integer.parseInt(key), name, question, answer, nameColor, questionColor, answerColor);
+                    List<String> answer = config.getStringList(section + key + ".answer");
+                    FAQ faq = new FAQ(key, question, answer);
                     questions.add(faq);
                 }
                 Message.LOADING_QUESTIONS.logDebugF(questions.size());
