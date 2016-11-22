@@ -14,6 +14,7 @@ import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.TippedArrow;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -21,6 +22,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionData;
 
 import com.v3ld1n.PlayerData;
 import com.v3ld1n.V3LD1N;
@@ -71,7 +73,7 @@ public class RatchetBow extends V3LD1NItem {
     public void onShoot(final EntityShootBowEvent event) {
         if (!(event.getProjectile() instanceof Projectile)) return;
         Projectile projectile = (Projectile) event.getProjectile();
-        if (!projectileIsValid(projectile, EntityType.ARROW)) return;
+        if (!projectileIsValid(projectile, EntityType.ARROW, EntityType.SPECTRAL_ARROW, EntityType.TIPPED_ARROW)) return;
 
         Player player = (Player) event.getEntity();
 
@@ -89,14 +91,19 @@ public class RatchetBow extends V3LD1NItem {
             double direction = settings.getDouble("triple-arrows-direction");
             EntityUtil.randomDirection(projectile, direction);
             for (int i = 0; i < 2; i++) {
-                Projectile arrow = new ProjectileBuilder(Arrow.class)
+                Projectile arrow = new ProjectileBuilder(projectile.getClass())
                     .setRandomDirection(direction)
                     .setSpeed(event.getForce() * 4)
                     .launch(player);
-                    ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
-                    if (meta.hasEnchant(Enchantment.ARROW_FIRE)) {
-                        EntityUtil.infiniteFire(arrow);
-                    }
+                ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
+                if (meta.hasEnchant(Enchantment.ARROW_FIRE)) {
+                    EntityUtil.infiniteFire(arrow);
+                }
+                if (projectile.getType() == EntityType.TIPPED_ARROW) {
+                	TippedArrow tippedArrow = (TippedArrow) projectile;
+                	PotionData potion = tippedArrow.getBasePotionData();
+                	((TippedArrow) arrow).setBasePotionData(potion);
+                }
             }
         } else if (type == RatchetBowType.FIREWORK_ARROW) {
             EntityUtil.infiniteFire(event.getProjectile());
