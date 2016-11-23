@@ -47,7 +47,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
                 Location loc = p.getLocation();
                 loc.add(0, 5, 0);
                 EntityUtil.displayFireworkEffect(effect, loc, 2);
-                Message.FIREWORKARROWS_SET.sendF(p, StringUtil.fromEnum(type, true));
+                Message.FIREWORKARROWS_SET.aSendF(p, StringUtil.fromEnum(type, true));
                 return true;
             }
             this.sendUsage(sender);

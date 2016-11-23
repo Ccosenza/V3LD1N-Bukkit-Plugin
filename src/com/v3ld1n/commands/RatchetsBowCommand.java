@@ -34,7 +34,7 @@ public class RatchetsBowCommand extends V3LD1NCommand {
                         PlayerData.RATCHETS_BOW.set(p, args[0].toUpperCase());
                     }
                     type.getParticle().display(p.getEyeLocation());
-                    Message.RATCHETSBOW_SET.sendF(p, StringUtil.fromEnum(type, true));
+                    Message.RATCHETSBOW_SET.aSendF(p, StringUtil.fromEnum(type, true));
                 } catch (Exception e) {
 	                Message.RATCHETSBOW_INVALID_PROJECTILE.send(p);
 	                ChatUtil.sendList(p, Message.RATCHETSBOW_LIST_TITLE.toString(), types, ListType.SHORT);

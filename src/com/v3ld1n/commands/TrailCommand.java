@@ -60,7 +60,7 @@ public class TrailCommand extends V3LD1NCommand {
                     	return true;
                     }
                     PlayerData.TRAILS.set(p, args[0]);
-                    Message.TRAIL_SET_OWN.aSendF(sender, args[0]);
+                    Message.TRAIL_SET_OWN.sendF(sender, args[0]);
                     return true;
                 }
             } else if (args.length == 2) {

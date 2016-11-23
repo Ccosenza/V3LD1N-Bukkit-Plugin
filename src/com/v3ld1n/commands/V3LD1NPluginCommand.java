@@ -66,7 +66,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
                 PluginDescriptionFile desc = V3LD1N.getPlugin().getDescription();
-                Message.V3LD1NPLUGIN_VERSION.aSendF(sender, desc.getName(), desc.getVersion());
+                Message.V3LD1NPLUGIN_VERSION.sendF(sender, desc.getName(), desc.getVersion());
                 return true;
             }
         } else {
