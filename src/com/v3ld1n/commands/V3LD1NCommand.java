@@ -66,7 +66,9 @@ public abstract class V3LD1NCommand implements CommandExecutor {
         user.sendMessage("");
         Message.COMMAND_USAGE_TITLE.sendF(user, "/" + bukkitCmd.getName());
         List<String> aliases = getAliasesWithSlash(bukkitCmd);
-        ChatUtil.sendList(user, Message.COMMAND_USAGE_ALIASES.toString(), aliases, ListType.SHORT);
+        if (!aliases.isEmpty()) {
+        	ChatUtil.sendList(user, Message.COMMAND_USAGE_ALIASES.toString(), aliases, ListType.SHORT);
+        }
         Message.COMMAND_USAGE_DESCRIPTION.sendF(user, bukkitCmd.getDescription());
         sendUsageNoTitle(user);
     }
