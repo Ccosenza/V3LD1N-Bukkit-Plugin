@@ -45,7 +45,7 @@ public class PlayersCommand extends V3LD1NCommand {
                 return true;
             }
             if (args[0].equalsIgnoreCase("info") && args.length == 2) {
-                if (PlayerUtil.getOfflinePlayer(args[1]) != null) {
+                if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
                     sendPlayerInfo(PlayerUtil.getOnlinePlayer(args[1]), sender);
                     return true;
                 }
