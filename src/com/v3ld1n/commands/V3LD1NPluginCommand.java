@@ -22,7 +22,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
 
     public V3LD1NPluginCommand() {
         this.addUsage("debug", "Toggle debug mode");
-        this.addUsage("help", "Show a list of all plugin commands");
+        this.addUsage("help [page]", "Show a list of all plugin commands");
         this.addUsage("reload", "Reload the plugin config");
         this.addUsage("version", "Send the plugin version");
     }

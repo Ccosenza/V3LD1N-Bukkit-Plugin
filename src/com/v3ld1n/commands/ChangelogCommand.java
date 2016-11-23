@@ -21,8 +21,7 @@ public class ChangelogCommand extends V3LD1NCommand {
     private final int PAGE_SIZE = 7;
 
     public ChangelogCommand() {
-        this.addUsage("", "Display the last " + PAGE_SIZE + " changelogs");
-        this.addUsage("<page>", "Display older changelogs");
+        this.addUsage("[page]", "Display the list of changelogs");
         this.addUsage("log <change>", "Log a change", "v3ld1n.owner");
         this.addUsage("link <url>", "Add a clickable link to today's changelog", "v3ld1n.owner");
         this.addUsage("link remove", "Remove the link from today's changelog", "v3ld1n.owner");
