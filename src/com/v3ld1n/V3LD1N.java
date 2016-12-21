@@ -299,6 +299,7 @@ public class V3LD1N extends JavaPlugin {
         items.add(new RatchetShears());
         items.add(new RatchetShovel());
         items.add(new RatchetSword());
+        items.add(new RatchetTotem());
         for (V3LD1NItem item : items) {
             pluginManager.registerEvents(item, plugin);
         }
