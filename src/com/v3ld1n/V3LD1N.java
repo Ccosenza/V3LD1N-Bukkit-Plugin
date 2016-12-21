@@ -293,7 +293,6 @@ public class V3LD1N extends JavaPlugin {
         items.add(new RatchetBoots());
         items.add(new RatchetBow());
         items.add(new RatchetChestplate());
-        items.add(new RatchetFirework());
         items.add(new RatchetFireworkStar());
         items.add(new RatchetFishingRod());
         items.add(new RatchetFlintAndSteel());
