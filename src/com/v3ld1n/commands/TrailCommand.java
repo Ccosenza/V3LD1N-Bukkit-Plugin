@@ -29,7 +29,7 @@ public class TrailCommand extends V3LD1NCommand {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             PlayerData.TRAILS.set(p, null);
-                            Message.TRAIL_REMOVE_OWN.aSend(sender);
+                            Message.TRAIL_REMOVE_OWN.send(sender);
                             return true;
                         }
                     } else if (args.length == 2) {
@@ -38,7 +38,7 @@ public class TrailCommand extends V3LD1NCommand {
                                 Player p = PlayerUtil.getOnlinePlayer(args[1]);
                                 PlayerData.TRAILS.set(p, null);
                                 Message removeOther = Message.TRAIL_REMOVE_OTHER;
-                                removeOther.aSendF(sender, p.getName());
+                                removeOther.sendF(sender, p.getName());
                                 return true;
                             }
                             sendInvalidPlayerMessage(sender);
@@ -69,7 +69,7 @@ public class TrailCommand extends V3LD1NCommand {
                         if (p.getName().equals(args[1])) {
                             PlayerData.TRAILS.set(p, args[0]);
                             Message setOther = Message.TRAIL_SET_OTHER;
-                            setOther.aSendF(sender, p.getName(), args[0], p.getName());
+                            setOther.sendF(sender, p.getName(), args[0], p.getName());
                             return true;
                         }
                         sendInvalidPlayerMessage(sender);
