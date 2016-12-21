@@ -76,6 +76,7 @@ public final class StringUtil {
                 .replaceAll(ic + "%hunger%", Integer.toString(player.getFoodLevel()))
                 .replaceAll(ic + "%xp%", Integer.toString(player.getTotalExperience()))
                 .replaceAll(ic + "%gamemode%", fromEnum(player.getGameMode(), true))
+                .replaceAll(ic + "%speed%", Double.toString(player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue()))
                 .replaceAll(ic + "%ping%", Integer.toString(PlayerUtil.getPing(player)))
                 .replaceAll(ic + "%entities%", Integer.toString(WorldUtil.getAllEntities().size()))
                 .replaceAll(ic + "%worldentities%", Integer.toString(player.getWorld().getEntities().size()))
