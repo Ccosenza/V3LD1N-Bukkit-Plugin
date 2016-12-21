@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -71,7 +72,7 @@ public final class StringUtil {
                 .replaceAll(ic + "%biome%", fromEnum(player.getLocation().getBlock().getBiome(), true))
                 .replaceAll(ic + "%block%", fromEnum(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType(), true))
                 .replaceAll(ic + "%health%", Double.toString(player.getHealth()))
-                .replaceAll(ic + "%maxhealth%", Double.toString(player.getMaxHealth()))
+                .replaceAll(ic + "%maxhealth%", Double.toString(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()))
                 .replaceAll(ic + "%hunger%", Integer.toString(player.getFoodLevel()))
                 .replaceAll(ic + "%xp%", Integer.toString(player.getTotalExperience()))
                 .replaceAll(ic + "%gamemode%", fromEnum(player.getGameMode(), true))

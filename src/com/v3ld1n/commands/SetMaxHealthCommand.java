@@ -1,5 +1,6 @@
 package com.v3ld1n.commands;
 
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ public class SetMaxHealthCommand extends V3LD1NCommand {
                     return true;
                 }
                 if (health > 0 && health <= LIMIT) {
-                    p.setMaxHealth(health);
+                    p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
                     boolean pIsSender = p.getName().equals(sender.getName());
                     String ownMessage = String.format(Message.SETMAXHEALTH_SET_OWN.toString(), args[0]);
                     String otherMessage = String.format(Message.SETMAXHEALTH_SET.toString(), p.getName(), args[0]);

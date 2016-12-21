@@ -3,6 +3,7 @@ package com.v3ld1n.items.ratchet;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -41,7 +42,7 @@ public class RatchetAxe extends V3LD1NItem {
      * @param enemy the enemy
      */
     private void addEffect(final Player player, final LivingEntity enemy) {
-        EntityUtil.heal(player, player.getMaxHealth());
+        EntityUtil.heal(player, player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         displayParticles(enemy.getEyeLocation());
         increaseEffectLevel(player, enemy);
     }

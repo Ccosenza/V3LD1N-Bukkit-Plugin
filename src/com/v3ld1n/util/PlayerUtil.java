@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -163,7 +164,7 @@ public final class PlayerUtil {
         info.put("Biome", StringUtil.fromEnum(p.getLocation().getBlock().getBiome(), true));
         info.put("Standing on", StringUtil.fromEnum(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType(), true));
         info.put("Health", p.getHealth());
-        info.put("Max Health", p.getMaxHealth());
+        info.put("Max Health", p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         info.put("Hunger", p.getFoodLevel());
         info.put("Experience", p.getExp());
         info.put("Op", p.isOp());
