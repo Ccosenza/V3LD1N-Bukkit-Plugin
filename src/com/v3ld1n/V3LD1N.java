@@ -2,11 +2,9 @@ package com.v3ld1n;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -66,7 +64,6 @@ public class V3LD1N extends JavaPlugin {
     private static Chat chat = null;
     private static RideCommand rideCommand = new RideCommand();
     public static HashMap<UUID, RideType> usingRideCommand;
-    public static Set<UUID> usingRatchetFirework;
 
     @Override
     public void onEnable() {
@@ -91,7 +88,6 @@ public class V3LD1N extends JavaPlugin {
         soundTasks = new ArrayList<>();
         teleportTasks = new ArrayList<>();
         usingRideCommand = new HashMap<>();
-        usingRatchetFirework = new HashSet<>();
         setupWorldGuard();
         setupVault();
         loadItems();
