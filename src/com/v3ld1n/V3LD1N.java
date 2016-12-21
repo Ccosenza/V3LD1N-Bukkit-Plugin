@@ -40,7 +40,7 @@ import com.v3ld1n.util.Sound;
 
 public class V3LD1N extends JavaPlugin {
     private final Random random = new Random();
-    private final String bukkitVersion = "1.11-R0.1-SNAPSHOT";
+    private final String bukkitVersion = "1.11.2-R0.1-SNAPSHOT";
     private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
     private static V3LD1N plugin;
