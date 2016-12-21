@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -91,8 +92,8 @@ public final class EntityUtil {
      * @param health the amount of health to heal
      */
     public static void heal(LivingEntity entity, double health) {
-        if (entity.getHealth() + health > entity.getMaxHealth()) {
-            entity.setHealth(entity.getMaxHealth());
+        if (entity.getHealth() + health > entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) {
+            entity.setHealth(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         } else {
             entity.setHealth(entity.getHealth() + health);
         }
