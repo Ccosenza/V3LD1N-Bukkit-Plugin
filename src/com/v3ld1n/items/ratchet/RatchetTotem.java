@@ -22,5 +22,7 @@ public class RatchetTotem extends V3LD1NItem {
 
     private void push(Player player) {
     	player.setVelocity(player.getVelocity().setY(settings.getDouble("speed")));
+    	displayParticles(player.getLocation());
+    	playSounds(player.getLocation());
     }
 }
