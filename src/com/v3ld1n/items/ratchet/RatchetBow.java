@@ -189,25 +189,15 @@ public class RatchetBow extends V3LD1NItem {
         Location hitLocationMin = settings.getLocation("teleport-hit-location-min");
         Location hitLocationMax = settings.getLocation("teleport-hit-location-max");
         if (!LocationUtil.isInArea(location, hitLocationMin, hitLocationMax)) return;
-
-        RepeatableRunnable effects = new RepeatableRunnable() {
-            @Override
-            public void onRun() {
-                Particle.displayList(settings.getParticles("teleport-hit-particles"), location);
-                if (settings.getBoolean("teleport-lightning")) {
-                    location.getWorld().strikeLightning(location);
-                }
-            }
-        };
-        effects.start(6, 4, 2);
-
+        Particle.displayList(settings.getParticles("teleport-hit-particles"), location);
         if (settings.getBoolean("teleport-lightning")) {
+            location.getWorld().strikeLightning(location);
             Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
                 @Override
                 public void run() {
-                    location.getWorld().strikeLightning(location);
+                    shooter.getWorld().strikeLightning(shooter.getLocation());
                 }
-            }, 24);
+            }, 40);
         }
 
         final Location teleportLocation = settings.getLocation("teleport-location");
