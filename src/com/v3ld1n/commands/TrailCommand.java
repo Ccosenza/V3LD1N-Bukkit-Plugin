@@ -32,6 +32,8 @@ public class TrailCommand extends V3LD1NCommand {
                             Message.TRAIL_REMOVE_OWN.send(sender);
                             return true;
                         }
+                        Message.COMMAND_NOT_PLAYER.send(sender);
+                        return true;
                     } else if (args.length == 2) {
                         if (sender.hasPermission("v3ld1n.trail.others")) {
                             if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
@@ -63,6 +65,8 @@ public class TrailCommand extends V3LD1NCommand {
                     Message.TRAIL_SET_OWN.sendF(sender, args[0]);
                     return true;
                 }
+                Message.COMMAND_NOT_PLAYER.send(sender);
+                return true;
             } else if (args.length == 2) {
                 if (sender.hasPermission("v3ld1n.trails.others")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
