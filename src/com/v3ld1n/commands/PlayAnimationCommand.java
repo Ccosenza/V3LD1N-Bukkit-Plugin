@@ -22,49 +22,52 @@ public class PlayAnimationCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.playanimation")) {
-            if (args.length == 1) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    try {
-                        PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
-                        animation.play(p);
-                        Message.PLAYANIMATION_PLAY.aSendF(sender, StringUtil.fromEnum(animation, true));
-                        return true;
-                    } catch (Exception e) {
-                        Message.PLAYANIMATION_ERROR.send(p);
-                        return true;
-                    }
-                }
-                Message.COMMAND_NOT_PLAYER.send(sender);
-                return true;
-            } else if (args.length >= 2) {
-                if (sender.hasPermission("v3ld1n.playanimation.others")) {
-                    if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                        Player p = PlayerUtil.getOnlinePlayer(args[1]);
-                        try {
-                            PlayerAnimation animation = PlayerAnimation.valueOf(args[0].toUpperCase());
-                            animation.play(p);
-                            Message.PLAYANIMATION_PLAY.sendF(sender, StringUtil.fromEnum(animation, true));
-                            return true;
-                        } catch (Exception e) {
-                            Message.PLAYANIMATION_ERROR.send(sender);
-                            return true;
-                        }
-                    }
-                    sendInvalidPlayerMessage(sender);
-                    return true;
-                }
-                Message.PLAYANIMATION_NO_PERMISSION_OTHERS.send(sender);
-                return true;
-            }
-            this.sendUsage(sender);
-            String title = Message.PLAYANIMATION_LIST_TITLE.toString();
-            List<PlayerAnimation> animations = Arrays.asList(PlayerAnimation.values());
-            ChatUtil.sendList(sender, title, animations, ListType.SHORT);
+        if (!sender.hasPermission("v3ld1n.playanimation")) {
+            sendPermissionMessage(sender);
             return true;
         }
-        sendPermissionMessage(sender);
+        if (args.length != 1 && args.length != 2) {
+            this.sendUsage(sender);
+            return true;
+        }
+        PlayerAnimation animation;
+        try {
+            animation = PlayerAnimation.valueOf(args[0].toUpperCase());
+        } catch (IllegalArgumentException e) {
+            this.sendUsage(sender);
+            return true;
+        }
+
+        Player player;
+        if (args.length == 1 && sender instanceof Player) {
+            player = (Player) sender;
+        } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+            player = PlayerUtil.getOnlinePlayer(args[1]);
+        } else if (args.length == 2 && !(sender.hasPermission("v3ld1n.playanimation.others"))) {
+            Message.PLAYANIMATION_NO_PERMISSION_OTHERS.send(sender);
+            return true;
+        } else {
+            sendInvalidPlayerMessage(sender);
+            return true;
+        }
+        play(sender, player, animation);
         return true;
+    }
+
+    // Plays the animation
+    private void play(CommandSender sender, Player player, PlayerAnimation animation) {
+        animation.play(player);
+        boolean playedOnSelf = player.getName().equals(sender.getName());
+        Message message = playedOnSelf ? Message.PLAYANIMATION_PLAY : Message.PLAYANIMATION_PLAY_OTHER;
+        message.aSendF(sender, StringUtil.fromEnum(animation, true), player.getName());
+    }
+    
+    // Lists all valid animations when sending the command usage
+    @Override
+    public void sendUsage(CommandSender user) {
+        super.sendUsage(user);
+        String title = Message.PLAYANIMATION_LIST_TITLE.toString();
+        List<PlayerAnimation> animations = Arrays.asList(PlayerAnimation.values());
+        ChatUtil.sendList(user, title, animations, ListType.SHORT);
     }
 }
