@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import com.v3ld1n.Config;
 import com.v3ld1n.util.ConfigUtil;
 import com.v3ld1n.util.Particle;
-import com.v3ld1n.util.WorldUtil;
+import com.v3ld1n.util.LocationUtil;
 
 public class ItemTask extends Task {
     public ItemTask(String name) {
@@ -40,7 +40,7 @@ public class ItemTask extends Task {
             giveItems = items;
         }
         ItemStack[] giveItemsArray = giveItems.toArray(new ItemStack[giveItems.size()]);
-        for (Player p : WorldUtil.getNearbyPlayers(location, radius)) {
+        for (Player p : LocationUtil.getNearbyPlayers(location, radius)) {
             p.getInventory().addItem(giveItemsArray);
             for (Particle particle : particles) {
                 particle.display(location);

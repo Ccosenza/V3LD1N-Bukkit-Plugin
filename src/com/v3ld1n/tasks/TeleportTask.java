@@ -9,7 +9,7 @@ import com.v3ld1n.Config;
 import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.PlayerAnimation;
 import com.v3ld1n.util.Sound;
-import com.v3ld1n.util.WorldUtil;
+import com.v3ld1n.util.LocationUtil;
 
 public class TeleportTask extends Task {
     public TeleportTask(String name) {
@@ -34,7 +34,7 @@ public class TeleportTask extends Task {
             playAnimation = true;
         }
 
-        List<Player> players = WorldUtil.getNearbyPlayers(location, radius);
+        List<Player> players = LocationUtil.getNearbyPlayers(location, radius);
         for (Player player : players) {
             player.teleport(teleportLoc);
             if (playAnimation) {

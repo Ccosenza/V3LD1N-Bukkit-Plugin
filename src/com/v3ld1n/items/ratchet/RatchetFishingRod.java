@@ -17,8 +17,8 @@ import org.bukkit.util.Vector;
 
 import com.v3ld1n.items.V3LD1NItem;
 import com.v3ld1n.util.EntityUtil;
+import com.v3ld1n.util.LocationUtil;
 import com.v3ld1n.util.RepeatableRunnable;
-import com.v3ld1n.util.WorldUtil;
 
 public class RatchetFishingRod extends V3LD1NItem {
     public RatchetFishingRod() {
@@ -39,7 +39,7 @@ public class RatchetFishingRod extends V3LD1NItem {
             Player shooter = (Player) hook.getShooter();
             if (!player.equals(shooter)) return;
 
-            List<Block> nearbyBlocks = WorldUtil.getNearbyBlocks(hook.getLocation(), 1);
+            List<Block> nearbyBlocks = LocationUtil.getNearbyBlocks(hook.getLocation(), 1);
             for (Block block : nearbyBlocks) {
                 if (block.getType().isSolid()) {
                     grapple(player, hook);

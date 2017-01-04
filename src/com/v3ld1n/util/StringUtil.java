@@ -100,8 +100,8 @@ public final class StringUtil {
                 .replaceAll(ic + "%rht%", "\u21E8")
                 .replaceAll(ic + "%dwn%", "\u21E9");
         String none = Message.NONE.toString();
-        Player np = WorldUtil.getNearestPlayer(player);
-        Entity ne = WorldUtil.getNearestEntity(player);
+        Player np = LocationUtil.getNearestPlayer(player);
+        Entity ne = LocationUtil.getNearestEntity(player);
         ItemStack mi = player.getInventory().getItemInMainHand();
         ItemStack oi = player.getInventory().getItemInOffHand();
         Material tb = player.getTargetBlock((Set<Material>) null, 5).getType();
