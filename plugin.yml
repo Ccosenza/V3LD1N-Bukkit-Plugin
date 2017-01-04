@@ -68,7 +68,7 @@ commands:
     usage: /<command> <player> <speedX> <speedY> <speedZ> OR /<command> <player> <toPlayer> [speed]
   sethotbarslot:
     description: Sets a player's selected hotbar slot.
-    aliases: [hotbarslot, setselectedslot]
+    aliases: [hotbarslot, setselectedslot, selectedslot, settoolbarslot, toolbarslot]
     usage: /<command> <slot> [player]
   v3ld1nmotd:
     description: Adds, removes, and lists MOTDs.
