@@ -147,9 +147,9 @@ public enum Message {
     NEXTSOUND_NO_SOUND_TASKS("commands.nextsound.no-sound-tasks"),
 
     PLAYANIMATION_PLAY("commands.playanimation.play"),
+    PLAYANIMATION_PLAY_OTHER("commands.playanimation.play-other"),
     PLAYANIMATION_LIST_TITLE("commands.playanimation.list-title"),
     PLAYANIMATION_NO_PERMISSION_OTHERS("commands.playanimation.others-permission"),
-    PLAYANIMATION_ERROR("commands.playanimation.error"),
 
     PLAYERS_LIST_TITLE("commands.players.list-title"),
     PLAYERS_AMOUNT_TITLE("commands.players.amount.title"),
