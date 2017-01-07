@@ -10,8 +10,12 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.StringUtil;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class FAQCommand extends V3LD1NCommand {
     private final int PAGE_SIZE = 10;
@@ -52,12 +56,6 @@ public class FAQCommand extends V3LD1NCommand {
         for (FAQ question : questionsOnPage) {
             List<String> answer = question.getAnswer();
             try {
-                String message = "{\"text\":\"" + question.getQuestion() + "\","
-                        + "\"color\":\"gold\","
-                        + "\"hoverEvent\":{"
-                        + "\"action\":\"show_text\","
-                        + "\"value\":\"%s\"}}";
-
                 StringBuilder builder = new StringBuilder();
                 builder.append(Message.FAQ_QUESTION.toString() + question.getQuestion() + "\n");
                 builder.append(Message.FAQ_ANSWER.toString() + Message.FAQ_ANSWER_COLOR + answer.get(0));
@@ -67,8 +65,11 @@ public class FAQCommand extends V3LD1NCommand {
                 }
 
                 String builderString = builder.toString();
-                message = String.format(message, builderString);
-                ChatUtil.sendJsonMessage(p, message, MessageType.CHAT);
+
+                TextComponent message = new TextComponent(question.getQuestion());
+                message.setColor(ChatColor.GOLD);
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(builderString).create()));
+                p.spigot().sendMessage(message);
             } catch (Exception e) {
                 Message.FAQ_ERROR.send(p);
                 e.printStackTrace();

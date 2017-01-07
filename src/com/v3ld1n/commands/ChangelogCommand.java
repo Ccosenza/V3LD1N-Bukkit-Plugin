@@ -13,9 +13,14 @@ import org.bukkit.entity.Player;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.StringUtil;
 import com.v3ld1n.util.TimeUtil;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class ChangelogCommand extends V3LD1NCommand {
     private final int PAGE_SIZE = 7;
@@ -103,14 +108,6 @@ public class ChangelogCommand extends V3LD1NCommand {
             try {
                 Date date = dateFormat.parse(day.getDate());
                 String formattedDate = TimeUtil.format(date.getTime(), "MMMM d, yyyy");
-                String message = "{\"text\":\"[" + formattedDate + "]\","
-                        + "\"color\":\"gold\","
-                        + "\"hoverEvent\":{"
-                        + "\"action\":\"show_text\","
-                        + "\"value\":\"%s\"},"
-                        + "\"clickEvent\":{"
-                        + "\"action\":\"open_url\","
-                        + "\"value\":\"%s\"}}";
 
                 StringBuilder builder = new StringBuilder();
                 builder.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), formattedDate) + "\n");
@@ -124,8 +121,12 @@ public class ChangelogCommand extends V3LD1NCommand {
 
                 String builderString = builder.toString();
                 builderString = builderString.substring(0, builderString.length() - 1);
-                message = String.format(message, builderString, day.getLink());
-                ChatUtil.sendJsonMessage(p, message, MessageType.CHAT);
+
+                TextComponent message = new TextComponent("[" + formattedDate + "]");
+                message.setColor(ChatColor.GOLD);
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(builderString).create()));
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, day.getLink()));
+                p.spigot().sendMessage(message);
             } catch (Exception e) {
                 Message.CHANGELOG_ERROR.send(p);
                 e.printStackTrace();

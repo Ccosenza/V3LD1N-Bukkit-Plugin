@@ -5,9 +5,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class UUIDCommand extends V3LD1NCommand {
     public UUIDCommand() {
@@ -41,13 +44,12 @@ public class UUIDCommand extends V3LD1NCommand {
             return true;
         }
         if (sender instanceof Player) {
-            String message = "{\"text\":\"" + uuid + "\","
-                    + "\"color\":\"yellow\","
-                    + "\"hoverEvent\":{"
-                    + "\"action\":\"show_text\","
-                    + "\"value\":\"" + String.format(Message.UUID_HOVER.toString(), name) + "\"},"
-                    + "\"insertion\":\"" + uuid + "\"}";
-            ChatUtil.sendJsonMessage(sender, message, MessageType.CHAT);
+            TextComponent message = new TextComponent(uuid);
+            message.setColor(ChatColor.YELLOW);
+            String hoverFormat = String.format(Message.UUID_HOVER.toString(), name);
+            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverFormat).create()));
+            message.setInsertion(uuid);
+            ((Player) sender).spigot().sendMessage(message);
             return true;
         }
         sender.sendMessage(uuid);
