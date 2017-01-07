@@ -1,7 +1,5 @@
 package com.v3ld1n.util;
 
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.ConfigSetting;
-import com.v3ld1n.V3LD1N;
 
 public final class ConfigUtil {
     private ConfigUtil() {
