@@ -62,11 +62,13 @@ public enum ConfigSetting {
 
     REPORT_READ_BACK_COLOR("back-color", "reports.yml", "blue"),
 
-    CANCEL_SPAWN_WORLDS("cancel-spawn", "world-options.yml"),
-    CANCEL_DROP_WORLDS("cancel-drop", "world-options.yml"),
-    REMOVE_ARROW_WORLDS("remove-arrows", "world-options.yml"),
-    REMOVE_PROJECTILE_WORLDS("remove-projectiles-on-death", "world-options.yml"),
-    REMOVE_VEHICLE_WORLDS("remove-vehicles", "world-options.yml");
+    CANCEL_SPAWN_WORLDS("cancel-spawn.worlds", "world-options.yml"),
+    CANCEL_DROP_WORLDS("cancel-drop.worlds", "world-options.yml"),
+    REMOVE_ARROWS_WORLDS("remove-arrows.worlds", "world-options.yml"),
+    REMOVE_PROJECTILES_WORLDS("remove-projectiles-on-death.worlds", "world-options.yml"),
+    REMOVE_VEHICLES_WORLDS("remove-vehicles.worlds", "world-options.yml"),
+    REMOVE_VEHICLES_SECONDS("remove-vehicles.seconds", "world-options.yml"),
+    REMOVE_VEHICLES_VEHICLES("remove-vehicles.vehicles", "world-options.yml");
 
     private final String name;
     private final String fileName;

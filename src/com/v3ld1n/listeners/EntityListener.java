@@ -68,7 +68,7 @@ public class EntityListener implements Listener {
         Entity projectile = event.getEntity();
         String worldName = projectile.getWorld().getName();
 
-        if (ConfigSetting.REMOVE_ARROW_WORLDS.getList().contains(worldName)) {
+        if (ConfigSetting.REMOVE_ARROWS_WORLDS.getList().contains(worldName)) {
             projectile.remove();
         }
     }

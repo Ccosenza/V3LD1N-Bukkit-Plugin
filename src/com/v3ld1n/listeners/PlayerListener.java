@@ -14,7 +14,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Vehicle;
@@ -224,7 +223,7 @@ public class PlayerListener implements Listener {
             event.setDroppedExp(0);
         }
 
-        if (ConfigSetting.REMOVE_PROJECTILE_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
+        if (ConfigSetting.REMOVE_PROJECTILES_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
             Player player = event.getEntity();
             for (Entity entity : player.getWorld().getEntities()) {
                 if (!(entity instanceof Projectile)) continue;
@@ -241,9 +240,9 @@ public class PlayerListener implements Listener {
     public void onVehicleExit(VehicleExitEvent event) {
         final Vehicle vehicle = event.getVehicle();
 
-        if (!ConfigSetting.REMOVE_VEHICLE_WORLDS.getList().contains(vehicle.getWorld().getName())) return;
+        if (!ConfigSetting.REMOVE_VEHICLES_WORLDS.getList().contains(vehicle.getWorld().getName())) return;
         if (!(event.getExited() instanceof Player)) return;
-        if (vehicle.getType() != EntityType.MINECART && vehicle.getType() != EntityType.BOAT) return;
+        if (!ConfigSetting.REMOVE_VEHICLES_VEHICLES.getStringList().contains(vehicle.getType().toString())) return;
 
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
@@ -252,7 +251,7 @@ public class PlayerListener implements Listener {
                     vehicle.remove();
                 }
             }
-        }, 100);
+        }, ConfigSetting.REMOVE_VEHICLES_SECONDS.getInt() * 20);
     }
 
     @EventHandler
