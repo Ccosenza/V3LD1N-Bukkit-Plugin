@@ -49,7 +49,6 @@ public class V3LD1N extends JavaPlugin {
     private static List<V3LD1NCommand> commands;
     private static List<V3LD1NItem> items;
     private static List<FAQ> questions;
-    private static List<Report> reports;
     private static List<Warp> warps;
     private static List<Sign> signs;
     private static List<ChangelogDay> changelogDays;
@@ -77,7 +76,6 @@ public class V3LD1N extends JavaPlugin {
         commands = new ArrayList<>();
         items = new ArrayList<>();
         questions = new ArrayList<>();
-        reports = new ArrayList<>();
         warps = new ArrayList<>();
         signs = new ArrayList<>();
         changelogDays = new ArrayList<>();
@@ -92,7 +90,6 @@ public class V3LD1N extends JavaPlugin {
         setupVault();
         loadItems();
         loadQuestions();
-        loadReports();
         loadWarps();
         loadSigns();
         loadChangelog();
@@ -137,7 +134,6 @@ public class V3LD1N extends JavaPlugin {
             @Override
             public void run() {
                 if (ConfigSetting.AUTO_SAVE_ENABLED.getBoolean()) {
-                    saveReports();
                     saveWarps();
                     saveChangelog();
                 }
@@ -177,13 +173,11 @@ public class V3LD1N extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        saveReports();
         saveWarps();
         saveChangelog();
         configs = null;
         items = null;
         questions = null;
-        reports = null;
         warps = null;
         itemTasks = null;
         particleTasks = null;
@@ -262,7 +256,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("playersay", new PlayerSayCommand());
         addCommand("push", new PushCommand());
         addCommand("ratchetsbow", new RatchetsBowCommand());
-        addCommand("report", new ReportCommand());
         addCommand("resourcepack", new ResourcePackCommand());
         addCommand("ride", rideCommand);
         addCommand("sendmessage", new SendMessageCommand());
@@ -324,67 +317,6 @@ public class V3LD1N extends JavaPlugin {
             Message.FAQ_LOAD_ERROR.log(Level.WARNING);
             e.printStackTrace();
         }
-    }
-
-    private static void loadReports() {
-        try {
-            String sectionName = "reports";
-            if (Config.REPORTS.getConfig().getConfigurationSection(sectionName) != null) {
-                FileConfiguration config = Config.REPORTS.getConfig();
-                String section = sectionName + ".";
-                for (String key : config.getConfigurationSection("reports").getKeys(false)) {
-                    String title = key;
-                    String senderName = config.getString(section + key + ".sender-name");
-                    UUID senderUuid = UUID.fromString(config.getString(section + key + ".sender-uuid"));
-                    String reason = config.getString(section + key + ".reason");
-                    long time = config.getLong(section + key + ".time");
-                    List<String> readStrings = new ArrayList<>();
-                    if (config.get(section + key + ".read-by") != null) {
-                        readStrings = config.getStringList(section + key + ".read-by");
-                    }
-                    List<UUID> read = new ArrayList<>();
-                    for (String uuidString : readStrings) {
-                        read.add(UUID.fromString(uuidString));
-                    }
-                    Report report = new Report(title, senderName, senderUuid, reason, time, read);
-                    reports.add(report);
-                }
-                Message.LOADING_REPORTS.logDebugF(reports.size());
-            }
-        } catch (Exception e) {
-            Message.REPORT_LOAD_ERROR.log(Level.WARNING);
-            e.printStackTrace();
-        }
-    }
-
-    private static void saveReports() {
-        try {
-            String sectionName = "reports";
-            String section = sectionName + ".";
-            FileConfiguration config = Config.REPORTS.getConfig();
-            for (Report report : reports) {
-                String title = report.getTitle();
-                config.set(section + title + ".sender-name", report.getSenderName());
-                config.set(section + title + ".sender-uuid", report.getSenderUuid().toString());
-                config.set(section + title + ".reason", report.getReason());
-                config.set(section + title + ".time", report.getTime());
-                List<UUID> read = report.getReadPlayers();
-                List<String> readStrings = new ArrayList<>();
-                for (UUID uuid : read) {
-                    readStrings.add(uuid.toString());
-                }
-                config.set(section + report.getTitle() + ".read-by", readStrings);
-            }
-            Config.REPORTS.saveConfig();
-            Message.SAVING_REPORTS.logDebugF(reports.size());
-        } catch (Exception e) {
-            Message.REPORT_SAVE_ERROR.log(Level.WARNING);
-            e.printStackTrace();
-        }
-    }
-
-    public static void addReport(Report report) {
-        reports.add(report);
     }
 
     private static void loadWarps() {
@@ -730,10 +662,6 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<FAQ> getQuestions() {
         return questions;
-    }
-
-    public static List<Report> getReports() {
-        return reports;
     }
 
     public static List<Warp> getWarps() {

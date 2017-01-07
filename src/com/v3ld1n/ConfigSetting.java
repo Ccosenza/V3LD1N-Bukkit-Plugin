@@ -32,10 +32,6 @@ public enum ConfigSetting {
     VELDS_REWARD_HOUR_MULTIPLIER("velds-reward.hour-multiplier", "config.yml", 1),
     VELDS_REWARD_TICKS("velds-reward.ticks", "config.yml", 72000),
 
-    REPORTS_JOIN_MESSAGE("reports.join-message", "config.yml", true),
-    REPORTS_LIST_UNREAD_COLOR("reports.list.unread-color", "config.yml", "aqua"),
-    REPORTS_LIST_READ_COLOR("reports.list.read-color", "config.yml", "blue"),
-
     FAQ_BACK_COLOR("back-color", "faq.yml", "blue"),
 
     INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
@@ -59,8 +55,6 @@ public enum ConfigSetting {
     PLAYER_EFFECTS_PLAYERS("player-effects.players", "player-data.yml"),
     PLAYER_EFFECTS_CHANCE("player-effects.chance", "player-data.yml", 20),
     PLAYER_EFFECTS_TICKS("player-effects.ticks", "player-data.yml", 400),
-
-    REPORT_READ_BACK_COLOR("back-color", "reports.yml", "blue"),
 
     CANCEL_SPAWN_WORLDS("cancel-spawn.worlds", "world-options.yml"),
     CANCEL_DROP_WORLDS("cancel-drop.worlds", "world-options.yml"),

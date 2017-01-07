@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.V3LD1N;
-import com.v3ld1n.commands.Report;
 
 public final class ConfigUtil {
     private ConfigUtil() {
@@ -27,21 +26,6 @@ public final class ConfigUtil {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             PlayerUtil.sendPlayerListHeaderFooter(p, header, footer);
         }
-    }
-
-    /**
-     * Returns the amount of reports a player has not read
-     * @param uuid the player's UUID
-     * @return the amount of unread reports
-     */
-    public static int getUnreadReports(UUID uuid) {
-        int unreadReports = 0;
-        for (Report report : V3LD1N.getReports()) {
-            if (!report.isReadBy(uuid)) {
-                unreadReports++;
-            }
-        }
-        return unreadReports;
     }
 
     /**

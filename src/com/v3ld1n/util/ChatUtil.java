@@ -68,28 +68,6 @@ public final class ChatUtil {
     }
 
     /**
-     * Sends the number of unread reports to all players
-     */
-    public static void sendUnreadReports() {
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if (p.hasPermission("v3ld1n.report.read")) {
-                sendUnreadReports(p);
-            }
-        }
-    }
-
-    /**
-     * Sends the number of unread reports to a player
-     * @param player the player to send the message to
-     */
-    public static void sendUnreadReports(Player player) {
-        int unread = ConfigUtil.getUnreadReports(player.getUniqueId());
-        String message = "{text:\"" + String.format(Message.REPORT_UNREAD.toString(), unread) + "\","
-                + "clickEvent:{action:run_command,value:\"/report list\"}}";
-        ChatUtil.sendJsonMessage(player, message, MessageType.CHAT);
-    }
-
-    /**
      * Returns a section of a list
      * @param list the list
      * @param page the page

@@ -78,10 +78,6 @@ commands:
     description: Sends a message to a player.
     aliases: [sendmsg, smsg, sm]
     usage: /<command> <player>|all <type> <message ...>
-  report:
-    description: Sends a report to the admins.
-    aliases: [reports]
-    usage: /<command> <player> <reason ...>
   timeplayed:
     description: Displays the amount of time a player has played.
     aliases: [playtime]
