@@ -52,7 +52,7 @@ public class UUIDCommand extends V3LD1NCommand {
             ((Player) sender).spigot().sendMessage(message);
             return true;
         }
-        sender.sendMessage(uuid);
+        sender.sendMessage(uuid + " (" + name + ")");
         return true;
     }
 }
