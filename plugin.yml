@@ -135,3 +135,5 @@ commands:
   unbreakable:
     description: Makes the item in your main hand unbreakable.
     usage: /<command>
+  mapcolor:
+    description: Sets the color of the map in your main hand.

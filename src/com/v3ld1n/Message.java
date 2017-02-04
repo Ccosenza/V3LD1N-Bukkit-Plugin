@@ -130,6 +130,10 @@ public enum Message {
     ITEMNAME_REMOVE("commands.itemname.remove"),
     ITEMNAME_NOT_NAMED("commands.itemname.not-named"),
 
+    MAPCOLOR_SET("commands.mapcolor.set"),
+    MAPCOLOR_NO_ITEM("commands.mapcolor.no-item"),
+    MAPCOLOR_LIMIT("commands.mapcolor.limit"),
+
     MOTD_SHOWING("commands.motd.show"),
     MOTD_NO_PERMISSION_OTHERS("commands.motd.others-permission"),
 

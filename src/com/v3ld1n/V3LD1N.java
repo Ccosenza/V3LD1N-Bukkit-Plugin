@@ -247,6 +247,7 @@ public class V3LD1N extends JavaPlugin {
         addCommand("giveall", new GiveAllCommand());
         addCommand("itemlore", new ItemLoreCommand());
         addCommand("itemname", new ItemNameCommand());
+        addCommand("mapcolor", new MapColorCommand());
         addCommand("moneyitem", new MoneyItemCommand());
         addCommand("motd", new MotdCommand());
         addCommand("names", new NamesCommand());
