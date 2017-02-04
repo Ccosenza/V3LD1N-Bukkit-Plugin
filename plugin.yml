@@ -137,3 +137,5 @@ commands:
     usage: /<command>
   mapcolor:
     description: Sets the color of the map in your main hand.
+    aliases: [mapc, mcolor, colormap, cmap]
+    usage: /<command> <color>
