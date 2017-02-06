@@ -62,7 +62,7 @@ public class TimeUtil {
         StringBuilder sb = new StringBuilder();
         sb.append(hour != 0 ? "" + red + hour + gold + "hr " : "");
         sb.append(minute != 0 ? "" + red + minute + gold + "min " : "");
-        sb.append(second != 0 ? "" + red + second + gold + "sec " : "");
+        sb.append("" + red + second + gold + "sec ");
         String sbs = sb.toString();
         return sbs.substring(0, sbs.length() - 1);
     }
