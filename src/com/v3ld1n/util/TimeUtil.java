@@ -4,7 +4,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.bukkit.ChatColor;
+import com.v3ld1n.Message;
 
 public class TimeUtil {
     private TimeUtil() {
@@ -57,12 +57,13 @@ public class TimeUtil {
         long hour = seconds / 3600;
         long minute = ((seconds / 60) % 60);
         long second = seconds % 60;
-        ChatColor gold = ChatColor.GOLD;
-        ChatColor red = ChatColor.RED;
+        String hourString = Message.HOURS.toString();
+        String minuteString = Message.MINUTES.toString();
+        String secondString = Message.SECONDS.toString();
         StringBuilder sb = new StringBuilder();
-        sb.append(hour != 0 ? "" + red + hour + gold + "hr " : "");
-        sb.append(minute != 0 ? "" + red + minute + gold + "min " : "");
-        sb.append("" + red + second + gold + "sec ");
+        sb.append(hour != 0 ? String.format(hourString, hour) : "");
+        sb.append(minute != 0 ? String.format(minuteString, minute) : "");
+        sb.append(String.format(secondString, second));
         String sbs = sb.toString();
         return sbs.substring(0, sbs.length() - 1);
     }
