@@ -37,6 +37,13 @@ public class EntityListener implements Listener {
                 event.setCancelled(true);
             }
         }
+
+        // Protects players from firework explosions
+        if (entity.getType() == EntityType.PLAYER && event.getDamager().getType() == EntityType.FIREWORK) {
+        	if (ConfigSetting.DISABLE_FIREWORK_DAMAGE.getBoolean()) {
+        		event.setCancelled(true);
+        	}
+        }
     }
 
     // Protects non-living entities from lightning
