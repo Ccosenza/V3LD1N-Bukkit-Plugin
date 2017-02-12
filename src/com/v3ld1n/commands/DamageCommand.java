@@ -37,6 +37,10 @@ public class DamageCommand extends V3LD1NCommand {
             this.sendUsage(sender);
             return true;
         }
+        if (damageAmount < 0) {
+        	this.sendUsage(sender);
+        	return true;
+        }
 
         Player player;
         if (args.length == 1 && sender instanceof Player) {
