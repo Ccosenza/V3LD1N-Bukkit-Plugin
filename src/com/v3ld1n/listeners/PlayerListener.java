@@ -9,7 +9,6 @@ import com.v3ld1n.tasks.SoundTask;
 import com.v3ld1n.util.*;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -49,7 +48,6 @@ public class PlayerListener implements Listener {
 
             if (blockType == Material.WALL_SIGN || blockType == Material.SIGN_POST) {
                 //Signs
-
                 Sign signState = (Sign) event.getClickedBlock().getState();
 
                 for (com.v3ld1n.blocks.Sign sign : V3LD1N.getSigns()) {
@@ -71,16 +69,16 @@ public class PlayerListener implements Listener {
                 }
             }
         }
-        //Velds
+        // Money items
         if (action.name().startsWith("RIGHT_CLICK")) {
             if (itemInHand.getType() == Material.EMERALD && itemInHand.hasItemMeta()) {
                 ItemMeta handItemMeta = itemInHand.getItemMeta();
                 String handItemName = handItemMeta.getDisplayName();
-                String veldsItemName = ChatColor.GOLD + "Veld";
-                String veldsItemLore = Message.VELDS_LORE.toString();
+                String moneyItemName = Message.MONEY_NAME.toString();
+                String moneyItemLore = Message.MONEY_LORE.toString();
 
-                boolean sameName = handItemName.contains(veldsItemName);
-                boolean sameLore = handItemMeta.hasLore() && handItemMeta.getLore().get(0).equals(veldsItemLore);
+                boolean sameName = handItemName.contains(moneyItemName);
+                boolean sameLore = handItemMeta.hasLore() && handItemMeta.getLore().get(0).equals(moneyItemLore);
 
                 if (sameName && sameLore) {
                     event.setCancelled(true);
@@ -92,9 +90,9 @@ public class PlayerListener implements Listener {
                         amountInName = decimalFormat.format(amount);
 
                         V3LD1N.getEconomy().depositPlayer(player, amount);
-                        Message.VELDS_ADDED.sendF(player, amountInName);
+                        Message.MONEY_ADDED.sendF(player, amountInName);
                     } catch (Exception e) {
-                        Message.VELDS_INVALID_AMOUNT.logF(Level.WARNING, player.getName(), amountInName);
+                        Message.MONEY_INVALID_AMOUNT.logF(Level.WARNING, player.getName(), amountInName);
                     }
 
                     PlayerUtil.takeItem(player, itemInHand, 1);
@@ -103,6 +101,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    // Displays trails
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
@@ -121,6 +120,7 @@ public class PlayerListener implements Listener {
         trail.display(trailLocation);
     }
 
+    // Join message, join MOTD, player list, and resource pack
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
@@ -152,18 +152,21 @@ public class PlayerListener implements Listener {
         }
     }
 
+    // Variables in chat
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         String message = StringUtil.replacePlayerVariables(event.getMessage(), event.getPlayer());
         event.setMessage(message);
     }
 
+    // Variables in commands
     @EventHandler
     public void onCommandPreprocess(PlayerCommandPreprocessEvent event) {
         String message = StringUtil.replacePlayerVariables(event.getMessage(), event.getPlayer());
         event.setMessage(message);
     }
 
+    // Variables on signs
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
@@ -186,6 +189,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    // Variables in written books
     @EventHandler
     public void onBookEdit(PlayerEditBookEvent event) {
         BookMeta newBookMeta = event.getNewBookMeta();
@@ -205,6 +209,7 @@ public class PlayerListener implements Listener {
         event.setNewBookMeta(newBookMeta);
     }
 
+    // Disables item dropping
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
         if (ConfigSetting.CANCEL_DROP_WORLDS.getList().contains(event.getPlayer().getWorld().getName())) {
@@ -212,6 +217,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    // Disables items dropping on death and removes projectiles on death
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (ConfigSetting.CANCEL_DROP_WORLDS.getList().contains(event.getEntity().getWorld().getName())) {
@@ -232,6 +238,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    // Removes vehicles after exiting them
     @EventHandler
     public void onVehicleExit(VehicleExitEvent event) {
         final Vehicle vehicle = event.getVehicle();
@@ -250,6 +257,7 @@ public class PlayerListener implements Listener {
         }, ConfigSetting.REMOVE_VEHICLES_SECONDS.getInt() * 20);
     }
 
+    // Sets the server list MOTD
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
         if (ConfigSetting.SERVER_LIST_MOTD.getValue() != null) {
