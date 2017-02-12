@@ -24,6 +24,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
     public RideCommand() {
         this.addUsage("", "Ride an entity");
         this.addUsage("hold", "Hold an entity");
+        this.addUsage("drop", "Drop the entity you are holding");
     }
 
     @Override
@@ -38,6 +39,17 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                 if (args.length == 0) {
                     type = RideType.RIDE;
                 } else if (args.length == 1) {
+                	if (args[0].equalsIgnoreCase("drop")) {
+                		if (p.getPassenger() != null) {
+                    		String entityname = StringUtil.getEntityName(p.getPassenger());
+                			p.eject();
+                			Message.RIDE_DROP.aSendF(p, entityname);
+                		}
+                		else {
+                			Message.RIDE_DROP_NOT_HOLDING.aSend(p);
+                		}
+                		return true;
+                	}
                     try {
                         type = RideType.valueOf(args[0].toUpperCase());
                     } catch (Exception e) {
