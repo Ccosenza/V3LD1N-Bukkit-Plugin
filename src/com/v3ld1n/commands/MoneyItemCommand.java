@@ -29,12 +29,15 @@ public class MoneyItemCommand extends V3LD1NCommand {
                     this.sendUsage(sender);
                     return true;
                 }
+                if (amount < 0) {
+                	this.sendUsage(sender);
+                	return true;
+                }
                 ItemStack item = new ItemStack(Material.EMERALD);
                 DecimalFormat df = new DecimalFormat("0.##");
-                String moneyName = "§6Veld";
-                moneyName = moneyName + (amount == 1 ? "" : "s");
+                String moneyName = amount == 1 ? Message.MONEY_NAME.toString() : Message.MONEY_NAME_PLURAL.toString();
                 ItemUtil.setName(item, "§e" + df.format(amount) + " " + moneyName);
-                ItemUtil.addLore(item, Message.VELDS_LORE.toString());
+                ItemUtil.addLore(item, Message.MONEY_LORE.toString());
                 ItemUtil.addEnchantment(item, Enchantment.PROTECTION_ENVIRONMENTAL, 10);
                 item = ItemUtil.hideFlags(item);
                 p.getInventory().addItem(item);
