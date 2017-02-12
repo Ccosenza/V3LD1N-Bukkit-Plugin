@@ -22,9 +22,11 @@ public enum Message {
     MOTD_WELCOME("motd.welcome"),
     MOTD_WELCOME_BACK("motd.welcome-back"),
 
-    VELDS_ADDED("velds.added"),
-    VELDS_LORE("velds.lore"),
-    VELDS_INVALID_AMOUNT("velds.invalid-amount"),
+    MONEY_NAME("money.name"),
+    MONEY_NAME_PLURAL("money.name-plural"),
+    MONEY_ADDED("money.added"),
+    MONEY_LORE("money.lore"),
+    MONEY_INVALID_AMOUNT("money.invalid-amount"),
 
     SHORT_LIST_ITEM("lists.short-item"),
     LONG_LIST_ITEM("lists.long-item"),
@@ -183,6 +185,8 @@ public enum Message {
     RIDE_USE("commands.ride.use"),
     RIDE_RIDE("commands.ride.ride"),
     RIDE_HOLD("commands.ride.hold"),
+    RIDE_DROP("commands.ride.drop"),
+    RIDE_DROP_NOT_HOLDING("commands.ride.drop-not-holding"),
     RIDE_NO_TIME("commands.ride.no-time"),
     RIDE_INVALID_TYPE("commands.ride.invalid-type"),
 
