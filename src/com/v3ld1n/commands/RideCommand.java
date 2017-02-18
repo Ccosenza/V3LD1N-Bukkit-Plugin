@@ -53,7 +53,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                     try {
                         type = RideType.valueOf(args[0].toUpperCase());
                     } catch (Exception e) {
-                        Message.RIDE_INVALID_TYPE.send(p);
+                    	this.sendUsage(p);
                         return true;
                     }
                 } else {
