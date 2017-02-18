@@ -11,7 +11,6 @@ import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.Sound;
 
 public enum ConfigSetting {
-    DEBUG("debug", "config.yml", false),
     BLOG_POST("blog-post", "config.yml"),
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
     DISABLE_FIREWORK_DAMAGE("disable-firework-damage", "config.yml", true),
@@ -28,10 +27,10 @@ public enum ConfigSetting {
     PLAYER_LIST_PING_ENABLED("player-list.ping.enabled", "config.yml", false),
     PLAYER_LIST_PING_TICKS("player-list.ping.ticks", "config.yml", 20),
 
-    VELDS_REWARD_ENABLED("velds-reward.enabled", "config.yml", false),
-    VELDS_REWARD_BASE_AMOUNT("velds-reward.base-amount", "config.yml", 0),
-    VELDS_REWARD_HOUR_MULTIPLIER("velds-reward.hour-multiplier", "config.yml", 1),
-    VELDS_REWARD_TICKS("velds-reward.ticks", "config.yml", 72000),
+    MONEY_REWARD_ENABLED("velds-reward.enabled", "config.yml", false),
+    MONEY_REWARD_BASE_AMOUNT("velds-reward.base-amount", "config.yml", 0),
+    MONEY_REWARD_HOUR_MULTIPLIER("velds-reward.hour-multiplier", "config.yml", 1),
+    MONEY_REWARD_TICKS("velds-reward.ticks", "config.yml", 72000),
 
     FAQ_BACK_COLOR("back-color", "faq.yml", "blue"),
 

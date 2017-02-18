@@ -243,9 +243,7 @@ public final class StringUtil {
             }
             s.close();
         } catch (IOException e) {
-            if (ConfigSetting.DEBUG.getBoolean()) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
         return element;
     }

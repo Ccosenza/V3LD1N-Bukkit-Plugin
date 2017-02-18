@@ -21,7 +21,6 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
     private final static int HELP_PAGE_SIZE = 9;
 
     public V3LD1NPluginCommand() {
-        this.addUsage("debug", "Toggle debug mode");
         this.addUsage("help [page]", "Show a list of all plugin commands");
         this.addUsage("reload", "Reload the plugin config");
         this.addUsage("version", "Send the plugin version");
@@ -34,13 +33,7 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                 this.sendUsage(sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase("debug") && args.length == 1) {
-                boolean debug = ConfigSetting.DEBUG.getBoolean();
-                Message message = debug ? Message.V3LD1NPLUGIN_DISABLE_DEBUG : Message.V3LD1NPLUGIN_ENABLE_DEBUG;
-                ConfigSetting.DEBUG.toggle();
-                message.aSend(sender);
-                return true;
-            } else if (args[0].equalsIgnoreCase("help")) {
+            if (args[0].equalsIgnoreCase("help")) {
                 boolean pageExists = false;
                 if (args.length == 1) {
                     pageExists = displayHelp(sender, 1);
