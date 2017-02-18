@@ -37,7 +37,8 @@ public class SetHealthCommand extends V3LD1NCommand {
                     sendInvalidPlayerMessage(sender);
                     return true;
                 }
-                if (health >= 0 && health <= p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) {
+                double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+                if (health >= 0 && health <= maxHealth) {
                     p.setHealth(health);
                     boolean pIsSender = p.getName().equals(sender.getName());
                     String ownMessage = String.format(Message.SETHEALTH_SET_OWN.toString(), args[0]);
@@ -46,7 +47,7 @@ public class SetHealthCommand extends V3LD1NCommand {
                     ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                     return true;
                 }
-                Message.SETHEALTH_LIMIT.send(sender);
+                Message.SETHEALTH_LIMIT.sendF(sender, maxHealth);
                 return true;
             }
             this.sendUsage(sender);
