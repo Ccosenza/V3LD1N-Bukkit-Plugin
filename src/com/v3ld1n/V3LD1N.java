@@ -46,6 +46,8 @@ public class V3LD1N extends JavaPlugin {
     private static V3LD1N plugin;
     private static List<ConfigAccessor> configs;
     private static WorldGuardPlugin worldGuard;
+
+    private static List<Message> messages;
     private static List<V3LD1NCommand> commands;
     private static List<V3LD1NItem> items;
     private static List<FAQ> questions;
@@ -58,6 +60,7 @@ public class V3LD1N extends JavaPlugin {
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
     private static List<TeleportTask> teleportTasks;
+
     private static Economy econ = null;
     private static Permission perms = null;
     private static Chat chat = null;
@@ -69,10 +72,7 @@ public class V3LD1N extends JavaPlugin {
         plugin = this;
         configs = new ArrayList<>();
         loadConfig();
-        if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
-            PluginDescriptionFile d = plugin.getDescription();
-            Message.INVALID_BUKKIT_VERSION.logF(Level.WARNING, d.getName(), d.getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
-        }
+        messages = new ArrayList<>();
         commands = new ArrayList<>();
         items = new ArrayList<>();
         questions = new ArrayList<>();
@@ -86,6 +86,7 @@ public class V3LD1N extends JavaPlugin {
         soundTasks = new ArrayList<>();
         teleportTasks = new ArrayList<>();
         usingRideCommand = new HashMap<>();
+        loadMessages();
         setupWorldGuard();
         setupVault();
         loadItems();
@@ -103,7 +104,8 @@ public class V3LD1N extends JavaPlugin {
         pluginManager.registerEvents(new WarpCommand(), plugin);
         pluginManager.registerEvents(rideCommand, plugin);
         loadCommands();
-        Message.LOADING_COMMANDS.logDebugF(this.getDescription().getCommands().size());
+        Message.get("load-commands").logF(Level.INFO, this.getDescription().getCommands().size());
+
         //Ping on player list
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         final Scoreboard board = manager.getNewScoreboard();
@@ -129,6 +131,7 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.PLAYER_LIST_PING_TICKS.getInt(), ConfigSetting.PLAYER_LIST_PING_TICKS.getInt());
+
         //Auto-save save-data files
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
@@ -139,6 +142,7 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.AUTO_SAVE_TICKS.getInt(), ConfigSetting.AUTO_SAVE_TICKS.getInt());
+
         //Player effects
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
@@ -155,20 +159,26 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.PLAYER_EFFECTS_TICKS.getInt(), ConfigSetting.PLAYER_EFFECTS_TICKS.getInt());
-        //Velds reward
+
+        //Money reward
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
-                if (ConfigSetting.VELDS_REWARD_ENABLED.getBoolean()) {
+                if (ConfigSetting.MONEY_REWARD_ENABLED.getBoolean()) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                        int amount = ConfigSetting.VELDS_REWARD_BASE_AMOUNT.getInt();
-                        int multiplier = ConfigSetting.VELDS_REWARD_HOUR_MULTIPLIER.getInt();
+                        int amount = ConfigSetting.MONEY_REWARD_BASE_AMOUNT.getInt();
+                        int multiplier = ConfigSetting.MONEY_REWARD_HOUR_MULTIPLIER.getInt();
                         amount += (PlayerUtil.getHoursPlayed(p) * multiplier);
                         econ.depositPlayer(p, amount);
                     }
                 }
             }
-        }, ConfigSetting.VELDS_REWARD_TICKS.getInt(), ConfigSetting.VELDS_REWARD_TICKS.getInt());
+        }, ConfigSetting.MONEY_REWARD_TICKS.getInt(), ConfigSetting.MONEY_REWARD_TICKS.getInt());
+
+        if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
+            PluginDescriptionFile d = plugin.getDescription();
+            Message.get("incompatible-version").logF(Level.WARNING, d.getName(), d.getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
+        }
     }
 
     @Override
@@ -274,6 +284,21 @@ public class V3LD1N extends JavaPlugin {
         addCommand("v3ld1nwarp", new V3LD1NWarpCommand());
     }
 
+    private void loadMessages() {
+        try {
+            if (Config.MESSAGES.getConfig() != null) {
+                FileConfiguration config = Config.TASKS_TELEPORT.getConfig();
+                for (String key : config.getKeys(false)) {
+                    final Message newMessage = new Message(key, config.getString(key));
+                    messages.add(newMessage);
+                }
+                Message.get("load-messages").logF(Level.INFO, messages.size());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void loadItems() {
         items.add(new FireworkBow());
         items.add(new FlightFeather());
@@ -297,7 +322,7 @@ public class V3LD1N extends JavaPlugin {
         for (V3LD1NItem item : items) {
             pluginManager.registerEvents(item, plugin);
         }
-        Message.LOADING_ITEMS.logDebugF(items.size());
+        Message.get("load-items").logF(Level.INFO, items.size());
     }
 
     private static void loadQuestions() {
@@ -312,10 +337,10 @@ public class V3LD1N extends JavaPlugin {
                     FAQ faq = new FAQ(key, question, answer);
                     questions.add(faq);
                 }
-                Message.LOADING_QUESTIONS.logDebugF(questions.size());
+                Message.get("load-faq").logF(Level.INFO, questions.size());
             }
         } catch (Exception e) {
-            Message.FAQ_LOAD_ERROR.log(Level.WARNING);
+            Message.get("error-load-faq").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -343,10 +368,10 @@ public class V3LD1N extends JavaPlugin {
                     Warp warp = new Warp(name, particles, sounds);
                     warps.add(warp);
                 }
-                Message.LOADING_WARPS.logDebugF(warps.size());
+                Message.get("load-warps").logF(Level.INFO, warps.size());
             }
         } catch (Exception e) {
-            Message.WARP_LOAD_ERROR.log(Level.WARNING);
+            Message.get("error-load-warps").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -367,9 +392,9 @@ public class V3LD1N extends JavaPlugin {
                 config.set(section + name + ".sounds", warp.getSounds());
             }
             Config.WARPS.saveConfig();
-            Message.SAVING_WARPS.logDebugF(warps.size());
+            Message.get("save-warps").logF(Level.INFO, warps.size());
         } catch (Exception e) {
-            Message.WARP_SAVE_ERROR.log(Level.WARNING);
+            Message.get("error-save-warps").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -427,10 +452,10 @@ public class V3LD1N extends JavaPlugin {
                     Sign sign = new Sign(text, playerCommands, consoleCommands, particles, sounds);
                     signs.add(sign);
                 }
-                Message.LOADING_SIGNS.logDebugF(signs.size());
+                Message.get("load-signs").logF(Level.INFO, signs.size());
             }
         } catch (Exception e) {
-            Message.SIGN_LOAD_ERROR.log(Level.WARNING);
+            Message.get("error-load-signs").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -456,10 +481,10 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }
                 }
-                Message.LOADING_CHANGELOG.logDebugF(changelogDays.size());
+                Message.get("load-changelog").logF(Level.INFO, changelogDays.size());
             }
         } catch (Exception e) {
-            Message.CHANGELOG_LOAD_ERROR.log(Level.WARNING);
+            Message.get("error-load-changelog").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -483,9 +508,9 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
             Config.CHANGELOG.saveConfig();
-            Message.SAVING_CHANGELOG.logDebugF(changelogDays.size());
+            Message.get("save-changelog").logF(Level.INFO, changelogDays.size());
         } catch (Exception e) {
-            Message.CHANGELOG_SAVE_ERROR.log(Level.WARNING);
+            Message.get("error-save-changelog").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -515,18 +540,18 @@ public class V3LD1N extends JavaPlugin {
                     resourcePacks.add(resourcePack);
                     resourcePackNames.add(key);
                 }
-                Message.LOADING_RESOURCE_PACKS.logDebugF(resourcePacks.size());
+                Message.get("load-resourcepacks").logF(Level.INFO, resourcePacks.size());
             }
         } catch (Exception e) {
-            Message.RESOURCE_PACK_LOAD_ERROR.log(Level.WARNING);
+            Message.get("error-load-resourcepacks").log(Level.WARNING);
             e.printStackTrace();
         }
     }
 
     public static ResourcePack getResourcePack(String name) {
-        for (ResourcePack rp : resourcePacks) {
-            if (rp.getName().equalsIgnoreCase(name)) {
-                return rp;
+        for (ResourcePack resourcepack : resourcePacks) {
+            if (resourcepack.getName().equalsIgnoreCase(name)) {
+                return resourcepack;
             }
         }
         return null;
@@ -547,10 +572,10 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
-                Message.LOADING_ITEM_TASKS.logDebugF(itemTasks.size());
+                Message.get("loadtasks-item").logF(Level.INFO, itemTasks.size());
             }
         } catch (Exception e) {
-            Message.TASK_ITEM_ERROR.log(Level.WARNING);
+            Message.get("error-loadtasks-item").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -570,10 +595,10 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
-                Message.LOADING_PARTICLE_TASKS.logDebugF(particleTasks.size());
+                Message.get("loadtasks-particle").logF(Level.INFO, particleTasks.size());
             }
         } catch (Exception e) {
-            Message.TASK_PARTICLE_ERROR.log(Level.WARNING);
+            Message.get("error-loadtasks-particle").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -593,10 +618,10 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
-                Message.LOADING_SOUND_TASKS.logDebugF(soundTasks.size());
+                Message.get("loadtasks-sound").logF(Level.INFO, soundTasks.size());
             }
         } catch (Exception e) {
-            Message.TASK_SOUND_ERROR.log(Level.WARNING);
+            Message.get("error-loadtasks-sound").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -616,10 +641,10 @@ public class V3LD1N extends JavaPlugin {
                         }
                     }, ticks, ticks);
                 }
-                Message.LOADING_TELEPORT_TASKS.logDebugF(teleportTasks.size());
+                Message.get("loadtasks-teleport").logF(Level.INFO, teleportTasks.size());
             }
         } catch (Exception e) {
-            Message.TASK_TELEPORT_ERROR.log(Level.WARNING);
+            Message.get("error-loadtasks-teleport").log(Level.WARNING);
             e.printStackTrace();
         }
     }
@@ -659,6 +684,10 @@ public class V3LD1N extends JavaPlugin {
             }
         }
         return vc;
+    }
+
+    public static List<Message> getMessages() {
+    	return messages;
     }
 
     public static List<FAQ> getQuestions() {
