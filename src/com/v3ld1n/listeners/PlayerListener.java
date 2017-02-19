@@ -63,7 +63,7 @@ public class PlayerListener implements Listener {
                         if (signState.equals(sign)) {
                             long seconds = (task.getNextTime() / 1000) - (TimeUtil.getTime() / 1000);
                             String time = TimeUtil.fromSeconds(seconds);
-                            Message.TASK_SOUND_TIME.sendF(player, task.getName().toUpperCase(), time);
+                            Message.get("task-sound-time").sendF(player, task.getName().toUpperCase(), time);
                         }
                     }
                 }
@@ -74,8 +74,8 @@ public class PlayerListener implements Listener {
             if (itemInHand.getType() == Material.EMERALD && itemInHand.hasItemMeta()) {
                 ItemMeta handItemMeta = itemInHand.getItemMeta();
                 String handItemName = handItemMeta.getDisplayName();
-                String moneyItemName = Message.MONEY_NAME.toString();
-                String moneyItemLore = Message.MONEY_LORE.toString();
+                String moneyItemName = Message.get("money-name").toString();
+                String moneyItemLore = Message.get("money-lore").toString();
 
                 boolean sameName = handItemName.contains(moneyItemName);
                 boolean sameLore = handItemMeta.hasLore() && handItemMeta.getLore().get(0).equals(moneyItemLore);
@@ -90,9 +90,9 @@ public class PlayerListener implements Listener {
                         amountInName = decimalFormat.format(amount);
 
                         V3LD1N.getEconomy().depositPlayer(player, amount);
-                        Message.MONEY_ADDED.sendF(player, amountInName);
+                        Message.get("money-added").sendF(player, amountInName);
                     } catch (Exception e) {
-                        Message.MONEY_INVALID_AMOUNT.logF(Level.WARNING, player.getName(), amountInName);
+                    	Message.get("money-invalid-amount").logF(Level.WARNING, player.getName(), amountInName);
                     }
 
                     PlayerUtil.takeItem(player, itemInHand, 1);
@@ -127,7 +127,7 @@ public class PlayerListener implements Listener {
 
         if (!player.hasPlayedBefore()) {
             int playerNumber = Bukkit.getOfflinePlayers().length;
-            event.setJoinMessage(String.format(Message.NEW_PLAYER_JOIN.toString(), player.getName(), playerNumber));
+            event.setJoinMessage(String.format(Message.get("new-player-join").toString(), player.getName(), playerNumber));
         }
 
         ChatUtil.sendMotd(player);
@@ -183,7 +183,7 @@ public class PlayerListener implements Listener {
             for (com.v3ld1n.blocks.Sign sign : V3LD1N.getSigns()) {
                 if (firstLine.replaceAll("§", "&").equals(sign.getText())) {
                     event.setCancelled(true);
-                    Message.SIGN_PERMISSION.sendF(player, firstLine);
+                    Message.get("permission-signs").sendF(player, firstLine);
                 }
             }
         }

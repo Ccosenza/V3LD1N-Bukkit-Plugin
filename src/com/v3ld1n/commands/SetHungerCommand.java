@@ -56,13 +56,13 @@ public class SetHungerCommand extends V3LD1NCommand {
                         return true;
                     }
                     boolean pIsSender = p.getName().equals(sender.getName());
-                    String ownMessage = String.format(Message.SETHUNGER_SET_OWN.toString(), args[1], args[0]);
-                    String otherMessage = String.format(Message.SETHUNGER_SET.toString(), p.getName(), args[1], args[0]);
+                    String ownMessage = String.format(Message.get("sethunger-set").toString(), args[1], args[0]);
+                    String otherMessage = String.format(Message.get("sethunger-set-other").toString(), p.getName(), args[1], args[0]);
                     String message = pIsSender ? ownMessage : otherMessage;
                     ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                     return true;
                 }
-                Message.SETHUNGER_LIMIT.send(sender);
+                Message.get("sethunger-limit").send(sender);
                 return true;
             }
             this.sendUsage(sender);

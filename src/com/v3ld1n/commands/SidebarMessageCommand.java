@@ -33,7 +33,7 @@ public class SidebarMessageCommand extends V3LD1NCommand {
                         time = Integer.parseInt(timeArg);
                     }
                 } catch (Exception IllegalArgumentException) {
-                    String invalidTime = Message.SIDEBARMESSAGE_INVALID_TIME.toString();
+                    String invalidTime = Message.get("sidebarmessage-invalid-time").toString();
                     sender.sendMessage(String.format(invalidTime, DEFAULT_TIME, DEFAULT_TIME / 20));
                     time = DEFAULT_TIME;
                 }
@@ -47,14 +47,14 @@ public class SidebarMessageCommand extends V3LD1NCommand {
                     sbm.display(p, time);
                 }
                 String replaced = StringUtil.formatText(sbm.getTitle().replaceAll("_", " "));
-                String message = String.format(Message.SIDEBARMESSAGE_DISPLAY.toString(), replaced);
+                String message = String.format(Message.get("sidebarmessage-display").toString(), replaced);
                 ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                 return true;
             }
             this.sendUsage(sender);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NO_PERMISSION.toString());
+        sender.sendMessage(Message.get("command-permission").toString());
         return true;
     }
 }

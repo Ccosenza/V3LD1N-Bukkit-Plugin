@@ -29,7 +29,7 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                 if (args[0].equalsIgnoreCase("add")) {
                     motds.add(motd);
                     ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
-                    Message.V3LD1NMOTD_ADD.aSendF(sender, motd);
+                    Message.get("v3ld1nmotd-add").aSendF(sender, motd);
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove")) {
                     if (args[1].equalsIgnoreCase("all")) {
@@ -43,19 +43,19 @@ public class V3LD1NMotdCommand extends V3LD1NCommand {
                                 }
                             }
                         } else {
-                            Message.V3LD1NMOTD_INVALID.sendF(sender, motd);
+                        	Message.get("v3ld1nmotd-invalid").sendF(sender, motd);
                             return true;
                         }
                     }
                     ConfigSetting.SERVER_LIST_MOTD.setValue(motds);
-                    Message.V3LD1NMOTD_REMOVE.aSendF(sender, motd);
+                    Message.get("v3ld1nmotd-remove").aSendF(sender, motd);
                     return true;
                 }
                 this.sendUsage(sender);
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
-                    String title = Message.V3LD1NMOTD_LIST_TITLE.toString();
+                    String title = Message.get("v3ld1nmotd-list-title").toString();
                     ChatUtil.sendList(sender, title, motds, ListType.LONG);
                     return true;
                 }

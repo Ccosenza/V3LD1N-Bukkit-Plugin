@@ -287,7 +287,7 @@ public class V3LD1N extends JavaPlugin {
     private void loadMessages() {
         try {
             if (Config.MESSAGES.getConfig() != null) {
-                FileConfiguration config = Config.TASKS_TELEPORT.getConfig();
+                FileConfiguration config = Config.MESSAGES.getConfig();
                 for (String key : config.getKeys(false)) {
                     final Message newMessage = new Message(key, config.getString(key));
                     messages.add(newMessage);

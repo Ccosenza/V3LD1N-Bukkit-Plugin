@@ -3,9 +3,9 @@ package com.v3ld1n.commands;
 import com.v3ld1n.Message;
 
 public enum EditSignType {
-    SET(Message.EDITSIGN_SET),
-    ADD(Message.EDITSIGN_ADD),
-    REMOVE(Message.EDITSIGN_REMOVE);
+    SET(Message.get("editsign-set")),
+    ADD(Message.get("editsign-add")),
+    REMOVE(Message.get("editsign-remove"));
 
     private final Message message;
 

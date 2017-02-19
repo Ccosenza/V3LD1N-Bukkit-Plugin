@@ -43,10 +43,10 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                 		if (p.getPassenger() != null) {
                     		String entityname = StringUtil.getEntityName(p.getPassenger());
                 			p.eject();
-                			Message.RIDE_DROP.aSendF(p, entityname);
+                			Message.get("ride-drop").aSendF(p, entityname);
                 		}
                 		else {
-                			Message.RIDE_DROP_NOT_HOLDING.aSend(p);
+                			Message.get("ride-drop-not-holding").aSend(p);
                 		}
                 		return true;
                 	}
@@ -61,13 +61,13 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                     return true;
                 }
                 V3LD1N.usingRideCommand.put(p.getUniqueId(), type);
-                Message.RIDE_USE.aSend(p);
+                Message.get("ride-click").aSend(p);
                 task = Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
                     @Override
                     public void run() {
                         if (V3LD1N.usingRideCommand.get(p.getUniqueId()) != null) {
                             V3LD1N.usingRideCommand.remove(p.getUniqueId());
-                            Message.RIDE_NO_TIME.aSend(p);
+                            Message.get("ride-no-selection").aSend(p);
                         }
                     }
                 }, 200);
@@ -92,11 +92,11 @@ public class RideCommand extends V3LD1NCommand implements Listener {
             switch (type) {
             case RIDE:
                 entity.setPassenger(p);
-                message = Message.RIDE_RIDE;
+                message = Message.get("ride-ride");
                 break;
             case HOLD:
                 p.setPassenger(entity);
-                message = Message.RIDE_HOLD;
+                message = Message.get("ride-hold");
                 break;
             default:
                 break;

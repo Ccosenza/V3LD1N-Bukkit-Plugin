@@ -68,7 +68,7 @@ public class PlayersCommand extends V3LD1NCommand {
                 for (OfflinePlayer player : players) {
                     names.add(player.getName());
                 }
-                ChatUtil.sendList(sender, Message.PLAYERS_LIST_TITLE.toString(), names, ListType.SHORT);
+                ChatUtil.sendList(sender, Message.get("players-list-title").toString(), names, ListType.SHORT);
                 return true;
             } else if ((args[0].equalsIgnoreCase("total") || args[0].equalsIgnoreCase("online")) && args.length == 1) {
                 int players = 0;
@@ -85,13 +85,13 @@ public class PlayersCommand extends V3LD1NCommand {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
                     String upper = StringUtil.upperCaseFirst(args[0]);
-                    String title = String.format(Message.PLAYERS_AMOUNT_TITLE.toString(), upper);
-                    String subtitle = String.format(Message.PLAYERS_AMOUNT_SUBTITLE.toString(), players);
+                    String title = String.format(Message.get("players-amount-title").toString(), upper);
+                    String subtitle = String.format(Message.get("players-amount-subtitle").toString(), players);
                     PlayerUtil.displayTitle(p, "{\"text\":\"" + title + "\"}", 2, 2, 2);
                     PlayerUtil.displaySubtitle(p, "{\"text\":\"" + subtitle + "\"}", 2, 2, 2, false);
                     return true;
                 }
-                Message.PLAYERS_AMOUNT_NOT_PLAYER.aSendF(sender, players);
+                Message.get("players-amount-chat").aSendF(sender, players);
                 return true;
             } else if (args[0].equalsIgnoreCase("heads") && args.length == 1 && sender instanceof Player) {
                 Player p = (Player) sender;

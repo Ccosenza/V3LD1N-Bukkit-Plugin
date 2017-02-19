@@ -117,7 +117,7 @@ public final class ChatUtil {
         case SHORT:
             StringBuilder sb = new StringBuilder();
             for (String item : strings) {
-                sb.append(String.format(Message.SHORT_LIST_ITEM.toString(), item));
+                sb.append(String.format(Message.get("listitem-short").toString(), item));
             }
             String message = title + sb.toString().substring(0, sb.toString().length() - 2);
             user.sendMessage(message);
@@ -125,7 +125,7 @@ public final class ChatUtil {
         case LONG:
             user.sendMessage(title);
             for (String item : strings) {
-                Message.LONG_LIST_ITEM.sendF(user, StringUtil.formatText(item));
+            	Message.get("listitem-long").sendF(user, StringUtil.formatText(item));
             }
             break;
         case SIDEBAR:

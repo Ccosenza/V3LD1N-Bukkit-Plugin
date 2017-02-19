@@ -41,13 +41,13 @@ public class SetHealthCommand extends V3LD1NCommand {
                 if (health >= 0 && health <= maxHealth) {
                     p.setHealth(health);
                     boolean pIsSender = p.getName().equals(sender.getName());
-                    String ownMessage = String.format(Message.SETHEALTH_SET_OWN.toString(), args[0]);
-                    String otherMessage = String.format(Message.SETHEALTH_SET.toString(), p.getName(), args[0]);
+                    String ownMessage = String.format(Message.get("sethealth-set").toString(), args[0]);
+                    String otherMessage = String.format(Message.get("sethealth-set-other").toString(), p.getName(), args[0]);
                     String message = pIsSender ? ownMessage : otherMessage;
                     ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                     return true;
                 }
-                Message.SETHEALTH_LIMIT.sendF(sender, maxHealth);
+                Message.get("sethealth-limit").sendF(sender, maxHealth);
                 return true;
             }
             this.sendUsage(sender);

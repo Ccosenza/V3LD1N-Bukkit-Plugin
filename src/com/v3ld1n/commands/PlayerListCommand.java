@@ -28,23 +28,23 @@ public class PlayerListCommand extends V3LD1NCommand {
                     String header = StringUtil.formatText(args[1].replaceAll("_", " "));
                     String footer = StringUtil.formatText(args[2].replaceAll("_", " "));
                     ConfigUtil.setPlayerListHeaderFooter(header, footer);
-                    Message.PLAYERLIST_SET.aSendF(sender, header, footer);
+                    Message.get("playerlist-set").aSendF(sender, header, footer);
                     return true;
                 } else if (args[0].equalsIgnoreCase("reset") && l == 1) {
                     ConfigUtil.setPlayerListHeaderFooter("{text:\"\"}", "{text:\"\"}");
-                    Message.PLAYERLIST_RESET.aSend(sender);
+                    Message.get("playerlist-reset").aSend(sender);
                     return true;
                 } else if (args[0].equalsIgnoreCase("ping") && (l <= 3)) {
                     if (l == 1) {
                         int ticks = ConfigSetting.PLAYER_LIST_PING_TICKS.getInt();
                         double seconds = ((double) ticks) / 20;
-                        Message.PLAYERLIST_PING_DISPLAY.sendF(sender, ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean());
-                        Message.PLAYERLIST_PING_TIME.sendF(sender, String.format("%.2f", seconds), ticks);
+                        Message.get("playerlist-ping-display").sendF(sender, ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean());
+                        Message.get("playerlist-ping-time").sendF(sender, String.format("%.2f", seconds), ticks);
                         return true;
                     } else if (l == 2) {
                         if (args[1].equalsIgnoreCase("toggle")) {
                             boolean pingEnabled = ConfigSetting.PLAYER_LIST_PING_ENABLED.getBoolean();
-                            Message message = pingEnabled ? Message.PLAYERLIST_DISABLE_PING : Message.PLAYERLIST_ENABLE_PING;
+                            Message message = pingEnabled ? Message.get("playerlist-ping-disable") : Message.get("playerlist-ping-enable");
                             ConfigSetting.PLAYER_LIST_PING_ENABLED.toggle();
                             message.aSend(sender);
                             return true;
@@ -59,7 +59,7 @@ public class PlayerListCommand extends V3LD1NCommand {
                                 return true;
                             }
                             ConfigSetting.PLAYER_LIST_PING_TICKS.setValue(arg);
-                            Message.PLAYERLIST_SET_PING_TIME.aSendF(sender, arg);
+                            Message.get("playerlist-ping-time-set").aSendF(sender, arg);
                             return true;
                         }
                     }

@@ -64,9 +64,9 @@ public class ChangelogCommand extends V3LD1NCommand {
                 // Remove the link from today's changelog
                 if (args[1].equalsIgnoreCase("remove")) {
                     link = "";
-                    message = Message.CHANGELOG_LINK_REMOVE;
+                    message = Message.get("changelog-link-remove");
                 } else {
-                    message = Message.CHANGELOG_LINK_SET;
+                    message = Message.get("changelog-link-set");
                 }
 
                 // Add a link to today's changelog
@@ -74,7 +74,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                     ChangelogDay.today().setLink(link);
                     message.sendF(player, link);
                 } else {
-                    Message.CHANGELOG_LINK_ERROR.send(player);
+                	Message.get("changelog-link-error").send(player);
                 }
                 return true;
             }
@@ -90,16 +90,16 @@ public class ChangelogCommand extends V3LD1NCommand {
             Change change = new Change(TimeUtil.getTime(), uuid, replaced);
             V3LD1N.addChange(change, ChangelogDay.todayDate());
             displayChangelog(player, 1);
-            Message.CHANGELOG_LOG.send(player);
+            Message.get("changelog-added").send(player);
         } else {
-            Message.CHANGELOG_NO_PERMISSION.send(player);
+        	Message.get("changelog-log-permission").send(player);
         }
     }
 
     private void displayChangelog(Player p, int page) {
         List<ChangelogDay> days = new ArrayList<>(V3LD1N.getChangelogDays());
         Collections.reverse(days);
-        Message.CHANGELOG_BORDER_TOP.sendF(p, page, ChatUtil.getNumberOfPages(days, PAGE_SIZE));
+        Message.get("changelog-border-top").sendF(p, page, ChatUtil.getNumberOfPages(days, PAGE_SIZE));
         List<ChangelogDay> daysOnPage = ChatUtil.getPage(days, page, PAGE_SIZE);
 
         for (ChangelogDay day : daysOnPage) {
@@ -110,11 +110,11 @@ public class ChangelogCommand extends V3LD1NCommand {
                 String formattedDate = TimeUtil.format(date.getTime(), "MMMM d, yyyy");
 
                 StringBuilder builder = new StringBuilder();
-                builder.append(String.format(Message.CHANGELOG_HOVER_TOP.toString(), formattedDate) + "\n");
+                builder.append(String.format(Message.get("changelog-hover-top").toString(), formattedDate) + "\n");
 
                 for (Change change : changesOnDay) {
                     String changeTime = TimeUtil.formatTime(change.getTime());
-                    String listItemFormat = Message.CHANGELOG_LIST_ITEM.toString();
+                    String listItemFormat = Message.get("changelog-list-item").toString();
                     listItemFormat = listItemFormat.replaceAll("%newline%", "\n");
                     builder.append(String.format(listItemFormat, changeTime, change.getChange()));
                 }
@@ -128,11 +128,11 @@ public class ChangelogCommand extends V3LD1NCommand {
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, day.getLink()));
                 p.spigot().sendMessage(message);
             } catch (Exception e) {
-                Message.CHANGELOG_ERROR.send(p);
+            	Message.get("changelog-display-error").send(p);
                 e.printStackTrace();
             }
         }
-        Message.CHANGELOG_HELP.send(p);
-        Message.CHANGELOG_BORDER_BOTTOM.send(p);
+        Message.get("changelog-help").send(p);
+        Message.get("changelog-border-bottom").send(p);
     }
 }

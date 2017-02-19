@@ -30,7 +30,7 @@ public class PushCommand extends V3LD1NCommand {
                     speedY = Double.parseDouble(args[2]);
                     speedZ = Double.parseDouble(args[3]);
                 } catch (Exception e) {
-                    Message.PUSH_INVALID_SPEED.sendF(sender, SPEED_DEFAULT);
+                	Message.get("push-invalid-speed").sendF(sender, SPEED_DEFAULT);
                 }
                 if (speedX > SPEED_LIMIT) {
                     speedX = SPEED_LIMIT;
@@ -45,7 +45,7 @@ public class PushCommand extends V3LD1NCommand {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
                     p.setVelocity(velocity);
-                    Message.PUSH_PUSH.aSendF(sender, p.getName(), speedX, speedY, speedZ);
+                    Message.get("push-push").aSendF(sender, p.getName(), speedX, speedY, speedZ);
                     return true;
                 }
                 sendInvalidPlayerMessage(sender);
@@ -58,10 +58,10 @@ public class PushCommand extends V3LD1NCommand {
                     try {
                         speed = Double.parseDouble(args[2]);
                     } catch (Exception e) {
-                        Message.PUSH_INVALID_SPEED.sendF(sender, SPEED_DEFAULT);
+                    	Message.get("push-invalid-speed").sendF(sender, SPEED_DEFAULT);
                     }
                     EntityUtil.pushToward(player, toPlayer.getLocation(), new Vector(speed, speed, speed), false);
-                    Message.PUSH_PUSH_TO_PLAYER.aSendF(sender, player.getName(), speed);
+                    Message.get("push-push-to-player").aSendF(sender, player.getName(), speed);
                     return true;
                 }
                 sendInvalidPlayerMessage(sender);

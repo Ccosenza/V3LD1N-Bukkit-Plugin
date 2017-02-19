@@ -29,24 +29,24 @@ public class TrailCommand extends V3LD1NCommand {
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             PlayerData.TRAILS.set(p, null);
-                            Message.TRAIL_REMOVE_OWN.send(sender);
+                            Message.get("trail-remove").send(sender);
                             return true;
                         }
-                        Message.COMMAND_NOT_PLAYER.send(sender);
+                        Message.get("command-not-player").send(sender);
                         return true;
                     } else if (args.length == 2) {
                         if (sender.hasPermission("v3ld1n.trail.others")) {
                             if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
                                 Player p = PlayerUtil.getOnlinePlayer(args[1]);
                                 PlayerData.TRAILS.set(p, null);
-                                Message removeOther = Message.TRAIL_REMOVE_OTHER;
+                                Message removeOther = Message.get("trail-remove-other");
                                 removeOther.sendF(sender, p.getName());
                                 return true;
                             }
                             sendInvalidPlayerMessage(sender);
                             return true;
                         }
-                        Message.TRAIL_NO_PERMISSION_OTHERS.send(sender);
+                        Message.get("trail-others-permission").send(sender);
                         return true;
                     }
                     this.sendUsage(sender);
@@ -58,21 +58,21 @@ public class TrailCommand extends V3LD1NCommand {
                     Player p = (Player) sender;
                     List<String> blockedTrails = ConfigSetting.PARTICLE_TRAILS_BLOCKED.getStringList();
                     if (blockedTrails.contains(args[0]) && !p.hasPermission("v3ld1n.trails.useblocked")) {
-                    	Message.TRAIL_BLOCKED.aSendF(p, args[0]);
+                    	Message.get("trail-blocked").aSendF(p, args[0]);
                     	return true;
                     }
                     PlayerData.TRAILS.set(p, args[0]);
-                    Message.TRAIL_SET_OWN.sendF(sender, args[0]);
+                    Message.get("trail-set").sendF(sender, args[0]);
                     return true;
                 }
-                Message.COMMAND_NOT_PLAYER.send(sender);
+                Message.get("command-not-player").send(sender);
                 return true;
             } else if (args.length == 2) {
                 if (sender.hasPermission("v3ld1n.trails.others")) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                         if (p.getName().equals(args[1])) {
                             PlayerData.TRAILS.set(p, args[0]);
-                            Message setOther = Message.TRAIL_SET_OTHER;
+                            Message setOther = Message.get("trail-set-other");
                             setOther.sendF(sender, p.getName(), args[0], p.getName());
                             return true;
                         }
@@ -80,7 +80,7 @@ public class TrailCommand extends V3LD1NCommand {
                         return true;
                     }
                 }
-                Message.TRAIL_NO_PERMISSION_OTHERS.send(sender);
+                Message.get("trail-others-permission").send(sender);
                 return true;
             }
             this.sendUsage(sender);

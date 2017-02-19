@@ -47,21 +47,21 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
     // Removes a player's auto resource pack
     public void removeResourcePack(Player player) {
         PlayerData.AUTO_RESOURCE_PACK.set(player, null);
-        Message.AUTORESOURCEPACK_REMOVE.aSend(player);
+        Message.get("autoresourcepack-remove").aSend(player);
     }
 
     // Sets a player's auto resource pack
     public void setResourcePack(Player player, String resourcePack) {
         PlayerData.AUTO_RESOURCE_PACK.set(player, resourcePack);
-        Message.AUTORESOURCEPACK_SET.sendF(player, resourcePack);
-        Message.AUTORESOURCEPACK_REMOVE_COMMAND.send(player);
+        Message.get("autoresourcepack-set").sendF(player, resourcePack);
+        Message.get("autoresourcepack-remove-help").send(player);
     }
 
     // Displays an error if the resource pack doesn't exist
     public void sendError(Player player, String enteredPack) {
         List<String> names = V3LD1N.getResourcePackNames();
-        ChatUtil.sendList(player, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
-        Message.AUTORESOURCEPACK_ERROR.sendF(player, enteredPack);
+        ChatUtil.sendList(player, Message.get("resourcepack-list-title").toString(), names, ListType.LONG);
+        Message.get("autoresourcepack-error").sendF(player, enteredPack);
     }
 
     // Displays the player's current auto resource pack when sending the command usage
@@ -74,7 +74,7 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
         Player player = (Player) user;
         if (PlayerData.AUTO_RESOURCE_PACK.get(player) != null) {
             String currentPack = PlayerData.AUTO_RESOURCE_PACK.getString(player);
-            Message.AUTORESOURCEPACK_INFO.sendF(user, currentPack);
+            Message.get("autoresourcepack-current").sendF(user, currentPack);
         }
     }
 }

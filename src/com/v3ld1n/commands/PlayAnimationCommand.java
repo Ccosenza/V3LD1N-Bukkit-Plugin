@@ -44,7 +44,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
         } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
             player = PlayerUtil.getOnlinePlayer(args[1]);
         } else if (args.length == 2 && !(sender.hasPermission("v3ld1n.playanimation.others"))) {
-            Message.PLAYANIMATION_NO_PERMISSION_OTHERS.send(sender);
+        	Message.get("playanimation-others-permission").send(sender);
             return true;
         } else {
             sendInvalidPlayerMessage(sender);
@@ -58,7 +58,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
     private void play(CommandSender sender, Player player, PlayerAnimation animation) {
         animation.play(player);
         boolean playedOnSelf = player.getName().equals(sender.getName());
-        Message message = playedOnSelf ? Message.PLAYANIMATION_PLAY : Message.PLAYANIMATION_PLAY_OTHER;
+        Message message = playedOnSelf ? Message.get("playanimation-play") : Message.get("playanimation-play-other");
         message.aSendF(sender, StringUtil.fromEnum(animation, true), player.getName());
     }
     
@@ -66,7 +66,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);
-        String title = Message.PLAYANIMATION_LIST_TITLE.toString();
+        String title = Message.get("playanimation-list-title").toString();
         List<PlayerAnimation> animations = Arrays.asList(PlayerAnimation.values());
         ChatUtil.sendList(user, title, animations, ListType.SHORT);
     }

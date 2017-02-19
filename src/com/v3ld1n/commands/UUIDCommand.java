@@ -28,7 +28,7 @@ public class UUIDCommand extends V3LD1NCommand {
                 uuid = p.getUniqueId().toString();
                 name = p.getName();
             } else {
-                sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+                sender.sendMessage(Message.get("command-not-player").toString());
                 return true;
             }
         } else if (args.length == 1) {
@@ -36,7 +36,7 @@ public class UUIDCommand extends V3LD1NCommand {
                 uuid = PlayerUtil.getUuid(args[0], true).toString();
                 name = args[0];
             } else {
-                sender.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                sender.sendMessage(Message.get("command-invalid-player").toString());
                 return true;
             }
         } else {
@@ -46,7 +46,7 @@ public class UUIDCommand extends V3LD1NCommand {
         if (sender instanceof Player) {
             TextComponent message = new TextComponent(uuid);
             message.setColor(ChatColor.YELLOW);
-            String hoverFormat = String.format(Message.UUID_HOVER.toString(), name);
+            String hoverFormat = String.format(Message.get("uuid-hover").toString(), name);
             message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverFormat).create()));
             message.setInsertion(uuid);
             ((Player) sender).spigot().sendMessage(message);

@@ -42,7 +42,7 @@ public class RatchetShovel extends V3LD1NItem {
         Player player = (Player) snowball.getShooter();
         double damage = snowball.getTicksLived() * settings.getInt("damage-multiplier");
         event.setDamage(damage);
-        Message.RATCHETS_SHOVEL_DAMAGE.aSendF(player, (int) damage);
+        Message.get("item-ratchetsshovel-damage").aSendF(player, (int) damage);
         Particle.displayList(settings.getParticles("hit-particles"), snowball.getLocation());
     }
 }

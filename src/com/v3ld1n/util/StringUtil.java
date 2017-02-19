@@ -20,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 
 public final class StringUtil {
@@ -99,7 +98,7 @@ public final class StringUtil {
                 .replaceAll(ic + "%up%", "\u21E7")
                 .replaceAll(ic + "%rht%", "\u21E8")
                 .replaceAll(ic + "%dwn%", "\u21E9");
-        String none = Message.NONE.toString();
+        String none = Message.get("none").toString();
         Player np = LocationUtil.getNearestPlayer(player);
         Entity ne = LocationUtil.getNearestEntity(player);
         ItemStack mi = player.getInventory().getItemInMainHand();

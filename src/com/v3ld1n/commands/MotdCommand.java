@@ -28,13 +28,13 @@ public class MotdCommand extends V3LD1NCommand {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     Player p = PlayerUtil.getOnlinePlayer(args[0]);
                     ChatUtil.sendMotd(p);
-                    Message.MOTD_SHOWING.sendF(sender, p.getName());
+                    Message.get("motd-show").sendF(sender, p.getName());
                     return true;
                 }
                 sendInvalidPlayerMessage(sender);
                 return true;
             }
-            Message.MOTD_NO_PERMISSION_OTHERS.send(sender);
+            Message.get("motd-others-permission").send(sender);
             return true;
         }
         this.sendUsage(sender);

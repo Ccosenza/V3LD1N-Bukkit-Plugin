@@ -37,7 +37,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     p = PlayerUtil.getOnlinePlayer(args[0]);
                 } else {
-                    player.sendMessage(Message.COMMAND_INVALID_PLAYER.toString());
+                    player.sendMessage(Message.get("command-invalid-player").toString());
                     return true;
                 }
             } else {
@@ -51,7 +51,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
                 name = name.substring(0, 16);
             }
             final Objective objective = board.registerNewObjective(name, "dummy");
-            String displayName = String.format(Message.TIMEPLAYED_SIDEBAR_NAME.toString(), p.getName());
+            String displayName = String.format(Message.get("timeplayed-title").toString(), p.getName());
             if (ChatColor.stripColor(displayName).length() > 16) {
                 displayName = displayName.substring(0, 20);
             }
@@ -77,7 +77,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
             }, SECONDS * 20);
             return true;
         }
-        sender.sendMessage(Message.COMMAND_NOT_PLAYER.toString());
+        sender.sendMessage(Message.get("command-not-player").toString());
         return true;
     }
 
@@ -89,22 +89,22 @@ public class TimePlayedCommand extends V3LD1NCommand {
         int days = PlayerUtil.getDaysPlayed(player);
         int weeks = PlayerUtil.getWeeksPlayed(player);
         String time = TimeUtil.fromSeconds(seconds);
-        Message.TIMEPLAYED_TIME.aSendF(to, time);
-        objective.getScore("Ticks").setScore(ticks);
+        Message.get("timeplayed-time").aSendF(to, time);
+        objective.getScore(Message.get("timeplayed-ticks").toString()).setScore(ticks);
         if (seconds > 0) {
-            objective.getScore("Seconds").setScore(seconds);
+            objective.getScore(Message.get("timeplayed-seconds").toString()).setScore(seconds);
         }
         if (minutes > 0) {
-            objective.getScore("Minutes").setScore(minutes);
+            objective.getScore(Message.get("timeplayed-minutes").toString()).setScore(minutes);
         }
         if (hours > 0) {
-            objective.getScore("Hours").setScore(hours);
+            objective.getScore(Message.get("timeplayed-hours").toString()).setScore(hours);
         }
         if (days > 0) {
-            objective.getScore("Days").setScore(days);
+            objective.getScore(Message.get("timeplayed-days").toString()).setScore(days);
         }
         if (weeks > 0) {
-            objective.getScore("Weeks").setScore(weeks);
+            objective.getScore(Message.get("timeplayed-weeks").toString()).setScore(weeks);
         }
     }
 }

@@ -30,11 +30,11 @@ public class EditSignCommand extends V3LD1NCommand {
                     try {
                         line = Integer.parseInt(args[1]);
                     } catch (Exception e) {
-                        Message.EDITSIGN_INVALID_LINE.send(p);
+                    	Message.get("editsign-invalid-line").send(p);
                         return true;
                     }
                     if (line > 4 || line < 1) {
-                        Message.EDITSIGN_INVALID_LINE.send(p);
+                    	Message.get("editsign-invalid-line").send(p);
                         return true;
                     }
                     Block target = p.getTargetBlock((Set<Material>) null, 100);
@@ -62,7 +62,7 @@ public class EditSignCommand extends V3LD1NCommand {
                         this.sendUsage(sender);
                         return true;
                     }
-                    Message.EDITSIGN_INVALID_BLOCK.send(p);
+                    Message.get("editsign-not-sign").send(p);
                     return true;
                 }
                 this.sendUsage(sender);

@@ -27,16 +27,16 @@ public class ItemNameCommand extends V3LD1NCommand {
                         String name = null;
                         if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {
                             boolean hasName = i.getItemMeta().hasDisplayName();
-                            Message message = hasName ? Message.ITEMNAME_REMOVE : Message.ITEMNAME_NOT_NAMED;
+                            Message message = hasName ? Message.get("itemname-remove") : Message.get("itemname-no-name");
                             p.sendMessage(message.toString());
                         } else {
                             name = StringUtil.formatText(StringUtil.fromArray(args, 0));
-                            Message.ITEMNAME_SET.sendF(p, name);
+                            Message.get("itemname-set").sendF(p, name);
                         }
                         ItemUtil.setName(i, name);
                         return true;
                     }
-                    Message.COMMAND_NO_ITEM.send(p);
+                    Message.get("command-no-item").send(p);
                     return true;
                 }
                 this.sendUsage(p);

@@ -55,11 +55,11 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
                         PlayerUtil.sendPlayerListHeaderFooter(p, header, footer);
                     }
                 }
-                Message.V3LD1NPLUGIN_RELOAD.aSend(sender);
+                Message.get("v3ld1nplugin-reload").aSend(sender);
                 return true;
             } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
                 PluginDescriptionFile desc = V3LD1N.getPlugin().getDescription();
-                Message.V3LD1NPLUGIN_VERSION.sendF(sender, desc.getName(), desc.getVersion());
+                Message.get("v3ld1nplugin-version").sendF(sender, desc.getName(), desc.getVersion());
                 return true;
             }
         } else {
@@ -82,11 +82,11 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
         if (pageNumber > pageCount || pageNumber < 1) {
             return false;
         }
-        Message.V3LD1NPLUGIN_HELP_BORDER_TOP.sendF(user, pageNumber, pageCount);
+        Message.get("v3ld1nplugin-help-border-top").sendF(user, pageNumber, pageCount);
         for (CommandUsage usage : usagePage) {
             usage.send(user);
         }
-        Message.V3LD1NPLUGIN_HELP_BORDER_BOTTOM.send(user);
+        Message.get("v3ld1nplugin-help-border-bottom").send(user);
         return true;
     }
 }

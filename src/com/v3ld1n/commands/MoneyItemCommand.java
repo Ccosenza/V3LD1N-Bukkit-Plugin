@@ -35,9 +35,9 @@ public class MoneyItemCommand extends V3LD1NCommand {
                 }
                 ItemStack item = new ItemStack(Material.EMERALD);
                 DecimalFormat df = new DecimalFormat("0.##");
-                String moneyName = amount == 1 ? Message.MONEY_NAME.toString() : Message.MONEY_NAME_PLURAL.toString();
+                String moneyName = amount == 1 ? Message.get("money-name").toString() : Message.get("money-name-plural").toString();
                 ItemUtil.setName(item, "§e" + df.format(amount) + " " + moneyName);
-                ItemUtil.addLore(item, Message.MONEY_LORE.toString());
+                ItemUtil.addLore(item, Message.get("money-lore").toString());
                 ItemUtil.addEnchantment(item, Enchantment.PROTECTION_ENVIRONMENTAL, 10);
                 item = ItemUtil.hideFlags(item);
                 p.getInventory().addItem(item);

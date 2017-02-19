@@ -57,9 +57,9 @@ public class TimeUtil {
         long hour = seconds / 3600;
         long minute = ((seconds / 60) % 60);
         long second = seconds % 60;
-        String hourString = Message.HOURS.toString();
-        String minuteString = Message.MINUTES.toString();
-        String secondString = Message.SECONDS.toString();
+        String hourString = Message.get("hours").toString();
+        String minuteString = Message.get("minutes").toString();
+        String secondString = Message.get("seconds").toString();
         StringBuilder sb = new StringBuilder();
         sb.append(hour != 0 ? String.format(hourString, hour) : "");
         sb.append(minute != 0 ? String.format(minuteString, minute) : "");

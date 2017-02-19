@@ -42,13 +42,13 @@ public class SetMaxHealthCommand extends V3LD1NCommand {
                 if (health > 0 && health <= LIMIT) {
                     p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
                     boolean pIsSender = p.getName().equals(sender.getName());
-                    String ownMessage = String.format(Message.SETMAXHEALTH_SET_OWN.toString(), args[0]);
-                    String otherMessage = String.format(Message.SETMAXHEALTH_SET.toString(), p.getName(), args[0]);
+                    String ownMessage = String.format(Message.get("setmaxhealth-set").toString(), args[0]);
+                    String otherMessage = String.format(Message.get("setmaxhealth-set-other").toString(), p.getName(), args[0]);
                     String message = pIsSender ? ownMessage : otherMessage;
                     ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                     return true;
                 }
-                Message.SETMAXHEALTH_LIMIT.sendF(sender, (int) LIMIT);
+                Message.get("setmaxhealth-limit").sendF(sender, (int) LIMIT);
                 return true;
             }
             this.sendUsage(sender);

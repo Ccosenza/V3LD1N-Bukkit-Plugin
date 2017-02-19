@@ -32,7 +32,7 @@ public class SendMessageCommand extends V3LD1NCommand {
                 try {
                     type = MessageType.valueOf(args[1].toUpperCase());
                 } catch (Exception e) {
-                    Message.SENDMESSAGE_INVALID_TYPE.send(sender);
+                	Message.get("sendmessage-invalid-type").send(sender);
                     sendTypeList(sender);
                     return true;
                 }
@@ -65,6 +65,6 @@ public class SendMessageCommand extends V3LD1NCommand {
 
     private void sendTypeList(CommandSender user) {
         List<MessageType> types = Arrays.asList(MessageType.values());
-        ChatUtil.sendList(user, Message.SENDMESSAGE_LIST_TITLE.toString(), types, ListType.SHORT);
+        ChatUtil.sendList(user, Message.get("sendmessage-list-title").toString(), types, ListType.SHORT);
     }
 }

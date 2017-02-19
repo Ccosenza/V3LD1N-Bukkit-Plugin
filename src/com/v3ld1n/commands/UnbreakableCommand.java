@@ -21,10 +21,10 @@ public class UnbreakableCommand extends V3LD1NCommand {
                 if (item.getType() != Material.AIR) {
                     ItemStack i = ItemUtil.setTag(item, "Unbreakable", new NBTTagInt(1));
                     p.getInventory().setItemInMainHand(i);
-                    Message.UNBREAKABLE_SET.send(p);
+                    Message.get("unbreakable-set").send(p);
                     return true;
                 }
-                Message.COMMAND_NO_ITEM.send(p);
+                Message.get("command-no-item").send(p);
                 return true;
             }
             sendPermissionMessage(sender);

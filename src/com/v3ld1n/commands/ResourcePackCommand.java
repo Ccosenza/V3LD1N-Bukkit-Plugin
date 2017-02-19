@@ -37,11 +37,11 @@ public class ResourcePackCommand extends V3LD1NCommand {
                 }
                 p.setResourcePack(V3LD1N.getResourcePack(pack).getUrl());
                 if (ConfigSetting.RESOURCE_PACKS_OUTDATED.getBoolean()) {
-                    Message.RESOURCEPACK_OUTDATED.send(p);
+                	Message.get("resourcepack-outdated").send(p);
                 }
                 return true;
             }
-            Message.RESOURCEPACK_ERROR.send(p);
+            Message.get("resourcepack-no-resourcepacks").send(p);
             return true;
         }
         sendPlayerMessage(sender);
@@ -52,6 +52,6 @@ public class ResourcePackCommand extends V3LD1NCommand {
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);
         List<String> names = V3LD1N.getResourcePackNames();
-        ChatUtil.sendList(user, Message.RESOURCEPACK_LIST_TITLE.toString(), names, ListType.LONG);
+        ChatUtil.sendList(user, Message.get("resourcepack-list-title").toString(), names, ListType.LONG);
     }
 }

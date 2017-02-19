@@ -41,12 +41,12 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
                 try {
                     p.getInventory().setHeldItemSlot(Integer.parseInt(args[0]) - 1);
                     boolean pIsSender = p.getName().equals(sender.getName());
-                    String ownMessage = String.format(Message.SETHOTBARSLOT_SET_OWN.toString(), args[0]);
-                    String otherMessage = String.format(Message.SETHOTBARSLOT_SET.toString(), p.getName(), args[0]);
+                    String ownMessage = String.format(Message.get("sethotbarslot-set").toString(), args[0]);
+                    String otherMessage = String.format(Message.get("sethotbarslot-set-other").toString(), p.getName(), args[0]);
                     String message = pIsSender ? ownMessage : otherMessage;
                     ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
                 } catch (Exception e) {
-                    Message.SETHOTBARSLOT_INVALID_SLOT.send(sender);
+                	Message.get("sethotbarslot-invalid-slot").send(sender);
                 }
                 return true;
             }

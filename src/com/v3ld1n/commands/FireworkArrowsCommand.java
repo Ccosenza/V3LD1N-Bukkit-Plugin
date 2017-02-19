@@ -32,7 +32,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
                 try {
                     type = Type.valueOf(args[0].toUpperCase());
                 } catch (Exception e) {
-                    Message.FIREWORKARROWS_INVALID_SHAPE.send(sender);
+                	Message.get("fireworkarrows-invalid-shape").send(sender);
                     sendTypeList(sender);
                     return true;
                 }
@@ -47,7 +47,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
                 Location loc = p.getLocation();
                 loc.add(0, 5, 0);
                 EntityUtil.displayFireworkEffect(effect, loc, 1);
-                Message.FIREWORKARROWS_SET.aSendF(p, StringUtil.fromEnum(type, true));
+                Message.get("fireworkarrows-set").aSendF(p, StringUtil.fromEnum(type, true));
                 return true;
             }
             this.sendUsage(sender);
@@ -65,6 +65,6 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
 
     private void sendTypeList(CommandSender user) {
         List<Type> types = Arrays.asList(Type.values());
-        ChatUtil.sendList(user, Message.FIREWORKARROWS_LIST_TITLE.toString(), types, ListType.SHORT);
+        ChatUtil.sendList(user, Message.get("fireworkarrows-list-title").toString(), types, ListType.SHORT);
     }
 }

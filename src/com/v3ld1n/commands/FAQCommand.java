@@ -50,18 +50,18 @@ public class FAQCommand extends V3LD1NCommand {
 
     private void displayFAQ(Player p, int page) {
         List<FAQ> questions = new ArrayList<>(V3LD1N.getQuestions());
-        Message.FAQ_BORDER_TOP.sendF(p, page, ChatUtil.getNumberOfPages(questions, PAGE_SIZE));
+        Message.get("faq-border-top").sendF(p, page, ChatUtil.getNumberOfPages(questions, PAGE_SIZE));
         List<FAQ> questionsOnPage = ChatUtil.getPage(questions, page, PAGE_SIZE);
 
         for (FAQ question : questionsOnPage) {
             List<String> answer = question.getAnswer();
             try {
                 StringBuilder builder = new StringBuilder();
-                builder.append(Message.FAQ_QUESTION.toString() + question.getQuestion() + "\n");
-                builder.append(Message.FAQ_ANSWER.toString() + Message.FAQ_ANSWER_COLOR + answer.get(0));
+                builder.append(Message.get("faq-question").toString() + question.getQuestion() + "\n");
+                builder.append(Message.get("faq-answer").toString() + Message.get("faq-answer-color") + answer.get(0));
                 for (String answerLine : answer) {
                 	if (answer.indexOf(answerLine) == 0) continue;
-                	builder.append("\n" + Message.FAQ_ANSWER_COLOR.toString() + answerLine);
+                	builder.append("\n" + Message.get("faq-answer-color").toString() + answerLine);
                 }
 
                 String builderString = builder.toString();
@@ -71,11 +71,11 @@ public class FAQCommand extends V3LD1NCommand {
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(builderString).create()));
                 p.spigot().sendMessage(message);
             } catch (Exception e) {
-                Message.FAQ_ERROR.send(p);
+            	Message.get("faq-display-error").send(p);
                 e.printStackTrace();
             }
         }
-        Message.FAQ_HELP.send(p);
-        Message.FAQ_BORDER_BOTTOM.send(p);
+        Message.get("faq-help").send(p);
+        Message.get("faq-border-bottom").send(p);
     }
 }

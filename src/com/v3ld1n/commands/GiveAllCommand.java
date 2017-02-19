@@ -23,10 +23,10 @@ public class GiveAllCommand extends V3LD1NCommand {
                         player.getInventory().addItem(item);
                     }
                     String itemString = StringUtil.getItemName(item);
-                    Message.GIVEALL_GIVE.aSendF(p, amount, itemString);
+                    Message.get("giveall-give").aSendF(p, amount, itemString);
                     return true;
                 }
-                Message.COMMAND_NO_ITEM.send(p);
+                Message.get("command-no-item").send(p);
                 return true;
             }
             sendPermissionMessage(sender);

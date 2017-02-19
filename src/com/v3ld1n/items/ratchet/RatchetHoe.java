@@ -34,7 +34,7 @@ public class RatchetHoe extends V3LD1NItem {
         Block target = player.getTargetBlock((Set<Material>) null, range);
         List<Material> types = new ArrayList<>();
         types.add(Material.GRASS);
-        types.add(Material.MYCEL);
+        types.add(Material.GRASS_PATH);
         types.add(Material.DIRT);
 
         Block blockAbove = target.getRelative(BlockFace.UP, 1);
@@ -45,7 +45,7 @@ public class RatchetHoe extends V3LD1NItem {
             if (PlayerUtil.canBuild(player, target.getLocation())) {
                 use(player, target);
             } else {
-                Message.WORLDGUARD_PERMISSION.send(player);
+            	Message.get("permission-worldguard").send(player);
             }
         }
     }

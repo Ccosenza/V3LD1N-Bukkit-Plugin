@@ -30,7 +30,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                 warpString = args[1];
                 if (args[0].equalsIgnoreCase("add")) {
                     V3LD1N.addWarp(new Warp(warpString, new ArrayList<Particle>(), new ArrayList<Sound>()));
-                    Message.V3LD1NWARP_ADD.aSendF(sender, warpString);
+                    Message.get("v3ld1nwarp-add").aSendF(sender, warpString);
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove")) {
                     boolean warpExists = false;
@@ -45,10 +45,10 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                         V3LD1N.removeWarp(warpString);
                         Config.WARPS.getConfig().set("warps." + warpName, null);
                         Config.WARPS.saveConfig();
-                        Message.V3LD1NWARP_REMOVE.aSendF(sender, warpName);
+                        Message.get("v3ld1nwarp-remove").aSendF(sender, warpName);
                         return true;
                     }
-                    Message.V3LD1NWARP_INVALID.sendF(sender, warpString);
+                    Message.get("v3ld1nwarp-invalid").sendF(sender, warpString);
                     return true;
                 }
                 this.sendUsage(sender);
@@ -59,7 +59,7 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
                     for (Warp warp : warps) {
                         warpNames.add(warp.getName());
                     }
-                    ChatUtil.sendList(sender, Message.V3LD1NWARP_LIST_TITLE.toString(), warpNames, ListType.SHORT);
+                    ChatUtil.sendList(sender, Message.get("v3ld1nwarp-list-title").toString(), warpNames, ListType.SHORT);
                     return true;
                 }
             }

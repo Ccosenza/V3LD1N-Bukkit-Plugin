@@ -58,12 +58,12 @@ public class DamageCommand extends V3LD1NCommand {
     // Damages the player
     private void damage(CommandSender sender, Player player, double damageAmount) {
         if (INVINCIBLE_MODES.contains(player.getGameMode())) {
-            Message.DAMAGE_INVULNERABLE.sendF(sender, StringUtil.fromEnum(player.getGameMode(), true));
+        	Message.get("damage-invulnerable").sendF(sender, StringUtil.fromEnum(player.getGameMode(), true));
             return;
         }
         player.damage(damageAmount);
         boolean damagedSelf = player.getName().equals(sender.getName());
-        Message message = damagedSelf ? Message.DAMAGE_DAMAGE_SELF : Message.DAMAGE_DAMAGE;
+        Message message = damagedSelf ? Message.get("damage-damage") : Message.get("damage-damage-other");
         message.aSendF(sender, damageAmount, player.getName());
     }
 }

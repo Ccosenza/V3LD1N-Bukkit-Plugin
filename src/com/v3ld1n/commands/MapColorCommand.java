@@ -41,18 +41,18 @@ public class MapColorCommand extends V3LD1NCommand {
             return true;
         }
         if (color < 0 || color > LIMIT) {
-        	Message.MAPCOLOR_LIMIT.sendF(sender, LIMIT);
+        	Message.get("mapcolor-limit").sendF(sender, LIMIT);
         	return true;
         }
         Player p = (Player) sender;
         ItemStack item = p.getInventory().getItemInMainHand();
         if (item.getType() != Material.MAP) {
-            Message.MAPCOLOR_NO_ITEM.send(p);
+        	Message.get("mapcolor-not-map").send(p);
             return true;
         }
         ItemStack i = setColor(item, color);
         p.getInventory().setItemInMainHand(i);
-        Message.MAPCOLOR_SET.sendF(p, color);
+        Message.get("mapcolor-set").sendF(p, color);
         return true;
     }
 
