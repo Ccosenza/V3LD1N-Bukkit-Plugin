@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -47,6 +48,24 @@ public final class LocationUtil {
             }
         }
         return nearestEntity;
+    }
+
+    /**
+     * Returns the nearest block entity to an entity
+     * @param entity the entity to find a block entity near
+     * @return the nearest block entity
+     */
+    public static BlockState getNearestBlockEntity(Entity entity) {
+        BlockState nearestBlockEntity = null;
+        double nearestDistance = Double.MAX_VALUE;
+        for (BlockState be : WorldUtil.getBlockEntities(entity.getWorld())) {
+            double distance = entity.getLocation().distance(be.getLocation());
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestBlockEntity = be;
+            }
+        }
+        return nearestBlockEntity;
     }
 
     /**
