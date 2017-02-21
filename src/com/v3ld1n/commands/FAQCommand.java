@@ -30,6 +30,7 @@ public class FAQCommand extends V3LD1NCommand {
             sendPlayerMessage(sender);
             return true;
         }
+
         Player player = (Player) sender;
         int page;
 
@@ -44,6 +45,7 @@ public class FAQCommand extends V3LD1NCommand {
             displayFAQ(player, page);
             return true;
         }
+
         this.sendUsage(player);
         return true;
     }
@@ -51,8 +53,8 @@ public class FAQCommand extends V3LD1NCommand {
     private void displayFAQ(Player p, int page) {
         List<FAQ> questions = new ArrayList<>(V3LD1N.getQuestions());
         Message.get("faq-border-top").sendF(p, page, ChatUtil.getNumberOfPages(questions, PAGE_SIZE));
-        List<FAQ> questionsOnPage = ChatUtil.getPage(questions, page, PAGE_SIZE);
 
+        List<FAQ> questionsOnPage = ChatUtil.getPage(questions, page, PAGE_SIZE);
         for (FAQ question : questionsOnPage) {
             List<String> answer = question.getAnswer();
             try {
