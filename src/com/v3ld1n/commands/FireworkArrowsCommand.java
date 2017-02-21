@@ -25,35 +25,26 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            if (args.length == 1) {
-                Type type;
-                try {
-                    type = Type.valueOf(args[0].toUpperCase());
-                } catch (Exception e) {
-                	Message.get("fireworkarrows-invalid-shape").send(sender);
-                    sendTypeList(sender);
-                    return true;
-                }
-                Object newType = type == Type.BALL ? null : args[0].toUpperCase();
-                PlayerData.FIREWORK_ARROWS.set(p, newType);
-                FireworkEffect effect = FireworkEffect.builder()
-                        .with(type)
-                        .withColor(Color.WHITE)
-                        .withFlicker()
-                        .withTrail()
-                        .build();
-                Location loc = p.getLocation();
-                loc.add(0, 5, 0);
-                EntityUtil.displayFireworkEffect(effect, loc, 1);
-                Message.get("fireworkarrows-set").aSendF(p, StringUtil.fromEnum(type, true));
-                return true;
-            }
+        if (!(sender instanceof Player)) {
+            sendPlayerMessage(sender);
+            return true;
+        }	
+        Player player = (Player) sender;
+
+        if (args.length != 1) {
             this.sendUsage(sender);
             return true;
         }
-        sendPlayerMessage(sender);
+
+        Type type;
+        try {
+            type = Type.valueOf(args[0].toUpperCase());
+        } catch (Exception e) {
+        	Message.get("fireworkarrows-invalid-shape").send(sender);
+            sendTypeList(sender);
+            return true;
+        }
+        setType(player, type);
         return true;
     }
 
@@ -61,6 +52,21 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);
         sendTypeList(user);
+    }
+
+    private void setType(Player player, Type type) {
+        Object typeData = type == Type.BALL ? null : type.toString();
+        PlayerData.FIREWORK_ARROWS.set(player, typeData);
+        FireworkEffect effect = FireworkEffect.builder()
+                .with(type)
+                .withColor(Color.WHITE)
+                .withFlicker()
+                .withTrail()
+                .build();
+        Location loc = player.getLocation();
+        loc.add(0, 5, 0);
+        EntityUtil.displayFireworkEffect(effect, loc, 1);
+        Message.get("fireworkarrows-set").aSendF(player, StringUtil.fromEnum(type, true));
     }
 
     private void sendTypeList(CommandSender user) {
