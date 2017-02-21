@@ -39,47 +39,46 @@ public class ChangelogCommand extends V3LD1NCommand {
             return true;
         }
         Player player = (Player) sender;
-        int page;
 
+        int page;
         if (args.length == 0) {
             // Display the first page of the changelog
             page = 1;
             displayChangelog(player, page);
-            return true;
         } else if (args.length == 1 && StringUtil.isInteger(args[0])) {
             // Display a page of the changelog
             page = StringUtil.toInteger(args[0], 1);
             displayChangelog(player, page);
-            return true;
         } else if (args.length >= 2 && args[0].equalsIgnoreCase("log")) {
             // Add a change to the changelog
             String newChange = StringUtil.fromArray(args, 1);
             logChange(player, newChange);
-            return true;
         } else if (args.length == 2 && args[0].equalsIgnoreCase("link")) {
-            if (player.hasPermission("v3ld1n.owner")) {
-                Message message;
-                String link = args[1].replaceAll("[\"\\\\]", "");
-
-                // Remove the link from today's changelog
-                if (args[1].equalsIgnoreCase("remove")) {
-                    link = "";
-                    message = Message.get("changelog-link-remove");
-                } else {
-                    message = Message.get("changelog-link-set");
-                }
-
-                // Add a link to today's changelog
-                if (ChangelogDay.today() != null) {
-                    ChangelogDay.today().setLink(link);
-                    message.sendF(player, link);
-                } else {
-                	Message.get("changelog-link-error").send(player);
-                }
-                return true;
+            if (!player.hasPermission("v3ld1n.owner")) {
+            	Message.get("changelog-permission").send(player);;
+            	return true;
             }
+            Message message;
+            String link = args[1].replaceAll("[\"\\\\]", "");
+
+            // Remove the link from today's changelog
+            if (args[1].equalsIgnoreCase("remove")) {
+                link = "";
+                message = Message.get("changelog-link-remove");
+            } else {
+                message = Message.get("changelog-link-set");
+            }
+
+            // Add a link to today's changelog
+            if (ChangelogDay.today() != null) {
+                ChangelogDay.today().setLink(link);
+                message.sendF(player, link);
+            } else {
+            	Message.get("changelog-link-error").send(player);
+            }
+        } else {
+            this.sendUsage(player);
         }
-        this.sendUsage(player);
         return true;
     }
 
@@ -92,7 +91,7 @@ public class ChangelogCommand extends V3LD1NCommand {
             displayChangelog(player, 1);
             Message.get("changelog-added").send(player);
         } else {
-        	Message.get("changelog-log-permission").send(player);
+        	Message.get("changelog-permission").send(player);
         }
     }
 
@@ -100,8 +99,8 @@ public class ChangelogCommand extends V3LD1NCommand {
         List<ChangelogDay> days = new ArrayList<>(V3LD1N.getChangelogDays());
         Collections.reverse(days);
         Message.get("changelog-border-top").sendF(p, page, ChatUtil.getNumberOfPages(days, PAGE_SIZE));
-        List<ChangelogDay> daysOnPage = ChatUtil.getPage(days, page, PAGE_SIZE);
 
+        List<ChangelogDay> daysOnPage = ChatUtil.getPage(days, page, PAGE_SIZE);
         for (ChangelogDay day : daysOnPage) {
             List<Change> changesOnDay = day.getChanges();
             SimpleDateFormat dateFormat = ChangelogDay.getDateFormat();
