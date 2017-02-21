@@ -93,6 +93,6 @@ public class Message {
                 return message;
             }
         }
-        return null;
+        return new Message(name, name);
     }
 }
