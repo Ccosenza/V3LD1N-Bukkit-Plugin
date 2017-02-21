@@ -22,56 +22,64 @@ public class EditSignCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            if (sender.hasPermission("v3ld1n.editsign")) {
-                Player p = (Player) sender;
-                if (args.length >= 3) {
-                    int line;
-                    try {
-                        line = Integer.parseInt(args[1]);
-                    } catch (Exception e) {
-                    	Message.get("editsign-invalid-line").send(p);
-                        return true;
-                    }
-                    if (line > 4 || line < 1) {
-                    	Message.get("editsign-invalid-line").send(p);
-                        return true;
-                    }
-                    Block target = p.getTargetBlock((Set<Material>) null, 100);
-                    if (target.getState() instanceof Sign) {
-                        String text = StringUtil.fromArray(args, 2);
-                        if (EditSignType.valueOf(args[0].toUpperCase()) != null) {
-                            EditSignType type = EditSignType.valueOf(args[0].toUpperCase());
-                            switch (type) {
-                            case SET:
-                                BlockUtil.editSign(target, line, StringUtil.formatText(text));
-                                break;
-                            case ADD:
-                                BlockUtil.addToSign(target, line, StringUtil.formatText(text));
-                                break;
-                            case REMOVE:
-                                BlockUtil.removeFromSign(target, line, StringUtil.formatText(text));
-                                break;
-                            default:
-                                this.sendUsage(sender);
-                                return true;
-                            }
-                            type.getMessage().aSendF(p, text, line);
-                            return true;
-                        }
-                        this.sendUsage(sender);
-                        return true;
-                    }
-                    Message.get("editsign-not-sign").send(p);
-                    return true;
-                }
-                this.sendUsage(sender);
-                return true;
-            }
+        if (!sender.hasPermission("v3ld1n.editsign")) {
             sendPermissionMessage(sender);
             return true;
         }
-        sendPlayerMessage(sender);
+
+        if (!(sender instanceof Player)) {
+            sendPlayerMessage(sender);
+            return true;
+        }
+        Player player = (Player) sender;
+
+        if (args.length < 3) {
+            this.sendUsage(sender);
+            return true;
+        }
+
+        int line;
+        try {
+            line = Integer.parseInt(args[1]);
+        } catch (Exception e) {
+        	Message.get("editsign-invalid-line").send(player);
+            return true;
+        }
+
+        if (line > 4 || line < 1) {
+        	Message.get("editsign-invalid-line").send(player);
+            return true;
+        }
+
+        Block target = player.getTargetBlock((Set<Material>) null, 100);
+        if (!(target.getState() instanceof Sign)) {
+            Message.get("editsign-not-sign").send(player);
+            return true;
+        }
+
+        String text = StringUtil.fromArray(args, 2);
+        try {
+        	EditSignType editType = EditSignType.valueOf(args[0].toUpperCase());
+        	edit(target, line, editType, text);
+            editType.getMessage().aSendF(player, text, line);
+        } catch (Exception e) {
+            this.sendUsage(sender);
+        }
         return true;
+    }
+
+    // Edits the sign
+    private void edit(Block sign, int line, EditSignType editType, String text) {
+        switch (editType) {
+        case SET:
+            BlockUtil.editSign(sign, line, StringUtil.formatText(text));
+            break;
+        case ADD:
+            BlockUtil.addToSign(sign, line, StringUtil.formatText(text));
+            break;
+        case REMOVE:
+            BlockUtil.removeFromSign(sign, line, StringUtil.formatText(text));
+            break;
+        }
     }
 }
