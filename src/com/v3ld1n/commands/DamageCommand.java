@@ -26,10 +26,12 @@ public class DamageCommand extends V3LD1NCommand {
             sendPermissionMessage(sender);
             return true;
         }
+
         if (args.length != 1 && args.length != 2) {
             this.sendUsage(sender);
             return true;
         }
+
         double damageAmount;
         try {
             damageAmount = Double.parseDouble(args[0]);
@@ -37,6 +39,7 @@ public class DamageCommand extends V3LD1NCommand {
             this.sendUsage(sender);
             return true;
         }
+
         if (damageAmount < 0) {
         	this.sendUsage(sender);
         	return true;
@@ -51,6 +54,7 @@ public class DamageCommand extends V3LD1NCommand {
             sendInvalidPlayerMessage(sender);
             return true;
         }
+
         damage(sender, player, damageAmount);
         return true;
     }

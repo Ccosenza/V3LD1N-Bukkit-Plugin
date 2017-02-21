@@ -26,6 +26,7 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
             return true;
         }
         Player player = (Player) sender;
+
         if (args.length != 1) {
             this.sendUsage(player);
             return true;
