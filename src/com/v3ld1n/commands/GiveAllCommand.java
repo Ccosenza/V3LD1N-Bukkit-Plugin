@@ -13,26 +13,33 @@ import com.v3ld1n.util.StringUtil;
 public class GiveAllCommand extends V3LD1NCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            if (sender.hasPermission("v3ld1n.owner")) {
-                Player p = (Player) sender;
-                ItemStack item = p.getInventory().getItemInMainHand();
-                if (item.getType() != Material.AIR) {
-                    int amount = item.getAmount();
-                    for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                        player.getInventory().addItem(item);
-                    }
-                    String itemString = StringUtil.getItemName(item);
-                    Message.get("giveall-give").aSendF(p, amount, itemString);
-                    return true;
-                }
-                Message.get("command-no-item").send(p);
-                return true;
-            }
+        if (!sender.hasPermission("v3ld1n.owner")) {
             sendPermissionMessage(sender);
             return true;
         }
-        sendPlayerMessage(sender);
+
+        if (!(sender instanceof Player)) {
+            sendPlayerMessage(sender);
+            return true;
+        }
+        Player player = (Player) sender;
+
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getType() == Material.AIR) {
+            Message.get("command-no-item").send(player);
+            return true;
+        }
+
+        giveAll(player, item);
         return true;
+    }
+
+    private void giveAll(Player player, ItemStack item) {
+        int amount = item.getAmount();
+        for (Player otherPlayer : Bukkit.getServer().getOnlinePlayers()) {
+            otherPlayer.getInventory().addItem(item);
+        }
+        String itemName = StringUtil.getItemName(item);
+        Message.get("giveall-give").aSendF(player, amount, itemName);
     }
 }
