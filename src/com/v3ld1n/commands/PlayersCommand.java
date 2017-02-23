@@ -3,12 +3,9 @@ package com.v3ld1n.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.SkullType;
@@ -26,10 +23,7 @@ import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class PlayersCommand extends V3LD1NCommand {
-    private String usageInfo = "info <player>";
-
     public PlayersCommand() {
-        this.addUsage(usageInfo, "View information about a player");
         this.addUsage("list", "Displays a list of players who are currently online");
         this.addUsage("fulllist", "Displays a list of all players");
         this.addUsage("total", "Displays the total amount of players who joined the server");
@@ -44,14 +38,7 @@ public class PlayersCommand extends V3LD1NCommand {
                 this.sendUsage(sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase("info") && args.length == 2) {
-                if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                    sendPlayerInfo(PlayerUtil.getOnlinePlayer(args[1]), sender);
-                    return true;
-                }
-                sendInvalidPlayerMessage(sender);
-                return true;
-            } else if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("fulllist") && args.length == 1) {
+            if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("fulllist") && args.length == 1) {
                 Collection<? extends OfflinePlayer> players = new ArrayList<>();
                 switch (args[0]) {
                 case "list":
@@ -112,31 +99,5 @@ public class PlayersCommand extends V3LD1NCommand {
         }
         this.sendUsage(sender);
         return true;
-    }
-
-    private void sendPlayerInfo(Player player, CommandSender to) {
-        StringBuilder borderB = new StringBuilder();
-        for (int i = 0; i < player.getName().length(); i++) {
-            borderB.append(ChatColor.DARK_BLUE + "=");
-        }
-        String border = borderB.toString();
-        to.sendMessage(border);
-        to.sendMessage(ChatColor.AQUA + player.getName());
-        to.sendMessage(border);
-        HashMap<String, Object> info = PlayerUtil.getInfo(player);
-        Set<String> namesSet = info.keySet();
-        List<String> names = new ArrayList<>(namesSet);
-        ChatColor color1;
-        ChatColor color2;
-        for (int i = 0; i < info.size(); i++) {
-            if (i % 2 == 0) {
-                color1 = ChatColor.GOLD;
-                color2 = ChatColor.GREEN;
-            } else {
-                color1 = ChatColor.YELLOW;
-                color2 = ChatColor.DARK_GREEN;
-            }
-            to.sendMessage(color1 + names.get(i) + ": " + color2 + info.get(names.get(i)));
-        }
     }
 }
