@@ -277,21 +277,14 @@ public final class StringUtil {
         return string.matches("^\\d+$");
     }
 
+
     /**
-     * Returns a string as an integer
+     * Returns whether a string only contains a double
      * @param string the string
-     * @return the string as an integer
+     * @return whether a string is a double
      */
-    public static int toInteger(String string) {
-        int integer = 0;
-        if (isInteger(string)) {
-            try {
-                integer = Integer.parseInt(string);
-            } catch (Exception e) {
-                integer = 0;
-            }
-        }
-        return integer;
+    public static boolean isDouble(String string) {
+        return string.matches("[0-9]{1,13}(\\.[0-9]*)?");
     }
 
     /**
@@ -301,14 +294,32 @@ public final class StringUtil {
      * @return the string as an integer
      */
     public static int toInteger(String string, int defaultInt) {
-        int integer = defaultInt;
+        int toInteger = defaultInt;
         if (isInteger(string)) {
             try {
-                integer = Integer.parseInt(string);
+                toInteger = Integer.parseInt(string);
             } catch (Exception e) {
-                integer = defaultInt;
+                toInteger = defaultInt;
             }
         }
-        return integer;
+        return toInteger;
+    }
+
+    /**
+     * Returns a string as a double
+     * @param string the string
+     * @param defaultDouble what to return if the string is not a double
+     * @return the string as a double
+     */
+    public static double toDouble(String string, int defaultDouble) {
+        double toDouble = defaultDouble;
+        if (isInteger(string)) {
+            try {
+                toDouble = Double.parseDouble(string);
+            } catch (Exception e) {
+                toDouble = defaultDouble;
+            }
+        }
+        return toDouble;
     }
 }
