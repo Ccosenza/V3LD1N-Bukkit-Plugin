@@ -52,8 +52,8 @@ public class ChangelogCommand extends V3LD1NCommand {
             logChange(player, newChange);
         } else if (args.length == 2 && args[0].equalsIgnoreCase("link")) {
             if (!player.hasPermission("v3ld1n.owner")) {
-            	Message.get("changelog-permission").send(player);;
-            	return true;
+                Message.get("changelog-permission").send(player);;
+                return true;
             }
             Message message;
             String link = args[1].replaceAll("[\"\\\\]", "");
@@ -71,7 +71,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                 ChangelogDay.today().setLink(link);
                 message.sendF(player, link);
             } else {
-            	Message.get("changelog-link-error").send(player);
+                Message.get("changelog-link-error").send(player);
             }
         } else {
             this.sendUsage(player);
@@ -88,14 +88,14 @@ public class ChangelogCommand extends V3LD1NCommand {
             displayChangelog(player, 1);
             Message.get("changelog-added").send(player);
         } else {
-        	Message.get("changelog-permission").send(player);
+            Message.get("changelog-permission").send(player);
         }
     }
 
-    private void displayChangelog(Player p, int page) {
+    private void displayChangelog(Player player, int page) {
         List<ChangelogDay> days = new ArrayList<>(V3LD1N.getChangelogDays());
         Collections.reverse(days);
-        Message.get("changelog-border-top").sendF(p, page, ChatUtil.getNumberOfPages(days, PAGE_SIZE));
+        Message.get("changelog-border-top").sendF(player, page, ChatUtil.getNumberOfPages(days, PAGE_SIZE));
 
         List<ChangelogDay> daysOnPage = ChatUtil.getPage(days, page, PAGE_SIZE);
         for (ChangelogDay day : daysOnPage) {
@@ -122,13 +122,13 @@ public class ChangelogCommand extends V3LD1NCommand {
                 message.setColor(ChatColor.GOLD);
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(builderString).create()));
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, day.getLink()));
-                p.spigot().sendMessage(message);
+                player.spigot().sendMessage(message);
             } catch (Exception e) {
-            	Message.get("changelog-display-error").send(p);
+                Message.get("changelog-display-error").send(player);
                 e.printStackTrace();
             }
         }
-        Message.get("changelog-help").send(p);
-        Message.get("changelog-border-bottom").send(p);
+        Message.get("changelog-help").send(player);
+        Message.get("changelog-border-bottom").send(player);
     }
 }

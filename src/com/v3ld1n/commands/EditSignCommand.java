@@ -31,16 +31,14 @@ public class EditSignCommand extends V3LD1NCommand {
             return true;
         }
 
-        int line;
-        try {
-            line = Integer.parseInt(args[1]);
-        } catch (Exception e) {
-        	Message.get("editsign-invalid-line").send(player);
+        if (!StringUtil.isInteger(args[1])) {
+            Message.get("editsign-invalid-line").send(player);
             return true;
         }
+        int line = Integer.parseInt(args[1]);
 
         if (line > 4 || line < 1) {
-        	Message.get("editsign-invalid-line").send(player);
+            Message.get("editsign-invalid-line").send(player);
             return true;
         }
 
@@ -52,8 +50,8 @@ public class EditSignCommand extends V3LD1NCommand {
 
         String text = StringUtil.fromArray(args, 2);
         try {
-        	EditSignType editType = EditSignType.valueOf(args[0].toUpperCase());
-        	edit(target, line, editType, text);
+            EditSignType editType = EditSignType.valueOf(args[0].toUpperCase());
+            edit(target, line, editType, text);
             editType.getMessage().aSendF(player, text, line);
         } catch (Exception e) {
             this.sendUsage(sender);

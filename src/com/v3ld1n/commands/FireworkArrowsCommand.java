@@ -37,7 +37,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
         try {
             type = Type.valueOf(args[0].toUpperCase());
         } catch (Exception e) {
-        	Message.get("fireworkarrows-invalid-shape").send(sender);
+            Message.get("fireworkarrows-invalid-shape").send(sender);
             sendTypeList(sender);
             return true;
         }

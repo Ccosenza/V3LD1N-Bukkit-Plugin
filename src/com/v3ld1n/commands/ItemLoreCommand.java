@@ -20,68 +20,95 @@ public class ItemLoreCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.itemlore")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (args.length >= 1) {
-                    ItemStack i = p.getInventory().getItemInMainHand();
-                    if (i.getType() != Material.AIR) {
-                        if (args[0].equalsIgnoreCase("remove")) {
-                            if (args.length == 1) {
-                                if (i.getItemMeta().hasLore()) {
-                                    ItemUtil.setLore(i, null);
-                                    Message.get("itemlore-remove").send(p);
-                                } else {
-                                	Message.get("itemlore-no-lore").send(p);
-                                }
-                            } else if (args.length == 2) {
-                                int line;
-                                try {
-                                    line = Integer.parseInt(args[1]);
-                                    ItemUtil.removeLore(i, line - 1);
-                                    Message.get("itemlore-remove-line").sendF(p, line);
-                                } catch (Exception e) {
-                                	Message.get("itemlore-invalid-line").send(p);
-                                    return true;
-                                }
-                            }
-                            return true;
-                        }
-                        if (args.length >= 2) {
-                            String lore = StringUtil.formatText(StringUtil.fromArray(args, 1));
-                            if (args[0].equalsIgnoreCase("add")) {
-                                ItemUtil.addLore(i, lore);
-                                Message.get("itemlore-add").sendF(p, lore);
-                            }
-                            if (args.length >= 3) {
-                                lore = StringUtil.formatText(StringUtil.fromArray(args, 2));
-                                if (args[0].equalsIgnoreCase("set")) {
-                                    int line;
-                                    try {
-                                        line = Integer.parseInt(args[1]);
-                                        ItemUtil.setLoreAtLine(i, lore, line - 1);
-                                        Message.get("itemlore-set").sendF(p, line, lore);
-                                    } catch (Exception e) {
-                                    	Message.get("itemlore-invalid-line").send(p);
-                                        return true;
-                                    }
-                                }
-                            }
-                            return true;
-                        }
-                        this.sendUsage(p);
-                        return true;
-                    }
-                    Message.get("command-no-item").send(p);
-                    return true;
-                }
-                this.sendUsage(p);
-                return true;
-            }
-            sendPlayerMessage(sender);
+        if (sendPermissionMessage(sender, "v3ld1n.itemlore")) return true;
+        if (sendNotPlayerMessage(sender)) return true;
+        Player player = (Player) sender;
+
+        if (args.length == 0) {
+            this.sendUsage(player);
             return true;
         }
-        sendPermissionMessage(sender);
+
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getType() == Material.AIR) {
+            Message.get("command-no-item").send(player);
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("remove")) {
+            if (args.length == 1) removeAll(item, player);
+            if (args.length == 2) removeLine(item, args[1], player);
+            return true;
+        }
+
+        if (args.length >= 2 && args[0].equalsIgnoreCase("add")) {
+            String lore = StringUtil.formatText(StringUtil.fromArray(args, 1));
+            add(item, lore, player);
+            return true;
+        } else if (args.length >= 3 && args[0].equalsIgnoreCase("set")) {
+            String lore = StringUtil.formatText(StringUtil.fromArray(args, 2));
+            set(item, args[1], lore, player);
+            return true;
+        }
+        this.sendUsage(player);
         return true;
+    }
+
+    /**
+     * Adds a line to the item's lore
+     * @param item the item
+     * @param lore the lore to add
+     * @param player the player using the command
+     */
+    private void add(ItemStack item, String lore, Player player) {
+        ItemUtil.addLore(item, lore);
+        Message.get("itemlore-add").sendF(player, lore);
+    }
+
+    /**
+     * Sets a line of the item's lore
+     * @param item the item
+     * @param line the line to set
+     * @param lore the lore to set the line to
+     * @param player the player using the command
+     */
+    private void set(ItemStack item, String line, String lore, Player player) {
+        try {
+            int lineNumber = Integer.parseInt(line);
+            ItemUtil.setLoreAtLine(item, lore, lineNumber - 1);
+            Message.get("itemlore-set").sendF(player, lineNumber, lore);
+        } catch (Exception e) {
+            Message.get("itemlore-invalid-line").send(player);
+        }
+    }
+
+    /**
+     * Removes all lore from the item
+     * @param item the item
+     * @param player the player using the command
+     */
+    private void removeAll(ItemStack item, Player player) {
+        if (item.getItemMeta().hasLore()) {
+            ItemUtil.setLore(item, null);
+            Message.get("itemlore-remove").send(player);
+        } else {
+            Message.get("itemlore-no-lore").send(player);
+        }
+    }
+
+    /**
+     * Removes a line of the item's lore
+     * @param item the item
+     * @param line the line to remove
+     * @param player the player using the command
+     */
+    private void removeLine(ItemStack item, String line, Player player) {
+        try {
+            int lineNumber = Integer.parseInt(line);
+            ItemUtil.removeLore(item, lineNumber - 1);
+            Message.get("itemlore-remove-line").sendF(player, lineNumber);
+        } catch (Exception e) {
+            Message.get("itemlore-invalid-line").send(player);
+        }
     }
 }

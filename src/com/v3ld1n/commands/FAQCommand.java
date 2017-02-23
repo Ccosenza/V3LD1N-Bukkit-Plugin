@@ -58,8 +58,8 @@ public class FAQCommand extends V3LD1NCommand {
                 builder.append(Message.get("faq-question").toString() + question.getQuestion() + "\n");
                 builder.append(Message.get("faq-answer").toString() + Message.get("faq-answer-color") + answer.get(0));
                 for (String answerLine : answer) {
-                	if (answer.indexOf(answerLine) == 0) continue;
-                	builder.append("\n" + Message.get("faq-answer-color").toString() + answerLine);
+                    if (answer.indexOf(answerLine) == 0) continue;
+                    builder.append("\n" + Message.get("faq-answer-color").toString() + answerLine);
                 }
 
                 String builderString = builder.toString();
@@ -69,7 +69,7 @@ public class FAQCommand extends V3LD1NCommand {
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(builderString).create()));
                 p.spigot().sendMessage(message);
             } catch (Exception e) {
-            	Message.get("faq-display-error").send(p);
+                Message.get("faq-display-error").send(p);
                 e.printStackTrace();
             }
         }

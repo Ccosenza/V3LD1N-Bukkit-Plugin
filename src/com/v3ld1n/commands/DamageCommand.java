@@ -29,17 +29,15 @@ public class DamageCommand extends V3LD1NCommand {
             return true;
         }
 
-        double damageAmount;
-        try {
-            damageAmount = Double.parseDouble(args[0]);
-        } catch (IllegalArgumentException e) {
+        if (!StringUtil.isDouble(args[0])) {
             this.sendUsage(sender);
             return true;
         }
+        double damageAmount = Double.parseDouble(args[0]);
 
         if (damageAmount < 0) {
-        	this.sendUsage(sender);
-        	return true;
+            this.sendUsage(sender);
+            return true;
         }
 
         Player player;
@@ -59,7 +57,7 @@ public class DamageCommand extends V3LD1NCommand {
     // Damages the player
     private void damage(CommandSender sender, Player player, double damageAmount) {
         if (INVINCIBLE_MODES.contains(player.getGameMode())) {
-        	Message.get("damage-invulnerable").sendF(sender, StringUtil.fromEnum(player.getGameMode(), true));
+            Message.get("damage-invulnerable").sendF(sender, StringUtil.fromEnum(player.getGameMode(), true));
             return;
         }
         player.damage(damageAmount);
