@@ -21,10 +21,7 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sendPlayerMessage(sender);
-            return true;
-        }
+        if (sendNotPlayerMessage(sender)) return true;
         Player player = (Player) sender;
 
         if (args.length != 1) {

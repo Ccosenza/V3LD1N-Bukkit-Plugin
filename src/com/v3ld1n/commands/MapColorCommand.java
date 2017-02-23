@@ -21,18 +21,15 @@ public class MapColorCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-        	sendPlayerMessage(sender);
-        	return true;
-        }
-        if (!sender.hasPermission("v3ld1n.owner")) {
-            sendPermissionMessage(sender);
-            return true;
-        }
+        if (sendPermissionMessage(sender, "v3ld1n.mapcolor")) return true;
+        if (sendNotPlayerMessage(sender)) return true;
+        Player p = (Player) sender;
+
     	if (args.length != 1) {
         	sendUsage(sender);
         	return true;
     	}
+
         int color;
         try {
             color = Integer.parseInt(args[0]);
@@ -40,18 +37,19 @@ public class MapColorCommand extends V3LD1NCommand {
             this.sendUsage(sender);
             return true;
         }
+
         if (color < 0 || color > LIMIT) {
         	Message.get("mapcolor-limit").sendF(sender, LIMIT);
         	return true;
         }
-        Player p = (Player) sender;
+
         ItemStack item = p.getInventory().getItemInMainHand();
         if (item.getType() != Material.MAP) {
         	Message.get("mapcolor-not-map").send(p);
             return true;
         }
-        ItemStack i = setColor(item, color);
-        p.getInventory().setItemInMainHand(i);
+        ItemStack coloredMap = setColor(item, color);
+        p.getInventory().setItemInMainHand(coloredMap);
         Message.get("mapcolor-set").sendF(p, color);
         return true;
     }

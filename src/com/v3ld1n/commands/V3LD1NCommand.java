@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
@@ -113,17 +114,28 @@ public abstract class V3LD1NCommand implements CommandExecutor {
     /**
      * Sends the "no permission" message to a user
      * @param user the user
+     * @param permission the required permission
+     * @return whether the message was sent
      */
-    protected void sendPermissionMessage(CommandSender user) {
-    	Message.get("command-permission").send(user);
+    protected boolean sendPermissionMessage(CommandSender user, String permission) {
+        if (!user.hasPermission(permission)) {
+        	Message.get("command-permission").send(user);
+            return true;
+        }
+        return false;
     }
 
     /**
      * Sends the "not a player" message to a user
      * @param user the user
+     * @return whether the message was sent
      */
-    protected void sendPlayerMessage(CommandSender user) {
-    	Message.get("command-not-player").send(user);
+    protected boolean sendNotPlayerMessage(CommandSender user) {
+        if (!(user instanceof Player)) {
+        	Message.get("command-not-player").send(user);
+            return true;
+        }
+        return false;
     }
 
     /**

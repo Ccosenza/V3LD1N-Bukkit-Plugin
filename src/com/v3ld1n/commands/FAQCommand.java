@@ -26,14 +26,10 @@ public class FAQCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sendPlayerMessage(sender);
-            return true;
-        }
-
+        if (sendNotPlayerMessage(sender)) return true;
         Player player = (Player) sender;
-        int page;
 
+        int page;
         if (args.length == 0) {
             // Display the first page of the FAQ
             page = 1;

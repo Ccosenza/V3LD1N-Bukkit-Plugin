@@ -22,15 +22,8 @@ public class EditSignCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("v3ld1n.editsign")) {
-            sendPermissionMessage(sender);
-            return true;
-        }
-
-        if (!(sender instanceof Player)) {
-            sendPlayerMessage(sender);
-            return true;
-        }
+        if (sendPermissionMessage(sender, "v3ld1n.editsign")) return true;
+        if (sendNotPlayerMessage(sender)) return true;
         Player player = (Player) sender;
 
         if (args.length < 3) {

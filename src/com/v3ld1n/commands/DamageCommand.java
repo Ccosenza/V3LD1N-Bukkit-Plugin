@@ -22,10 +22,7 @@ public class DamageCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("v3ld1n.damage")) {
-            sendPermissionMessage(sender);
-            return true;
-        }
+        if (sendPermissionMessage(sender, "v3ld1n.damage")) return true;
 
         if (args.length != 1 && args.length != 2) {
             this.sendUsage(sender);

@@ -22,10 +22,8 @@ public class PlayAnimationCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("v3ld1n.playanimation")) {
-            sendPermissionMessage(sender);
-            return true;
-        }
+        if (sendPermissionMessage(sender, "v3ld1n.playanimation")) return true;
+
         if (args.length != 1 && args.length != 2) {
             this.sendUsage(sender);
             return true;
