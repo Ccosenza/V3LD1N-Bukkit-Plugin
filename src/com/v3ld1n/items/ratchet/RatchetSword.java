@@ -31,7 +31,7 @@ public class RatchetSword extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!entityIsHoldingItem(player)) return;
-        if (!isRightClick(event.getAction())) return;
+        if (!isRightClick(event.getAction(), event.getHand())) return;
 
         push(player, entitiesNear(player));
     }

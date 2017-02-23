@@ -26,7 +26,7 @@ public class RatchetFireworkStar extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!entityIsHoldingItem(player)) return;
-        if (!isRightClick(event.getAction())) return;
+        if (!isRightClick(event.getAction(), event.getHand())) return;
 
         event.setCancelled(true);
 

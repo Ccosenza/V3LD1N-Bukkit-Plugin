@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -70,12 +71,12 @@ public class V3LD1NItem implements Listener {
         Sound.playListToPlayer(sounds, location, player);
     }
 
-    public boolean isLeftClick(Action action) {
-        return action.name().startsWith("LEFT_CLICK");
+    public boolean isLeftClick(Action action, EquipmentSlot hand) {
+        return action.name().startsWith("LEFT_CLICK") && hand == EquipmentSlot.HAND;
     }
 
-    public boolean isRightClick(Action action) {
-        return action.name().startsWith("RIGHT_CLICK");
+    public boolean isRightClick(Action action, EquipmentSlot hand) {
+        return action.name().startsWith("RIGHT_CLICK") && hand == EquipmentSlot.HAND;
     }
 
     /**

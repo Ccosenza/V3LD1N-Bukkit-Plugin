@@ -28,7 +28,7 @@ public class RatchetFishingRod extends V3LD1NItem {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (!isRightClick(event.getAction())) return;
+        if (!isRightClick(event.getAction(), event.getHand())) return;
 
         double radius = settings.getDouble("radius");
         List<Entity> nearbyEntities = player.getNearbyEntities(radius, radius, radius);

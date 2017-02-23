@@ -25,7 +25,7 @@ public class RatchetFlintAndSteel extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!entityIsHoldingItem(player)) return;
-        if (!isLeftClick(event.getAction())) return;
+        if (!isLeftClick(event.getAction(), event.getHand())) return;
 
         event.setCancelled(true);
         Projectile projectile = new ProjectileBuilder(Fireball.class)

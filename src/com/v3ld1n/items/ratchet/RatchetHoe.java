@@ -27,7 +27,7 @@ public class RatchetHoe extends V3LD1NItem {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!entityIsHoldingItem(player)) return;
-        if (!isRightClick(event.getAction())) return;
+        if (!isRightClick(event.getAction(), event.getHand())) return;
         if (event.getAction() != Action.RIGHT_CLICK_AIR) return;
 
         int range = settings.getInt("range");
