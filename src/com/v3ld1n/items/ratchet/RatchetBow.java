@@ -100,9 +100,9 @@ public class RatchetBow extends V3LD1NItem {
                     EntityUtil.infiniteFire(arrow);
                 }
                 if (projectile.getType() == EntityType.TIPPED_ARROW) {
-                	TippedArrow tippedArrow = (TippedArrow) projectile;
-                	PotionData potion = tippedArrow.getBasePotionData();
-                	((TippedArrow) arrow).setBasePotionData(potion);
+                    TippedArrow tippedArrow = (TippedArrow) projectile;
+                    PotionData potion = tippedArrow.getBasePotionData();
+                    ((TippedArrow) arrow).setBasePotionData(potion);
                 }
             }
         } else if (type == RatchetBowType.FIREWORK_ARROW) {

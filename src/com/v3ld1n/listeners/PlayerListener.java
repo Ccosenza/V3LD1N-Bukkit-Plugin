@@ -92,7 +92,7 @@ public class PlayerListener implements Listener {
                         V3LD1N.getEconomy().depositPlayer(player, amount);
                         Message.get("money-added").sendF(player, amountInName);
                     } catch (Exception e) {
-                    	Message.get("money-invalid-amount").logF(Level.WARNING, player.getName(), amountInName);
+                        Message.get("money-invalid-amount").logF(Level.WARNING, player.getName(), amountInName);
                     }
 
                     PlayerUtil.takeItem(player, itemInHand, 1);

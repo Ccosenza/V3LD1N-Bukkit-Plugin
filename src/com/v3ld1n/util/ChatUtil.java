@@ -125,7 +125,7 @@ public final class ChatUtil {
         case LONG:
             user.sendMessage(title);
             for (String item : strings) {
-            	Message.get("listitem-long").sendF(user, StringUtil.formatText(item));
+                Message.get("listitem-long").sendF(user, StringUtil.formatText(item));
             }
             break;
         case SIDEBAR:

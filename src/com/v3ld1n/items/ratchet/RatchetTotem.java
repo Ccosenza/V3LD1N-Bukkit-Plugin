@@ -7,9 +7,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import com.v3ld1n.items.V3LD1NItem;
 
 public class RatchetTotem extends V3LD1NItem {
-	public RatchetTotem() {
-		super("ratchets-totem");
-	}
+    public RatchetTotem() {
+        super("ratchets-totem");
+    }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
@@ -21,8 +21,8 @@ public class RatchetTotem extends V3LD1NItem {
     }
 
     private void push(Player player) {
-    	player.setVelocity(player.getVelocity().setY(settings.getDouble("speed")));
-    	displayParticles(player.getLocation());
-    	playSounds(player.getLocation());
+        player.setVelocity(player.getVelocity().setY(settings.getDouble("speed")));
+        displayParticles(player.getLocation());
+        playSounds(player.getLocation());
     }
 }

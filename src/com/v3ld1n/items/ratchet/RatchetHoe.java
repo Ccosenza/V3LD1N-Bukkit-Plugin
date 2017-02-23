@@ -45,7 +45,7 @@ public class RatchetHoe extends V3LD1NItem {
             if (PlayerUtil.canBuild(player, target.getLocation())) {
                 use(player, target);
             } else {
-            	Message.get("permission-worldguard").send(player);
+                Message.get("permission-worldguard").send(player);
             }
         }
     }
