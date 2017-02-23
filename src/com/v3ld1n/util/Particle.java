@@ -174,8 +174,8 @@ public class Particle {
             if (this.name.startsWith(n)) {
                 newName = n;
                 String[] split = this.name.split("_");
-                if (split.length == 2) this.data[0] = StringUtil.toInteger(split[1]);
-                if (split.length == 3) this.data[1] = StringUtil.toInteger(split[2]);
+                if (split.length == 2) this.data[0] = StringUtil.toInteger(split[1], 0);
+                if (split.length == 3) this.data[1] = StringUtil.toInteger(split[2], 0);
                 break;
             }
         }
