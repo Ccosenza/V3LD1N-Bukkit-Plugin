@@ -13,7 +13,7 @@ import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class DamageCommand extends V3LD1NCommand {
-    private final List<GameMode> INVINCIBLE_MODES = Arrays.asList(GameMode.CREATIVE, GameMode.ADVENTURE);
+    private final List<GameMode> INVINCIBLE_MODES = Arrays.asList(GameMode.CREATIVE, GameMode.SPECTATOR);
     
     public DamageCommand() {
         this.addUsage("<amount>", "Damage yourself");
