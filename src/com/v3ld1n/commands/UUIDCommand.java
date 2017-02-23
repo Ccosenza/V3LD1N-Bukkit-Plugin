@@ -28,7 +28,7 @@ public class UUIDCommand extends V3LD1NCommand {
                 uuid = p.getUniqueId().toString();
                 name = p.getName();
             } else {
-                sender.sendMessage(Message.get("command-not-player").toString());
+                sendPlayerMessage(sender);
                 return true;
             }
         } else if (args.length == 1) {
@@ -36,7 +36,7 @@ public class UUIDCommand extends V3LD1NCommand {
                 uuid = PlayerUtil.getUuid(args[0], true).toString();
                 name = args[0];
             } else {
-                sender.sendMessage(Message.get("command-invalid-player").toString());
+                sendInvalidPlayerMessage(sender);
                 return true;
             }
         } else {

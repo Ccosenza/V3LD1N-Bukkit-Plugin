@@ -32,7 +32,7 @@ public class TrailCommand extends V3LD1NCommand {
                             Message.get("trail-remove").send(sender);
                             return true;
                         }
-                        Message.get("command-not-player").send(sender);
+                        sendPlayerMessage(sender);
                         return true;
                     } else if (args.length == 2) {
                         if (sender.hasPermission("v3ld1n.trail.others")) {
@@ -65,7 +65,7 @@ public class TrailCommand extends V3LD1NCommand {
                     Message.get("trail-set").sendF(sender, args[0]);
                     return true;
                 }
-                Message.get("command-not-player").send(sender);
+                sendPlayerMessage(sender);
                 return true;
             } else if (args.length == 2) {
                 if (sender.hasPermission("v3ld1n.trails.others")) {

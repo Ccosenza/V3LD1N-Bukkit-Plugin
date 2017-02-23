@@ -37,7 +37,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
                 if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
                     p = PlayerUtil.getOnlinePlayer(args[0]);
                 } else {
-                    player.sendMessage(Message.get("command-invalid-player").toString());
+                    sendInvalidPlayerMessage(player);
                     return true;
                 }
             } else {
@@ -77,7 +77,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
             }, SECONDS * 20);
             return true;
         }
-        sender.sendMessage(Message.get("command-not-player").toString());
+        sendPlayerMessage(sender);
         return true;
     }
 
