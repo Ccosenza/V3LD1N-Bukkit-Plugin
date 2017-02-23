@@ -11,9 +11,7 @@ import java.util.logging.Level;
 import com.v3ld1n.listeners.EntityListener;
 import com.v3ld1n.listeners.PlayerListener;
 
-import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -62,8 +60,6 @@ public class V3LD1N extends JavaPlugin {
     private static List<TeleportTask> teleportTasks;
 
     private static Economy econ = null;
-    private static Permission perms = null;
-    private static Chat chat = null;
     private static RideCommand rideCommand = new RideCommand();
     public static HashMap<UUID, RideType> usingRideCommand;
 
@@ -213,8 +209,6 @@ public class V3LD1N extends JavaPlugin {
 
     private static void setupVault() {
         setupEconomy();
-        setupChat();
-        setupPermissions();
     }
 
     private static boolean setupEconomy() {
@@ -227,18 +221,6 @@ public class V3LD1N extends JavaPlugin {
         }
         econ = rsp.getProvider();
         return econ != null;
-    }
-
-    private static boolean setupChat() {
-        RegisteredServiceProvider<Chat> rsp = plugin.getServer().getServicesManager().getRegistration(Chat.class);
-        chat = rsp.getProvider();
-        return chat != null;
-    }
-
-    private static boolean setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = plugin.getServer().getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
-        return perms != null;
     }
 
     private static void addCommand(String name, V3LD1NCommand command) {
@@ -687,7 +669,7 @@ public class V3LD1N extends JavaPlugin {
     }
 
     public static List<Message> getMessages() {
-    	return messages;
+        return messages;
     }
 
     public static List<FAQ> getQuestions() {
