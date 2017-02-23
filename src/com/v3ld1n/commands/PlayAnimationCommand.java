@@ -42,7 +42,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
         } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
             player = PlayerUtil.getOnlinePlayer(args[1]);
         } else if (args.length == 2 && !(sender.hasPermission("v3ld1n.playanimation.others"))) {
-        	Message.get("playanimation-others-permission").send(sender);
+            Message.get("playanimation-others-permission").send(sender);
             return true;
         } else {
             sendInvalidPlayerMessage(sender);

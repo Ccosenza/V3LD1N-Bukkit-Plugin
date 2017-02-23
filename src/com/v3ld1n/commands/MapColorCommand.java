@@ -13,7 +13,7 @@ import net.minecraft.server.v1_11_R1.NBTTagCompound;
 import net.minecraft.server.v1_11_R1.NBTTagInt;
 
 public class MapColorCommand extends V3LD1NCommand {
-	private static final int LIMIT = 16777215;
+    private static final int LIMIT = 16777215;
 
     public MapColorCommand() {
         this.addUsage("<color>", "Set the color of the map you're holding");
@@ -25,10 +25,10 @@ public class MapColorCommand extends V3LD1NCommand {
         if (sendNotPlayerMessage(sender)) return true;
         Player p = (Player) sender;
 
-    	if (args.length != 1) {
-        	sendUsage(sender);
-        	return true;
-    	}
+        if (args.length != 1) {
+            sendUsage(sender);
+            return true;
+        }
 
         int color;
         try {
@@ -39,13 +39,13 @@ public class MapColorCommand extends V3LD1NCommand {
         }
 
         if (color < 0 || color > LIMIT) {
-        	Message.get("mapcolor-limit").sendF(sender, LIMIT);
-        	return true;
+            Message.get("mapcolor-limit").sendF(sender, LIMIT);
+            return true;
         }
 
         ItemStack item = p.getInventory().getItemInMainHand();
         if (item.getType() != Material.MAP) {
-        	Message.get("mapcolor-not-map").send(p);
+            Message.get("mapcolor-not-map").send(p);
             return true;
         }
         ItemStack coloredMap = setColor(item, color);

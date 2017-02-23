@@ -26,7 +26,7 @@ public class NamesCommand extends V3LD1NCommand {
             String currentUrl = "https://api.mojang.com/users/profiles/minecraft/" + playerName + "?at=1422921600";
             JsonElement currentElement = StringUtil.readJsonFromUrl(currentUrl);
             if (currentElement != null) {
-            	Message.get("names-border").send(sender);
+                Message.get("names-border").send(sender);
                 String currentName = currentElement.getAsJsonObject().get("name").toString().replaceAll("\"", "");
                 Message.get("names-current").sendF(sender, playerName, currentName);
             } else {
@@ -54,7 +54,7 @@ public class NamesCommand extends V3LD1NCommand {
                     Message.get("names-changed").sendF(sender, name, fDate, fTime);
                 }
             } else {
-            	Message.get("names-no-changes").send(sender);
+                Message.get("names-no-changes").send(sender);
             }
             Message.get("names-border").send(sender);
         } else {

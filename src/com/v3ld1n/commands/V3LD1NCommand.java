@@ -68,7 +68,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
         Message.get("command-usage-title").sendF(user, "/" + bukkitCmd.getName());
         List<String> aliases = getAliasesWithSlash(bukkitCmd);
         if (!aliases.isEmpty()) {
-        	ChatUtil.sendList(user, Message.get("command-usage-aliases").toString(), aliases, ListType.SHORT);
+            ChatUtil.sendList(user, Message.get("command-usage-aliases").toString(), aliases, ListType.SHORT);
         }
         Message.get("command-usage-description").sendF(user, bukkitCmd.getDescription());
         sendUsageNoTitle(user);
@@ -90,7 +90,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
      * @param argument the usage
      */
     public void sendArgumentUsage(CommandSender user, String argument) {
-    	Message.get("command-usage-title").sendF(user, "/" + bukkitCmd.getName());
+        Message.get("command-usage-title").sendF(user, "/" + bukkitCmd.getName());
         for (CommandUsage usage : usages) {
             if (usage.getArguments().equalsIgnoreCase(argument)) {
                 usage.send(user);
@@ -119,7 +119,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
      */
     protected boolean sendPermissionMessage(CommandSender user, String permission) {
         if (!user.hasPermission(permission)) {
-        	Message.get("command-permission").send(user);
+            Message.get("command-permission").send(user);
             return true;
         }
         return false;
@@ -132,7 +132,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
      */
     protected boolean sendNotPlayerMessage(CommandSender user) {
         if (!(user instanceof Player)) {
-        	Message.get("command-not-player").send(user);
+            Message.get("command-not-player").send(user);
             return true;
         }
         return false;
@@ -143,6 +143,6 @@ public abstract class V3LD1NCommand implements CommandExecutor {
      * @param user the user
      */
     protected void sendInvalidPlayerMessage(CommandSender user) {
-    	Message.get("command-invalid-player").send(user);
+        Message.get("command-invalid-player").send(user);
     }
 }
