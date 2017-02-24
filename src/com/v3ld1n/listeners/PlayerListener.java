@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -73,16 +74,18 @@ public class PlayerListener implements Listener {
         }
         // Money items
         if (action.name().startsWith("RIGHT_CLICK")) {
-            if (itemInHand.getType() == Material.EMERALD && itemInHand.hasItemMeta()) {
+            if (itemInHand.getType() == Material.valueOf(ConfigSetting.MONEY_ITEM_ITEM.getString()) && itemInHand.hasItemMeta()) {
                 ItemMeta handItemMeta = itemInHand.getItemMeta();
                 String handItemName = handItemMeta.getDisplayName();
                 String moneyItemName = Message.get("money-name").toString();
                 String moneyItemLore = Message.get("money-lore").toString();
+                Enchantment moneyItemEnchant = Enchantment.DURABILITY;
 
                 boolean sameName = handItemName.contains(moneyItemName);
                 boolean sameLore = handItemMeta.hasLore() && handItemMeta.getLore().get(0).equals(moneyItemLore);
+                boolean sameEnchant = handItemMeta.hasEnchant(moneyItemEnchant) && handItemMeta.getEnchantLevel(moneyItemEnchant) == 10;
 
-                if (sameName && sameLore) {
+                if (sameName && sameLore && sameEnchant) {
                     event.setCancelled(true);
                     String amountInName = handItemName.substring(4, handItemName.indexOf(" "));
 

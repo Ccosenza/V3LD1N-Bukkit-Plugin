@@ -27,10 +27,12 @@ public enum ConfigSetting {
     PLAYER_LIST_PING_ENABLED("player-list.ping.enabled", "config.yml", false),
     PLAYER_LIST_PING_TICKS("player-list.ping.ticks", "config.yml", 20),
 
-    MONEY_REWARD_ENABLED("velds-reward.enabled", "config.yml", false),
-    MONEY_REWARD_BASE_AMOUNT("velds-reward.base-amount", "config.yml", 0),
-    MONEY_REWARD_HOUR_MULTIPLIER("velds-reward.hour-multiplier", "config.yml", 1),
-    MONEY_REWARD_TICKS("velds-reward.ticks", "config.yml", 72000),
+    MONEY_REWARD_ENABLED("money-reward.enabled", "config.yml", false),
+    MONEY_REWARD_BASE_AMOUNT("money-reward.base-amount", "config.yml", 0),
+    MONEY_REWARD_HOUR_MULTIPLIER("money-reward.hour-multiplier", "config.yml", 1),
+    MONEY_REWARD_TICKS("money-reward.ticks", "config.yml", 72000),
+
+    MONEY_ITEM_ITEM("money-item.item", "config.yml", "EMERALD"),
 
     FAQ_BACK_COLOR("back-color", "faq.yml", "blue"),
 
