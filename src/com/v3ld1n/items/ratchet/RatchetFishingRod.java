@@ -96,6 +96,7 @@ public class RatchetFishingRod extends V3LD1NItem {
                 EntityUtil.pushToward(player, hookLocation, new Vector(speedX, speedY, speedZ), false);
                 player.setFallDistance(0);
                 displayParticles(player.getLocation());
+                playSounds(player.getLocation());
             }
         };
         task.start(0, ticks, times);
