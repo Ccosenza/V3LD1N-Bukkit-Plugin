@@ -16,28 +16,34 @@ public class MotdCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player sendTo;
+
         if (args.length == 0) {
-            if (sender instanceof Player) {
-                ChatUtil.sendMotd((Player) sender);
+            if (sendNotPlayerMessage(sender)) return true;
+            sendTo = (Player) sender;
+        } else {
+            if (!sender.hasPermission("v3ld1n.motd.others")) {
+                Message.get("motd-others-permission").send(sender);
                 return true;
             }
-            sendPlayerMessage(sender);
-            return true;
-        } else if (args.length > 0) {
-            if (sender.hasPermission("v3ld1n.motd.others")) {
-                if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
-                    Player p = PlayerUtil.getOnlinePlayer(args[0]);
-                    ChatUtil.sendMotd(p);
-                    Message.get("motd-show").sendF(sender, p.getName());
-                    return true;
-                }
+
+            if (PlayerUtil.getOnlinePlayer(args[0]) == null) {
                 sendInvalidPlayerMessage(sender);
                 return true;
             }
-            Message.get("motd-others-permission").send(sender);
-            return true;
+
+            sendTo = PlayerUtil.getOnlinePlayer(args[0]);
         }
-        this.sendUsage(sender);
+
+        send(sendTo);
+
+        if (sendTo.getName() != sender.getName()) {
+            Message.get("motd-show").sendF(sender, sendTo.getName());
+        }
         return true;
+    }
+
+    private void send(Player player) {
+        ChatUtil.sendMotd(player);
     }
 }

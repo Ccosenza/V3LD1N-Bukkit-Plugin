@@ -18,34 +18,39 @@ public class ItemNameCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.itemname")) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                if (args.length >= 1) {
-                    ItemStack i = p.getInventory().getItemInMainHand();
-                    if (i.getType() != Material.AIR) {
-                        String name = null;
-                        if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {
-                            boolean hasName = i.getItemMeta().hasDisplayName();
-                            Message message = hasName ? Message.get("itemname-remove") : Message.get("itemname-no-name");
-                            p.sendMessage(message.toString());
-                        } else {
-                            name = StringUtil.formatText(StringUtil.fromArray(args, 0));
-                            Message.get("itemname-set").sendF(p, name);
-                        }
-                        ItemUtil.setName(i, name);
-                        return true;
-                    }
-                    Message.get("command-no-item").send(p);
-                    return true;
-                }
-                this.sendUsage(p);
-                return true;
-            }
-            sendPlayerMessage(sender);
+        if (sendPermissionMessage(sender, "v3ld1n.itemname")) return true;
+        if (sendNotPlayerMessage(sender)) return true;
+        Player player = (Player) sender;
+
+        if (args.length == 0) {
+            this.sendUsage(player);
             return true;
         }
-        sendPermissionMessage(sender);
+
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getType() == Material.AIR) {
+            Message.get("command-no-item").send(player);
+            return true;
+        }
+
+        if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {
+            remove(item, player);
+        } else {
+            String name = StringUtil.formatText(StringUtil.fromArray(args, 0));
+            set(item, name, player);
+        }
         return true;
+    }
+
+    private void set(ItemStack item, String name, Player player) {
+        ItemUtil.setName(item, name);
+        Message.get("itemname-set").sendF(player, name);
+    }
+
+    private void remove(ItemStack item, Player player) {
+        boolean hasName = item.getItemMeta().hasDisplayName();
+        ItemUtil.setName(item, null);
+        Message message = hasName ? Message.get("itemname-remove") : Message.get("itemname-no-name");
+        player.sendMessage(message.toString());
     }
 }

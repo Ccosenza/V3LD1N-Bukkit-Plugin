@@ -9,8 +9,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ItemUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class MoneyItemCommand extends V3LD1NCommand {
     public MoneyItemCommand() {
@@ -19,34 +21,38 @@ public class MoneyItemCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            if (args.length == 1) {
-                double amount;
-                try {
-                    amount = Double.parseDouble(args[0]);
-                } catch (IllegalArgumentException e) {
-                    this.sendUsage(sender);
-                    return true;
-                }
-                if (amount < 0) {
-                	this.sendUsage(sender);
-                	return true;
-                }
-                ItemStack item = new ItemStack(Material.EMERALD);
-                DecimalFormat df = new DecimalFormat("0.##");
-                String moneyName = amount == 1 ? Message.get("money-name").toString() : Message.get("money-name-plural").toString();
-                ItemUtil.setName(item, "§e" + df.format(amount) + " " + moneyName);
-                ItemUtil.addLore(item, Message.get("money-lore").toString());
-                ItemUtil.addEnchantment(item, Enchantment.PROTECTION_ENVIRONMENTAL, 10);
-                item = ItemUtil.hideFlags(item);
-                p.getInventory().addItem(item);
-                return true;
-            }
+        if (sendPermissionMessage(sender, "v3ld1n.owner")) return true;
+        if (sendNotPlayerMessage(sender)) return true;
+        Player player = (Player) sender;
+
+        if (args.length != 1) {
             this.sendUsage(sender);
             return true;
         }
-        sendPlayerMessage(sender);
+
+        if (!StringUtil.isDouble(args[0])) {
+            this.sendUsage(sender);
+            return true;
+        }
+
+        double amount = Double.parseDouble(args[0]);
+        if (amount < 0) {
+            this.sendUsage(sender);
+            return true;
+        }
+        
+        create(amount, player);
         return true;
+    }
+
+    private void create(double amount, Player player) {
+        ItemStack item = new ItemStack(Material.valueOf(ConfigSetting.MONEY_ITEM_ITEM.getString()));
+        DecimalFormat df = new DecimalFormat("0.##");
+        String moneyName = amount == 1 ? Message.get("money-name").toString() : Message.get("money-name-plural").toString();
+        ItemUtil.setName(item, "§e" + df.format(amount) + " " + moneyName);
+        ItemUtil.addLore(item, Message.get("money-lore").toString());
+        ItemUtil.addEnchantment(item, Enchantment.DURABILITY, 10);
+        item = ItemUtil.hideFlags(item);
+        player.getInventory().addItem(item);
     }
 }
