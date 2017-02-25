@@ -34,7 +34,6 @@ public class RatchetsBowCommand extends V3LD1NCommand {
     }
 
     private void set(Player player, String projectile) {
-        List<RatchetBowType> types = Arrays.asList(RatchetBowType.values());
         try {
             RatchetBowType type = RatchetBowType.valueOf(projectile);
             if (type == RatchetBowType.FIREBALL) {
@@ -47,7 +46,14 @@ public class RatchetsBowCommand extends V3LD1NCommand {
             Message.get("ratchetsbow-set").aSendF(player, StringUtil.fromEnum(type, true));
         } catch (Exception e) {
             Message.get("ratchetsbow-invalid-projectile").send(player);
-            ChatUtil.sendList(player, Message.get("ratchetsbow-list-title").toString(), types, ListType.SHORT);
+            this.sendUsage(player);
         }
+    }
+
+    @Override
+    public void sendUsage(CommandSender user) {
+        super.sendUsage(user);
+        List<RatchetBowType> types = Arrays.asList(RatchetBowType.values());
+        ChatUtil.sendList(user, Message.get("ratchetsbow-list-title").toString(), types, ListType.SHORT);
     }
 }

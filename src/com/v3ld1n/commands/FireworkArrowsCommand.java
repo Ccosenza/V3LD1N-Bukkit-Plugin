@@ -37,21 +37,14 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
         try {
             type = Type.valueOf(args[0].toUpperCase());
         } catch (Exception e) {
-            Message.get("fireworkarrows-invalid-shape").send(sender);
-            sendTypeList(sender);
+            this.sendUsage(player);
             return true;
         }
-        setType(player, type);
+        set(player, type);
         return true;
     }
 
-    @Override
-    public void sendUsage(CommandSender user) {
-        super.sendUsage(user);
-        sendTypeList(user);
-    }
-
-    private void setType(Player player, Type type) {
+    private void set(Player player, Type type) {
         Object typeData = type == Type.BALL ? null : type.toString();
         PlayerData.FIREWORK_ARROWS.set(player, typeData);
         FireworkEffect effect = FireworkEffect.builder()
@@ -66,7 +59,9 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
         Message.get("fireworkarrows-set").aSendF(player, StringUtil.fromEnum(type, true));
     }
 
-    private void sendTypeList(CommandSender user) {
+    @Override
+    public void sendUsage(CommandSender user) {
+        super.sendUsage(user);
         List<Type> types = Arrays.asList(Type.values());
         ChatUtil.sendList(user, Message.get("fireworkarrows-list-title").toString(), types, ListType.SHORT);
     }
