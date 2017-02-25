@@ -110,12 +110,24 @@ public final class EntityUtil {
         FireworkMeta fwm = fw.getFireworkMeta();
         fwm.addEffects(effect);
         fw.setFireworkMeta(fwm);
+        fw.setSilent(true);
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
             public void run() {
                 fw.detonate();
             }
         }, delay);
+    }
+
+    /**
+     * Deletes the projectile and spawns an instantly detonating firework rocket at its location
+     * @param projectile the projectile
+     * @param effect the firework effect
+     * @param location the location to spawn the firework
+     */
+    public static void detonateFireworkProjectile(Projectile projectile, FireworkEffect effect, Location location) {
+        displayFireworkEffect(effect, location, 1);
+        projectile.remove();
     }
 
     /**
@@ -130,17 +142,6 @@ public final class EntityUtil {
         } else {
             projectile.getWorld().strikeLightningEffect(location);
         }
-        projectile.remove();
-    }
-
-    /**
-     * Deletes the projectile and spawns an instantly detonating firework rocket at its location
-     * @param projectile the projectile
-     * @param effect the firework effect
-     * @param location the location to spawn the firework
-     */
-    public static void detonateFireworkProjectile(Projectile projectile, FireworkEffect effect, Location location) {
-        displayFireworkEffect(effect, location, 1);
         projectile.remove();
     }
 
