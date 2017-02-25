@@ -2,7 +2,6 @@ package com.v3ld1n.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -19,85 +18,50 @@ import org.bukkit.inventory.meta.SkullMeta;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.ChatUtil;
 import com.v3ld1n.util.ListType;
-import com.v3ld1n.util.PlayerUtil;
-import com.v3ld1n.util.StringUtil;
 
 public class PlayersCommand extends V3LD1NCommand {
     public PlayersCommand() {
-        this.addUsage("list", "Displays a list of players who are currently online");
         this.addUsage("fulllist", "Displays a list of all players");
-        this.addUsage("total", "Displays the total amount of players who joined the server");
-        this.addUsage("online", "Displays the amount of players who are currently on the server");
         this.addUsage("heads", "Opens an inventory of all online players' heads");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.players")) {
-            if (args.length == 0) {
-                this.sendUsage(sender);
-                return true;
-            }
-            if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("fulllist") && args.length == 1) {
-                Collection<? extends OfflinePlayer> players = new ArrayList<>();
-                switch (args[0]) {
-                case "list":
-                    players = Bukkit.getServer().getOnlinePlayers();
-                    break;
-                case "fulllist":
-                    OfflinePlayer[] offline = Bukkit.getServer().getOfflinePlayers();
-                    players = Arrays.asList(offline);
-                    break;
-                default:
-                    break;
-                }
-                List<String> names = new ArrayList<>();
-                for (OfflinePlayer player : players) {
-                    names.add(player.getName());
-                }
-                ChatUtil.sendList(sender, Message.get("players-list-title").toString(), names, ListType.SHORT);
-                return true;
-            } else if ((args[0].equalsIgnoreCase("total") || args[0].equalsIgnoreCase("online")) && args.length == 1) {
-                int players = 0;
-                switch (args[0]) {
-                case "total":
-                    players = Bukkit.getServer().getOfflinePlayers().length;
-                    break;
-                case "online":
-                    players = Bukkit.getServer().getOnlinePlayers().size();
-                    break;
-                default:
-                    break;
-                }
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    String upper = StringUtil.upperCaseFirst(args[0]);
-                    String title = String.format(Message.get("players-amount-title").toString(), upper);
-                    String subtitle = String.format(Message.get("players-amount-subtitle").toString(), players);
-                    PlayerUtil.displayTitle(p, "{\"text\":\"" + title + "\"}", 2, 2, 2);
-                    PlayerUtil.displaySubtitle(p, "{\"text\":\"" + subtitle + "\"}", 2, 2, 2, false);
-                    return true;
-                }
-                Message.get("players-amount-chat").aSendF(sender, players);
-                return true;
-            } else if (args[0].equalsIgnoreCase("heads") && args.length == 1 && sender instanceof Player) {
-                Player p = (Player) sender;
-                Inventory inv = Bukkit.createInventory(null, 27, "Player Heads");
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
-                    SkullMeta meta = (SkullMeta) head.getItemMeta();
-                    meta.setOwner(player.getName());
-                    head.setItemMeta(meta);
-                    inv.addItem(head);
-                }
-                p.openInventory(inv);
-                return true;
-            }
-        } else {
-            sendPermissionMessage(sender);
+        if (sendPermissionMessage(sender, "v3ld1n.players")) return true;
+
+        if (args.length != 1) {
+            this.sendUsage(sender);
             return true;
         }
-        this.sendUsage(sender);
+
+        if (args[0].equalsIgnoreCase("fulllist")) {
+            sendFullList(sender);
+        } else if (args[0].equalsIgnoreCase("heads")) {
+            if (sendNotPlayerMessage(sender)) return true;
+            Player player = (Player) sender;
+            displayHeads(player);
+        }
         return true;
+    }
+
+    private void sendFullList(CommandSender user) {
+        List<String> names = new ArrayList<>();
+        OfflinePlayer[] allPlayers = Bukkit.getServer().getOfflinePlayers();
+        for (OfflinePlayer player : Arrays.asList(allPlayers)) {
+            names.add(player.getName());
+        }
+        ChatUtil.sendList(user, Message.get("players-list-title").toString(), names, ListType.SHORT);
+    }
+
+    private void displayHeads(Player player) {
+        Inventory inv = Bukkit.createInventory(null, 27, "Player Heads");
+        for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
+            ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+            SkullMeta meta = (SkullMeta) head.getItemMeta();
+            meta.setOwner(onlinePlayer.getName());
+            head.setItemMeta(meta);
+            inv.addItem(head);
+        }
+        player.openInventory(inv);
     }
 }
