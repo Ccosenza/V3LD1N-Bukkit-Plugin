@@ -21,30 +21,33 @@ public class RatchetsBowCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            if (args.length == 1) {
-                String projectile = args[0].toUpperCase();
-                List<RatchetBowType> types = Arrays.asList(RatchetBowType.values());
-                try {
-                    RatchetBowType type = RatchetBowType.valueOf(projectile);
-                    if (type == RatchetBowType.FIREBALL) {
-                        PlayerData.RATCHETS_BOW.set(p, null);
-                    } else {
-                        PlayerData.RATCHETS_BOW.set(p, args[0].toUpperCase());
-                    }
-                    type.getParticle().display(p.getEyeLocation());
-                    Message.get("ratchetsbow-set").aSendF(p, StringUtil.fromEnum(type, true));
-                } catch (Exception e) {
-                	Message.get("ratchetsbow-invalid-projectile").send(p);
-	                ChatUtil.sendList(p, Message.get("ratchetsbow-list-title").toString(), types, ListType.SHORT);
-                }
-                return true;
-            }
+        if (sendNotPlayerMessage(sender)) return true;
+        Player player = (Player) sender;
+
+        if (args.length != 1) {
             this.sendUsage(sender);
             return true;
         }
-        sendPlayerMessage(sender);
+
+        set(player, args[0].toUpperCase());
         return true;
+    }
+
+    private void set(Player player, String projectile) {
+        List<RatchetBowType> types = Arrays.asList(RatchetBowType.values());
+        try {
+            RatchetBowType type = RatchetBowType.valueOf(projectile);
+            if (type == RatchetBowType.FIREBALL) {
+                PlayerData.RATCHETS_BOW.set(player, null);
+            } else {
+                PlayerData.RATCHETS_BOW.set(player, projectile);
+            }
+
+            type.getParticle().display(player.getEyeLocation());
+            Message.get("ratchetsbow-set").aSendF(player, StringUtil.fromEnum(type, true));
+        } catch (Exception e) {
+            Message.get("ratchetsbow-invalid-projectile").send(player);
+            ChatUtil.sendList(player, Message.get("ratchetsbow-list-title").toString(), types, ListType.SHORT);
+        }
     }
 }
