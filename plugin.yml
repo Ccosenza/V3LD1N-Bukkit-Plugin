@@ -74,10 +74,6 @@ commands:
     description: Adds, removes, and lists MOTDs.
     aliases: [vmotd]
     usage: /<command> add|remove|list <motd ...>
-  sendmessage:
-    description: Sends a message to a player.
-    aliases: [sendmsg, smsg, sm]
-    usage: /<command> <player>|all <type> <message ...>
   timeplayed:
     description: Displays the amount of time a player has played.
     aliases: [playtime]
