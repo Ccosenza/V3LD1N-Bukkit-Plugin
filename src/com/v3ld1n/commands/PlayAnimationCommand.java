@@ -28,6 +28,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
             this.sendUsage(sender);
             return true;
         }
+
         PlayerAnimation animation;
         try {
             animation = PlayerAnimation.valueOf(args[0].toUpperCase());
@@ -48,6 +49,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
             sendInvalidPlayerMessage(sender);
             return true;
         }
+
         play(sender, player, animation);
         return true;
     }
