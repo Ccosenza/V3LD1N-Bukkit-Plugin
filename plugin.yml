@@ -89,9 +89,9 @@ commands:
     description: Gives the item in your main hand to all players.
     usage: /<command>
   players:
-    description: Player information command.
+    description: Lists of all players.
     aliases: [player]
-    usage: /<command> <arguments>
+    usage: /<command> fulllist OR /<command> heads
   v3ld1nwarp:
     description: Adds, removes, and lists warps.
     aliases: [vwarp]
