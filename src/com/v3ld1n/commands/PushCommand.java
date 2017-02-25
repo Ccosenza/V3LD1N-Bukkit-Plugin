@@ -8,69 +8,65 @@ import org.bukkit.util.Vector;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.EntityUtil;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class PushCommand extends V3LD1NCommand {
-    private static final double SPEED_DEFAULT = 1.0;
-    private static final double SPEED_LIMIT = 8.0;
-
     public PushCommand() {
         this.addUsage("<player> <speedX> <speedY> <speedZ>", "Push a player in a direction");
-        this.addUsage("<player> <toPlayer> [speed]", "Push a player toward another player");
+        this.addUsage("<player> <toPlayer> <speed>", "Push a player toward another player");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.push")) {
-            if (args.length == 4) {
-                double speedX = SPEED_DEFAULT;
-                double speedY = SPEED_DEFAULT;
-                double speedZ = SPEED_DEFAULT;
-                try {
-                    speedX = Double.parseDouble(args[1]);
-                    speedY = Double.parseDouble(args[2]);
-                    speedZ = Double.parseDouble(args[3]);
-                } catch (Exception e) {
-                	Message.get("push-invalid-speed").sendF(sender, SPEED_DEFAULT);
-                }
-                if (speedX > SPEED_LIMIT) {
-                    speedX = SPEED_LIMIT;
-                }
-                if (speedY > SPEED_LIMIT) {
-                    speedY = SPEED_LIMIT;
-                }
-                if (speedZ > SPEED_LIMIT) {
-                    speedZ = SPEED_LIMIT;
-                }
-                Vector velocity = new Vector(speedX, speedY, speedZ);
-                if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
-                    Player p = PlayerUtil.getOnlinePlayer(args[0]);
-                    p.setVelocity(velocity);
-                    Message.get("push-push").aSendF(sender, p.getName(), speedX, speedY, speedZ);
-                    return true;
-                }
-                sendInvalidPlayerMessage(sender);
+        if (sendPermissionMessage(sender, "v3ld1n.push")) return true;
+
+        if (PlayerUtil.getOnlinePlayer(args[0]) == null) {
+            sendInvalidPlayerMessage(sender);
+            return true;
+        }
+        Player player = PlayerUtil.getOnlinePlayer(args[0]);
+
+        if (args.length == 4) {
+            double speedX, speedY, speedZ;
+            try {
+                speedX = Double.parseDouble(args[1]);
+                speedY = Double.parseDouble(args[2]);
+                speedZ = Double.parseDouble(args[3]);
+            } catch (Exception e) {
+                Message.get("push-invalid-speed").send(sender);
                 return true;
-            } else if (args.length == 2 || args.length == 3) {
-                double speed = SPEED_DEFAULT;
-                if (PlayerUtil.getOnlinePlayer(args[0]) != null && PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                    Player player = PlayerUtil.getOnlinePlayer(args[0]);
-                    Player toPlayer = PlayerUtil.getOnlinePlayer(args[1]);
-                    try {
-                        speed = Double.parseDouble(args[2]);
-                    } catch (Exception e) {
-                    	Message.get("push-invalid-speed").sendF(sender, SPEED_DEFAULT);
-                    }
-                    EntityUtil.pushToward(player, toPlayer.getLocation(), new Vector(speed, speed, speed), false);
-                    Message.get("push-push-to-player").aSendF(sender, player.getName(), speed);
-                    return true;
-                }
+            }
+
+            pushInDirection(player, speedX, speedY, speedZ, sender);
+            return true;
+        } else if (args.length == 2 || args.length == 3) {
+            if (PlayerUtil.getOnlinePlayer(args[1]) == null) {
                 sendInvalidPlayerMessage(sender);
                 return true;
             }
-            this.sendUsage(sender);
+            Player toPlayer = PlayerUtil.getOnlinePlayer(args[1]);
+
+            if (!StringUtil.isDouble(args[0])) {
+                Message.get("push-invalid-speed").send(sender);
+                return true;
+            }
+            double speed = Double.parseDouble(args[2]);
+
+            pushToPlayer(player, toPlayer, speed, sender);
             return true;
         }
-        sendPermissionMessage(sender);
+        this.sendUsage(sender);
         return true;
+    }
+
+    private void pushInDirection(Player player, double speedX, double speedY, double speedZ, CommandSender user) {
+        Vector velocity = new Vector(speedX, speedY, speedZ);
+        player.setVelocity(velocity);
+        Message.get("push-push").aSendF(user, player.getName(), speedX, speedY, speedZ);
+    }
+
+    private void pushToPlayer(Player player, Player toPlayer, double speed, CommandSender user) {
+        EntityUtil.pushToward(player, toPlayer.getLocation(), new Vector(speed, speed, speed), false);
+        Message.get("push-push-to-player").aSendF(user, player.getName(), speed);
     }
 }
