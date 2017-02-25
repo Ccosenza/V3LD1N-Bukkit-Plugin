@@ -99,11 +99,7 @@ commands:
   ride:
     description: Right-click on an entity to ride/hold it.
     aliases: [rideentity, entityride]
-    usage: /<command> [hold]
-  names:
-    description: Displays information about player names.
-    aliases: [name]
-    usage: /<command> <playerName>
+    usage: /<command> [ride|hold|drop]
   playersay:
     description: Send a chat message as another player.
     aliases: [sayplayer, ps, psay]
