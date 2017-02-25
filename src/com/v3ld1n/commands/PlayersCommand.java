@@ -50,11 +50,12 @@ public class PlayersCommand extends V3LD1NCommand {
         for (OfflinePlayer player : Arrays.asList(allPlayers)) {
             names.add(player.getName());
         }
-        ChatUtil.sendList(user, Message.get("players-list-title").toString(), names, ListType.SHORT);
+        String listTitle = String.format(Message.get("players-list-title").toString(), names.size());
+        ChatUtil.sendList(user, listTitle, names, ListType.SHORT);
     }
 
     private void displayHeads(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, "Player Heads");
+        Inventory inv = Bukkit.createInventory(null, 27, Message.get("players-heads-title").toString());
         for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
             ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
             SkullMeta meta = (SkullMeta) head.getItemMeta();
