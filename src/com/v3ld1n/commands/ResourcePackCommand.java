@@ -20,32 +20,35 @@ public class ResourcePackCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            List<ResourcePack> packs = V3LD1N.getResourcePacks();
-            if (!packs.isEmpty()) {
-                String pack = null;
-                if (args.length == 0) {
-                    pack = packs.get(0).getName();
-                } else if (args.length == 1) {
-                    if (V3LD1N.getResourcePack(args[0]) != null) {
-                        pack = args[0];
-                    } else {
-                        this.sendUsage(p);
-                        return true;
-                    }
-                }
-                p.setResourcePack(V3LD1N.getResourcePack(pack).getUrl());
-                if (ConfigSetting.RESOURCE_PACKS_OUTDATED.getBoolean()) {
-                	Message.get("resourcepack-outdated").send(p);
-                }
-                return true;
-            }
-            Message.get("resourcepack-no-resourcepacks").send(p);
+        if (sendNotPlayerMessage(sender)) return true;
+        Player player = (Player) sender;
+
+        List<ResourcePack> packs = V3LD1N.getResourcePacks();
+        if (packs.isEmpty()) {
+            Message.get("resourcepack-no-resourcepacks").send(player);
             return true;
         }
-        sendPlayerMessage(sender);
+
+        String packName = null;
+        if (args.length == 0) {
+            packName = packs.get(0).getName();
+        } else if (args.length == 1) {
+            if (V3LD1N.getResourcePack(args[0]) == null) {
+                this.sendUsage(player);
+                return true;
+            }
+            packName = args[0];
+        }
+
+        set(player, packName);
         return true;
+    }
+
+    private void set(Player player, String packName) {
+        player.setResourcePack(V3LD1N.getResourcePack(packName).getUrl());
+        if (ConfigSetting.RESOURCE_PACKS_OUTDATED.getBoolean()) {
+            Message.get("resourcepack-outdated").send(player);
+        }
     }
 
     @Override
