@@ -65,7 +65,7 @@ commands:
   push:
     description: Pushes a player.
     aliases: [setvelocity]
-    usage: /<command> <player> <speedX> <speedY> <speedZ> OR /<command> <player> <toPlayer> [speed]
+    usage: /<command> <player> <speedX> <speedY> <speedZ> OR /<command> <player> <toPlayer> <speed>
   sethotbarslot:
     description: Sets a player's selected hotbar slot.
     aliases: [hotbarslot, setselectedslot, selectedslot, settoolbarslot, toolbarslot]
