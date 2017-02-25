@@ -29,81 +29,83 @@ public class RideCommand extends V3LD1NCommand implements Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.ride")) {
-            if (sender instanceof Player) {
-                final Player p = (Player) sender;
-                if (task != null) {
-                    task.cancel();
-                }
-                RideType type = null;
-                if (args.length == 0) {
-                    type = RideType.RIDE;
-                } else if (args.length == 1) {
-                	if (args[0].equalsIgnoreCase("drop")) {
-                		if (p.getPassenger() != null) {
-                    		String entityname = StringUtil.getEntityName(p.getPassenger());
-                			p.eject();
-                			Message.get("ride-drop").aSendF(p, entityname);
-                		}
-                		else {
-                			Message.get("ride-drop-not-holding").aSend(p);
-                		}
-                		return true;
-                	}
-                    try {
-                        type = RideType.valueOf(args[0].toUpperCase());
-                    } catch (Exception e) {
-                    	this.sendUsage(p);
-                        return true;
-                    }
-                } else {
-                    this.sendUsage(p);
-                    return true;
-                }
-                V3LD1N.usingRideCommand.put(p.getUniqueId(), type);
-                Message.get("ride-click").aSend(p);
-                task = Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
-                    @Override
-                    public void run() {
-                        if (V3LD1N.usingRideCommand.get(p.getUniqueId()) != null) {
-                            V3LD1N.usingRideCommand.remove(p.getUniqueId());
-                            Message.get("ride-no-selection").aSend(p);
-                        }
-                    }
-                }, 200);
+        if (sendPermissionMessage(sender, "v3ld1n.ride")) return true;
+        if (sendNotPlayerMessage(sender)) return true;
+        final Player player = (Player) sender;
+
+        if (task != null) {
+            task.cancel();
+        }
+
+        RideType type = null;
+        if (args.length == 0) {
+            type = RideType.RIDE;
+        } else if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("drop")) {
+                drop(player);
                 return true;
             }
-            sendPlayerMessage(sender);
+
+            try {
+                type = RideType.valueOf(args[0].toUpperCase());
+            } catch (Exception e) {
+                this.sendUsage(player);
+                return true;
+            }
+        } else {
+            this.sendUsage(player);
             return true;
         }
-        sendPermissionMessage(sender);
+        addToList(player, type);
         return true;
+    }
+
+    private void addToList(Player player, RideType type) {
+        UUID uuid = player.getUniqueId();
+        V3LD1N.usingRideCommand.put(uuid, type);
+        Message.get("ride-click").aSend(player);
+        task = Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                if (V3LD1N.usingRideCommand.get(uuid) != null) {
+                    V3LD1N.usingRideCommand.remove(uuid);
+                    Message.get("ride-no-selection").aSend(player);
+                }
+            }
+        }, 200);
+        
+    }
+
+    private void drop(Player player) {
+        if (player.getPassenger() == null) {
+            Message.get("ride-drop-not-holding").aSend(player);
+        } else {
+            String entityname = StringUtil.getEntityName(player.getPassenger());
+            player.eject();
+            Message.get("ride-drop").aSendF(player, entityname);
+        }
     }
 
     @EventHandler
     public void onEntityInteract(PlayerInteractEntityEvent event) {
-        Player p = event.getPlayer();
+        Player player = event.getPlayer();
         HashMap<UUID, RideType> using = V3LD1N.usingRideCommand;
-        if (using.containsKey(p.getUniqueId())) {
-            PlayerAnimation.SWING_ARM.play(p);
-            Entity entity = event.getRightClicked();
-            RideType type = using.get(p.getUniqueId());
-            Message message = null;
-            switch (type) {
-            case RIDE:
-                entity.setPassenger(p);
-                message = Message.get("ride-ride");
-                break;
-            case HOLD:
-                p.setPassenger(entity);
-                message = Message.get("ride-hold");
-                break;
-            default:
-                break;
-            }
-            V3LD1N.usingRideCommand.remove(p.getUniqueId());
-            task.cancel();
-            message.aSendF(p, StringUtil.getEntityName(entity));
+        if (!using.containsKey(player.getUniqueId())) return;
+
+        PlayerAnimation.SWING_ARM.play(player);
+        Entity entity = event.getRightClicked();
+        RideType type = using.get(player.getUniqueId());
+        switch (type) {
+        case RIDE:
+            entity.setPassenger(player);
+            break;
+        case HOLD:
+            player.setPassenger(entity);
+            break;
         }
+
+        V3LD1N.usingRideCommand.remove(player.getUniqueId());
+        task.cancel();
+        type.getMessage().aSendF(player, StringUtil.getEntityName(entity));
     }
 }
