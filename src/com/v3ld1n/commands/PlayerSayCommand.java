@@ -21,34 +21,35 @@ public class PlayerSayCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.owner")) {
-            if (args.length >= 2) {
-                String message = StringUtil.fromArray(args, 1);
-                String namePrefix = "";
-                PluginManager pm = Bukkit.getPluginManager();
-                if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
-                    Player p = PlayerUtil.getOnlinePlayer(args[0]);
-                    p.chat(message);
-                    return true;
-                } else if (pm.getPlugin("PermissionsEx") != null && PlayerUtil.getOfflinePlayer(args[0]) != null) {
-                    String name = PlayerUtil.getOfflinePlayer(args[0]).getName();
-                    PermissionUser user = PermissionsEx.getUser(name);
-                    String prefix = user.getPrefix();
-                    if (prefix.equals("")) {
-                        prefix = PermissionsEx.getPermissionManager().getGroup(DEFAULT_GROUP).getPrefix();
-                    }
-                    prefix = StringUtil.formatText(prefix);
-                    namePrefix = prefix + name;
-                } else {
-                    namePrefix = args[0];
-                }
-                Bukkit.broadcastMessage("<" + namePrefix + "> " + message);
-                return true;
-            }
+        if (sendPermissionMessage(sender, "v3ld1n.owner")) return true;
+
+        if (args.length < 2) {
             this.sendUsage(sender);
             return true;
         }
-        sendPermissionMessage(sender);
+
+        say(args[0], StringUtil.fromArray(args, 1));
         return true;
+    }
+
+    private void say(String playerName, String message) {
+        String nameWithPrefix = playerName;
+        PluginManager pluginManager = Bukkit.getPluginManager();
+
+        if (PlayerUtil.getOnlinePlayer(playerName) != null) {
+            Player p = PlayerUtil.getOnlinePlayer(playerName);
+            p.chat(message);
+            return;
+        } else if (pluginManager.getPlugin("PermissionsEx") != null && PlayerUtil.getOfflinePlayer(playerName) != null) {
+            String name = PlayerUtil.getOfflinePlayer(playerName).getName();
+            PermissionUser user = PermissionsEx.getUser(name);
+            String prefix = user.getPrefix();
+            if (prefix.equals("")) {
+                prefix = PermissionsEx.getPermissionManager().getGroup(DEFAULT_GROUP).getPrefix();
+            }
+            prefix = StringUtil.formatText(prefix);
+            nameWithPrefix = prefix + name;
+        }
+        Bukkit.broadcastMessage("<" + nameWithPrefix + "> " + message);
     }
 }
