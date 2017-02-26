@@ -253,7 +253,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("sethealth", new SetHealthCommand());
         addCommand("sethotbarslot", new SetHotbarSlotCommand());
         addCommand("setmaxhealth", new SetMaxHealthCommand());
-        addCommand("sethunger", new SetHungerCommand());
         addCommand("sidebarmessage", new SidebarMessageCommand());
         addCommand("timeplayed", new TimePlayedCommand());
         addCommand("trail", new TrailCommand());
