@@ -5,9 +5,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class SetHotbarSlotCommand extends V3LD1NCommand {
     public SetHotbarSlotCommand() {
@@ -17,43 +16,43 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.sethotbarslot")) {
-            if (args.length > 0) {
-                Player p;
-                if (args.length == 1) {
-                    if (sender instanceof Player) {
-                        p = (Player) sender;
-                    } else {
-                        sendPlayerMessage(sender);
-                        return true;
-                    }
-                } else if (args.length == 2) {
-                    if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                        p = PlayerUtil.getOnlinePlayer(args[1]);
-                    } else {
-                        sendInvalidPlayerMessage(sender);
-                        return true;
-                    }
-                } else {
-                    this.sendUsage(sender);
-                    return true;
-                }
-                try {
-                    p.getInventory().setHeldItemSlot(Integer.parseInt(args[0]) - 1);
-                    boolean pIsSender = p.getName().equals(sender.getName());
-                    String ownMessage = String.format(Message.get("sethotbarslot-set").toString(), args[0]);
-                    String otherMessage = String.format(Message.get("sethotbarslot-set-other").toString(), p.getName(), args[0]);
-                    String message = pIsSender ? ownMessage : otherMessage;
-                    ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
-                } catch (Exception e) {
-                	Message.get("sethotbarslot-invalid-slot").send(sender);
-                }
-                return true;
-            }
+        if (sendPermissionMessage(sender, "v3ld1n.sethotbarslot")) return true;
+        
+        if (args.length != 1 && args.length != 2) {
             this.sendUsage(sender);
             return true;
         }
-        sendPermissionMessage(sender);
+
+        if (!StringUtil.isInteger(args[0])) {
+            this.sendUsage(sender);
+            return true;
+        }
+        int slot = Integer.parseInt(args[0]);
+
+        Player player;
+        if (args.length == 1 && sender instanceof Player) {
+            player = (Player) sender;
+        } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+            player = PlayerUtil.getOnlinePlayer(args[1]);
+        } else {
+            sendInvalidPlayerMessage(sender);
+            return true;
+        }
+
+        set(player, slot, sender);
         return true;
+    }
+
+    private void set(Player player, int slot, CommandSender user) {
+        if (slot < 1 || slot > 9) {
+            Message.get("sethotbarslot-invalid-slot").send(user);
+            return;
+        }
+        player.getInventory().setHeldItemSlot(slot - 1);
+        boolean playerIsSender = player.getName().equals(user.getName());
+        Message ownMessage = Message.get("sethotbarslot-set");
+        Message otherMessage = Message.get("sethotbarslot-set-other");
+        Message message = playerIsSender ? ownMessage : otherMessage;
+        message.aSendF(user, player.getName(), slot);
     }
 }
