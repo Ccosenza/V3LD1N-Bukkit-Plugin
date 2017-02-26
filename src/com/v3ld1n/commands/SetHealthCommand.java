@@ -6,9 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Message;
-import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 public class SetHealthCommand extends V3LD1NCommand {
     public SetHealthCommand() {
@@ -18,42 +17,44 @@ public class SetHealthCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.sethealth")) {
-            int l = args.length;
-            if (l == 1 || l == 2) {
-                double health;
-                try {
-                    health = Double.parseDouble(args[0]);
-                } catch (IllegalArgumentException e) {
-                    this.sendUsage(sender);
-                    return true;
-                }
-                Player p;
-                if (l == 1 && sender instanceof Player) {
-                    p = (Player) sender;
-                } else if (l == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                    p = PlayerUtil.getOnlinePlayer(args[1]);
-                } else {
-                    sendInvalidPlayerMessage(sender);
-                    return true;
-                }
-                double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-                if (health >= 0 && health <= maxHealth) {
-                    p.setHealth(health);
-                    boolean pIsSender = p.getName().equals(sender.getName());
-                    String ownMessage = String.format(Message.get("sethealth-set").toString(), args[0]);
-                    String otherMessage = String.format(Message.get("sethealth-set-other").toString(), p.getName(), args[0]);
-                    String message = pIsSender ? ownMessage : otherMessage;
-                    ChatUtil.sendMessage(sender, message, MessageType.ACTION_BAR);
-                    return true;
-                }
-                Message.get("sethealth-limit").sendF(sender, maxHealth);
-                return true;
-            }
+        if (sendPermissionMessage(sender, "v3ld1n.sethealth")) return true;
+        
+        if (args.length != 1 && args.length != 2) {
             this.sendUsage(sender);
             return true;
         }
-        sendPermissionMessage(sender);
+
+        if (!StringUtil.isDouble(args[0])) {
+            this.sendUsage(sender);
+            return true;
+        }
+        double health = Double.parseDouble(args[0]);
+
+        Player player;
+        if (args.length == 1 && sender instanceof Player) {
+            player = (Player) sender;
+        } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+            player = PlayerUtil.getOnlinePlayer(args[1]);
+        } else {
+            sendInvalidPlayerMessage(sender);
+            return true;
+        }
+
+        set(player, health, sender);
         return true;
+    }
+
+    private void set(Player player, double health, CommandSender user) {
+        double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        if (health < 0 || health > maxHealth) {
+            Message.get("sethealth-limit").sendF(user, maxHealth);
+            return;
+        }
+        player.setHealth(health);
+        boolean playerIsSender = player.getName().equals(user.getName());
+        Message ownMessage = Message.get("sethealth-set");
+        Message otherMessage = Message.get("sethealth-set-other");
+        Message message = playerIsSender ? ownMessage : otherMessage;
+        message.aSendF(user, player.getName(), health);
     }
 }
