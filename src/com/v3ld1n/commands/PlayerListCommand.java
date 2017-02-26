@@ -17,15 +17,12 @@ public class PlayerListCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sendPermissionMessage(sender, "v3ld1n.owner")) return true;
 
-        if (args.length == 0) {
-            this.sendUsage(sender);
-            return true;
-        }
-
         if (args.length == 3 && args[0].equalsIgnoreCase("set")) {
             set(args[1], args[2], sender);
         } else if (args.length == 1 && args[0].equalsIgnoreCase("reset")) {
             reset(sender);
+        } else {
+            this.sendUsage(sender);
         }
         return true;
     }
