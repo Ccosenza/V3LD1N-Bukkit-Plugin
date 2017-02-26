@@ -20,7 +20,7 @@ public class PushCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sendPermissionMessage(sender, "v3ld1n.push")) return true;
 
-        if (PlayerUtil.getOnlinePlayer(args[0]) == null) {
+        if (args.length > 0 && PlayerUtil.getOnlinePlayer(args[0]) == null) {
             sendInvalidPlayerMessage(sender);
             return true;
         }
