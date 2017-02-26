@@ -20,7 +20,12 @@ public class PushCommand extends V3LD1NCommand {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sendPermissionMessage(sender, "v3ld1n.push")) return true;
 
-        if (args.length > 0 && PlayerUtil.getOnlinePlayer(args[0]) == null) {
+        if (args.length != 3 && args.length != 4) {
+            this.sendUsage(sender);
+            return true;
+        }
+
+        if (PlayerUtil.getOnlinePlayer(args[0]) == null) {
             sendInvalidPlayerMessage(sender);
             return true;
         }
@@ -39,14 +44,14 @@ public class PushCommand extends V3LD1NCommand {
 
             pushInDirection(player, speedX, speedY, speedZ, sender);
             return true;
-        } else if (args.length == 2 || args.length == 3) {
+        } else if (args.length == 3) {
             if (PlayerUtil.getOnlinePlayer(args[1]) == null) {
                 sendInvalidPlayerMessage(sender);
                 return true;
             }
             Player toPlayer = PlayerUtil.getOnlinePlayer(args[1]);
 
-            if (!StringUtil.isDouble(args[0])) {
+            if (!StringUtil.isDouble(args[2])) {
                 Message.get("push-invalid-speed").send(sender);
                 return true;
             }
