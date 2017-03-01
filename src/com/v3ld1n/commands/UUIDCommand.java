@@ -20,39 +20,36 @@ public class UUIDCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String uuid = "";
         String name = "";
-        if (args.length == 0) {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                uuid = p.getUniqueId().toString();
-                name = p.getName();
-            } else {
-                sendPlayerMessage(sender);
-                return true;
-            }
-        } else if (args.length == 1) {
-            if (PlayerUtil.getUuid(args[0], true) != null) {
-                uuid = PlayerUtil.getUuid(args[0], true).toString();
-                name = args[0];
-            } else {
-                sendInvalidPlayerMessage(sender);
-                return true;
-            }
+        if (args.length == 0 && sender instanceof Player) {
+            // No player argument, command user is player
+            name = sender.getName();
+        } else if (args.length == 1 && PlayerUtil.getUuid(args[0], true) != null) {
+            // Player is second argument
+            name = args[0];
         } else {
-            this.sendUsage(sender);
+            // Player doesn't exist
+            sendInvalidPlayerMessage(sender);
             return true;
         }
-        if (sender instanceof Player) {
+
+        String uuid = PlayerUtil.getUuid(name, true).toString();
+        send(uuid, name, sender);
+        return true;
+    }
+
+    // Sends the UUID to the command user
+    private void send(String uuid, String name, CommandSender user) {
+        if (user instanceof Player) {
             TextComponent message = new TextComponent(uuid);
             message.setColor(ChatColor.YELLOW);
-            String hoverFormat = String.format(Message.get("uuid-hover").toString(), name);
+            String hoverMessage = Message.get("uuid-hover").toString().replaceAll("%newline%", "\n");
+            String hoverFormat = String.format(hoverMessage, name);
             message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverFormat).create()));
             message.setInsertion(uuid);
-            ((Player) sender).spigot().sendMessage(message);
-            return true;
+            ((Player) user).spigot().sendMessage(message);
+            return;
         }
-        sender.sendMessage(uuid + " (" + name + ")");
-        return true;
+        Message.get("uuid-console").sendF(user, uuid, name);
     }
 }
