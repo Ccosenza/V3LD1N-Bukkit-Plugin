@@ -46,9 +46,10 @@ public class FAQCommand extends V3LD1NCommand {
         return true;
     }
 
-    private void displayFAQ(Player p, int page) {
+    // Displays a page of the FAQ to the player
+    private void displayFAQ(Player player, int page) {
         List<FAQ> questions = new ArrayList<>(V3LD1N.getQuestions());
-        Message.get("faq-border-top").sendF(p, page, ChatUtil.getNumberOfPages(questions, PAGE_SIZE));
+        Message.get("faq-border-top").sendF(player, page, ChatUtil.getNumberOfPages(questions, PAGE_SIZE));
 
         List<FAQ> questionsOnPage = ChatUtil.getPage(questions, page, PAGE_SIZE);
         for (FAQ question : questionsOnPage) {
@@ -67,13 +68,13 @@ public class FAQCommand extends V3LD1NCommand {
                 TextComponent message = new TextComponent(question.getQuestion());
                 message.setColor(ChatColor.GOLD);
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(builderString).create()));
-                p.spigot().sendMessage(message);
+                player.spigot().sendMessage(message);
             } catch (Exception e) {
-                Message.get("faq-display-error").send(p);
+                Message.get("faq-display-error").send(player);
                 e.printStackTrace();
             }
         }
-        Message.get("faq-help").send(p);
-        Message.get("faq-border-bottom").send(p);
+        Message.get("faq-help").send(player);
+        Message.get("faq-border-bottom").send(player);
     }
 }
