@@ -39,8 +39,7 @@ public class TimePlayedCommand extends V3LD1NCommand {
             // Player is first argument
             playerViewing = PlayerUtil.getOnlinePlayer(args[0]);
         } else {
-            // Player doesn't exist
-            sendInvalidPlayerMessage(player);
+            this.sendUsage(sender);
             return true;
         }
 
