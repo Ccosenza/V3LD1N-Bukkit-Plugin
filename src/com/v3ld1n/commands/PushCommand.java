@@ -32,6 +32,7 @@ public class PushCommand extends V3LD1NCommand {
         Player player = PlayerUtil.getOnlinePlayer(args[0]);
 
         if (args.length == 4) {
+            // Push player in a direction
             double speedX, speedY, speedZ;
             try {
                 speedX = Double.parseDouble(args[1]);
@@ -45,6 +46,7 @@ public class PushCommand extends V3LD1NCommand {
             pushInDirection(player, speedX, speedY, speedZ, sender);
             return true;
         } else if (args.length == 3) {
+            // Push player toward another player
             if (PlayerUtil.getOnlinePlayer(args[1]) == null) {
                 sendInvalidPlayerMessage(sender);
                 return true;
@@ -64,12 +66,14 @@ public class PushCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Pushes the player in a direction
     private void pushInDirection(Player player, double speedX, double speedY, double speedZ, CommandSender user) {
         Vector velocity = new Vector(speedX, speedY, speedZ);
         player.setVelocity(velocity);
         Message.get("push-push").aSendF(user, player.getName(), speedX, speedY, speedZ);
     }
 
+    // Pushes the player toward another player
     private void pushToPlayer(Player player, Player toPlayer, double speed, CommandSender user) {
         EntityUtil.pushToward(player, toPlayer.getLocation(), new Vector(speed, speed, speed), false);
         Message.get("push-push-to-player").aSendF(user, player.getName(), speed);

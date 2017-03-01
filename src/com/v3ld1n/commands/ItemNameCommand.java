@@ -42,11 +42,13 @@ public class ItemNameCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Sets the item's name
     private void set(ItemStack item, String name, Player player) {
         ItemUtil.setName(item, name);
         Message.get("itemname-set").sendF(player, name);
     }
 
+    // Removes the item's name
     private void remove(ItemStack item, Player player) {
         boolean hasName = item.getItemMeta().hasDisplayName();
         ItemUtil.setName(item, null);

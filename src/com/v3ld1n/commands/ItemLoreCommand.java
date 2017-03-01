@@ -54,24 +54,13 @@ public class ItemLoreCommand extends V3LD1NCommand {
         return true;
     }
 
-    /**
-     * Adds a line to the item's lore
-     * @param item the item
-     * @param lore the lore to add
-     * @param player the player using the command
-     */
+    // Adds a line to the item's lore
     private void add(ItemStack item, String lore, Player player) {
         ItemUtil.addLore(item, lore);
         Message.get("itemlore-add").sendF(player, lore);
     }
 
-    /**
-     * Sets a line of the item's lore
-     * @param item the item
-     * @param line the line to set
-     * @param lore the lore to set the line to
-     * @param player the player using the command
-     */
+    // Sets a line of the item's lore
     private void set(ItemStack item, String line, String lore, Player player) {
         try {
             int lineNumber = Integer.parseInt(line);
@@ -82,11 +71,7 @@ public class ItemLoreCommand extends V3LD1NCommand {
         }
     }
 
-    /**
-     * Removes all lore from the item
-     * @param item the item
-     * @param player the player using the command
-     */
+    // Removes all lore from the item
     private void removeAll(ItemStack item, Player player) {
         if (item.getItemMeta().hasLore()) {
             ItemUtil.setLore(item, null);
@@ -96,12 +81,7 @@ public class ItemLoreCommand extends V3LD1NCommand {
         }
     }
 
-    /**
-     * Removes a line of the item's lore
-     * @param item the item
-     * @param line the line to remove
-     * @param player the player using the command
-     */
+    // Removes a line of the item's lore
     private void removeLine(ItemStack item, String line, Player player) {
         try {
             int lineNumber = Integer.parseInt(line);

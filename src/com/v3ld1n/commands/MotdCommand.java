@@ -35,15 +35,15 @@ public class MotdCommand extends V3LD1NCommand {
             sendTo = PlayerUtil.getOnlinePlayer(args[0]);
         }
 
-        send(sendTo);
-
-        if (sendTo.getName() != sender.getName()) {
-            Message.get("motd-show").sendF(sender, sendTo.getName());
-        }
+        send(sendTo, sender);
         return true;
     }
 
-    private void send(Player player) {
+    // Sends the MOTD to the player
+    private void send(Player player, CommandSender user) {
         ChatUtil.sendMotd(player);
+        if (player.getName() != user.getName()) {
+            Message.get("motd-show").sendF(user, player.getName());
+        }
     }
 }

@@ -33,6 +33,7 @@ public class RatchetsBowCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Sets the player's Ratchet's Bow projectile setting
     private void set(Player player, String projectile) {
         try {
             RatchetBowType type = RatchetBowType.valueOf(projectile);
@@ -50,6 +51,7 @@ public class RatchetsBowCommand extends V3LD1NCommand {
         }
     }
 
+    // Sends command usage with projectile list
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);

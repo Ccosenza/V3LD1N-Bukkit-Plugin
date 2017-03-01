@@ -27,6 +27,7 @@ public class GiveAllCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Gives the item the player is holding to all players
     private void giveAll(Player player, ItemStack item) {
         int amount = item.getAmount();
         for (Player otherPlayer : Bukkit.getServer().getOnlinePlayers()) {

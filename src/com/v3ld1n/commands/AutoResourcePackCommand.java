@@ -42,13 +42,13 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
         return true;
     }
 
-    // Removes a player's auto resource pack
+    // Removes the player's auto resource pack
     public void removeResourcePack(Player player) {
         PlayerData.AUTO_RESOURCE_PACK.set(player, null);
         Message.get("autoresourcepack-remove").aSend(player);
     }
 
-    // Sets a player's auto resource pack
+    // Sets the player's auto resource pack
     public void setResourcePack(Player player, String resourcePack) {
         PlayerData.AUTO_RESOURCE_PACK.set(player, resourcePack);
         Message.get("autoresourcepack-set").sendF(player, resourcePack);
@@ -62,7 +62,7 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
         Message.get("autoresourcepack-error").sendF(player, enteredPack);
     }
 
-    // Displays the player's current auto resource pack when sending the command usage
+    // Sends command usage with resource pack list and player's current auto resource pack
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);

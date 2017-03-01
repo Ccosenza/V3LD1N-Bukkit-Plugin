@@ -39,13 +39,16 @@ public class PlayAnimationCommand extends V3LD1NCommand {
 
         Player player;
         if (args.length == 1 && sender instanceof Player) {
+            // No player argument, command user is player
             player = (Player) sender;
         } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+            // Player is second argument
             player = PlayerUtil.getOnlinePlayer(args[1]);
         } else if (args.length == 2 && !(sender.hasPermission("v3ld1n.playanimation.others"))) {
             Message.get("playanimation-others-permission").send(sender);
             return true;
         } else {
+            // Player doesn't exist
             sendInvalidPlayerMessage(sender);
             return true;
         }
@@ -62,7 +65,7 @@ public class PlayAnimationCommand extends V3LD1NCommand {
         message.aSendF(sender, StringUtil.fromEnum(animation, true), player.getName());
     }
     
-    // Lists all valid animations when sending the command usage
+    // Sends command usage with animation list
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);

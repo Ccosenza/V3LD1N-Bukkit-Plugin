@@ -31,10 +31,13 @@ public class SetHotbarSlotCommand extends V3LD1NCommand {
 
         Player player;
         if (args.length == 1 && sender instanceof Player) {
+            // No player argument, command user is player
             player = (Player) sender;
         } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+            // Player is second argument
             player = PlayerUtil.getOnlinePlayer(args[1]);
         } else {
+            // Player doesn't exist
             sendInvalidPlayerMessage(sender);
             return true;
         }

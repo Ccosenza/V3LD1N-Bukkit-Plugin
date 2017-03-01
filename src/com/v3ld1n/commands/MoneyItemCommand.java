@@ -45,6 +45,7 @@ public class MoneyItemCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Creates the item
     private void create(double amount, Player player) {
         ItemStack item = new ItemStack(Material.valueOf(ConfigSetting.MONEY_ITEM_ITEM.getString()));
         DecimalFormat df = new DecimalFormat("0.##");

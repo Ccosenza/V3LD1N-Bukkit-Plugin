@@ -44,6 +44,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Sets the player's firework arrows setting
     private void set(Player player, Type type) {
         Object typeData = type == Type.BALL ? null : type.toString();
         PlayerData.FIREWORK_ARROWS.set(player, typeData);
@@ -59,6 +60,7 @@ public class FireworkArrowsCommand extends V3LD1NCommand {
         Message.get("fireworkarrows-set").aSendF(player, StringUtil.fromEnum(type, true));
     }
 
+    // Sends command usage with firework type list
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);

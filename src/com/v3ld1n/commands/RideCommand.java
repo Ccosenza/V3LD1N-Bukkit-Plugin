@@ -39,13 +39,16 @@ public class RideCommand extends V3LD1NCommand implements Listener {
 
         RideType type = null;
         if (args.length == 0) {
+            // No arguments, use default type
             type = RideType.RIDE;
         } else if (args.length == 1) {
+            // Drop command
             if (args[0].equalsIgnoreCase("drop")) {
                 drop(player);
                 return true;
             }
 
+            // Use first argument as type
             try {
                 type = RideType.valueOf(args[0].toUpperCase());
             } catch (Exception e) {
@@ -53,6 +56,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
                 return true;
             }
         } else {
+            // Too many arguments
             this.sendUsage(player);
             return true;
         }
@@ -60,6 +64,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
         return true;
     }
 
+    // Adds the player to the list of players using /ride
     private void addToList(Player player, RideType type) {
         UUID uuid = player.getUniqueId();
         V3LD1N.usingRideCommand.put(uuid, type);
@@ -76,6 +81,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
         
     }
 
+    // Drops the entity the player is holding
     private void drop(Player player) {
         if (player.getPassenger() == null) {
             Message.get("ride-drop-not-holding").aSend(player);
@@ -86,6 +92,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
         }
     }
 
+    // Player finishes the command by right-clicking an entity
     @EventHandler
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();

@@ -50,6 +50,7 @@ public class ResourcePackCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Asks the player to download the resource pack
     private void set(Player player, String packName) {
         player.setResourcePack(V3LD1N.getResourcePack(packName).getUrl());
         if (ConfigSetting.RESOURCE_PACKS_OUTDATED.getBoolean()) {
@@ -57,6 +58,7 @@ public class ResourcePackCommand extends V3LD1NCommand {
         }
     }
 
+    // Sends command usage with resource pack list
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);

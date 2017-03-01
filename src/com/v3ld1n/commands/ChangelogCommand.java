@@ -79,6 +79,7 @@ public class ChangelogCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Adds a change to today's changelog
     private void logChange(Player player, String newChange) {
         if (player.hasPermission("v3ld1n.owner")) {
             String uuid = player.getUniqueId().toString();
@@ -92,6 +93,7 @@ public class ChangelogCommand extends V3LD1NCommand {
         }
     }
 
+    // Displays a page of the changelog to the player
     private void displayChangelog(Player player, int page) {
         List<ChangelogDay> days = new ArrayList<>(V3LD1N.getChangelogDays());
         Collections.reverse(days);

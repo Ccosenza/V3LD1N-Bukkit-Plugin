@@ -32,6 +32,7 @@ public class PlayerSayCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Sends the message with the player name
     private void say(String playerName, String message) {
         String nameWithPrefix = playerName;
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -41,6 +42,7 @@ public class PlayerSayCommand extends V3LD1NCommand {
             p.chat(message);
             return;
         } else if (pluginManager.getPlugin("PermissionsEx") != null && PlayerUtil.getOfflinePlayer(playerName) != null) {
+            // Add PermissionsEx prefix to the player name
             String name = PlayerUtil.getOfflinePlayer(playerName).getName();
             PermissionUser user = PermissionsEx.getUser(name);
             String prefix = user.getPrefix();

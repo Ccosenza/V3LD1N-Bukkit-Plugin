@@ -54,6 +54,7 @@ public class MapColorCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Sets the map item's color
     public static ItemStack setColor(ItemStack item, int color) {
         net.minecraft.server.v1_11_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound tag = stack.hasTag() ? stack.getTag() : new NBTTagCompound();

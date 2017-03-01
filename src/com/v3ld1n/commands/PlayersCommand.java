@@ -44,6 +44,7 @@ public class PlayersCommand extends V3LD1NCommand {
         return true;
     }
 
+    // Send list of all player names
     private void sendFullList(CommandSender user) {
         List<String> names = new ArrayList<>();
         OfflinePlayer[] allPlayers = Bukkit.getServer().getOfflinePlayers();
@@ -54,6 +55,7 @@ public class PlayersCommand extends V3LD1NCommand {
         ChatUtil.sendList(user, listTitle, names, ListType.SHORT);
     }
 
+    // Open inventory with online players' heads
     private void displayHeads(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, Message.get("players-heads-title").toString());
         for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
