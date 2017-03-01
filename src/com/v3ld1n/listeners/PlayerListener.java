@@ -66,7 +66,7 @@ public class PlayerListener implements Listener {
                         if (signState.equals(sign)) {
                             long seconds = (task.getNextTime() / 1000) - (TimeUtil.getTime() / 1000);
                             String time = TimeUtil.fromSeconds(seconds);
-                            Message.get("task-sound-time").sendF(player, task.getName().toUpperCase(), time);
+                            Message.get("task-sound-time").aSendF(player, task.getName().toUpperCase(), time);
                         }
                     }
                 }
