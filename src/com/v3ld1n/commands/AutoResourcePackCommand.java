@@ -66,6 +66,8 @@ public class AutoResourcePackCommand extends V3LD1NCommand {
     @Override
     public void sendUsage(CommandSender user) {
         super.sendUsage(user);
+        List<String> names = V3LD1N.getResourcePackNames();
+        ChatUtil.sendList(user, Message.get("resourcepack-list-title").toString(), names, ListType.LONG);
         if (!(user instanceof Player)) {
             return;
         }
