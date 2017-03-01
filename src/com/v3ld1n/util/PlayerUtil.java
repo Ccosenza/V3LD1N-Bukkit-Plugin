@@ -152,7 +152,7 @@ public final class PlayerUtil {
      * @return the UUID
      */
     public static String getUuid(String username, boolean dashes) {
-        String url = "https://api.mojang.com/users/profiles/minecraft/" + username + "?at=1422921600";
+        String url = "https://api.mojang.com/users/profiles/minecraft/" + username;
         JsonElement element = StringUtil.readJsonFromUrl(url);
         if (element != null) {
             String uuid = element.getAsJsonObject().get("id").toString().replaceAll("\"", "");
