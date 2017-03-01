@@ -10,7 +10,7 @@ import com.v3ld1n.util.StringUtil;
 public class PlayerListCommand extends V3LD1NCommand {
     public PlayerListCommand() {
         this.addUsage("set <header> <footer>", "Set the header and footer");
-        this.addUsage("reset", "Reset the header and footer");
+        this.addUsage("remove", "Reset the header and footer");
     }
 
     @Override
@@ -19,14 +19,15 @@ public class PlayerListCommand extends V3LD1NCommand {
 
         if (args.length == 3 && args[0].equalsIgnoreCase("set")) {
             set(args[1], args[2], sender);
-        } else if (args.length == 1 && args[0].equalsIgnoreCase("reset")) {
-            reset(sender);
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {
+            remove(sender);
         } else {
             this.sendUsage(sender);
         }
         return true;
     }
 
+    // Sets the header and footer on the player list
     private void set(String header, String footer, CommandSender user) {
         String headerFormat = StringUtil.formatText(header.replaceAll("_", " "));
         String footerFormat = StringUtil.formatText(footer.replaceAll("_", " "));
@@ -34,7 +35,8 @@ public class PlayerListCommand extends V3LD1NCommand {
         Message.get("playerlist-set").aSendF(user, headerFormat, footerFormat);
     }
 
-    private void reset(CommandSender user) {
+    // Removes the header and footer on the player list
+    private void remove(CommandSender user) {
         ConfigUtil.setPlayerListHeaderFooter("{text:\"\"}", "{text:\"\"}");
         Message.get("playerlist-reset").aSend(user);
     }

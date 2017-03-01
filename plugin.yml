@@ -80,7 +80,7 @@ commands:
     usage: /<command> [player]
   playerlist:
     description: Sets the player list header and footer.
-    usage: /<command> set <header> <footer> OR /<command> reset
+    usage: /<command> set <header> <footer> OR /<command> remove
   giveall:
     description: Gives the item in your main hand to all players.
     usage: /<command>
