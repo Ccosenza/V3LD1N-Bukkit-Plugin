@@ -2,7 +2,6 @@ package com.v3ld1n.commands;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,71 +21,62 @@ public class TrailCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.trail")) {
-            if (args.length >= 1) {
-                if (args[0].equalsIgnoreCase("remove")) {
-                    if (args.length == 1) {
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            PlayerData.TRAILS.set(p, null);
-                            Message.get("trail-remove").send(sender);
-                            return true;
-                        }
-                        sendPlayerMessage(sender);
-                        return true;
-                    } else if (args.length == 2) {
-                        if (sender.hasPermission("v3ld1n.trail.others")) {
-                            if (PlayerUtil.getOnlinePlayer(args[1]) != null) {
-                                Player p = PlayerUtil.getOnlinePlayer(args[1]);
-                                PlayerData.TRAILS.set(p, null);
-                                Message removeOther = Message.get("trail-remove-other");
-                                removeOther.sendF(sender, p.getName());
-                                return true;
-                            }
-                            sendInvalidPlayerMessage(sender);
-                            return true;
-                        }
-                        Message.get("trail-others-permission").send(sender);
-                        return true;
-                    }
-                    this.sendUsage(sender);
-                    return true;
-                }
-            }
-            if (args.length == 1) {
-                if (sender instanceof Player) {
-                    Player p = (Player) sender;
-                    List<String> blockedTrails = ConfigSetting.PARTICLE_TRAILS_BLOCKED.getStringList();
-                    if (blockedTrails.contains(args[0]) && !p.hasPermission("v3ld1n.trails.useblocked")) {
-                    	Message.get("trail-blocked").aSendF(p, args[0]);
-                    	return true;
-                    }
-                    PlayerData.TRAILS.set(p, args[0]);
-                    Message.get("trail-set").sendF(sender, args[0]);
-                    return true;
-                }
-                sendPlayerMessage(sender);
-                return true;
-            } else if (args.length == 2) {
-                if (sender.hasPermission("v3ld1n.trails.others")) {
-                    for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                        if (p.getName().equals(args[1])) {
-                            PlayerData.TRAILS.set(p, args[0]);
-                            Message setOther = Message.get("trail-set-other");
-                            setOther.sendF(sender, p.getName(), args[0], p.getName());
-                            return true;
-                        }
-                        sendInvalidPlayerMessage(sender);
-                        return true;
-                    }
-                }
-                Message.get("trail-others-permission").send(sender);
-                return true;
-            }
+        if (sendPermissionMessage(sender, "v3ld1n.trail")) return true;
+
+        if (args.length == 0 || args.length > 2) {
             this.sendUsage(sender);
             return true;
         }
-        sendPermissionMessage(sender);
+
+        Player player;
+        if (args.length == 1 && sender instanceof Player) {
+            // No player argument, command user is player
+            player = (Player) sender;
+        } else if (args.length == 2 && PlayerUtil.getOnlinePlayer(args[1]) != null) {
+            // Player is second argument
+            player = PlayerUtil.getOnlinePlayer(args[1]);
+        } else {
+            // Player doesn't exist
+            sendInvalidPlayerMessage(sender);
+            return true;
+        }
+
+        if (!player.getName().equals(sender.getName()) && !sender.hasPermission("v3ld1n.trail.others")) {
+            Message.get("trail-others-permission").send(sender);
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("remove")) {
+            remove(player, sender);
+        } else {
+            set(player, args[0], sender);
+        }
         return true;
+    }
+
+    // Sets the player's trail, or sends a message if the trail is blocked
+    private void set(Player player, String trail, CommandSender user) {
+        List<String> blockedTrails = ConfigSetting.PARTICLE_TRAILS_BLOCKED.getStringList();
+        if (blockedTrails.contains(trail) && !player.hasPermission("v3ld1n.trail.useblocked")) {
+            Message.get("trail-blocked").aSendF(player, trail);
+            return;
+        }
+
+        PlayerData.TRAILS.set(player, trail);
+        boolean playerIsSender = player.getName().equals(user.getName());
+        Message ownMessage = Message.get("trail-set");
+        Message otherMessage = Message.get("trail-set-other");
+        Message message = playerIsSender ? ownMessage : otherMessage;
+        message.aSendF(user, player.getName(), trail);
+    }
+
+    // Removes the player's trail
+    private void remove(Player player, CommandSender user) {
+        PlayerData.TRAILS.set(player, null);
+        boolean playerIsSender = player.getName().equals(user.getName());
+        Message ownMessage = Message.get("trail-remove");
+        Message otherMessage = Message.get("trail-remove-other");
+        Message message = playerIsSender ? ownMessage : otherMessage;
+        message.aSendF(user, player.getName());
     }
 }
