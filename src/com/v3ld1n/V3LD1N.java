@@ -396,6 +396,15 @@ public class V3LD1N extends JavaPlugin {
         }
     }
 
+    public static Warp getWarp(String name) {
+        for (Warp warp : warps) {
+            if (warp.getName().equalsIgnoreCase(name)) {
+                return warp;
+            }
+        }
+        return null;
+    }
+
     private static void loadSigns() {
         try {
             String sectionName = "signs";
