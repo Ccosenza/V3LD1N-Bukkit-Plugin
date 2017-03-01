@@ -28,59 +28,66 @@ public class TimePlayedCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            final Player player = (Player) sender;
-            final Player p;
-            if (args.length == 0) {
-                p = player;
-            } else if (args.length == 1) {
-                if (PlayerUtil.getOnlinePlayer(args[0]) != null) {
-                    p = PlayerUtil.getOnlinePlayer(args[0]);
-                } else {
-                    sendInvalidPlayerMessage(player);
-                    return true;
-                }
-            } else {
-                this.sendUsage(sender);
-                return true;
-            }
-            ScoreboardManager manager = Bukkit.getScoreboardManager();
-            final Scoreboard board = manager.getNewScoreboard();
-            String name = PREFIX + "timeplayed";
-            if (name.length() > 16) {
-                name = name.substring(0, 16);
-            }
-            final Objective objective = board.registerNewObjective(name, "dummy");
-            String displayName = String.format(Message.get("timeplayed-title").toString(), p.getName());
-            if (ChatColor.stripColor(displayName).length() > 16) {
-                displayName = displayName.substring(0, 20);
-            }
-            objective.setDisplayName(displayName);
-            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            RepeatableRunnable updateTask = new RepeatableRunnable() {
-                @Override
-                public void onRun() {
-                    updateTime(objective, p, player);
-                }
-            };
-            updateTask.start(5, 5, SECONDS * 4);
-            player.setScoreboard(board);
-            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    for (Objective obj : board.getObjectives()) {
-                        if (obj.getName().startsWith(PREFIX)) {
-                            obj.unregister();
-                        }
-                    }
-                }
-            }, SECONDS * 20);
+        if (sendNotPlayerMessage(sender)) return true;
+        final Player player = (Player) sender;
+
+        final Player playerViewing;
+        if (args.length == 0) {
+            // No player argument, command user is player
+            playerViewing = player;
+        } else if (args.length == 1 && PlayerUtil.getOnlinePlayer(args[0]) != null) {
+            // Player is first argument
+            playerViewing = PlayerUtil.getOnlinePlayer(args[0]);
+        } else {
+            // Player doesn't exist
+            sendInvalidPlayerMessage(player);
             return true;
         }
-        sendPlayerMessage(sender);
+
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        final Scoreboard scoreboard = manager.getNewScoreboard();
+        final Objective objective = createObjective(playerViewing, scoreboard);
+
+        displaySidebar(player, scoreboard, objective);
+
+        RepeatableRunnable updateTask = new RepeatableRunnable() {
+            @Override
+            public void onRun() {
+                updateTime(objective, playerViewing, player);
+            }
+        };
+        updateTask.start(5, 5, SECONDS * 4);
         return true;
     }
 
+    // Creates the objective and sets the name and display slot
+    private Objective createObjective(Player playerViewing, Scoreboard scoreboard) {
+        String name = PREFIX + "timeplayed";
+        if (name.length() > 16) {
+            name = name.substring(0, 16);
+        }
+        Objective objective = scoreboard.registerNewObjective(name, "dummy");
+        String displayName = String.format(Message.get("timeplayed-title").toString(), playerViewing.getName());
+        if (ChatColor.stripColor(displayName).length() > 16) {
+            displayName = displayName.substring(0, 20);
+        }
+        objective.setDisplayName(displayName);
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        return objective;
+    }
+
+    // Displays the sidebar to the player
+    private void displaySidebar(Player player, Scoreboard scoreboard, Objective objective) {
+        player.setScoreboard(scoreboard);
+        Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                objective.unregister();
+            }
+        }, SECONDS * 20);
+    }
+
+    // Sends the message to the player, and updates times on the scoreboard
     private void updateTime(Objective objective, Player player, Player to) {
         int ticks = PlayerUtil.getTicksPlayed(player);
         int seconds = PlayerUtil.getSecondsPlayed(player);
