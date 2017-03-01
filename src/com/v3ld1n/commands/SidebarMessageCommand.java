@@ -43,6 +43,6 @@ public class SidebarMessageCommand extends V3LD1NCommand {
             sidebarMessage.display(p, ticks);
         }
         String titleWithSpaces = StringUtil.formatText(sidebarMessage.getTitle().replaceAll("_", " "));
-        Message.get("sidebarmessage-display").aSendF(user, titleWithSpaces);
+        Message.get("sidebarmessage-display").sendF(user, titleWithSpaces, ticks, (double) ticks / 20);
     }
 }
