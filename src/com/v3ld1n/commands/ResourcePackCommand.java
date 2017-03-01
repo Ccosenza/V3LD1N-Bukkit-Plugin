@@ -31,13 +31,19 @@ public class ResourcePackCommand extends V3LD1NCommand {
 
         String packName = null;
         if (args.length == 0) {
+            // Use the default resource pack
             packName = packs.get(0).getName();
         } else if (args.length == 1) {
+            // Use first argument as the resource pack
             if (V3LD1N.getResourcePack(args[0]) == null) {
                 this.sendUsage(player);
                 return true;
             }
             packName = args[0];
+        } else {
+            // Too many arguments
+            this.sendUsage(player);
+            return true;
         }
 
         set(player, packName);
