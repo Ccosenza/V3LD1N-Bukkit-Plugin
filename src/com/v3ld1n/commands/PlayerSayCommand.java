@@ -9,12 +9,11 @@ import org.bukkit.plugin.PluginManager;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
+import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class PlayerSayCommand extends V3LD1NCommand {
-    private final String DEFAULT_GROUP = "Veldian";
-
     public PlayerSayCommand() {
         this.addUsage("<player> <message ...>", "Send a chat message as a player");
     }
@@ -47,7 +46,8 @@ public class PlayerSayCommand extends V3LD1NCommand {
             PermissionUser user = PermissionsEx.getUser(name);
             String prefix = user.getPrefix();
             if (prefix.equals("")) {
-                prefix = PermissionsEx.getPermissionManager().getGroup(DEFAULT_GROUP).getPrefix();
+                String defaultPermissionGroup = ConfigSetting.DEFAULT_PERMISSION_GROUP.getString();
+                prefix = PermissionsEx.getPermissionManager().getGroup(defaultPermissionGroup).getPrefix();
             }
             prefix = StringUtil.formatText(prefix);
             nameWithPrefix = prefix + name;

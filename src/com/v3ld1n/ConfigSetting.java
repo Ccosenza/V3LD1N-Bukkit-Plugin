@@ -11,8 +11,8 @@ import com.v3ld1n.util.Particle;
 import com.v3ld1n.util.Sound;
 
 public enum ConfigSetting {
-    BLOG_POST("blog-post", "config.yml"),
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
+    DEFAULT_PERMISSION_GROUP("default-permission-group", "config.yml", "Veldian"),
     DISABLE_FIREWORK_DAMAGE("disable-firework-damage", "config.yml", true),
     RESOURCE_PACKS_OUTDATED("resource-packs-outdated", "config.yml", false),
 
