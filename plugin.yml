@@ -35,11 +35,11 @@ commands:
     usage: /<command>
   itemlore:
     description: Sets the lore of the item in your main hand.
-    aliases: [description, desc, lore, itemdesc]
+    aliases: [lore, ilore, loreitem, lorei]
     usage: /<command> set|remove <line> <lore ...> OR /<command> add <lore ...>
   itemname:
     description: Sets the name of the item in your main hand.
-    aliases: [iname, in, nameitem, namei]
+    aliases: [name, iname, nameitem, namei]
     usage: /<command> <name> OR /<command> remove
   mapcolor:
     description: Sets the color of the map in your main hand.
@@ -51,7 +51,7 @@ commands:
     usage: /<command> <amount>
   motd:
     description: Displays the login message.
-    aliases: [vpmotd, loginmessage, loginmsg, joinmessage, joinmsg]
+    aliases: [vmotd, loginmessage, loginmsg, joinmessage, joinmsg]
     usage: /<command> [player]
   playanimation:
     description: Plays an animation on a player.
@@ -62,7 +62,7 @@ commands:
     usage: /<command> set <header> <footer> OR /<command> remove
   playersay:
     description: Send a chat message as another player.
-    aliases: [sayplayer, ps, psay]
+    aliases: [psay, sayplayer, sayp]
     usage: /<command> <player> <message ...>
   players:
     description: Lists of all players.
