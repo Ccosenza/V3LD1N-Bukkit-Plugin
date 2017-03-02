@@ -28,50 +28,36 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.owner")) {
-            if (args.length == 0) {
-                this.sendUsage(sender);
-                return true;
-            }
-            if (args[0].equalsIgnoreCase("help")) {
-                boolean pageExists = false;
-                if (args.length == 1) {
-                    pageExists = displayHelp(sender, 1);
-                } else if (args.length == 2 && StringUtil.isInteger(args[1])) {
-                    pageExists = displayHelp(sender, StringUtil.toInteger(args[1], 1));
-                }
-                if (!pageExists) {
-                    this.sendUsage(sender);
-                }
-                return true;
-            } else if (args[0].equalsIgnoreCase("reload") && args.length == 1) {
-                for (ConfigAccessor accessor : V3LD1N.getConfigs()) {
-                    accessor.reloadConfig();
-                }
-                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                    String header = ConfigSetting.PLAYER_LIST_HEADER.getString();
-                    String footer = ConfigSetting.PLAYER_LIST_FOOTER.getString();
-                    if (header != null && footer != null) {
-                        PlayerUtil.sendPlayerListHeaderFooter(p, header, footer);
-                    }
-                }
-                Message.get("v3ld1nplugin-reload").aSend(sender);
-                return true;
-            } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
-                PluginDescriptionFile desc = V3LD1N.getPlugin().getDescription();
-                Message.get("v3ld1nplugin-version").sendF(sender, desc.getName(), desc.getVersion());
-                return true;
-            }
-        } else {
-            sendPermissionMessage(sender);
+        if (sendPermissionMessage(sender, "v3ld1n.owner")) return true;
+
+        if (args.length == 0) {
+            this.sendUsage(sender);
             return true;
         }
-        this.sendUsage(sender);
+
+        if (args[0].equalsIgnoreCase("help")) {
+            // Display command usage help
+            boolean pageExists = false;
+            if (args.length == 1) {
+                pageExists = displayHelp(sender, 1);
+            } else if (args.length == 2 && StringUtil.isInteger(args[1])) {
+                pageExists = displayHelp(sender, StringUtil.toInteger(args[1], 1));
+            }
+            if (!pageExists) {
+                this.sendUsage(sender);
+            }
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            reload(sender);
+        } else if (args[0].equalsIgnoreCase("version") && args.length == 1) {
+            version(sender);
+        } else {
+            this.sendUsage(sender);
+        }
         return true;
     }
 
-    // Sends the command list to the sender, returns true if the entered page exists
-    private static boolean displayHelp(CommandSender user, int pageNumber) {
+    // Sends the command list to the user, returns true if the entered page exists
+    private boolean displayHelp(CommandSender user, int pageNumber) {
         List<V3LD1NCommand> commands = new ArrayList<>(V3LD1N.getCommands());
         List<CommandUsage> allUsages = new ArrayList<>();
         for (V3LD1NCommand command : commands) {
@@ -88,5 +74,26 @@ public class V3LD1NPluginCommand extends V3LD1NCommand {
         }
         Message.get("v3ld1nplugin-help-border-bottom").send(user);
         return true;
+    }
+
+    // Reloads the config and player list header and footer
+    private void reload(CommandSender user) {
+        for (ConfigAccessor accessor : V3LD1N.getConfigs()) {
+            accessor.reloadConfig();
+        }
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            String header = ConfigSetting.PLAYER_LIST_HEADER.getString();
+            String footer = ConfigSetting.PLAYER_LIST_FOOTER.getString();
+            if (header != null && footer != null) {
+                PlayerUtil.sendPlayerListHeaderFooter(p, header, footer);
+            }
+        }
+        Message.get("v3ld1nplugin-reload").aSend(user);
+    }
+
+    // Sends the version number to the user
+    private void version(CommandSender user) {
+        PluginDescriptionFile desc = V3LD1N.getPlugin().getDescription();
+        Message.get("v3ld1nplugin-version").sendF(user, desc.getName(), desc.getVersion());
     }
 }
