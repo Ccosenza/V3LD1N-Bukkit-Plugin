@@ -393,6 +393,8 @@ public class V3LD1N extends JavaPlugin {
                 iterator.remove();
             }
         }
+        Config.WARPS.getConfig().set("warps." + warp, null);
+        Config.WARPS.saveConfig();
     }
 
     public static Warp getWarp(String name) {
