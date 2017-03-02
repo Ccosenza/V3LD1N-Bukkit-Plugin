@@ -258,7 +258,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("trail", new TrailCommand());
         addCommand("unbreakable", new UnbreakableCommand());
         addCommand("uuid", new UUIDCommand());
-        addCommand("v3ld1nmotd", new V3LD1NMotdCommand());
         addCommand("v3ld1nplugin", new V3LD1NPluginCommand());
         addCommand("v3ld1nwarp", new V3LD1NWarpCommand());
     }
