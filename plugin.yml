@@ -6,124 +6,120 @@ softdepend: [WorldGuard, PermissionsEx, Vault]
 version: "3.14"
 
 commands:
-  v3ld1nplugin:
-    description: The main plugin command.
-    aliases: [v3ld1np, vplugin, vp]
-    usage: /<command> <arguments>
-  faq:
-    description: Answers frequently asked questions.
-    aliases: [questions]
-    usage: /<command> [page]
-  trail:
-    description: Sets a particle trail for a player.
-    aliases: [trails, particletrail, particletrails]
-    usage: /<command> <particle>|remove [player]
-  sethealth:
-    description: Sets a player's health.
-    aliases: [health]
-    usage: /<command> <health> [player]
-  setmaxhealth:
-    description: Sets a player's maximum health.
-    aliases: [maxhealth]
-    usage: /<command> <health> [player]
-  ratchetsbow:
-    description: Sets your projectile for Ratchet's Bow.
-    aliases: [rbow, rb]
-    usage: /<command> <projectile>
-  fireworkarrows:
-    description: Sets your firework shape for firework arrows.
-    aliases: [fireworkarrow, rbfw, fwa, fwas]
-    usage: /<command> <firework shape>
-  resourcepack:
-    description: Downloads the server's resource packs.
-    aliases: [texturepack, pack, rp]
-    usage: /<command> [resource pack]
   autoresourcepack:
     description: Downloads a resource pack when you join the server.
     aliases: [autopack, autorp, arp]
     usage: /<command> [resource pack]
-  motd:
-    description: Displays the login message.
-    aliases: [vpmotd, loginmessage, loginmsg, joinmessage, joinmsg]
-    usage: /<command> [player]
-  editsign:
-    description: Changes the text on a sign.
-    aliases: [signedit, changesign, es, se]
-    usage: /<command> set|add|remove <line> <text ...>
-  playanimation:
-    description: Plays an animation on a player.
-    aliases: [animation, playanim, anim]
-    usage: /<command> <animation> [player]
-  sidebarmessage:
-    description: Broadcasts a message to the sidebar.
-    aliases: [sbmessage, sbm, sbbroadcast]
-    usage: /<command> <time> <title> <line1> [more lines] ...
-  uuid:
-    description: Displays a player's UUID in a chat message.
-    aliases: [uniqueid]
-    usage: /<command> [player]
-  push:
-    description: Pushes a player.
-    aliases: [setvelocity]
-    usage: /<command> <player> <speedX> <speedY> <speedZ> OR /<command> <player> <toPlayer> <speed>
-  sethotbarslot:
-    description: Sets a player's selected hotbar slot.
-    aliases: [hotbarslot, setselectedslot, selectedslot, settoolbarslot, toolbarslot]
-    usage: /<command> <slot> [player]
-  v3ld1nmotd:
-    description: Adds, removes, and lists MOTDs.
-    aliases: [vmotd]
-    usage: /<command> add|remove|list <motd ...>
-  timeplayed:
-    description: Displays the amount of time a player has played.
-    aliases: [playtime]
-    usage: /<command> [player]
-  playerlist:
-    description: Sets the player list header and footer.
-    usage: /<command> set <header> <footer> OR /<command> remove
-  giveall:
-    description: Gives the item in your main hand to all players.
-    usage: /<command>
-  players:
-    description: Lists of all players.
-    aliases: [player]
-    usage: /<command> fulllist OR /<command> heads
-  v3ld1nwarp:
-    description: Adds, removes, and lists warps.
-    aliases: [vwarp]
-    usage: /<command> add|remove <warp> OR /<command> list
-  ride:
-    description: Right-click on an entity to ride/hold it.
-    aliases: [rideentity, entityride]
-    usage: /<command> [ride|hold|drop]
-  playersay:
-    description: Send a chat message as another player.
-    aliases: [sayplayer, ps, psay]
-    usage: /<command> <player> <message ...>
-  damage:
-    description: Damages a player.
-    aliases: [hurt, dmg, removehealth]
-    usage: /<command> <amount> [player]
-  moneyitem:
-    description: Creates a Vault money item.
-    aliases: [mi, veldsitem, vi]
-    usage: /<command> <amount>
   changelog:
     description: Shows the server changelog.
     aliases: [change, changes]
     usage: /<command> [page] OR /<command> [log <change>]
-  itemname:
-    description: Sets the name of the item in your main hand.
-    aliases: [iname, in, nameitem, namei]
-    usage: /<command> <name> OR /<command> remove
+  damage:
+    description: Damages a player.
+    aliases: [hurt, dmg, removehealth]
+    usage: /<command> <amount> [player]
+  editsign:
+    description: Changes the text on a sign.
+    aliases: [signedit, changesign, es, se]
+    usage: /<command> set|add|remove <line> <text ...>
+  faq:
+    description: Answers frequently asked questions.
+    aliases: [questions]
+    usage: /<command> [page]
+  fireworkarrows:
+    description: Sets your firework shape for firework arrows.
+    aliases: [fireworkarrow, rbfw, fwa, fwas]
+    usage: /<command> <firework shape>
+  giveall:
+    description: Gives the item in your main hand to all players.
+    usage: /<command>
   itemlore:
     description: Sets the lore of the item in your main hand.
     aliases: [description, desc, lore, itemdesc]
     usage: /<command> set|remove <line> <lore ...> OR /<command> add <lore ...>
-  unbreakable:
-    description: Makes the item in your main hand unbreakable.
-    usage: /<command>
+  itemname:
+    description: Sets the name of the item in your main hand.
+    aliases: [iname, in, nameitem, namei]
+    usage: /<command> <name> OR /<command> remove
   mapcolor:
     description: Sets the color of the map in your main hand.
     aliases: [mapc, mcolor, colormap, cmap]
     usage: /<command> <color>
+  moneyitem:
+    description: Creates a Vault money item.
+    aliases: [mi, veldsitem, vi]
+    usage: /<command> <amount>
+  motd:
+    description: Displays the login message.
+    aliases: [vpmotd, loginmessage, loginmsg, joinmessage, joinmsg]
+    usage: /<command> [player]
+  playanimation:
+    description: Plays an animation on a player.
+    aliases: [animation, playanim, anim]
+    usage: /<command> <animation> [player]
+  playerlist:
+    description: Sets the player list header and footer.
+    usage: /<command> set <header> <footer> OR /<command> remove
+  playersay:
+    description: Send a chat message as another player.
+    aliases: [sayplayer, ps, psay]
+    usage: /<command> <player> <message ...>
+  players:
+    description: Lists of all players.
+    aliases: [player]
+    usage: /<command> fulllist OR /<command> heads
+  push:
+    description: Pushes a player.
+    aliases: [setvelocity]
+    usage: /<command> <player> <speedX> <speedY> <speedZ> OR /<command> <player> <toPlayer> <speed>
+  ratchetsbow:
+    description: Sets your projectile for Ratchet's Bow.
+    aliases: [rbow, rb]
+    usage: /<command> <projectile>
+  resourcepack:
+    description: Downloads the server's resource packs.
+    aliases: [texturepack, pack, rp]
+    usage: /<command> [resource pack]
+  ride:
+    description: Right-click on an entity to ride/hold it.
+    aliases: [rideentity, entityride]
+    usage: /<command> [ride|hold|drop]
+  sethealth:
+    description: Sets a player's health.
+    aliases: [health]
+    usage: /<command> <health> [player]
+  sethotbarslot:
+    description: Sets a player's selected hotbar slot.
+    aliases: [hotbarslot, setselectedslot, selectedslot, settoolbarslot, toolbarslot]
+    usage: /<command> <slot> [player]
+  setmaxhealth:
+    description: Sets a player's maximum health.
+    aliases: [maxhealth]
+    usage: /<command> <health> [player]
+  sidebarmessage:
+    description: Broadcasts a message to the sidebar.
+    aliases: [sbmessage, sbm, sbbroadcast]
+    usage: /<command> <time> <title> <line1> [more lines] ...
+  timeplayed:
+    description: Displays the amount of time a player has played.
+    aliases: [playtime]
+    usage: /<command> [player]
+  trail:
+    description: Sets a particle trail for a player.
+    aliases: [trails, particletrail, particletrails]
+    usage: /<command> <particle>|remove [player]
+  unbreakable:
+    description: Makes the item in your main hand unbreakable.
+    usage: /<command>
+  uuid:
+    description: Displays a player's UUID in a chat message.
+    aliases: [uniqueid]
+    usage: /<command> [player]
+  v3ld1nplugin:
+    description: The main plugin command.
+    aliases: [v3ld1np, vplugin, vp]
+    usage: /<command> <arguments>
+  v3ld1nwarp:
+    description: Adds, removes, and lists warps.
+    aliases: [vwarp]
+    usage: /<command> add|remove <warp> OR /<command> list
