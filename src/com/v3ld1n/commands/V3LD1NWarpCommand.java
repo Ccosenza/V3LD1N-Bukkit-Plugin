@@ -6,7 +6,6 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import com.v3ld1n.Config;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
@@ -23,50 +22,58 @@ public class V3LD1NWarpCommand extends V3LD1NCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission("v3ld1n.owner")) {
-            List<Warp> warps = V3LD1N.getWarps();
-            if (args.length > 1) {
-                String warpString;
-                warpString = args[1];
-                if (args[0].equalsIgnoreCase("add")) {
-                    V3LD1N.addWarp(new Warp(warpString, new ArrayList<Particle>(), new ArrayList<Sound>()));
-                    Message.get("v3ld1nwarp-add").aSendF(sender, warpString);
-                    return true;
-                } else if (args[0].equalsIgnoreCase("remove")) {
-                    boolean warpExists = false;
-                    String warpName = null;
-                    for (Warp warp : warps) {
-                        if (warp.getName().equalsIgnoreCase(warpString)) {
-                            warpExists = true;
-                            warpName = warp.getName();
-                        }
-                    }
-                    if (warpExists && warpName != null) {
-                        V3LD1N.removeWarp(warpString);
-                        Config.WARPS.getConfig().set("warps." + warpName, null);
-                        Config.WARPS.saveConfig();
-                        Message.get("v3ld1nwarp-remove").aSendF(sender, warpName);
-                        return true;
-                    }
-                    Message.get("v3ld1nwarp-invalid").sendF(sender, warpString);
-                    return true;
-                }
-                this.sendUsage(sender);
-                return true;
-            } else if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("list")) {
-                    List<String> warpNames = new ArrayList<>();
-                    for (Warp warp : warps) {
-                        warpNames.add(warp.getName());
-                    }
-                    ChatUtil.sendList(sender, Message.get("v3ld1nwarp-list-title").toString(), warpNames, ListType.SHORT);
-                    return true;
-                }
-            }
+        if (sendPermissionMessage(sender, "v3ld1n.owner")) return true;
+
+        if (args.length == 0) {
             this.sendUsage(sender);
             return true;
         }
-        sendPermissionMessage(sender);
+
+        if (args.length == 2 && args[0].equalsIgnoreCase("add")) {
+            add(args[1], sender);
+            return true;
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("remove")) {
+            remove(args[1], sender);
+            return true;
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
+            list(sender);
+            return true;
+        }
+        this.sendUsage(sender);
         return true;
+    }
+
+    // Adds the warp command
+    private void add(String warpName, CommandSender user) {
+        V3LD1N.addWarp(new Warp(warpName, new ArrayList<Particle>(), new ArrayList<Sound>()));
+        Message.get("v3ld1nwarp-add").aSendF(user, warpName);
+    }
+
+    // Removes the warp command
+    private void remove(String warpName, CommandSender user) {
+        boolean warpExists = false;
+        String exactWarpName = null;
+        for (Warp warp : V3LD1N.getWarps()) {
+            if (warp.getName().equalsIgnoreCase(warpName)) {
+                warpExists = true;
+                exactWarpName = warp.getName();
+            }
+        }
+
+        if (warpExists) {
+            V3LD1N.removeWarp(exactWarpName);
+            Message.get("v3ld1nwarp-remove").aSendF(user, exactWarpName);
+            return;
+        }
+        Message.get("v3ld1nwarp-invalid").sendF(user, warpName);
+    }
+
+    // Sends a list of all warp commands
+    private void list(CommandSender user) {
+        List<String> warpNames = new ArrayList<>();
+        for (Warp warp : V3LD1N.getWarps()) {
+            warpNames.add(warp.getName());
+        }
+        ChatUtil.sendList(user, Message.get("v3ld1nwarp-list-title").toString(), warpNames, ListType.SHORT);
     }
 }
