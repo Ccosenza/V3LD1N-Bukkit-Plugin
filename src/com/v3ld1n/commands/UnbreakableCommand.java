@@ -24,6 +24,11 @@ public class UnbreakableCommand extends V3LD1NCommand {
             return true;
         }
 
+        if (args.length == 1 && args[0].equalsIgnoreCase("reset")) {
+            reset(item, player, sender);
+            return true;
+        }
+
         set(item, player, sender);
         return true;
     }
@@ -33,5 +38,12 @@ public class UnbreakableCommand extends V3LD1NCommand {
         ItemStack unbreakableItem = ItemUtil.setTag(item, "Unbreakable", new NBTTagInt(1));
         player.getInventory().setItemInMainHand(unbreakableItem);
         Message.get("unbreakable-set").send(player);
+    }
+
+    // Makes the player's item breakable again
+    private void reset(ItemStack item, Player player, CommandSender user) {
+        ItemStack resetItem = ItemUtil.setTag(item, "Unbreakable", new NBTTagInt(0));
+        player.getInventory().setItemInMainHand(resetItem);
+        Message.get("unbreakable-reset").send(player);
     }
 }
