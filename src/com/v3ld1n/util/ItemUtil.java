@@ -97,7 +97,7 @@ public class ItemUtil {
     }
 
     /**
-     * Hides item descriptions
+     * Sets whether item descriptions are hidden
      * @param item the item
      * @param enchantments whether to hide enchantments
      * @param attributes whether to hide attributes
@@ -106,7 +106,7 @@ public class ItemUtil {
      * @param canPlaceOn whether to hide can place on blocks
      * @param other whether to hide other descriptions (banner patterns, firework effects, etc.)
      */
-    public static ItemStack hideFlags(ItemStack item, boolean enchantments, boolean attributes, boolean unbreakable, boolean canDestroy, boolean canPlaceOn, boolean other) {
+    public static ItemStack setHideFlags(ItemStack item, boolean enchantments, boolean attributes, boolean unbreakable, boolean canDestroy, boolean canPlaceOn, boolean other) {
         byte hide = 0;
         if (enchantments) hide += 1;
         if (attributes) hide += 2;
@@ -122,7 +122,15 @@ public class ItemUtil {
      * @param item the item
      */
     public static ItemStack hideFlags(ItemStack item) {
-        return hideFlags(item, true, true, true, true, true, true);
+        return setHideFlags(item, true, true, true, true, true, true);
+    }
+
+    /**
+     * Unhides all item descriptions
+     * @param item the item
+     */
+    public static ItemStack resetHideFlags(ItemStack item) {
+        return setHideFlags(item, false, false, false, false, false, false);
     }
 
     /**

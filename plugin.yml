@@ -33,6 +33,10 @@ commands:
   giveall:
     description: Gives the item in your main hand to all players.
     usage: /<command>
+  hideflags:
+    description: Hides descriptions on the item in your main hand.
+    aliases: [hf]
+    usage: /<command> OR /<command> unhide
   itemlore:
     description: Sets the lore of the item in your main hand.
     aliases: [lore, ilore, loreitem, lorei]
@@ -110,7 +114,7 @@ commands:
     usage: /<command> <particle>|remove [player]
   unbreakable:
     description: Makes the item in your main hand unbreakable.
-    usage: /<command>
+    usage: /<command> OR /<command> reset
   uuid:
     description: Displays a player's UUID in a chat message.
     aliases: [uniqueid]

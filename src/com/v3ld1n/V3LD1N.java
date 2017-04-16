@@ -237,6 +237,7 @@ public class V3LD1N extends JavaPlugin {
         addCommand("faq", new FAQCommand());
         addCommand("fireworkarrows", new FireworkArrowsCommand());
         addCommand("giveall", new GiveAllCommand());
+        addCommand("hideflags", new HideFlagsCommand());
         addCommand("itemlore", new ItemLoreCommand());
         addCommand("itemname", new ItemNameCommand());
         addCommand("mapcolor", new MapColorCommand());
