@@ -53,9 +53,6 @@ public class ResourcePackCommand extends V3LD1NCommand {
     // Asks the player to download the resource pack
     private void set(Player player, String packName) {
         player.setResourcePack(V3LD1N.getResourcePack(packName).getUrl());
-        if (ConfigSetting.RESOURCE_PACKS_OUTDATED.getBoolean()) {
-            Message.get("resourcepack-outdated").send(player);
-        }
     }
 
     // Sends command usage with resource pack list
