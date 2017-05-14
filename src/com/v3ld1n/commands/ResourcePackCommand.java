@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.v3ld1n.ConfigSetting;
 import com.v3ld1n.Message;
 import com.v3ld1n.V3LD1N;
 import com.v3ld1n.util.ChatUtil;
