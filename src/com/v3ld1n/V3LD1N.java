@@ -16,7 +16,6 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,7 +37,6 @@ import com.v3ld1n.util.Sound;
 
 public class V3LD1N extends JavaPlugin {
     private final Random random = new Random();
-    private final String bukkitVersion = "1.11.2-R0.1-SNAPSHOT";
     private static final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
     private static V3LD1N plugin;
@@ -170,11 +168,6 @@ public class V3LD1N extends JavaPlugin {
                 }
             }
         }, ConfigSetting.MONEY_REWARD_TICKS.getInt(), ConfigSetting.MONEY_REWARD_TICKS.getInt());
-
-        if (!Bukkit.getBukkitVersion().equals(bukkitVersion)) {
-            PluginDescriptionFile d = plugin.getDescription();
-            Message.get("incompatible-version").logF(Level.WARNING, d.getName(), d.getVersion(), bukkitVersion, Bukkit.getBukkitVersion());
-        }
     }
 
     @Override
