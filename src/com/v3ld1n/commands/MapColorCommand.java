@@ -3,14 +3,14 @@ package com.v3ld1n.commands;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.v3ld1n.Message;
 
-import net.minecraft.server.v1_11_R1.NBTTagCompound;
-import net.minecraft.server.v1_11_R1.NBTTagInt;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagInt;
 
 public class MapColorCommand extends V3LD1NCommand {
     private static final int LIMIT = 16777215;
@@ -56,7 +56,7 @@ public class MapColorCommand extends V3LD1NCommand {
 
     // Sets the map item's color
     public static ItemStack setColor(ItemStack item, int color) {
-        net.minecraft.server.v1_11_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
+        net.minecraft.server.v1_12_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound tag = stack.hasTag() ? stack.getTag() : new NBTTagCompound();
         NBTTagCompound display = tag.getCompound("display");
         display.set("MapColor", new NBTTagInt(color));

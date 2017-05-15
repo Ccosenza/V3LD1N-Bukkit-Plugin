@@ -83,10 +83,10 @@ public class RideCommand extends V3LD1NCommand implements Listener {
 
     // Drops the entity the player is holding
     private void drop(Player player) {
-        if (player.getPassenger() == null) {
+        if (player.getPassengers() == null) {
             Message.get("ride-drop-not-holding").send(player);
         } else {
-            String entityname = StringUtil.getEntityName(player.getPassenger());
+            String entityname = StringUtil.getEntityName(player.getPassengers().get(0));
             player.eject();
             Message.get("ride-drop").aSendF(player, entityname);
         }
@@ -104,10 +104,10 @@ public class RideCommand extends V3LD1NCommand implements Listener {
         RideType type = using.get(player.getUniqueId());
         switch (type) {
         case RIDE:
-            entity.setPassenger(player);
+            entity.addPassenger(player);
             break;
         case HOLD:
-            player.setPassenger(entity);
+            player.addPassenger(entity);
             break;
         }
 

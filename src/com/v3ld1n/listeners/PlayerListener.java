@@ -255,7 +255,7 @@ public class PlayerListener implements Listener {
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
             public void run() {
-                if (vehicle.getPassenger() == null) {
+                if (vehicle.getPassengers() == null) {
                     vehicle.remove();
                 }
             }

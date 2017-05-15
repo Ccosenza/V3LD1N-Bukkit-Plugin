@@ -3,9 +3,9 @@ package com.v3ld1n.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_11_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_11_R1.IChatBaseComponent;
-import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent;
+import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +27,8 @@ public final class ChatUtil {
         if (to instanceof Player) {
             String jsonMessage = "{\"text\":\"" + message.replaceAll("\"", "\\\\\"") + "\"}";
             IChatBaseComponent chat = ChatSerializer.a(jsonMessage);
-            PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
+            //PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
+            PacketPlayOutChat packet = new PacketPlayOutChat(chat);
             PlayerUtil.sendPacket(packet, (Player) to);
         } else {
             to.sendMessage(message);
@@ -43,7 +44,8 @@ public final class ChatUtil {
     public static void sendJsonMessage(CommandSender to, String message, MessageType type) {
         if (to instanceof Player) {
             IChatBaseComponent chat = ChatSerializer.a(message);
-            PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
+            //PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
+            PacketPlayOutChat packet = new PacketPlayOutChat(chat);
             PlayerUtil.sendPacket(packet, (Player) to);
         } else {
             to.sendMessage(message);
