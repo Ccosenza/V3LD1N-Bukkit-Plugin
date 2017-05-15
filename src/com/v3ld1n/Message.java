@@ -6,8 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.v3ld1n.util.ChatUtil;
-import com.v3ld1n.util.MessageType;
 import com.v3ld1n.util.StringUtil;
+
+import net.minecraft.server.v1_12_R1.ChatMessageType;
 
 public class Message {
     private String name;
@@ -49,20 +50,20 @@ public class Message {
     }
 
     /**
-     * Sends the message to a user as a type 2 message (above action bar)
+     * Sends the message to a user as a game info message (above action bar)
      * @param user the user
      */
     public void aSend(CommandSender user) {
-        ChatUtil.sendMessage(user, this.toString(), MessageType.ACTION_BAR);
+        ChatUtil.sendMessage(user, this.toString(), ChatMessageType.GAME_INFO);
     }
 
     /**
-     * Formats the message, then sends it to a user as a type 2 message (above action bar)
+     * Formats the message, then sends it to a user as a game info message (above action bar)
      * @param user the user
      * @param format the strings to format the message with
      */
     public void aSendF(CommandSender user, Object... format) {
-        ChatUtil.sendMessage(user, String.format(this.toString(), format), MessageType.ACTION_BAR);
+        ChatUtil.sendMessage(user, String.format(this.toString(), format), ChatMessageType.GAME_INFO);
     }
 
     /**

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_12_R1.ChatMessageType;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 
@@ -23,12 +24,11 @@ public final class ChatUtil {
      * @param message the message
      * @param type the message type
      */
-    public static void sendMessage(CommandSender to, String message, MessageType type) {
+    public static void sendMessage(CommandSender to, String message, ChatMessageType type) {
         if (to instanceof Player) {
             String jsonMessage = "{\"text\":\"" + message.replaceAll("\"", "\\\\\"") + "\"}";
             IChatBaseComponent chat = ChatSerializer.a(jsonMessage);
-            //PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
-            PacketPlayOutChat packet = new PacketPlayOutChat(chat);
+            PacketPlayOutChat packet = new PacketPlayOutChat(chat, type);
             PlayerUtil.sendPacket(packet, (Player) to);
         } else {
             to.sendMessage(message);
@@ -41,10 +41,9 @@ public final class ChatUtil {
      * @param message the message
      * @param type the message type
      */
-    public static void sendJsonMessage(CommandSender to, String message, MessageType type) {
+    public static void sendJsonMessage(CommandSender to, String message, ChatMessageType type) {
         if (to instanceof Player) {
             IChatBaseComponent chat = ChatSerializer.a(message);
-            //PacketPlayOutChat packet = new PacketPlayOutChat(chat, type.getId());
             PacketPlayOutChat packet = new PacketPlayOutChat(chat);
             PlayerUtil.sendPacket(packet, (Player) to);
         } else {
@@ -64,7 +63,7 @@ public final class ChatUtil {
         for (String jsonText : Config.MOTD.getConfig().getStringList(listName)) {
             String message = StringUtil.formatText(jsonText);
             message = StringUtil.replacePlayerVariables(message, player);
-            ChatUtil.sendJsonMessage(player, message, MessageType.CHAT);
+            ChatUtil.sendJsonMessage(player, message, ChatMessageType.CHAT);
         }
     }
 
