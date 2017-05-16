@@ -1,7 +1,6 @@
 package com.v3ld1n.commands;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -38,10 +37,10 @@ public class SidebarMessageCommand extends V3LD1NCommand {
 
     // Displays the sidebar to all players
     private void display(String[] args, int ticks, CommandSender user) {
-        List<String> lines = Arrays.asList(Arrays.copyOfRange(args, 2, args.length));
-
         SidebarMessage sidebarMessage = new SidebarMessage(args[1]);
-        sidebarMessage.setLines(lines);
+        for (String line : Arrays.copyOfRange(args, 2, args.length)) {
+            sidebarMessage.addLine(line);
+        }
 
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             sidebarMessage.display(p, ticks);

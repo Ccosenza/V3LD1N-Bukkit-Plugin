@@ -38,14 +38,6 @@ public class SidebarMessage {
         this.title = StringUtil.substring(title, TITLE_CHARACTER_LIMIT);
     }
 
-    public void setLines(List<String> lines) {
-        List<String> newLines = new ArrayList<>();
-        for (String line : lines) {
-            newLines.add(StringUtil.substring(line, LINE_CHARACTER_LIMIT));
-        }
-        this.lines = newLines;
-    }
-
     public void addLine(String text) {
         String newText = StringUtil.substring(text, LINE_CHARACTER_LIMIT);
         this.lines.add(newText);
