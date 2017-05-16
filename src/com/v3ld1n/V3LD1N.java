@@ -174,16 +174,25 @@ public class V3LD1N extends JavaPlugin {
     public void onDisable() {
         saveWarps();
         saveChangelog();
+        plugin = null;
         configs = null;
+        worldGuard = null;
+        messages = null;
+        commands = null;
         items = null;
         questions = null;
         warps = null;
+        signs = null;
+        changelogDays = null;
+        resourcePacks = null;
+        resourcePackNames = null;
         itemTasks = null;
         particleTasks = null;
         soundTasks = null;
         teleportTasks = null;
+        econ = null;
+        rideCommand = null;
         usingRideCommand = null;
-        plugin = null;
     }
 
     private void loadConfig() {
