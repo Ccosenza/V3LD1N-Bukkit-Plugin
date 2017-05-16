@@ -42,7 +42,7 @@ public class MotdCommand extends V3LD1NCommand {
     // Sends the MOTD to the player
     private void send(Player player, CommandSender user) {
         ChatUtil.sendMotd(player);
-        if (player.getName() != user.getName()) {
+        if (!player.getName().equals(user.getName())) {
             Message.get("motd-show").sendF(user, player.getName());
         }
     }
