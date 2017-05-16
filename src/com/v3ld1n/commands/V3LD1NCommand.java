@@ -26,7 +26,7 @@ public abstract class V3LD1NCommand implements CommandExecutor {
 
     /**
      * Sets the Bukkit command for this command
-     * @param name the Bukkit command
+     * @param bukkitCmd the Bukkit command
      */
     public void setBukkitCommand(PluginCommand bukkitCmd) {
         this.bukkitCmd = bukkitCmd;

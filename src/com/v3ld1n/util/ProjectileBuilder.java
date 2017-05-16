@@ -22,8 +22,8 @@ public class ProjectileBuilder {
     }
 
     /**
-     * Add a firing particle
-     * @param particle the particle
+     * Add firing particles
+     * @param particles the particles
      * @return this object
      */
     public ProjectileBuilder setLaunchParticles(List<Particle> particles) {
@@ -32,8 +32,8 @@ public class ProjectileBuilder {
     }
 
     /**
-     * Add a firing sound
-     * @param sound the sound
+     * Add firing sounds
+     * @param sounds the sounds
      * @return this object
      */
     public ProjectileBuilder setLaunchSounds(List<Sound> sounds) {
@@ -54,7 +54,6 @@ public class ProjectileBuilder {
     /**
      * Make an entity launch the projectile
      * @param shooter the entity shooting the projectile
-     * @param speed the speed of the projectile
      * @return the projectile
      */
     public Projectile launch(LivingEntity shooter) {

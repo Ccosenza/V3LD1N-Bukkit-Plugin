@@ -113,7 +113,7 @@ public final class PlayerUtil {
 
     /**
      * Returns an account's UUID
-     * @param playerName the username
+     * @param username the player's username
      * @param dashes whether to add dashes to the UUID
      * @return the UUID
      */

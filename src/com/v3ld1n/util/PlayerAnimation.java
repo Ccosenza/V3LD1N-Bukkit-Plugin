@@ -27,9 +27,8 @@ public enum PlayerAnimation {
     }
 
     /**
-     * Plays the animation to all players in a radius around the player
+     * Plays the animation
      * @param player the player to play the animation on
-     * @param radius the radius to show the animation in
      */
     public void play(Player player) {
         PacketPlayOutAnimation packet = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(), id);

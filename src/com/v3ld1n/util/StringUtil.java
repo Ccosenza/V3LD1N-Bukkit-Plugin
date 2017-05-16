@@ -125,8 +125,8 @@ public final class StringUtil {
     /**
      * Returns a string with sign variables
      * @param string the string to edit
-     * @param sign the sign
-     * @param player the player
+     * @param sign the sign to get the variables from
+     * @param user the user using the sign
      * @return the string with variables replaced
      */
     public static String replaceSignVariables(String string, Sign sign, CommandSender user) {

@@ -70,7 +70,7 @@ public final class ChatUtil {
     /**
      * Returns a section of a list
      * @param list the list
-     * @param page the page
+     * @param pageNumber the page
      * @param pageSize the size of the pages
      * @return the objects on that page
      */
