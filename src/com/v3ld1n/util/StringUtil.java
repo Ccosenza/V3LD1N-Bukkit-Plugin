@@ -237,7 +237,7 @@ public final class StringUtil {
      * @param uuid the UUID
      * @return the UUID with dashes
      */
-    public static String dashUUID(String uuid) {
+    public static String dashUuid(String uuid) {
         StringBuffer sb = new StringBuffer(uuid);
         sb.insert(8, "-");
         sb = new StringBuffer(sb.toString());

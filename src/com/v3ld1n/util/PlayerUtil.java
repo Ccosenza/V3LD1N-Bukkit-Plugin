@@ -123,7 +123,7 @@ public final class PlayerUtil {
         if (element != null) {
             String uuid = element.getAsJsonObject().get("id").toString().replaceAll("\"", "");
             if (dashes) {
-                return StringUtil.dashUUID(uuid);
+                return StringUtil.dashUuid(uuid);
             }
             return uuid;
         }
