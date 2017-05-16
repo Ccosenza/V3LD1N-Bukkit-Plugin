@@ -407,7 +407,6 @@ public class V3LD1N extends JavaPlugin {
                 FileConfiguration config = Config.SIGNS.getConfig();
                 String section = sectionName + ".";
                 for (String key : config.getConfigurationSection("signs").getKeys(false)) {
-                    String text = key;
                     List<String> playerCommands = new ArrayList<>();
                     if (config.getStringList(section + key + ".player-commands") != null) {
                         for (String command : config.getStringList(section + key + ".player-commands")) {
@@ -432,7 +431,7 @@ public class V3LD1N extends JavaPlugin {
                             sounds.add(Sound.fromString(soundString));
                         }
                     }
-                    Sign sign = new Sign(text, playerCommands, consoleCommands, particles, sounds);
+                    Sign sign = new Sign(key, playerCommands, consoleCommands, particles, sounds);
                     signs.add(sign);
                 }
                 Message.get("load-signs").logF(Level.INFO, signs.size());
