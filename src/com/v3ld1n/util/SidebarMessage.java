@@ -65,20 +65,25 @@ public class SidebarMessage {
     }
 
     public void display(Player player, long ticks) {
-        int scoreValue = lines.size();
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         final Scoreboard board = manager.getNewScoreboard();
+
         String name = StringUtil.substring(PREFIX + title, 16);
         String displayName = StringUtil.formatText(title.replaceAll("_", " "));
+
         Objective messageObjective = board.registerNewObjective(name, "dummy");
         messageObjective.setDisplayName(displayName);
+        messageObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        int sideNumber = lines.size();
+
         for (String line : lines) {
             line = StringUtil.formatText(line.replaceAll("_", " "));
             Score score = messageObjective.getScore(line);
-            score.setScore(scoreValue);
-            scoreValue--;
+            score.setScore(sideNumber);
+            sideNumber--;
         }
-        messageObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
         player.setScoreboard(board);
         Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
             @Override
