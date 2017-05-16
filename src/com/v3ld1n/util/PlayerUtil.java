@@ -197,7 +197,7 @@ public final class PlayerUtil {
      * Returns whether a player can build in a WorldGuard region
      * @param player the player
      * @param location the location to check if the player can build at
-     * @return
+     * @return whether the player can build
      */
     public static boolean canBuild(Player player, Location location) {
         if (V3LD1N.getWorldGuard() == null) return true;
