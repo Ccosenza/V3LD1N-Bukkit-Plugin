@@ -22,14 +22,6 @@ public class SidebarMessage {
     private String title;
     private List<String> lines = new ArrayList<>();
 
-    public SidebarMessage(String title, String... lines) {
-        this.title = StringUtil.substring(title, TITLE_CHARACTER_LIMIT);
-        for (String line : lines) {
-            String newLine = StringUtil.substring(line, LINE_CHARACTER_LIMIT);
-            this.lines.add(newLine);
-        }
-    }
-
     public SidebarMessage(String title) {
         this.title = StringUtil.substring(title, TITLE_CHARACTER_LIMIT);
     }
@@ -52,11 +44,6 @@ public class SidebarMessage {
             newLines.add(StringUtil.substring(line, LINE_CHARACTER_LIMIT));
         }
         this.lines = newLines;
-    }
-
-    public void setLine(int line, String text) {
-        String newText = StringUtil.substring(text, LINE_CHARACTER_LIMIT);
-        this.lines.set(line, newText);
     }
 
     public void addLine(String text) {
