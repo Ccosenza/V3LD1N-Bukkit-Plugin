@@ -5,16 +5,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import com.v3ld1n.util.ConfigAccessor;
 
 public enum Config {
+    CHANGELOG("changelog.yml"),
     CONFIG("config.yml"),
     FAQ("faq.yml"),
-    INFO_MESSAGES("info-messages.yml"),
     ITEMS("items.yml"),
     MESSAGES("messages.yml"),
     MOTD("motd.yml"),
     PARTICLES("particles.yml"),
     PLAYER_DATA("player-data.yml"),
     SIGNS("signs.yml"),
-    CHANGELOG("changelog.yml"),
     TASKS_ITEM("tasks-item.yml"),
     TASKS_PARTICLE("tasks-particle.yml"),
     TASKS_SOUND("tasks-sound.yml"),
