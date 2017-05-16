@@ -14,7 +14,6 @@ public enum ConfigSetting {
     SCOREBOARD_PREFIX("scoreboard-prefix", "config.yml", "v3ld1n_"),
     DEFAULT_PERMISSION_GROUP("default-permission-group", "config.yml", "Veldian"),
     DISABLE_FIREWORK_DAMAGE("disable-firework-damage", "config.yml", true),
-    RESOURCE_PACKS_OUTDATED("resource-packs-outdated", "config.yml", false),
 
     AUTO_SAVE_ENABLED("auto-save.enabled", "config.yml", true),
     AUTO_SAVE_TICKS("auto-save.ticks", "config.yml", 12000),
@@ -33,10 +32,6 @@ public enum ConfigSetting {
     MONEY_REWARD_TICKS("money-reward.ticks", "config.yml", 72000),
 
     MONEY_ITEM_ITEM("money-item.item", "config.yml", "EMERALD"),
-
-    FAQ_BACK_COLOR("back-color", "faq.yml", "blue"),
-
-    INFO_MESSAGES_LOG_ERROR("log-error-message", "info-messages.yml", false),
 
     PROJECTILE_JUMP_SPEED("projectile-jump-speed", "items.yml", 1.0),
 
@@ -175,13 +170,5 @@ public enum ConfigSetting {
     public void setValue(Object value) {
         V3LD1N.getConfig(fileName).getConfig().set(name, value);
         V3LD1N.getConfig(fileName).saveConfig();
-    }
-
-    public void toggle() {
-        if (!this.getBoolean()) {
-            this.setValue(true);
-        } else {
-            this.setValue(null);
-        }
     }
 }

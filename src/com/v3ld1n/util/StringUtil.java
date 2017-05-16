@@ -2,13 +2,11 @@ package com.v3ld1n.util;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
@@ -214,23 +212,6 @@ public final class StringUtil {
     }
 
     /**
-     * Returns a location as a string
-     * @param location the location
-     * @return the location as a string
-     */
-    public static String fromLocation(Location location) {
-        DecimalFormat df = new DecimalFormat("##.##");
-        StringBuilder sb = new StringBuilder();
-        sb.append(location.getWorld().getName())
-        .append(" | ").append(df.format(location.getX()))
-        .append(" | ").append(df.format(location.getY()))
-        .append(" | ").append(df.format(location.getZ()))
-        .append(" | ").append(df.format(location.getYaw()))
-        .append(" | ").append(df.format(location.getPitch()));
-        return sb.toString();
-    }
-
-    /**
      * Reads JSON text from a URL
      * @param url the URL
      * @return the JSON element
@@ -303,23 +284,5 @@ public final class StringUtil {
             }
         }
         return toInteger;
-    }
-
-    /**
-     * Returns a string as a double
-     * @param string the string
-     * @param defaultDouble what to return if the string is not a double
-     * @return the string as a double
-     */
-    public static double toDouble(String string, int defaultDouble) {
-        double toDouble = defaultDouble;
-        if (isInteger(string)) {
-            try {
-                toDouble = Double.parseDouble(string);
-            } catch (Exception e) {
-                toDouble = defaultDouble;
-            }
-        }
-        return toDouble;
     }
 }

@@ -16,16 +16,6 @@ public class ProjectileBuilder {
         this.projectile = type;
     }
 
-    /**
-     * Set the type of the projectile
-     * @param type the projectile class
-     * @return this object
-     */
-    public ProjectileBuilder setType(Class<? extends Projectile> type) {
-        this.projectile = type;
-        return this;
-    }
-
     public ProjectileBuilder setSpeed(double speed) {
         this.speed = speed;
         return this;

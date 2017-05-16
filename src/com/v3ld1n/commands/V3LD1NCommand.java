@@ -85,20 +85,6 @@ public abstract class V3LD1NCommand implements CommandExecutor {
     }
 
     /**
-     * Sends a specific usage to a user
-     * @param user the user
-     * @param argument the usage
-     */
-    public void sendArgumentUsage(CommandSender user, String argument) {
-        Message.get("command-usage-title").sendF(user, "/" + bukkitCmd.getName());
-        for (CommandUsage usage : usages) {
-            if (usage.getArguments().equalsIgnoreCase(argument)) {
-                usage.send(user);
-            }
-        }
-    }
-
-    /**
      * Returns a command's aliases with a slash at the beginning
      * @param cmd the command
      * @return the command's aliases

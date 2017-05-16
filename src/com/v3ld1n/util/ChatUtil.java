@@ -132,7 +132,9 @@ public final class ChatUtil {
         case SIDEBAR:
             if (user instanceof Player) {
                 SidebarMessage sbm = new SidebarMessage(title);
-                sbm.setLines(strings);
+                for (String line : strings) {
+                    sbm.addLine(line);
+                }
                 sbm.display((Player) user, 200);
             }
             break;

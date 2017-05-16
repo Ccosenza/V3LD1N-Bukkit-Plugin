@@ -146,16 +146,6 @@ public final class EntityUtil {
     }
 
     /**
-     * Adds to an entity's velocity
-     * @param entity the entity
-     * @param velocity the velocity to add
-     */
-    public static void addVelocity(Entity entity, Vector velocity) {
-        Vector newVelocity = entity.getVelocity().add(velocity);
-        entity.setVelocity(newVelocity);
-    }
-
-    /**
      * Makes an entity "jump" away from a projectile
      * @param entity the jumping entity
      * @param projectile the projectile

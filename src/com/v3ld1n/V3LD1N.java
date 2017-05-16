@@ -658,17 +658,6 @@ public class V3LD1N extends JavaPlugin {
         return commands;
     }
 
-    public static V3LD1NCommand getCommandFromName(String name) {
-        V3LD1NCommand vc = null;
-        for (V3LD1NCommand command : commands) {
-            String cmdName = command.getBukkitCommand().getName();
-            if (cmdName.equalsIgnoreCase(name)) {
-                vc = command;
-            }
-        }
-        return vc;
-    }
-
     public static List<Message> getMessages() {
         return messages;
     }

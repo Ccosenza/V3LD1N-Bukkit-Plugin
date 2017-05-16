@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
 
 import com.v3ld1n.Config;
 import com.v3ld1n.util.ConfigUtil;
@@ -53,10 +52,6 @@ public abstract class Task {
         return config.getConfig().getBoolean(name + "." + settingName);
     }
 
-    public List<?> getListSetting(String settingName) {
-        return config.getConfig().getList(name + "." + settingName);
-    }
-
     public List<String> getStringListSetting(String settingName) {
         return config.getConfig().getStringList(name + "." + settingName);
     }
@@ -64,10 +59,6 @@ public abstract class Task {
     public Location getLocationSetting(String settingName) {
         String setting = config.getConfig().getString(name + "." + settingName);
         return ConfigUtil.locationFromString(setting);
-    }
-
-    public Vector getVectorSetting(String settingName) {
-        return config.getConfig().getVector(name + "." + settingName);
     }
 
     @Override

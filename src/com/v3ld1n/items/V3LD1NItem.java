@@ -59,16 +59,8 @@ public class V3LD1NItem implements Listener {
         Particle.displayList(particles, location);
     }
 
-    public void displayParticlesToPlayer(Location location, Player player) {
-        Particle.displayListToPlayer(particles, location, player);
-    }
-
     public void playSounds(Location location) {
         Sound.playList(sounds, location);
-    }
-
-    public void playSoundsToPlayer(Location location, Player player) {
-        Sound.playListToPlayer(sounds, location, player);
     }
 
     public boolean isLeftClick(Action action, EquipmentSlot hand) {

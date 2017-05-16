@@ -7,8 +7,6 @@ import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import net.minecraft.server.v1_12_R1.Packet;
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -74,38 +72,6 @@ public final class PlayerUtil {
      */
     public static boolean hasTrail(Player player) {
         return PlayerData.TRAILS.get(player) != null;
-    }
-
-    /**
-     * Displays a title to a player
-     * @param player the player to display the title to
-     * @param title the json title text
-     * @param fadeIn ticks to fade in
-     * @param stay ticks to stay
-     * @param fadeOut ticks to fade out
-     */
-    public static void displayTitle(Player player, String title, int fadeIn, int stay, int fadeOut) {
-        IChatBaseComponent json = ChatSerializer.a(title);
-        PacketPlayOutTitle packet = new PacketPlayOutTitle(EnumTitleAction.TITLE, json, fadeIn, stay, fadeOut);
-        sendPacket(packet, player);
-    }
-
-    /**
-     * Displays a subtitle to a player
-     * @param player the player to display the subtitle to
-     * @param subtitle the json subtitle text
-     * @param fadeIn ticks to fade in
-     * @param stay ticks to stay
-     * @param fadeOut ticks to fade out
-     * @param emptyTitle whether to display an empty title (used to display only the subtitle)
-     */
-    public static void displaySubtitle(Player player, String subtitle, int fadeIn, int stay, int fadeOut, boolean emptyTitle) {
-        IChatBaseComponent json = ChatSerializer.a(subtitle);
-        if (emptyTitle) {
-            displayTitle(player, "{\"text\":\"\"}", fadeIn, stay, fadeOut);
-        }
-        PacketPlayOutTitle packet = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, json, fadeIn, stay, fadeOut);
-        sendPacket(packet, player);
     }
 
     /**
