@@ -18,7 +18,7 @@ import com.v3ld1n.util.PlayerUtil;
 import com.v3ld1n.util.StringUtil;
 
 public class V3LD1NPluginCommand extends V3LD1NCommand {
-    private final static int HELP_PAGE_SIZE = 9;
+    private static final int HELP_PAGE_SIZE = 9;
 
     public V3LD1NPluginCommand() {
         this.addUsage("help [page]", "Show a list of all plugin commands");
