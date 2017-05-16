@@ -192,7 +192,7 @@ public class RatchetBow extends V3LD1NItem {
         Particle.displayList(settings.getParticles("teleport-hit-particles"), location);
         if (settings.getBoolean("teleport-lightning")) {
             location.getWorld().strikeLightning(location);
-            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable(){
+            Bukkit.getServer().getScheduler().runTaskLater(V3LD1N.getPlugin(), new Runnable() {
                 @Override
                 public void run() {
                     shooter.getWorld().strikeLightning(shooter.getLocation());
