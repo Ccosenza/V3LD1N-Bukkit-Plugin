@@ -83,6 +83,7 @@ public class RatchetBow extends V3LD1NItem {
         try {
             type = RatchetBowType.valueOf(setting.getString(player));
         } catch (Exception e) {
+            type = RatchetBowType.ARROW;
             return;
         }
 
