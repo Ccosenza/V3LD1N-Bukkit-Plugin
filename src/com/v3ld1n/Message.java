@@ -89,11 +89,12 @@ public class Message {
      * @return the message
      */
     public static Message get(String name) {
-        for (Message message : V3LD1N.getMessages()) {
-            if (message.getName().equalsIgnoreCase(name)) {
-                return message;
-            }
+        String message;
+        try {
+            message = Config.MESSAGES.getConfig().getString(name);
+        } catch (Exception e) {
+            message = name;
         }
-        return new Message(name, name);
+        return new Message(name, message);
     }
 }

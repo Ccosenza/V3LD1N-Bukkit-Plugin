@@ -43,7 +43,6 @@ public class V3LD1N extends JavaPlugin {
     private static List<ConfigAccessor> configs;
     private static WorldGuardPlugin worldGuard;
 
-    private static List<Message> messages;
     private static List<V3LD1NCommand> commands;
     private static List<V3LD1NItem> items;
     private static List<FAQ> questions;
@@ -66,7 +65,6 @@ public class V3LD1N extends JavaPlugin {
         plugin = this;
         configs = new ArrayList<>();
         loadConfig();
-        messages = new ArrayList<>();
         commands = new ArrayList<>();
         items = new ArrayList<>();
         questions = new ArrayList<>();
@@ -80,7 +78,6 @@ public class V3LD1N extends JavaPlugin {
         soundTasks = new ArrayList<>();
         teleportTasks = new ArrayList<>();
         usingRideCommand = new HashMap<>();
-        loadMessages();
         setupWorldGuard();
         setupVault();
         loadItems();
@@ -177,7 +174,6 @@ public class V3LD1N extends JavaPlugin {
         plugin = null;
         configs = null;
         worldGuard = null;
-        messages = null;
         commands = null;
         items = null;
         questions = null;
@@ -263,21 +259,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("uuid", new UUIDCommand());
         addCommand("v3ld1nplugin", new V3LD1NPluginCommand());
         addCommand("v3ld1nwarp", new V3LD1NWarpCommand());
-    }
-
-    private void loadMessages() {
-        try {
-            if (Config.MESSAGES.getConfig() != null) {
-                FileConfiguration config = Config.MESSAGES.getConfig();
-                for (String key : config.getKeys(false)) {
-                    final Message newMessage = new Message(key, config.getString(key));
-                    messages.add(newMessage);
-                }
-                Message.get("load-messages").logF(Level.INFO, messages.size());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static void loadItems() {
@@ -664,10 +645,6 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<V3LD1NCommand> getCommands() {
         return commands;
-    }
-
-    public static List<Message> getMessages() {
-        return messages;
     }
 
     public static List<FAQ> getQuestions() {
