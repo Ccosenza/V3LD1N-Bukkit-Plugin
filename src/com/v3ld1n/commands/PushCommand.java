@@ -31,21 +31,7 @@ public class PushCommand extends V3LD1NCommand {
         }
         Player player = PlayerUtil.getOnlinePlayer(args[0]);
 
-        if (args.length == 4) {
-            // Push player in a direction
-            double speedX, speedY, speedZ;
-            try {
-                speedX = Double.parseDouble(args[1]);
-                speedY = Double.parseDouble(args[2]);
-                speedZ = Double.parseDouble(args[3]);
-            } catch (Exception e) {
-                Message.get("push-invalid-speed").send(sender);
-                return true;
-            }
-
-            pushInDirection(player, speedX, speedY, speedZ, sender);
-            return true;
-        } else if (args.length == 3) {
+        if (args.length == 3) {
             // Push player toward another player
             if (PlayerUtil.getOnlinePlayer(args[1]) == null) {
                 sendInvalidPlayerMessage(sender);
@@ -61,9 +47,21 @@ public class PushCommand extends V3LD1NCommand {
 
             pushToPlayer(player, toPlayer, speed, sender);
             return true;
+        } else {
+            // Push player in a direction
+            double speedX, speedY, speedZ;
+            try {
+                speedX = Double.parseDouble(args[1]);
+                speedY = Double.parseDouble(args[2]);
+                speedZ = Double.parseDouble(args[3]);
+            } catch (Exception e) {
+                Message.get("push-invalid-speed").send(sender);
+                return true;
+            }
+
+            pushInDirection(player, speedX, speedY, speedZ, sender);
+            return true;
         }
-        this.sendUsage(sender);
-        return true;
     }
 
     // Pushes the player in a direction
