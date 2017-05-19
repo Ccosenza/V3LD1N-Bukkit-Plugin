@@ -22,10 +22,6 @@ commands:
     description: Changes the text on a sign.
     aliases: [signedit, changesign, es, se]
     usage: /<command> set|add|remove <line> <text ...>
-  faq:
-    description: Answers frequently asked questions.
-    aliases: [questions]
-    usage: /<command> [page]
   fireworkarrows:
     description: Sets your firework shape for firework arrows.
     aliases: [fireworkarrow, rbfw, fwa, fwas]
