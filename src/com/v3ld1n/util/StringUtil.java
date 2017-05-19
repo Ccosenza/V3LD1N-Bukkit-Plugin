@@ -233,23 +233,6 @@ public final class StringUtil {
     }
 
     /**
-     * Adds dashes to a UUID
-     * @param uuid the UUID
-     * @return the UUID with dashes
-     */
-    public static String dashUuid(String uuid) {
-        StringBuffer sb = new StringBuffer(uuid);
-        sb.insert(8, "-");
-        sb = new StringBuffer(sb.toString());
-        sb.insert(13, "-");
-        sb = new StringBuffer(sb.toString());
-        sb.insert(18, "-");
-        sb = new StringBuffer(sb.toString());
-        sb.insert(23, "-");
-        return sb.toString();
-    }
-
-    /**
      * Returns whether a string only contains integers
      * @param string the string
      * @return whether a string is an integer

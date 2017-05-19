@@ -114,18 +114,22 @@ public final class PlayerUtil {
     /**
      * Returns an account's UUID
      * @param username the player's username
-     * @param dashes whether to add dashes to the UUID
      * @return the UUID
      */
-    public static String getUuid(String username, boolean dashes) {
+    public static String getUuid(String username) {
         String url = "https://api.mojang.com/users/profiles/minecraft/" + username;
         JsonElement element = StringUtil.readJsonFromUrl(url);
         if (element != null) {
             String uuid = element.getAsJsonObject().get("id").toString().replaceAll("\"", "");
-            if (dashes) {
-                return StringUtil.dashUuid(uuid);
-            }
-            return uuid;
+            StringBuffer buffer = new StringBuffer(uuid);
+            buffer.insert(8, "-");
+            buffer = new StringBuffer(buffer.toString());
+            buffer.insert(13, "-");
+            buffer = new StringBuffer(buffer.toString());
+            buffer.insert(18, "-");
+            buffer = new StringBuffer(buffer.toString());
+            buffer.insert(23, "-");
+            return buffer.toString();
         }
         return null;
     }
