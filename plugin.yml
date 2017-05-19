@@ -48,7 +48,7 @@ commands:
   mapcolor:
     description: Sets the color of the map in your main hand.
     aliases: [mapc, mcolor, colormap, cmap]
-    usage: /<command> <color>
+    usage: /<command> <red> <green> <blue>
   moneyitem:
     description: Creates a Vault money item.
     aliases: [mi, veldsitem, vi]
