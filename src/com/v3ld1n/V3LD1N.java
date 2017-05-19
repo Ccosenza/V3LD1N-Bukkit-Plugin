@@ -45,7 +45,6 @@ public class V3LD1N extends JavaPlugin {
 
     private static List<V3LD1NCommand> commands;
     private static List<V3LD1NItem> items;
-    private static List<FAQ> questions;
     private static List<Warp> warps;
     private static List<Sign> signs;
     private static List<ChangelogDay> changelogDays;
@@ -67,7 +66,6 @@ public class V3LD1N extends JavaPlugin {
         loadConfig();
         commands = new ArrayList<>();
         items = new ArrayList<>();
-        questions = new ArrayList<>();
         warps = new ArrayList<>();
         signs = new ArrayList<>();
         changelogDays = new ArrayList<>();
@@ -81,7 +79,6 @@ public class V3LD1N extends JavaPlugin {
         setupWorldGuard();
         setupVault();
         loadItems();
-        loadQuestions();
         loadWarps();
         loadSigns();
         loadChangelog();
@@ -176,7 +173,6 @@ public class V3LD1N extends JavaPlugin {
         worldGuard = null;
         commands = null;
         items = null;
-        questions = null;
         warps = null;
         signs = null;
         changelogDays = null;
@@ -232,7 +228,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("changelog", new ChangelogCommand());
         addCommand("damage", new DamageCommand());
         addCommand("editsign", new EditSignCommand());
-        addCommand("faq", new FAQCommand());
         addCommand("fireworkarrows", new FireworkArrowsCommand());
         addCommand("giveall", new GiveAllCommand());
         addCommand("hideflags", new HideFlagsCommand());
@@ -285,26 +280,6 @@ public class V3LD1N extends JavaPlugin {
             pluginManager.registerEvents(item, plugin);
         }
         Message.get("load-items").logF(Level.INFO, items.size());
-    }
-
-    private static void loadQuestions() {
-        try {
-            String sectionName = "questions";
-            if (Config.FAQ.getConfig().getConfigurationSection(sectionName) != null) {
-                FileConfiguration config = Config.FAQ.getConfig();
-                String section = sectionName + ".";
-                for (String key : config.getConfigurationSection(sectionName).getKeys(false)) {
-                    String question = config.getString(section + key + ".question");
-                    List<String> answer = config.getStringList(section + key + ".answer");
-                    FAQ faq = new FAQ(key, question, answer);
-                    questions.add(faq);
-                }
-                Message.get("load-faq").logF(Level.INFO, questions.size());
-            }
-        } catch (Exception e) {
-            Message.get("error-load-faq").log(Level.WARNING);
-            e.printStackTrace();
-        }
     }
 
     private static void loadWarps() {
@@ -634,10 +609,6 @@ public class V3LD1N extends JavaPlugin {
 
     public static List<V3LD1NCommand> getCommands() {
         return commands;
-    }
-
-    public static List<FAQ> getQuestions() {
-        return questions;
     }
 
     public static List<Warp> getWarps() {
