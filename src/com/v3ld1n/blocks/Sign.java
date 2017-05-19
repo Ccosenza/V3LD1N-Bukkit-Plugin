@@ -46,18 +46,18 @@ public class Sign {
         return sounds;
     }
 
-    private void runCommand(String command, CommandSender sender, org.bukkit.block.Sign signState) {
-        String newCommand = StringUtil.replaceSignVariables(command, signState, sender);
+    private void runCommand(String command, Player signUser, CommandSender sender, org.bukkit.block.Sign signState) {
+        String newCommand = StringUtil.replaceSignVariables(command, signState, signUser);
         Bukkit.dispatchCommand(sender, newCommand);
     }
 
     public void use(Player player, org.bukkit.block.Sign signState) {
         Location center = signState.getLocation().add(0.5, 0.5, 0.5);
         for (String command : playerCommands) {
-            runCommand(command, player, signState);
+            runCommand(command, player, player, signState);
         }
         for (String command : consoleCommands) {
-            runCommand(command, Bukkit.getConsoleSender(), signState);
+            runCommand(command, player, Bukkit.getConsoleSender(), signState);
         }
         Particle.displayList(particles, center);
         Sound.playList(sounds, center);
