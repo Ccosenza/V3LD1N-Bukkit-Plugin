@@ -18,14 +18,14 @@ public class FlightFeather extends V3LD1NItem {
         if (!isRightClick(event.getAction(), event.getHand())) return;
 
         event.setCancelled(true);
-        use(player);
+        push(player);
     }
 
     /**
      * Pushes the player forward
      * @param player the player
      */
-    private void use(Player player) {
+    private void push(Player player) {
         Location playerLocation = player.getLocation();
         Vector setting = settings.getVector("velocity");
         Vector playerDirection = playerLocation.getDirection();
@@ -33,7 +33,7 @@ public class FlightFeather extends V3LD1NItem {
 
         player.setVelocity(velocity);
         player.setFallDistance(0);
-        displayParticles(playerLocation);
+        displayParticles(playerLocation.add(0, 1, 0));
         playSounds(playerLocation);
     }
 }
