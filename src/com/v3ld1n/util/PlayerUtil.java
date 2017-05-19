@@ -112,12 +112,21 @@ public final class PlayerUtil {
     }
 
     /**
-     * Returns an account's UUID
+     * Returns the API url for a user
+     * @param username the player's username
+     * @return the url
+     */
+    public static String getUserUrl(String username) {
+        return "https://api.mojang.com/users/profiles/minecraft/" + username;
+    }
+
+    /**
+     * Returns a user's UUID
      * @param username the player's username
      * @return the UUID
      */
     public static String getUuid(String username) {
-        String url = "https://api.mojang.com/users/profiles/minecraft/" + username;
+        String url = getUserUrl(username);
         JsonElement element = StringUtil.readJsonFromUrl(url);
         if (element != null) {
             String uuid = element.getAsJsonObject().get("id").toString().replaceAll("\"", "");
