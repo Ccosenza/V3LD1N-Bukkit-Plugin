@@ -10,12 +10,10 @@ import com.v3ld1n.util.TimeUtil;
 public class ChangelogDay {
     private String day;
     private List<Change> changes;
-    private String link;
     
     public ChangelogDay(String day, List<Change> changes) {
         this.day = day;
         this.changes = changes;
-        this.link = "";
     }
 
     public String getDate() {
@@ -28,14 +26,6 @@ public class ChangelogDay {
 
     public void addChange(Change change) {
         changes.add(change);
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public static SimpleDateFormat getDateFormat() {

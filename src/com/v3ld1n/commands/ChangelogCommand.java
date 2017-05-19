@@ -18,7 +18,6 @@ import com.v3ld1n.util.TimeUtil;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -28,8 +27,6 @@ public class ChangelogCommand extends V3LD1NCommand {
     public ChangelogCommand() {
         this.addUsage("[page]", "Display the list of changelogs");
         this.addUsage("log <change>", "Log a change", "v3ld1n.owner");
-        this.addUsage("link <url>", "Add a clickable link to today's changelog", "v3ld1n.owner");
-        this.addUsage("link remove", "Remove the link from today's changelog", "v3ld1n.owner");
     }
 
     @Override
@@ -50,29 +47,6 @@ public class ChangelogCommand extends V3LD1NCommand {
             // Add a change to the changelog
             String newChange = StringUtil.fromArray(args, 1);
             logChange(player, newChange);
-        } else if (args.length == 2 && args[0].equalsIgnoreCase("link")) {
-            if (!player.hasPermission("v3ld1n.owner")) {
-                Message.get("changelog-permission").send(player);;
-                return true;
-            }
-            Message message;
-            String link = args[1].replaceAll("[\"\\\\]", "");
-
-            // Remove the link from today's changelog
-            if (args[1].equalsIgnoreCase("remove")) {
-                link = "";
-                message = Message.get("changelog-link-remove");
-            } else {
-                message = Message.get("changelog-link-set");
-            }
-
-            // Add a link to today's changelog
-            if (ChangelogDay.today() != null) {
-                ChangelogDay.today().setLink(link);
-                message.sendF(player, link);
-            } else {
-                Message.get("changelog-link-error").send(player);
-            }
         } else {
             this.sendUsage(player);
         }
@@ -123,7 +97,6 @@ public class ChangelogCommand extends V3LD1NCommand {
                 TextComponent message = new TextComponent("[" + formattedDate + "]");
                 message.setColor(ChatColor.GOLD);
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(builderString).create()));
-                message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, day.getLink()));
                 player.spigot().sendMessage(message);
             } catch (Exception e) {
                 Message.get("changelog-display-error").send(player);

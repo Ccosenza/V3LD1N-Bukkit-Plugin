@@ -440,17 +440,11 @@ public class V3LD1N extends JavaPlugin {
                 String section = sectionName + ".";
                 for (String dayKey : config.getConfigurationSection("changes").getKeys(false)) {
                     for (String key : config.getConfigurationSection(section + dayKey).getKeys(false)) {
-                        if (!key.equalsIgnoreCase("link")) {
-                            long time = Long.parseLong(key);
-                            String player = config.getString(section + dayKey + "." + key + ".player");
-                            String changed = config.getString(section + dayKey + "." + key + ".change");
-                            Change change = new Change(time, player, changed);
-                            addChange(change, dayKey);
-                            if (config.getString(section + dayKey + ".link") != null) {
-                                String linkSetting = config.getString(section + dayKey + ".link");
-                                change.getDay().setLink(linkSetting);
-                            }
-                        }
+                        long time = Long.parseLong(key);
+                        String player = config.getString(section + dayKey + "." + key + ".player");
+                        String changed = config.getString(section + dayKey + "." + key + ".change");
+                        Change change = new Change(time, player, changed);
+                        addChange(change, dayKey);
                     }
                 }
                 Message.get("load-changelog").logF(Level.INFO, changelogDays.size());
@@ -468,11 +462,6 @@ public class V3LD1N extends JavaPlugin {
             FileConfiguration config = Config.CHANGELOG.getConfig();
             for (ChangelogDay cld : changelogDays) {
                 String day = cld.getDate() + ".";
-                if (!cld.getLink().equals("")) {
-                    config.set(section + day + ".link", cld.getLink());
-                } else {
-                    config.set(section + day + ".link", null);
-                }
                 for (Change change : cld.getChanges()) {
                     long time = change.getTime();
                     config.set(section + day + time + ".player", change.getPlayer());
