@@ -85,7 +85,7 @@ public class ChangelogCommand extends V3LD1NCommand {
                 builder.append(String.format(Message.get("changelog-hover-top").toString(), formattedDate) + "\n");
 
                 for (Change change : changesOnDay) {
-                    String changeTime = TimeUtil.formatTime(change.getTime());
+                    String changeTime = TimeUtil.format(change.getTime(), Message.get("changelog-time-format").toString());
                     String listItemFormat = Message.get("changelog-list-item").toString();
                     listItemFormat = listItemFormat.replaceAll("%newline%", "\n");
                     builder.append(String.format(listItemFormat, changeTime, change.getChange()));

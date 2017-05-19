@@ -31,15 +31,6 @@ public class TimeUtil {
     }
 
     /**
-     * Formats time (without the date)
-     * @param time the time in milliseconds
-     * @return the formatted time
-     */
-    public static String formatTime(long time) {
-        return format(time, "h:mm:ss a");
-    }
-
-    /**
      * Formats an amount of time
      * @param seconds the time in seconds
      * @return the formatted time
