@@ -4,8 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.google.gson.JsonElement;
 import com.v3ld1n.Message;
 import com.v3ld1n.util.PlayerUtil;
+import com.v3ld1n.util.StringUtil;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -24,7 +26,7 @@ public class UUIDCommand extends V3LD1NCommand {
         if (args.length == 0 && sender instanceof Player) {
             // No player argument, command user is player
             name = sender.getName();
-        } else if (args.length == 1 && PlayerUtil.getUuid(args[0], true) != null) {
+        } else if (args.length == 1 && PlayerUtil.getUuid(args[0]) != null) {
             // Player is second argument
             name = args[0];
         } else {
@@ -33,8 +35,14 @@ public class UUIDCommand extends V3LD1NCommand {
             return true;
         }
 
-        String uuid = PlayerUtil.getUuid(name, true).toString();
-        send(uuid, name, sender);
+        String uuid = PlayerUtil.getUuid(name).toString();
+        
+
+        String url = PlayerUtil.getUserUrl(name);
+        JsonElement element = StringUtil.readJsonFromUrl(url);
+        String username = element.getAsJsonObject().get("name").toString().replaceAll("\"", "");
+        
+        send(uuid, username, sender);
         return true;
     }
 
