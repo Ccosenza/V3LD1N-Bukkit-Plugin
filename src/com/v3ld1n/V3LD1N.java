@@ -183,7 +183,6 @@ public class V3LD1N extends JavaPlugin {
         soundTasks = null;
         teleportTasks = null;
         econ = null;
-        rideCommand = null;
         usingRideCommand = null;
     }
 
