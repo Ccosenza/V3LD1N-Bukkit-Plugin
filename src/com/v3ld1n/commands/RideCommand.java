@@ -83,7 +83,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
 
     // Drops the entity the player is holding
     private void drop(Player player) {
-        if (player.getPassengers() == null) {
+        if (player.getPassengers().isEmpty()) {
             Message.get("ride-drop-not-holding").send(player);
         } else {
             String entityname = StringUtil.getEntityName(player.getPassengers().get(0));
