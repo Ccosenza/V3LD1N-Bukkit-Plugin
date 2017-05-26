@@ -50,6 +50,7 @@ public class V3LD1N extends JavaPlugin {
     private static List<ChangelogDay> changelogDays;
     private static List<ResourcePack> resourcePacks;
     private static List<String> resourcePackNames;
+    private static List<AdvancementTask> advancementTasks;
     private static List<ItemTask> itemTasks;
     private static List<ParticleTask> particleTasks;
     private static List<SoundTask> soundTasks;
@@ -71,6 +72,7 @@ public class V3LD1N extends JavaPlugin {
         changelogDays = new ArrayList<>();
         resourcePacks = new ArrayList<>();
         resourcePackNames = new ArrayList<>();
+        advancementTasks = new ArrayList<>();
         itemTasks = new ArrayList<>();
         particleTasks = new ArrayList<>();
         soundTasks = new ArrayList<>();
@@ -83,6 +85,7 @@ public class V3LD1N extends JavaPlugin {
         loadSigns();
         loadChangelog();
         loadResourcePacks();
+        loadAdvancementTasks();
         loadItemTasks();
         loadParticleTasks();
         loadSoundTasks();
@@ -178,6 +181,7 @@ public class V3LD1N extends JavaPlugin {
         changelogDays = null;
         resourcePacks = null;
         resourcePackNames = null;
+        advancementTasks = null;
         itemTasks = null;
         particleTasks = null;
         soundTasks = null;
@@ -490,6 +494,29 @@ public class V3LD1N extends JavaPlugin {
             }
         }
         return null;
+    }
+
+    private void loadAdvancementTasks() {
+        try {
+            if (Config.TASKS_ADVANCEMENT.getConfig() != null) {
+                FileConfiguration config = Config.TASKS_ADVANCEMENT.getConfig();
+                for (String key : config.getKeys(false)) {
+                    long ticks = config.getLong(key + ".ticks");
+                    final AdvancementTask newTask = new AdvancementTask(key);
+                    advancementTasks.add(newTask);
+                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            newTask.run();
+                        }
+                    }, ticks, ticks);
+                }
+                Message.get("loadtasks-advancement").logF(Level.INFO, advancementTasks.size());
+            }
+        } catch (Exception e) {
+            Message.get("error-loadtasks-advancement").log(Level.WARNING);
+            e.printStackTrace();
+        }
     }
 
     private void loadItemTasks() {
