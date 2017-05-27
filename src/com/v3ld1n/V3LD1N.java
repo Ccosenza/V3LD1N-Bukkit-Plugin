@@ -497,22 +497,22 @@ public class V3LD1N extends JavaPlugin {
     }
 
     private void loadAdvancementTasks() {
+        Config config = Config.TASKS_ADVANCEMENT;
         try {
-            if (Config.TASKS_ADVANCEMENT.getConfig() != null) {
-                FileConfiguration config = Config.TASKS_ADVANCEMENT.getConfig();
-                for (String key : config.getKeys(false)) {
-                    long ticks = config.getLong(key + ".ticks");
-                    final AdvancementTask newTask = new AdvancementTask(key);
-                    advancementTasks.add(newTask);
-                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            newTask.run();
-                        }
-                    }, ticks, ticks);
-                }
-                Message.get("loadtasks-advancement").logF(Level.INFO, advancementTasks.size());
+            if (config.getConfig() == null) return;
+            FileConfiguration configFile = config.getConfig();
+            for (String key : configFile.getKeys(false)) {
+                long ticks = configFile.getLong(key + ".ticks");
+                final AdvancementTask newTask = new AdvancementTask(key);
+                advancementTasks.add(newTask);
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        newTask.run();
+                    }
+                }, ticks, ticks);
             }
+            Message.get("loadtasks-advancement").logF(Level.INFO, advancementTasks.size());
         } catch (Exception e) {
             Message.get("error-loadtasks-advancement").log(Level.WARNING);
             e.printStackTrace();
@@ -520,22 +520,22 @@ public class V3LD1N extends JavaPlugin {
     }
 
     private void loadItemTasks() {
+        Config config = Config.TASKS_ITEM;
         try {
-            if (Config.TASKS_ITEM.getConfig() != null) {
-                FileConfiguration config = Config.TASKS_ITEM.getConfig();
-                for (String key : config.getKeys(false)) {
-                    long ticks = config.getLong(key + ".ticks");
-                    final ItemTask newTask = new ItemTask(key);
-                    itemTasks.add(newTask);
-                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            newTask.run();
-                        }
-                    }, ticks, ticks);
-                }
-                Message.get("loadtasks-item").logF(Level.INFO, itemTasks.size());
+            if (config.getConfig() == null) return;
+            FileConfiguration configFile = config.getConfig();
+            for (String key : configFile.getKeys(false)) {
+                long ticks = configFile.getLong(key + ".ticks");
+                final ItemTask newTask = new ItemTask(key);
+                itemTasks.add(newTask);
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        newTask.run();
+                    }
+                }, ticks, ticks);
             }
+            Message.get("loadtasks-item").logF(Level.INFO, itemTasks.size());
         } catch (Exception e) {
             Message.get("error-loadtasks-item").log(Level.WARNING);
             e.printStackTrace();
@@ -543,22 +543,22 @@ public class V3LD1N extends JavaPlugin {
     }
 
     private void loadParticleTasks() {
+        Config config = Config.TASKS_PARTICLE;
         try {
-            if (Config.TASKS_PARTICLE.getConfig() != null) {
-                FileConfiguration config = Config.TASKS_PARTICLE.getConfig();
-                for (String key : config.getKeys(false)) {
-                    long ticks = config.getLong(key + ".ticks");
-                    final ParticleTask newTask = new ParticleTask(key);
-                    particleTasks.add(newTask);
-                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            newTask.run();
-                        }
-                    }, ticks, ticks);
-                }
-                Message.get("loadtasks-particle").logF(Level.INFO, particleTasks.size());
+            if (config.getConfig() == null) return;
+            FileConfiguration configFile = config.getConfig();
+            for (String key : configFile.getKeys(false)) {
+                long ticks = configFile.getLong(key + ".ticks");
+                final ParticleTask newTask = new ParticleTask(key);
+                particleTasks.add(newTask);
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        newTask.run();
+                    }
+                }, ticks, ticks);
             }
+            Message.get("loadtasks-particle").logF(Level.INFO, particleTasks.size());
         } catch (Exception e) {
             Message.get("error-loadtasks-particle").log(Level.WARNING);
             e.printStackTrace();
@@ -566,22 +566,22 @@ public class V3LD1N extends JavaPlugin {
     }
 
     private void loadSoundTasks() {
+        Config config = Config.TASKS_SOUND;
         try {
-            if (Config.TASKS_SOUND.getConfig() != null) {
-                FileConfiguration config = Config.TASKS_SOUND.getConfig();
-                for (String key : config.getKeys(false)) {
-                    long ticks = config.getLong(key + ".ticks");
-                    final SoundTask newTask = new SoundTask(key);
-                    soundTasks.add(newTask);
-                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            newTask.run();
-                        }
-                    }, ticks, ticks);
-                }
-                Message.get("loadtasks-sound").logF(Level.INFO, soundTasks.size());
+            if (config.getConfig() == null) return;
+            FileConfiguration configFile = config.getConfig();
+            for (String key : configFile.getKeys(false)) {
+                long ticks = configFile.getLong(key + ".ticks");
+                final SoundTask newTask = new SoundTask(key);
+                soundTasks.add(newTask);
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        newTask.run();
+                    }
+                }, ticks, ticks);
             }
+            Message.get("loadtasks-sound").logF(Level.INFO, soundTasks.size());
         } catch (Exception e) {
             Message.get("error-loadtasks-sound").log(Level.WARNING);
             e.printStackTrace();
@@ -589,22 +589,22 @@ public class V3LD1N extends JavaPlugin {
     }
 
     private void loadTeleportTasks() {
+        Config config = Config.TASKS_TELEPORT;
         try {
-            if (Config.TASKS_TELEPORT.getConfig() != null) {
-                FileConfiguration config = Config.TASKS_TELEPORT.getConfig();
-                for (String key : config.getKeys(false)) {
-                    long ticks = config.getLong(key + ".ticks");
-                    final TeleportTask newTask = new TeleportTask(key);
-                    teleportTasks.add(newTask);
-                    Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            newTask.run();
-                        }
-                    }, ticks, ticks);
-                }
-                Message.get("loadtasks-teleport").logF(Level.INFO, teleportTasks.size());
+            if (config.getConfig() == null) return;
+            FileConfiguration configFile = config.getConfig();
+            for (String key : configFile.getKeys(false)) {
+                long ticks = configFile.getLong(key + ".ticks");
+                final TeleportTask newTask = new TeleportTask(key);
+                teleportTasks.add(newTask);
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        newTask.run();
+                    }
+                }, ticks, ticks);
             }
+            Message.get("loadtasks-teleport").logF(Level.INFO, teleportTasks.size());
         } catch (Exception e) {
             Message.get("error-loadtasks-teleport").log(Level.WARNING);
             e.printStackTrace();
