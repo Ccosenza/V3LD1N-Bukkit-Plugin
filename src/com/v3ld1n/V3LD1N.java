@@ -242,7 +242,6 @@ public class V3LD1N extends JavaPlugin {
         addCommand("playanimation", new PlayAnimationCommand());
         addCommand("playerlist", new PlayerListCommand());
         addCommand("players", new PlayersCommand());
-        addCommand("playersay", new PlayerSayCommand());
         addCommand("push", new PushCommand());
         addCommand("ratchetsbow", new RatchetsBowCommand());
         addCommand("resourcepack", new ResourcePackCommand());

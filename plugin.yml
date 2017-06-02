@@ -2,7 +2,7 @@ name: V3LD1N
 description: A custom plugin for the V3LD1N server.
 author: Ccosenza
 main: com.v3ld1n.V3LD1N
-softdepend: [WorldGuard, PermissionsEx, Vault]
+softdepend: [WorldGuard, Vault]
 version: "4.4"
 
 commands:
@@ -60,10 +60,6 @@ commands:
   playerlist:
     description: Sets the player list header and footer.
     usage: /<command> set <header> <footer> OR /<command> remove
-  playersay:
-    description: Send a chat message as another player.
-    aliases: [psay, sayplayer, sayp]
-    usage: /<command> <player> <message ...>
   players:
     description: Lists of all players.
     aliases: [player]
