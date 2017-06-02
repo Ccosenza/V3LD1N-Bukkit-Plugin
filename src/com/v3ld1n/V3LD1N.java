@@ -348,10 +348,10 @@ public class V3LD1N extends JavaPlugin {
     }
 
     public static void removeWarp(String warp) {
-        Iterator<Warp> iterator = warps.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getName().equalsIgnoreCase(warp)) {
-                iterator.remove();
+        Iterator<Warp> iter = warps.iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getName().equalsIgnoreCase(warp)) {
+                iter.remove();
             }
         }
         Config.WARPS.getConfig().set("warps." + warp, null);
