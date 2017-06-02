@@ -1,7 +1,11 @@
 package com.v3ld1n.tasks;
 
+import java.util.Iterator;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.advancement.Advancement;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 
 import com.v3ld1n.Config;
@@ -23,7 +27,7 @@ public class AdvancementTask extends Task {
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             Location playerLocation = player.getLocation();
             if (LocationUtil.isInArea(player.getLocation(), locationMin, locationMax)) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "advancement grant " + player.getName() + " only " + advancement);
+                grantAdvancement(player, advancement);
 
                 for (String particle : this.getStringListSetting("particles")) {
                     Particle.fromString(particle).display(playerLocation);
@@ -31,6 +35,17 @@ public class AdvancementTask extends Task {
                 for (String sound : this.getStringListSetting("sounds")) {
                     Sound.fromString(sound).play(playerLocation);
                 }
+            }
+        }
+    }
+    
+    public static void grantAdvancement(Player player, String advancementId) {
+        Iterator<Advancement> iter = Bukkit.getServer().advancementIterator();
+        while (iter.hasNext()) {
+            Advancement advancement = iter.next();
+            if (advancement.getKey().getKey().equalsIgnoreCase(advancementId)) {
+                AdvancementProgress progress = player.getAdvancementProgress(advancement);
+                progress.awardCriteria("impossible");
             }
         }
     }
