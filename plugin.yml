@@ -61,7 +61,7 @@ commands:
     description: Sets the player list header and footer.
     usage: /<command> set <header> <footer> OR /<command> remove
   players:
-    description: Lists of all players.
+    description: Lists players.
     aliases: [player]
     usage: /<command> fulllist OR /<command> heads
   push:
@@ -77,7 +77,7 @@ commands:
     aliases: [texturepack, pack, rp]
     usage: /<command> [resource pack]
   ride:
-    description: Right-click on an entity to ride/hold it.
+    description: Makes you ride on/hold an entity.
     aliases: [rideentity, entityride]
     usage: /<command> [ride|hold|drop]
   sethealth:
@@ -97,7 +97,7 @@ commands:
     aliases: [sbmessage, sbm, sbbroadcast]
     usage: /<command> <time> <title> <line1> [more lines] ...
   timeplayed:
-    description: Displays the amount of time a player has played.
+    description: Displays the amount of time a player has played on the server.
     aliases: [playtime]
     usage: /<command> [player]
   trail:
@@ -108,14 +108,14 @@ commands:
     description: Makes the item in your main hand unbreakable.
     usage: /<command> OR /<command> reset
   uuid:
-    description: Displays a player's UUID in a chat message.
+    description: Displays a player's account UUID in a chat message.
     aliases: [uniqueid]
     usage: /<command> [player]
   v3ld1nplugin:
-    description: The main plugin command.
+    description: Manages and displays information about the plugin.
     aliases: [v3ld1np, vplugin, vp]
-    usage: /<command> <arguments>
+    usage: /<command> help [page] OR /<command> reload OR /<command> version
   v3ld1nwarp:
-    description: Adds, removes, and lists warps.
+    description: Adds, removes, and lists warp commands.
     aliases: [vwarp]
     usage: /<command> add|remove <warp> OR /<command> list
