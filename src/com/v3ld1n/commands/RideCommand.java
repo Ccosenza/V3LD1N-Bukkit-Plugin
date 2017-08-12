@@ -99,6 +99,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
         HashMap<UUID, RideType> using = V3LD1N.usingRideCommand;
         if (!using.containsKey(player.getUniqueId())) return;
 
+        event.setCancelled(true);
         PlayerAnimation.SWING_ARM.play(player);
         Entity entity = event.getRightClicked();
         RideType type = using.get(player.getUniqueId());
