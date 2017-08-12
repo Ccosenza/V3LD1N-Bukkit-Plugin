@@ -92,7 +92,7 @@ public class RideCommand extends V3LD1NCommand implements Listener {
         }
     }
 
-    // Player finishes the command by right-clicking an entity
+    // Player finishes ride/hold command by right-clicking an entity
     @EventHandler
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
@@ -108,11 +108,11 @@ public class RideCommand extends V3LD1NCommand implements Listener {
             break;
         case HOLD:
             player.addPassenger(entity);
+            Message.get("ride-hold").aSendF(player, StringUtil.getEntityName(entity));
             break;
         }
 
         V3LD1N.usingRideCommand.remove(player.getUniqueId());
         task.cancel();
-        type.getMessage().aSendF(player, StringUtil.getEntityName(entity));
     }
 }
